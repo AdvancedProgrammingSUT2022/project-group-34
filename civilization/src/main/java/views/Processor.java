@@ -7,11 +7,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class Processor {
-    private static final String FIELD_NAME_REGEX = "((--[a-zA-Z\\d]+)|(-[a-zA-Z]))";
+    private static final String ONE_DASH_FIELD_NAME = "(--[a-zA-Z\\d]+)";
+    private static final String DOUBLE_DASH_FIELD_NAME = "(-[a-zA-Z])";
+    private static final String FIELD_NAME_REGEX = "^(" + ONE_DASH_FIELD_NAME + "|" + DOUBLE_DASH_FIELD_NAME + ")$";
     private static final String VALIDITY_REGEX = "^\\S+( \\S+)?( \\S+)? (" + FIELD_NAME_REGEX + "[a-zA-Z\\d/ ]*)*?$";
     /* A valid command :
     category(\S) section(\S, optional) subsection(\S, optional) fields(optional)
     fields : --fieldName|-f [a-zA-Z\d/ ]*
+    if there are many similar field names, the last one's value overrides.
      */
     private boolean validity;
     private String category;
@@ -33,8 +36,9 @@ public class Processor {
         for (int i = 0; i < commandParse.size(); i++) {
             String string = commandParse.get(i);
             if (string.matches(FIELD_NAME_REGEX)) {
-                fields.put(string, null);
-                fieldName = string;
+                if (string.matches(DOUBLE_DASH_FIELD_NAME)) fieldName = string.substring(2);
+                else fieldName = getCompleteForm(string.charAt(1));
+                fields.put(fieldName, null);
             }
             else if (fieldName == null) {
                 if (i == 0) category = string;
@@ -71,5 +75,18 @@ public class Processor {
 
     public String get(String fieldName) {
         return fields.get(fieldName);
+    }
+
+    private String getCompleteForm(char c) {
+        // This is not static because maybe in future there will be need to return complete form in terms of category.
+        if (c == 'u') return "username";
+        else if (c == 'p') return "password";
+        else if (c == 'x') return "x";
+        else if (c == 'y') return "y";
+        else if (c == 'n') return "name";
+        else if (c == 'c') return "c";
+        else if (c == 'h') return "help";
+        else return "randomInvalidFieldName";
+        //TODO... Complete these.
     }
 }
