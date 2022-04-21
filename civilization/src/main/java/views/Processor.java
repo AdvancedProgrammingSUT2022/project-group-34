@@ -13,12 +13,11 @@ public class Processor {
     category(\S) section(\S, optional) subsection(\S, optional) fields(optional)
     fields : --fieldName|-f [a-zA-Z\d/ ]*
      */
-
+    private boolean validity;
     private String category;
     private String section;
     private String subSection;
-    private HashMap<String, String> fields;
-    private boolean validity;
+    private HashMap<String, String> fields = new HashMap<>();
 
     public Processor(String command) {
         if (!command.matches(VALIDITY_REGEX)) {
@@ -27,10 +26,9 @@ public class Processor {
             section = null;
             subSection = null;
             fields = null;
-            validity = false;
             return;
         }
-        ArrayList<String> commandParse = new ArrayList<String>(Arrays.asList(command.split("\\S")));
+        ArrayList<String> commandParse = new ArrayList<>(Arrays.asList(command.split("\\S")));
         String fieldName = null;
         for (int i = 0; i < commandParse.size(); i++) {
             String string = commandParse.get(i);
@@ -53,5 +51,25 @@ public class Processor {
             }
         }
         validity = true;
+    }
+
+    public boolean isValid() {
+        return validity;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public String getSection() {
+        return section;
+    }
+
+    public String getSubSection() {
+        return subSection;
+    }
+
+    public String get(String fieldName) {
+        return fields.get(fieldName);
     }
 }
