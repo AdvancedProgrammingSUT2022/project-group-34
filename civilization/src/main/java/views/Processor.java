@@ -42,7 +42,10 @@ public class Processor {
                 if (i == 0) category = string;
                 else if (i == 1) section = string;
                 else if (i == 2) subSection = string;
-                else validity = false;
+                else {
+                    validity = false;
+                    return;
+                }
             }
             else {
                 if (commandParse.get(i - 1).matches(FIELD_NAME_REGEX)) fields.replace(fieldName, string);
