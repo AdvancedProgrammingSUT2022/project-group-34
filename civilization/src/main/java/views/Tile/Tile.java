@@ -1,7 +1,7 @@
 package views.Tile;
 
-import views.Unit.CombatUnit;
 import views.Unit.NonCombatUnit;
+import views.Unit.CombatUnit;
 
 import java.util.ArrayList;
 
@@ -19,8 +19,8 @@ public class Tile extends Property{
     public boolean hasRail;
     public boolean isLooted;
 
+    public NonCombatUnit NonCombatUnit;
     public CombatUnit combatUnit;
-    public NonCombatUnit nonCombatUnit;
 
     public Tile(String terrainName, String featureName, int x, int y) {
         super();
@@ -74,28 +74,28 @@ public class Tile extends Property{
         isLooted = looted;
     }
 
-    public CombatUnit getCombatUnit() {
-        return combatUnit;
+    public NonCombatUnit getCombatUnit() {
+        return NonCombatUnit;
     }
 
-    public void setCombatUnit(CombatUnit combatUnit) {
-        this.combatUnit = combatUnit;
+    public void setCombatUnit(NonCombatUnit combatUnit) {
+        this.NonCombatUnit = combatUnit;
     }
 
     public void deleteCombatUnit() {
-        this.combatUnit = null;
+        this.NonCombatUnit = null;
     }
 
-    public NonCombatUnit getNonCombatUnit() {
-        return nonCombatUnit;
+    public CombatUnit getNonCombatUnit() {
+        return combatUnit;
     }
 
-    public void setNonCombatUnit(NonCombatUnit nonCombatUnit) {
-        this.nonCombatUnit = nonCombatUnit;
+    public void setNonCombatUnit(CombatUnit combatUnit) {
+        this.combatUnit = combatUnit;
     }
 
     public void deleteNonCombatUnit() {
-        this.nonCombatUnit = null;
+        this.combatUnit = null;
     }
 
 
