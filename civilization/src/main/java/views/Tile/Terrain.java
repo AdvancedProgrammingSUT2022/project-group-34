@@ -11,12 +11,12 @@ public class Terrain extends Property{
     public Terrain(HashMap<String, String> stringIntegerHashMap) {
 
         super();
-        this.name = stringIntegerHashMap.get("name");
-        foodRate = Integer.parseInt(stringIntegerHashMap.get("foodRate"));
-        goldRate = Integer.parseInt(stringIntegerHashMap.get("goldRate"));
-        productionRate = Integer.parseInt(stringIntegerHashMap.get("productionRate"));
-        movingCost = Integer.parseInt(stringIntegerHashMap.get("movingCost"));
-        impactOnWar = Integer.parseInt(stringIntegerHashMap.get("impactOnWar"));
+        this.name           = stringIntegerHashMap.get("name");
+        this.foodRate       = Integer.parseInt(stringIntegerHashMap.get("foodRate"));
+        this.goldRate       = Integer.parseInt(stringIntegerHashMap.get("goldRate"));
+        this.productionRate = Integer.parseInt(stringIntegerHashMap.get("productionRate"));
+        this.movingCost     = Integer.parseInt(stringIntegerHashMap.get("movingCost"));
+        this.impactOnWar    = Integer.parseInt(stringIntegerHashMap.get("impactOnWar"));
 
     }
 
