@@ -1,2 +1,4 @@
-package views;public class GameMap {
+package views;
+
+public class GameMap {
 }
