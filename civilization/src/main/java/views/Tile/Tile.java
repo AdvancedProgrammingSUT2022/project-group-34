@@ -18,6 +18,7 @@ public class Tile extends Property{
     public boolean hasRoad;
     public boolean hasRail;
     public boolean isLooted;
+    public ArrayList<Boolean> isRiver;
 
     public NonCombatUnit NonCombatUnit;
     public CombatUnit combatUnit;
@@ -98,6 +99,51 @@ public class Tile extends Property{
         this.combatUnit = null;
     }
 
+    public ArrayList<Boolean> getIsRiver() {
+        return isRiver;
+    }
 
+    public void setIsRiver(ArrayList<Boolean> isRiver) {
+        this.isRiver = isRiver;
+    }
 
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public String getTerrainName() {
+        return terrainName;
+    }
+
+    public void setTerrainName(String terrainName) {
+        this.terrainName = terrainName;
+    }
+
+    public String getFeatureName() {
+        return featureName;
+    }
+
+    public void setFeatureName(String featureName) {
+        this.featureName = featureName;
+    }
+
+    public void setNonCombatUnit(views.Unit.NonCombatUnit nonCombatUnit) {
+        NonCombatUnit = nonCombatUnit;
+    }
+
+    public void setCombatUnit(CombatUnit combatUnit) {
+        this.combatUnit = combatUnit;
+    }
 }
