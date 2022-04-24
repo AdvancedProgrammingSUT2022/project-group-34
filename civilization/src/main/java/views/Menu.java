@@ -17,11 +17,11 @@ public class Menu {
         return scanner.nextLine().trim();
     }
 
-    protected static void setType(String menuName) {
+    protected static void setCurrentMenu(String menuName) {
         currentMenu = menuName;
     }
 
-    public static String getType() {
+    public static String getCurrentMenu() {
         return currentMenu;
     }
 

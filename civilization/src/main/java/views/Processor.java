@@ -10,7 +10,7 @@ public class Processor {
     private static final String DOUBLE_DASH_FIELD_NAME = "(--[a-zA-Z\\d]+)";
     private static final String ONE_DASH_FIELD_NAME = "(-[a-zA-Z])";
     private static final String FIELD_NAME_REGEX = "(" + ONE_DASH_FIELD_NAME + "|" + DOUBLE_DASH_FIELD_NAME + ")";
-    private static final String VALIDITY_REGEX = "^\\S+( \\S+)?( \\S+)? (" + FIELD_NAME_REGEX + " [a-zA-Z\\d/ ]+)?$";
+    private static final String VALIDITY_REGEX = "^\\S+( \\S+)?( \\S+)? (" + FIELD_NAME_REGEX + " [a-zA-Z\\d/ ]*)?$";
     /* A valid command :
     category(\S) section(\S, optional) subsection(\S, optional) fields(optional)
     fields : --fieldName|-f [a-zA-Z\d/ ]*
@@ -75,6 +75,10 @@ public class Processor {
 
     public String get(String fieldName) {
         return fields.get(fieldName);
+    }
+
+    public int getNumberOfFields(){
+        return fields.size();
     }
 
     private String getCompleteForm(char c) {

@@ -8,7 +8,7 @@ public class RegisterMenu extends Menu {
     static void processOneCommand() {
         Processor processor = new Processor(getInput());
 
-        while (Menu.getType().equals("register")) {
+        while (Menu.getCurrentMenu().equals("register")) {
             if (processor.getCategory().equals("user"))
                 handleUserCategoryCommand(processor);
             else if (processor.getCategory().equals("menu"))
@@ -34,7 +34,10 @@ public class RegisterMenu extends Menu {
         String password = processor.get("password");
         String nickname = processor.get("nickname");
 
-        if (username == null || password == null || nickname == null)
+        if (username == null ||
+                password == null ||
+                nickname == null ||
+                processor.getNumberOfFields() != 3)
             invalidCommand();
         else if (UserController.getInstance().getUserByUsername(username) != null)
             System.out.format("A user with username %s already exists\n", username);
@@ -52,7 +55,9 @@ public class RegisterMenu extends Menu {
         String username = processor.get("username");
         String password = processor.get("password");
         User user;
-        if (username == null || password == null)
+        if (username == null ||
+                password == null ||
+                processor.getNumberOfFields() != 2)
             invalidCommand();
         else if ((user = UserController.getInstance().getUserByUsername(username)) == null)
             System.out.println("Username or password didn't match!");
@@ -60,7 +65,7 @@ public class RegisterMenu extends Menu {
             System.out.println("Username or password didn't match!");
         else {
             UserController.getInstance().setLoggedInUser(user);
-            Menu.setType("main");
+            Menu.setCurrentMenu("main");
             System.out.println("User logged in successfully!");
         }
     }
