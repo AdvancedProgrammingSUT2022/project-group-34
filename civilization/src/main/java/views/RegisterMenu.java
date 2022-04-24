@@ -5,30 +5,35 @@ import models.User;
 
 public class RegisterMenu extends Menu {
 
+    //Processes commands related with register menu
     static void processOneCommand() {
-        Processor processor = new Processor(getInput());
+        Processor processor;
 
         while (Menu.getCurrentMenu().equals("register")) {
-            if (processor.getCategory().equals("user"))
-                handleUserCategoryCommand(processor);
-            else if (processor.getCategory().equals("menu"))
-                handleMenuCategoryCommand(processor);
-            else
-                invalidCommand();
-
             processor = new Processor(getInput());
+
+            if (!processor.isValid() || processor.getCategory() == null) invalidCommand();
+            else if (processor.getCategory().equals("user")) handleUserCategoryCommand(processor);
+            else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
+            else invalidCommand();
         }
     }
 
+
+    //Handles commands that start with "user"
     private static void handleUserCategoryCommand(Processor processor) {
-        if (processor.getSection().equals("register"))
+        if (processor.getSection() != null &&
+                processor.getSection().equals("register"))
             register(processor);
-        else if (processor.getSection().equals("login"))
+        else if (processor.getSection() != null &&
+                processor.getSection().equals("login"))
             login(processor);
-        else
-            invalidCommand();
+        else invalidCommand();
     }
 
+
+    //Creates a user if it has wanted conditions
+    //register --username <username> --nickname <nickname> --password <password>
     private static void register(Processor processor) {
         String username = processor.get("username");
         String password = processor.get("password");
@@ -51,10 +56,14 @@ public class RegisterMenu extends Menu {
         }
     }
 
+
+    //Login the user if it exists or password is correct
+    //user login --username <username> --password <password>
     private static void login(Processor processor) {
         String username = processor.get("username");
         String password = processor.get("password");
         User user;
+
         if (username == null ||
                 password == null ||
                 processor.getNumberOfFields() != 2)
