@@ -1,4 +1,4 @@
-package views.Tile;
+package models.tile;
 
 import java.util.ArrayList;
 import java.util.HashMap;

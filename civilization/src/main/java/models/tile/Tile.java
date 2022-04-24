@@ -1,7 +1,7 @@
-package views.Tile;
+package models.tile;
 
-import views.Unit.NonCombatUnit;
-import views.Unit.CombatUnit;
+import models.unit.NonCombatUnit;
+import models.unit.CombatUnit;
 
 import java.util.ArrayList;
 
@@ -139,7 +139,7 @@ public class Tile extends Property{
         this.featureName = featureName;
     }
 
-    public void setNonCombatUnit(views.Unit.NonCombatUnit nonCombatUnit) {
+    public void setNonCombatUnit(models.unit.NonCombatUnit nonCombatUnit) {
         NonCombatUnit = nonCombatUnit;
     }
 

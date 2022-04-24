@@ -1,6 +1,6 @@
-package views;
+package models;
 
-import views.Tile.Tile;
+import models.tile.Tile;
 
 public class Citizen {
 

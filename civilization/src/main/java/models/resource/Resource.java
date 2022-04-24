@@ -1,4 +1,4 @@
-package views.Resource;
+package models.resource;
 
 public class Resource {
 }

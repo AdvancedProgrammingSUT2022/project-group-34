@@ -1,9 +1,8 @@
-package views.Unit;
+package models.unit;
 
-import views.City;
-import views.Tile.Tile;
+import models.City;
+import models.tile.Tile;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CombatUnit extends Unit{

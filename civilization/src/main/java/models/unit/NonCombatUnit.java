@@ -1,6 +1,6 @@
-package views.Unit;
+package models.unit;
 
-import views.Tile.Tile;
+import models.tile.Tile;
 
 public class NonCombatUnit extends Unit{
     public NonCombatUnit(String name, Tile position) {
