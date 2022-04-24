@@ -41,9 +41,9 @@ public class Processor {
                 fields.put(fieldName, null);
             }
             else if (fieldName == null) {
-                if (i == 0) category = string;
-                else if (i == 1) section = string;
-                else if (i == 2) subSection = string;
+                if (i == 0) category = string.toLowerCase();
+                else if (i == 1) section = string.toLowerCase();
+                else if (i == 2) subSection = string.toLowerCase();
                 else {
                     validity = false;
                     return;
