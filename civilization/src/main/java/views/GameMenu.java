@@ -8,93 +8,93 @@ import java.util.Scanner;
 
 public class GameMenu extends Menu{
 
-    private CombatUnit selectedCombatUnit;
-    private NonCombatUnit selectedNonCombatUnit;
-    private City selectedCity;
-    private int mapX;
-    private int mapY;
+    private static CombatUnit selectedCombatUnit;
+    private static NonCombatUnit selectedNonCombatUnit;
+    private static City selectedCity;
+    private static int mapX;
+    private static int mapY;
 
-    void processOneCommand(Scanner scanner){
+    static void processOneCommand(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void handleInfoCategoryCommand(Processor processor){
+    private static void handleInfoCategoryCommand(Processor processor){
         // TODO: 4/21/2022
     }
 
-    private void handleSelectCategoryCommand(Processor processor){
+    private static void handleSelectCategoryCommand(Processor processor){
         // TODO: 4/21/2022
     }
 
-    private void handleUnitCategoryCommand(Processor processor){
+    private static void handleUnitCategoryCommand(Processor processor){
         // TODO: 4/21/2022
     }
 
-    private void handleCityCategoryCommand(Processor processor){
+    private static void handleCityCategoryCommand(Processor processor){
         // TODO: 4/21/2022
     }
 
-    private void handleMapCategoryCommand(Processor processor){
+    private static void handleMapCategoryCommand(Processor processor){
         // TODO: 4/21/2022
     }
 
-    private void handleTurnCategory(Processor processor){
+    private static void handleTurnCategory(Processor processor){
         // TODO: 4/21/2022
     }
 
-    private void handleCheatCategoryCommand(Processor processor){
+    private static void handleCheatCategoryCommand(Processor processor){
         // TODO: 4/21/2022
     }
 
-    private void handleResearchInfoMenu(Scanner scanner){
+    private static void handleResearchInfoMenu(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void handleUnitsInfoMenu(Scanner scanner){
+    private static void handleUnitsInfoMenu(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void handleCitiesInfoMenu(Scanner scanner){
+    private static void handleCitiesInfoMenu(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void handleDiplomacyInfoMenu(Scanner scanner){
+    private static void handleDiplomacyInfoMenu(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void handleVictoryInfoMenu(Scanner scanner){
+    private static void handleVictoryInfoMenu(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void handleDemographicsInfoMenu(Scanner scanner){
+    private static void handleDemographicsInfoMenu(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void handleNotificationsInfoMenu(Scanner scanner){
+    private static void handleNotificationsInfoMenu(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void handleMilitaryInfoMenu(Scanner scanner){
+    private static void handleMilitaryInfoMenu(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void handleEconomicInfoMenu(Scanner scanner){
+    private static void handleEconomicInfoMenu(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void handleDiplomaticInfoMenu(Scanner scanner){
+    private static void handleDiplomaticInfoMenu(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void handleDealsInfoMenu(Scanner scanner){
+    private static void handleDealsInfoMenu(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void handleCityInfo(Scanner scanner){
+    private static void handleCityInfo(Scanner scanner){
         // TODO: 4/21/2022
     }
 
-    private void showMap(){
+    private static void showMap(){
         // TODO: 4/21/2022
     }
 }
