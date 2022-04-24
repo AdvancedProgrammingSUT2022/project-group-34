@@ -1,23 +1,15 @@
 package views;
 
-import javax.swing.*;
 import java.util.Scanner;
 
 public class Menu {
-    private static Scanner scanner = new Scanner(System.in);
-    private static String type;
+    private static final Scanner scanner = new Scanner(System.in);
+    private static String currentMenu = "register";
 
     protected static void run(){
 
-        String command = getInput();
-        Processor processor = new Processor(command);
-
-        while (!command.equals("menu exit")){
-            if (processor.getCategory().equals("menu")){
-                handleMenuCategoryCommand(processor);
-            }
-
-            command = getInput();
+        while (true){
+            RegisterMenu.processOneCommand();
         }
     }
 
@@ -26,7 +18,11 @@ public class Menu {
     }
 
     protected static void setType(String menuName) {
-        type = menuName;
+        currentMenu = menuName;
+    }
+
+    public static String getType() {
+        return currentMenu;
     }
 
     protected static void handleMenuCategoryCommand(Processor processor){
@@ -59,10 +55,10 @@ public class Menu {
     }
 
     protected static void menuShowCurrent(){
-        // TODO: 4/21/2022
+        System.out.println(currentMenu);
     }
 
     protected static void invalidCommand(){
-        // TODO: 4/21/2022  
+        System.out.println("Invalid command!");
     }
 }

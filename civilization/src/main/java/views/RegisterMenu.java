@@ -3,25 +3,24 @@ package views;
 import controllers.UserController;
 import models.User;
 
-import java.util.Scanner;
-
 public class RegisterMenu extends Menu {
 
-    void processOneCommand(Scanner scanner) {
-        String command = getInput();
-        Processor processor = new Processor(command);
+    static void processOneCommand() {
+        Processor processor = new Processor(getInput());
 
-        while (!command.equals("menu exit")) {
+        while (Menu.getType().equals("register")) {
             if (processor.getCategory().equals("user"))
                 handleUserCategoryCommand(processor);
             else if (processor.getCategory().equals("menu"))
                 handleMenuCategoryCommand(processor);
             else
                 invalidCommand();
+
+            processor = new Processor(getInput());
         }
     }
 
-    private void handleUserCategoryCommand(Processor processor) {
+    private static void handleUserCategoryCommand(Processor processor) {
         if (processor.getSection().equals("register"))
             register(processor);
         else if (processor.getSection().equals("login"))
@@ -30,7 +29,7 @@ public class RegisterMenu extends Menu {
             invalidCommand();
     }
 
-    private void register(Processor processor) {
+    private static void register(Processor processor) {
         String username = processor.get("username");
         String password = processor.get("password");
         String nickname = processor.get("nickname");
@@ -49,7 +48,7 @@ public class RegisterMenu extends Menu {
         }
     }
 
-    private void login(Processor processor) {
+    private static void login(Processor processor) {
         String username = processor.get("username");
         String password = processor.get("password");
         User user;
@@ -61,6 +60,7 @@ public class RegisterMenu extends Menu {
             System.out.println("Username or password didn't match!");
         else {
             UserController.getInstance().setLoggedInUser(user);
+            Menu.setType("main");
             System.out.println("User logged in successfully!");
         }
     }
