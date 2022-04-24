@@ -1,33 +1,33 @@
 package views;
 
 public class Menu {
-    private String type;
+    private static String type;
 
-    public void run(){
-        //todo
+    protected static void run(){
+
     }
 
-    protected void setType(String menuName) {
-        this.type = type;
+    protected static void setType(String menuName) {
+        type = menuName;
     }
 
-    protected void handleMenuCategoryCommand(){
+    protected static void handleMenuCategoryCommand(){
         // TODO: 4/21/2022
     }
 
-    protected void menuEnter(Processor processor){
+    protected static void menuEnter(Processor processor){
         // TODO: 4/21/2022
     }
 
-    protected void menuExit(){
+    protected static void menuExit(){
         // TODO: 4/21/2022
     }
 
-    protected void menuShowCurrent(){
+    protected static void menuShowCurrent(){
         // TODO: 4/21/2022
     }
 
-    protected void invalidCommand(){
+    protected static void invalidCommand(){
         // TODO: 4/21/2022  
     }
 }

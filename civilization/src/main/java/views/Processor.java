@@ -7,16 +7,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class Processor {
-    private static final String ONE_DASH_FIELD_NAME = "(--[a-zA-Z\\d]+)";
-    private static final String DOUBLE_DASH_FIELD_NAME = "(-[a-zA-Z])";
-    private static final String FIELD_NAME_REGEX = "^(" + ONE_DASH_FIELD_NAME + "|" + DOUBLE_DASH_FIELD_NAME + ")$";
-    private static final String VALIDITY_REGEX = "^\\S+( \\S+)?( \\S+)? (" + FIELD_NAME_REGEX + "[a-zA-Z\\d/ ]*)*?$";
+    private static final String DOUBLE_DASH_FIELD_NAME = "(--[a-zA-Z\\d]+)";
+    private static final String ONE_DASH_FIELD_NAME = "(-[a-zA-Z])";
+    private static final String FIELD_NAME_REGEX = "(" + ONE_DASH_FIELD_NAME + "|" + DOUBLE_DASH_FIELD_NAME + ")";
+    private static final String VALIDITY_REGEX = "^\\S+( \\S+)?( \\S+)? (" + FIELD_NAME_REGEX + " [a-zA-Z\\d/ ]+)?$";
     /* A valid command :
     category(\S) section(\S, optional) subsection(\S, optional) fields(optional)
     fields : --fieldName|-f [a-zA-Z\d/ ]*
     if there are many similar field names, the last one's value overrides.
-     */
-    private boolean validity;
+    */
+    private final boolean validity;
     private String category;
     private String section;
     private String subSection;
@@ -31,7 +31,7 @@ public class Processor {
             fields = null;
             return;
         }
-        ArrayList<String> commandParse = new ArrayList<>(Arrays.asList(command.split("\\S")));
+        ArrayList<String> commandParse = new ArrayList<>(Arrays.asList(command.trim().split("\\s+")));
         String fieldName = null;
         for (int i = 0; i < commandParse.size(); i++) {
             String string = commandParse.get(i);
@@ -81,9 +81,9 @@ public class Processor {
         // This is not static because maybe in future there will be need to return complete form in terms of category.
         if (c == 'u') return "username";
         else if (c == 'p') return "password";
+        else if (c == 'n') return "nickname";
         else if (c == 'x') return "x";
         else if (c == 'y') return "y";
-        else if (c == 'n') return "name";
         else if (c == 'c') return "c";
         else if (c == 'h') return "help";
         else return "randomInvalidFieldName";
