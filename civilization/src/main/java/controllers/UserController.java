@@ -8,7 +8,7 @@ public class UserController {
     //Singleton Pattern
     private static UserController instance;
 
-    public UserController() {
+    private UserController() {
     }
 
     public static UserController getInstance() {
@@ -70,9 +70,5 @@ public class UserController {
         else return password.matches(".*[a-z].*") &&
                 password.matches(".*[A-Z].*") &&
                 password.matches(".*\\d.*");
-    }
-
-    public void logout() {
-        // TODO: 4/24/2022
     }
 }
