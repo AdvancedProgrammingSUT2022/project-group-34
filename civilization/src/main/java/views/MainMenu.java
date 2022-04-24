@@ -5,10 +5,18 @@ import java.util.Scanner;
 public class MainMenu extends Menu{
 
     void processOneCommand(Scanner scanner){
-        // TODO: 4/21/2022
+        Processor processor = new Processor(getInput());
+
+        while (Menu.getCurrentMenu().equals("main")){
+            if (processor.getCategory().equals("user"))
+                handleUserCategoryCommand();
+            else if (processor.getCategory().equals("play"))
+                playCategoryCommand(processor);
+
+        }
     }
 
-    private void handleUserCategoryCommand(Scanner scanner){
+    private void handleUserCategoryCommand(){
         // TODO: 4/21/2022
     }
 

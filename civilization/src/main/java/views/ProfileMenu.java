@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class ProfileMenu extends Menu {
 
-    void processOneCommand(Scanner scanner) {
+    static void processOneCommand(Scanner scanner) {
         Processor processor = new Processor(getInput());
 
         while (Menu.getCurrentMenu().equals("profile")) {
@@ -22,7 +22,7 @@ public class ProfileMenu extends Menu {
         }
     }
 
-    private void handleChangeCategoryCommand(Processor processor) {
+    private static void handleChangeCategoryCommand(Processor processor) {
         if (processor.get("nickname") != null)
             changeNickname(processor);
         else if (processor.get("current") != null)
@@ -31,7 +31,7 @@ public class ProfileMenu extends Menu {
             invalidCommand();
     }
 
-    private void changeNickname(Processor processor) {
+    private static void changeNickname(Processor processor) {
         String nickname = processor.get("nickname");
         User user;
 
@@ -45,7 +45,7 @@ public class ProfileMenu extends Menu {
         }
     }
 
-    private void changePassword(Processor processor) {
+    private static void changePassword(Processor processor) {
         String currentPassword = processor.get("current");
         String newPassword = processor.get("new");
 
