@@ -1,8 +1,8 @@
 package views;
 
 import models.City;
-import models.CombatUnit;
-import models.NonCombatUnit;
+import models.unit.CombatUnit;
+import models.unit.NonCombatUnit;
 
 import java.util.Scanner;
 
