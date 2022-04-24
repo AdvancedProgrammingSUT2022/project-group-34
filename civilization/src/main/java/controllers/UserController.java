@@ -1,7 +1,13 @@
 package controllers;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import models.User;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class UserController {
@@ -20,12 +26,16 @@ public class UserController {
 
     //Fields of the class
     private User loggedInUser = null;
-    private final ArrayList<User> users = new ArrayList<>();
+    private ArrayList<User> users = new ArrayList<>();
 
 
     //Setters and Getters for fields of the class
     public void setLoggedInUser(User loggedInUser) {
         this.loggedInUser = loggedInUser;
+    }
+
+    public void setUsers(ArrayList<User> users) {
+        if (users != null) this.users = users;
     }
 
     public User getLoggedInUser() {
@@ -70,5 +80,31 @@ public class UserController {
         else return password.matches(".*[a-z].*") &&
                 password.matches(".*[A-Z].*") &&
                 password.matches(".*\\d.*");
+    }
+
+
+    //Loading registered users from a json file
+    //File path: ./src/main/resources/UserDatabase.json
+    public void loadUsers() {
+        try {
+            String json = new String(Files.readAllBytes(Paths.get("src", "main", "resources", "UserDatabase.json")));
+            UserController.getInstance().setUsers(new Gson().fromJson(json,
+                    new TypeToken<ArrayList<User>>() {}.getType()));
+        } catch (IOException e) {
+            System.out.println("Loading users failed!");
+        }
+    }
+
+
+    //Saving registered users to a json file
+    //File path: ./src/main/resources/UserDatabase.json
+    public void saveUsers() {
+        try {
+            FileWriter fileWriter = new FileWriter(String.valueOf(Paths.get("src", "main", "resources", "UserDatabase.json")));
+            fileWriter.write(new Gson().toJson(UserController.getInstance().getUsers()));
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Saving users failed!");
+        }
     }
 }
