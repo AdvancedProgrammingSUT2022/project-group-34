@@ -13,8 +13,8 @@ public class CivilizationController {
     private static CivilizationController instance = null;
 
     public static CivilizationController getInstance() {
-        //TODO
-        return null;
+        if (instance == null) instance = new CivilizationController;
+        return instance;
     }
 
     public CombatUnit getCombatUnitByPosition(int[] position) {
