@@ -13,12 +13,12 @@ public class Improvement extends Property{
 
     public Improvement(HashMap<String,String> stringStringHashMap) {
 
-        this.name = stringStringHashMap.get("name");
-        this.foodRate = Integer.parseInt(stringStringHashMap.get("foodRate"));
-        this.goldRate = Integer.parseInt(stringStringHashMap.get("goldRate"));
+        this.name           = stringStringHashMap.get("name");
+        this.foodRate       = Integer.parseInt(stringStringHashMap.get("foodRate"));
+        this.goldRate       = Integer.parseInt(stringStringHashMap.get("goldRate"));
         this.productionRate = Integer.parseInt(stringStringHashMap.get("productionRate"));
-        this.movingCost = Integer.parseInt(stringStringHashMap.get("movingCost"));
-        this.impactOnWar = Integer.parseInt(stringStringHashMap.get("impactOnWar"));
+        this.movingCost     = Integer.parseInt(stringStringHashMap.get("movingCost"));
+        this.impactOnWar    = Integer.parseInt(stringStringHashMap.get("impactOnWar"));
         int numberOfRequiredTechnologiesToBeUsed = Integer.parseInt(stringStringHashMap.get("numberOfRequiredTechnologiesToBeUsed"));
 
         for (int i = 0; i < numberOfRequiredTechnologiesToBeUsed; i++)

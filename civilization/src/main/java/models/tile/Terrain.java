@@ -5,8 +5,10 @@ import java.util.HashMap;
 
 public class Terrain extends Property{
 
-    static ArrayList<HashMap<String, String>> dataSheet = new ArrayList<>();
-    static HashMap<String, Terrain> allTerrains = new HashMap<>();
+    public static ArrayList<HashMap<String, String>> dataSheet = new ArrayList<>();
+    public static HashMap<String, Terrain> allTerrains = new HashMap<>();
+
+    public boolean canSeeBeyondHeights;
 
     public Terrain(HashMap<String, String> stringIntegerHashMap) {
 
@@ -17,6 +19,7 @@ public class Terrain extends Property{
         this.productionRate = Integer.parseInt(stringIntegerHashMap.get("productionRate"));
         this.movingCost     = Integer.parseInt(stringIntegerHashMap.get("movingCost"));
         this.impactOnWar    = Integer.parseInt(stringIntegerHashMap.get("impactOnWar"));
+        this.canSeeBeyondHeights    = Boolean.parseBoolean(stringIntegerHashMap.get("canSeeBeyondHeights"));
 
     }
 
