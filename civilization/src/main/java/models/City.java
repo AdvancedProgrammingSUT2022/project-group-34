@@ -1,8 +1,8 @@
-package views;
+package models;
 
-import views.Tile.Improvement;
-import views.Tile.Tile;
-import views.Unit.Unit;
+import models.tile.Improvement;
+import models.tile.Tile;
+import models.unit.Unit;
 
 import java.util.ArrayList;
 

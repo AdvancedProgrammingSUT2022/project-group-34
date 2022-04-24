@@ -1,8 +1,8 @@
-package views;
+package models;
 
-import views.Resource.Resource;
-import views.Tile.Tile;
-import views.Unit.Unit;
+import models.resource.Resource;
+import models.tile.Tile;
+import models.unit.Unit;
 
 import java.util.ArrayList;
 import java.util.HashMap;

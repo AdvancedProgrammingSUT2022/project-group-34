@@ -1,6 +1,6 @@
-package views;
+package models;
 
-import views.Resource.Resource;
+import models.resource.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package views.Tile;
+package models.tile;
 
 public class Property {
 
