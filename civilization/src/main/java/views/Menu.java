@@ -8,10 +8,20 @@ public class Menu {
     private static final Scanner scanner = new Scanner(System.in);
     private static String currentMenu = "register";
 
-    protected static void run() {
+    public static void run() {
 
         while (true) {
             RegisterMenu.processOneCommand();
+            if (currentMenu.equals("end"))
+                return;
+            else {
+                while (true){
+                    MainMenu.processOneCommand();
+                    if (currentMenu.equals("register")) break;
+                    else if (currentMenu.equals("profile")) ProfileMenu.processOneCommand();
+                    else GameMenu.processOneCommand();
+                }
+            }
         }
     }
 

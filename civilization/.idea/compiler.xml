@@ -7,10 +7,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="civilization" />
-<<<<<<< HEAD
-        <module name="Civilization" />
-=======
->>>>>>> main
       </profile>
     </annotationProcessing>
   </component>

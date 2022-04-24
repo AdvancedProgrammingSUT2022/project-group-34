@@ -14,7 +14,7 @@ public class GameMenu extends Menu{
     private static int mapX;
     private static int mapY;
 
-    static void processOneCommand(Scanner scanner){
+    static void processOneCommand(){
         // TODO: 4/21/2022
     }
 

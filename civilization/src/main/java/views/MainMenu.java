@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class MainMenu extends Menu{
 
-    static void processOneCommand(Scanner scanner){
+    static void processOneCommand(){
         Processor processor = new Processor(getInput());
 
         while (Menu.getCurrentMenu().equals("main")){
