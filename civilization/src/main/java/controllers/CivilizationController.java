@@ -4,7 +4,7 @@ package controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Queue;
+import java.util.LinkedList;
 import models.unit.Settler;
 import models.unit.Unit;
 import models.unit.CombatUnit;
@@ -54,7 +54,7 @@ public class CivilizationController {
         distance.put(originTile, 0);
         previousInShortestPath.put(originTile, null);
         mark.put(originTile, false);
-        Queue <Tile> BFSQueue = new Queue<Tile>();
+        LinkedList <Tile> BFSQueue = new LinkedList<>();
         BFSQueue.add(originTile);
         while (!BFSQueue.isEmpty()) {
             Tile currentVertex = BFSQueue.poll();
