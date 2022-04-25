@@ -2,11 +2,13 @@
 
 package controllers;
 
-import java.awt.print.Book;
-import java.util.
-import models.units.Unit;
-import models.units.CombatUnit;
-import models.units.NonCombatUnit;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Queue;
+import models.unit.Settler;
+import models.unit.Unit;
+import models.unit.CombatUnit;
+import models.unit.NonCombatUnit;
 import models.City;
 import models.tile.Tile;
 import models.Technology;
@@ -15,7 +17,7 @@ public class CivilizationController {
     private static CivilizationController instance = null;
 
     public static CivilizationController getInstance() {
-        if (instance == null) instance = new CivilizationController;
+        if (instance == null) instance = new CivilizationController();
         return instance;
     }
 
@@ -100,7 +102,8 @@ public class CivilizationController {
         else if (GameController.getInstance().getCivilization().isFogOfWar(destinationTile)) return "fog of war";
         else if (unit.getPosition() == destinationTile) return "already at the same tile";
         else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) return "destination occupied";
-        else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit != null) return "destination occupied";
+        else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit() != null)
+            return "destination occupied";
         return "true";
     }
 
