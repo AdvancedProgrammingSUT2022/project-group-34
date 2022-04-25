@@ -167,12 +167,12 @@ public class Tile extends Property{
 
 
 
-    public NonCombatUnit getCombatUnit() {
-        return NonCombatUnit;
+    public CombatUnit getCombatUnit() {
+        return combatUnit;
     }
 
-    public CombatUnit getNonCombatUnit() {
-        return combatUnit;
+    public NonCombatUnit getNonCombatUnit() {
+        return NonCombatUnit;
     }
 
     public void setCombatUnit(NonCombatUnit combatUnit) {

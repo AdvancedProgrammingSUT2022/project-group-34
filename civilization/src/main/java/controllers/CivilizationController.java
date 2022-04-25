@@ -21,6 +21,21 @@ public class CivilizationController {
         return instance;
     }
 
+    public String selectUnit(int[] position, String unitType) {
+        if (!isPositionValid(position))
+            return "invalid position";
+        if (unitType.equals("combat")) {
+            if (getTileByPosition(position).getCombatUnit()==null)
+                return "no such unit";
+            else return unitType;
+        }else if (unitType.equals("noncombat")){
+            if (getTileByPosition(position).getNonCombatUnit()==null)
+                return "no such unit";
+            else return unitType;
+        }
+        return "ok";
+    }
+
     public CombatUnit getCombatUnitByPosition(int[] position) {
         //TODO
         return null;
