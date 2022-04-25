@@ -74,7 +74,7 @@ public class CivilizationController {
     private String isMoveValid(Unit unit, int[] destination) {
         Tile destinationTile = getTileByPosition(destination);
         if (!isPositionValid(destination)) return "invalid destination";
-        else if (GameController.getInstance().getCivilization().isFogOfWar(destinationTile)) return "fog of war";
+//        else if (GameController.getInstance().getCivilization().isFogOfWar(destinationTile)) return "fog of war";
         else if (unit.getPosition() == destinationTile) return "already at the same tile";
         else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) return "destination occupied";
         else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit() != null)
@@ -156,6 +156,4 @@ public class CivilizationController {
     public void research(Technology technology) {
         //TODO
     }
-
-
 }
