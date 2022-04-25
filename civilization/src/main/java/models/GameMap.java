@@ -122,7 +122,7 @@ public class GameMap {
         for (int i = 0 ; i < mapHeight ; i++){
             map.add(new ArrayList<>());
             for (int j = 0; j < mapWidth; j++) {
-                map.get(i).add(new Tile("Plain" , "Jungle" , i , j));
+                map.get(i).add(new Tile("Plain" , null , i , j));
                 Tile tile = map.get(i).get(j);
                 if (i % 50 == 0 && j % 23 == 0){
                     tile.addRiver(j%6);

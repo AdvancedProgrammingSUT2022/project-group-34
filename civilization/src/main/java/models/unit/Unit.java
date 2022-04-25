@@ -10,10 +10,8 @@ public class Unit {
     public static HashMap<String, ArrayList<String>> dataBaseRequiredTechnology;
     public static HashMap<String, HashMap<String, String>> unitDataSheet = new HashMap<>();
     public static int motionPointConstant;
-    public static int healthConstant;
 
     protected String name;
-    protected int movementSpeed;
     protected int promotion;
     protected int cost;
 
@@ -27,7 +25,6 @@ public class Unit {
         this.name = name;
         this.position = position;
 
-        this.movementSpeed       = Integer.parseInt(unitDataSheet.get(name).get("movementSpeed"));
         this.promotion           = Integer.parseInt(unitDataSheet.get(name).get("promotion"));
         this.cost                = Integer.parseInt(unitDataSheet.get(name).get("cost"));
         this.motionPoint         = Integer.parseInt(unitDataSheet.get(name).get("motionPoint"));
@@ -55,14 +52,6 @@ public class Unit {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getMovementSpeed() {
-        return movementSpeed;
-    }
-
-    public void setMovementSpeed(int movementSpeed) {
-        this.movementSpeed = movementSpeed;
     }
 
     public int getPromotion() {
