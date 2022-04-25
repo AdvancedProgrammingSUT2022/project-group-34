@@ -15,7 +15,18 @@ public class GameMenu extends Menu{
     private static int mapY;
 
     static void processOneCommand(){
-        // TODO: 4/21/2022
+        Processor processor;
+
+        while (getCurrentMenu().equals("game")){
+            processor = new Processor(getInput());
+
+            if (!processor.isValid() || processor.getCategory() == null)
+                invalidCommand();
+            else if (processor.getCategory().equals("menu"))
+                handleMenuCategoryCommand(processor);
+            else
+                invalidCommand();
+        }
     }
 
     private static void handleInfoCategoryCommand(Processor processor){

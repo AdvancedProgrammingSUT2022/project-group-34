@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Civilization;
+import models.Game;
 
 public class GameController {
     //Singleton Pattern
@@ -16,11 +17,20 @@ public class GameController {
 
 
     //Fields of the class
+    private Game game;
     private int civilizationIndex;
     private Civilization civilization;
 
 
     //Setters and Getters for the fields of the class
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
     public Civilization getCivilization() {
         return civilization;
     }

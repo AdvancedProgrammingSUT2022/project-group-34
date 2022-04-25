@@ -13,6 +13,9 @@ import models.Technology;
 public class CivilizationController {
     private static CivilizationController instance = null;
 
+    private CivilizationController() {
+    }
+
     public static CivilizationController getInstance() {
         if (instance == null) instance = new CivilizationController();
         return instance;

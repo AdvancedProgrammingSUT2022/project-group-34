@@ -1,7 +1,11 @@
 package views;
 
+import controllers.GameController;
 import controllers.UserController;
+import models.Game;
+import models.User;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainMenu extends Menu {
@@ -33,13 +37,39 @@ public class MainMenu extends Menu {
     }
 
 
+    //Handles commands that start with "play"
     private static void playCategoryCommand(Processor processor) {
-        // TODO: 4/21/2022
+        if (processor.getSection() != null && processor.getSection().equals("game")) startNewGame(processor);
+        else invalidCommand();
     }
 
+
+    //Starts a game between logged-in user and users in the command
+    //play game --player1 <username> --player2 <username>
     private static void startNewGame(Processor processor) {
-        // TODO: 4/21/2022
+        ArrayList<User> users = new ArrayList<>();
+
+        for (int i = 1; i < processor.getNumberOfFields() + 1; i++) {
+            if (processor.get("player" + i) == null) {
+                invalidCommand();
+                return;
+            } else if (UserController.getInstance().getUserByUsername(processor.get("player" + i)) == null) {
+                System.out.println("Some of the usernames doesn't exist!");
+                return;
+            } else if (UserController.getInstance().getLoggedInUser().getUsername().equals(processor.get("player" + i))) {
+                System.out.println("Some of the usernames are invalid!");
+                return;
+            } else
+                users.add(UserController.getInstance().getUserByUsername(processor.get("player" + i)));
+        }
+        if (users.size() > 0) {
+            GameController.getInstance().setGame(new Game(users));
+            setCurrentMenu("game");
+            System.out.println("Game started!");
+        } else
+            invalidCommand();
     }
+
 
     private static void loadGame(Processor processor) {
         // TODO: 4/21/2022
