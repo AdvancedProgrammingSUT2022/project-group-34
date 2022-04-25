@@ -2,6 +2,7 @@
 
 package controllers;
 
+import java.awt.print.Book;
 import java.util.
 import models.units.Unit;
 import models.units.CombatUnit;
@@ -44,12 +45,52 @@ public class CivilizationController {
     }
 
 
+    private ArrayList<Tile> getShortestPath(Tile originTile, Tile destinationTile) {
+        HashMap<Tile, Integer> distance = new HashMap<Tile, Integer>();
+        HashMap<Tile, Boolean> mark = new HashMap<Tile, Boolean>();
+        HashMap<Tile, Tile> previousInShortestPath = new HashMap<Tile, Tile>();
+        distance.put(originTile, 0);
+        previousInShortestPath.put(originTile, null);
+        mark.put(originTile, false);
+        Queue <Tile> BFSQueue = new Queue<Tile>();
+        BFSQueue.add(originTile);
+        while (!BFSQueue.isEmpty()) {
+            Tile currentVertex = BFSQueue.poll();
+            if (mark.get(currentVertex)) continue;
+            mark.put(currentVertex, true);
+            if (currentVertex.equals(destinationTile)) break;
+            ArrayList<Tile> adjacentVertices = currentVertex.getAdjacentTiles();
+            ArrayList<Boolean> isRiver = currentVertex.getIsRiver();
+            for (int i = 0; i < adjacentVertices.size(); i++) {
+                Tile adjacentVertex = adjacentVertices.get(i);
+                if (adjacentVertex.isUnmovable()) continue;
+                if (mark.get(adjacentVertex)) continue;
+                if (GameController.getInstance().getCivilization().isFogOfWar()) continue;
+                int newDistance = distance.get(currentVertex) + 1;
+                if (distance.get(adjacentVertex) != null && newDistance >= distance.get(adjacentVertex)) continue;
+                distance.put(adjacentVertex, newDistance);
+                mark.put(adjacentVertex, false);
+                previousInShortestPath.put(adjacentVertex, currentVertex);
+            }
+        }
+        ArrayList<Tile> ans = new ArrayList<Tile>();
+        if (mark.get(destinationTile) == null) return null;
+        Tile pointerTile = destinationTile;
+        while (pointerTile != null) {
+            ans.add(0, pointerTile);
+            pointerTile = previousInShortestPath.get(pointerTile);
+        }
+        return ans;
+    }
+
     public String moveUnit(Unit unit, int[] destination) {
-        //TODO
         String ans = isMoveValid(unit, destination);
         if (!ans.equals("true")) return ans;
         Tile originTile = unit.getPosition();
         Tile destinationTile = getTileByPosition(destination);
+        ArrayList<Tile> path = getShortestPath(originTile, destinationTile);
+        if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile) return "no valid path";
+        //TODO
         return "success";
     }
 
