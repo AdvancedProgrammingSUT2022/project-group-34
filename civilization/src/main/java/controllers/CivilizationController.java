@@ -5,6 +5,7 @@ package controllers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Stack;
 import models.unit.Settler;
 import models.unit.Unit;
 import models.unit.CombatUnit;
@@ -47,7 +48,7 @@ public class CivilizationController {
     }
 
 
-    private ArrayList<Tile> getShortestPath(Tile originTile, Tile destinationTile) {
+    private Stack<Tile> getShortestPath(Tile originTile, Tile destinationTile) {
         HashMap<Tile, Integer> distance = new HashMap<Tile, Integer>();
         HashMap<Tile, Boolean> mark = new HashMap<Tile, Boolean>();
         HashMap<Tile, Tile> previousInShortestPath = new HashMap<Tile, Tile>();
@@ -67,7 +68,7 @@ public class CivilizationController {
                 Tile adjacentVertex = adjacentVertices.get(i);
                 if (adjacentVertex.isUnmovable()) continue;
                 if (mark.get(adjacentVertex)) continue;
-                if (GameController.getInstance().getCivilization().isFogOfWar()) continue;
+                if (GameController.getInstance().getCivilization().isInFog()) continue;
                 int newDistance = distance.get(currentVertex) + 1;
                 if (distance.get(adjacentVertex) != null && newDistance >= distance.get(adjacentVertex)) continue;
                 distance.put(adjacentVertex, newDistance);
@@ -75,11 +76,11 @@ public class CivilizationController {
                 previousInShortestPath.put(adjacentVertex, currentVertex);
             }
         }
-        ArrayList<Tile> ans = new ArrayList<Tile>();
+        Stack<Tile> ans = new Stack<Tile>();
         if (mark.get(destinationTile) == null) return null;
         Tile pointerTile = destinationTile;
         while (pointerTile != null) {
-            ans.add(0, pointerTile);
+            ans.push(pointerTile);
             pointerTile = previousInShortestPath.get(pointerTile);
         }
         return ans;
@@ -90,9 +91,10 @@ public class CivilizationController {
         if (!ans.equals("true")) return ans;
         Tile originTile = unit.getPosition();
         Tile destinationTile = getTileByPosition(destination);
-        ArrayList<Tile> path = getShortestPath(originTile, destinationTile);
+        Stack<Tile> path = getShortestPath(originTile, destinationTile);
         if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile) return "no valid path";
         //TODO
+
         return "success";
     }
 

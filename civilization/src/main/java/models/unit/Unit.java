@@ -4,8 +4,9 @@ import models.tile.Tile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
-public class Unit {
+public abstract class Unit {
 
     public static HashMap<String, ArrayList<String>> dataBaseRequiredTechnology;
     public static HashMap<String, HashMap<String, String>> unitDataSheet = new HashMap<>();
@@ -20,7 +21,7 @@ public class Unit {
     protected int motionPoint;
 
     protected Tile position;
-    protected Tile destination;
+    protected Stack<Tile> path;
     protected boolean isMoving;
 
     public Unit(String name, Tile position) {
@@ -32,7 +33,7 @@ public class Unit {
         this.cost                = Integer.parseInt(unitDataSheet.get(name).get("cost"));
         this.motionPoint         = Integer.parseInt(unitDataSheet.get(name).get("motionPoint"));
 
-        this.destination = null;
+        this.path = null;
         this.isMoving    = false;
     }
 
@@ -97,12 +98,12 @@ public class Unit {
         this.position = position;
     }
 
-    public Tile getDestination() {
-        return destination;
+    public Stack<Tile> getPath() {
+        return path;
     }
 
-    public void setDestination(Tile destination) {
-        destination = destination;
+    public void setPath(Stack<Tile> path) {
+        this.path = path;
     }
 
     public boolean isMoving() {
@@ -122,8 +123,10 @@ public class Unit {
 
             boolean flag = false;
             for (String technology2 : technologies) {
-                if (technology1.equals(technology2))
+                if (technology1.equals(technology2)) {
                     flag = true;
+                    break;
+                }
             }
 
             if (!flag)
