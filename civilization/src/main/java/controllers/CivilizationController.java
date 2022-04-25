@@ -2,6 +2,11 @@
 
 package controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Stack;
 import models.unit.Settler;
 import models.unit.Unit;
 import models.unit.CombatUnit;
@@ -62,12 +67,86 @@ public class CivilizationController {
     }
 
 
+    private Stack<Tile> getShortestPath(Tile originTile, Tile destinationTile) {
+        HashMap<Tile, Integer> distance = new HashMap<Tile, Integer>();
+        HashMap<Tile, Boolean> mark = new HashMap<Tile, Boolean>();
+        HashMap<Tile, Tile> previousInShortestPath = new HashMap<Tile, Tile>();
+        distance.put(originTile, 0);
+        previousInShortestPath.put(originTile, null);
+        mark.put(originTile, false);
+        LinkedList <Tile> BFSQueue = new LinkedList<>();
+        BFSQueue.add(originTile);
+        while (!BFSQueue.isEmpty()) {
+            Tile currentVertex = BFSQueue.poll();
+            if (mark.get(currentVertex)) continue;
+            mark.put(currentVertex, true);
+            if (currentVertex.equals(destinationTile)) break;
+            ArrayList<Tile> adjacentVertices = currentVertex.getAdjacentTiles();
+            ArrayList<Boolean> isRiver = currentVertex.getIsRiver();
+            for (int i = 0; i < adjacentVertices.size(); i++) {
+                Tile adjacentVertex = adjacentVertices.get(i);
+                if (adjacentVertex.isUnmovable()) continue;
+                if (mark.get(adjacentVertex)) continue;
+                if (GameController.getInstance().getCivilization().isInFog()) continue;
+                int newDistance = distance.get(currentVertex) + 1;
+                if (distance.get(adjacentVertex) != null && newDistance >= distance.get(adjacentVertex)) continue;
+                distance.put(adjacentVertex, newDistance);
+                mark.put(adjacentVertex, false);
+                previousInShortestPath.put(adjacentVertex, currentVertex);
+            }
+        }
+        Stack<Tile> ans = new Stack<Tile>();
+        if (mark.get(destinationTile) == null) return null;
+        Tile pointerTile = destinationTile;
+        while (pointerTile != null) {
+            ans.push(pointerTile);
+            pointerTile = previousInShortestPath.get(pointerTile);
+        }
+        return ans;
+    }
+
+    private int calculateMotionCost(Tile originTile, Tile destinationTile) {
+        return destinationTile.getMovingCast();
+        //TODO handle river and road or railroad on river;
+    }
+
+   private void moveToAdjacent(Unit unit, Tile tile) {
+        Tile currentTile = unit.getPosition();
+        if ((unit instanceof CombatUnit) && currentTile.getCombatUnit().equals(unit)) currentTile.setCombatUnit((CombatUnit)null);
+        else if ((unit instanceof NonCombatUnit) && currentTile.getNonCombatUnit().equals(unit)) currentTile.setNonCombatUnit((NonCombatUnit)null);
+        unit.setPosition(tile);
+        if (unit instanceof CombatUnit && tile.getCombatUnit() == null) tile.setCombatUnit((CombatUnit)unit);
+        else if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() == null) tile.setNonCombatUnit((NonCombatUnit)unit);
+
+   }
+
+    private void completeMoveForOneTurn(Unit unit) {
+        Stack<Tile> path = unit.getPath();
+        if (path == null) return;
+        while (!unit.getPath().isEmpty()) {
+            Tile tile = path.pop();
+            if (tile == unit.getPosition()) continue;
+            int newMotionPoint = unit.getMotionPoint();
+            int motionCost = calculateMotionCost(unit.getPosition(), tile);
+            newMotionPoint = Math.max(0, unit.getMotionPoint() - motionCost);
+            unit.setMotionPoint(newMotionPoint);
+            moveToAdjacent(unit, tile);
+        }
+
+        //TODO handle multi-step movement
+    }
+
     public String moveUnit(Unit unit, int[] destination) {
-        //TODO
         String ans = isMoveValid(unit, destination);
         if (!ans.equals("true")) return ans;
         Tile originTile = unit.getPosition();
         Tile destinationTile = getTileByPosition(destination);
+        Stack<Tile> path = getShortestPath(originTile, destinationTile);
+        if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile) return "no valid path";
+        unit.setPath(path);
+        completeMoveForOneTurn(unit);
+
+        //TODO
         return "success";
     }
 
@@ -81,6 +160,26 @@ public class CivilizationController {
             return "destination occupied";
         return "true";
     }
+
+    public ArrayList<Tile> getVisibleTiles(Tile tile) {
+        HashSet<Tile> ans = new HashSet<>();
+        ans.add(tile);
+        for (Tile adjacentTile : tile.getAdjacentTiles()) {
+            ans.add(adjacentTile);
+            if (!adjacentTile.isBlock()) {
+                for (Tile visibleTile : adjacentTile.getAdjacentTiles()) {
+                    ans.add(visibleTile);
+                }
+            }
+        }
+        return new ArrayList<>(ans);
+    }
+
+    public ArrayList<Tile> getVisibleTiles(Unit unit) {
+        return getVisibleTiles(unit.getPosition());
+    }
+
+    //TODO: exit from fog of war
 
 
     public void makeUnitSleep(Unit unit) {
