@@ -11,6 +11,7 @@ public class Processor {
     private static final String ONE_DASH_FIELD_NAME = "(-[a-zA-Z])";
     private static final String FIELD_NAME_REGEX = "(" + ONE_DASH_FIELD_NAME + "|" + DOUBLE_DASH_FIELD_NAME + ")";
     private static final String VALIDITY_REGEX = "^\\S+(\\s+\\S+)?(\\s+\\S+)?(\\s+" + FIELD_NAME_REGEX + " [a-zA-Z\\d/ ]*)*$";
+    //TODO REDO SOME MISTAKES
 
     /* A valid command :
     category(\S) section(\S, optional) subsection(\S, optional) fields(optional)
