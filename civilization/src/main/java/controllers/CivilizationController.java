@@ -59,7 +59,8 @@ public class CivilizationController {
         else if (GameController.getInstance().getCivilization().isFogOfWar(destinationTile)) return "fog of war";
         else if (unit.getPosition() == destinationTile) return "already at the same tile";
         else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) return "destination occupied";
-        else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit() != null) return "destination occupied";
+        else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit() != null)
+            return "destination occupied";
         return "true";
     }
 

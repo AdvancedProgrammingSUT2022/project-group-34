@@ -10,8 +10,7 @@ public class GameController {
     }
 
     public static GameController getInstance() {
-        if (instance == null)
-            instance = new GameController();
+        if (instance == null) instance = new GameController();
         return instance;
     }
 
