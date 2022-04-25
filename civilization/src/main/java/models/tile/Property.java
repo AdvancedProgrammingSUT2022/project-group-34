@@ -2,12 +2,12 @@ package models.tile;
 
 public class Property {
 
-    protected String name;
-    protected int foodRate;
-    protected int goldRate;
-    protected int productionRate;
-    protected int movingCost;
-    protected int impactOnWar;
+    private String name;
+    private int foodRate;
+    private int goldRate;
+    private int productionRate;
+    private int movingCost;
+    private int impactOnWar;
 
     public String getName() {
         return name;
@@ -25,7 +25,7 @@ public class Property {
         return productionRate;
     }
 
-    public int getMovingCast() {
+    public int getMovingCost() {
         return movingCost;
     }
 
@@ -49,7 +49,7 @@ public class Property {
         this.productionRate = productionRate;
     }
 
-    public void setMovingCast(int movingCast) {
+    public void setMovingCost(int movingCast) {
         this.movingCost = movingCast;
     }
 
