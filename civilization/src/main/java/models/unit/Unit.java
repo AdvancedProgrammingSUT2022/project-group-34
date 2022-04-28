@@ -21,8 +21,7 @@ public abstract class Unit {
     protected int motionPoint;
 
     protected Tile position;
-    protected Stack<Tile> path;
-    protected boolean isMoving;
+    protected Tile destination;
 
     public Unit(String name, Tile position) {
         this.name = name;
@@ -33,8 +32,7 @@ public abstract class Unit {
         this.cost                = Integer.parseInt(unitDataSheet.get(name).get("cost"));
         this.motionPoint         = Integer.parseInt(unitDataSheet.get(name).get("motionPoint"));
 
-        this.path = null;
-        this.isMoving    = false;
+        this.destination = null;
     }
 
     public static HashMap<String, ArrayList<String>> getDataBaseRequiredTechnology() {
@@ -98,20 +96,12 @@ public abstract class Unit {
         this.position = position;
     }
 
-    public Stack<Tile> getPath() {
-        return path;
+    public Tile getDestination() {
+        return destination;
     }
 
-    public void setPath(Stack<Tile> path) {
-        this.path = path;
-    }
-
-    public boolean isMoving() {
-        return isMoving;
-    }
-
-    public void setMoving(boolean moving) {
-        isMoving = moving;
+    public void setDestination(Tile destination) {
+        this.destination = destination;
     }
 
     public boolean isUnlock(String name,ArrayList<String> technologies) {

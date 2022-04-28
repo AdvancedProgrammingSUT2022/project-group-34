@@ -127,18 +127,23 @@ public class CivilizationController {
         return true;
     }
 
+    private void cancelMove(Unit unit) {
+        unit.setDestination(null);
+    }
+
     private void continueMoveForOneTurn(Unit unit) {
+        if (unit.getDestination() == null) return;
         Stack<Tile> path = getShortestPath(unit.getPosition(), unit.getDestination());
-        if (!isPathValid(path, unit.getPosition(), unit.getDestination(), unit)) {
-            cancelMove(unit);
-            return;
-        }
         continueMoveForOneTurn(unit, path);
     }
 
     private void continueMoveForOneTurn(Unit unit, Stack<Tile> path) {
         if (path == null) return;
-        while (unit.getMotionPoint() > 0 && !unit.getPath().isEmpty()) {
+        if (!isPathValid(path, unit.getPosition(), unit.getDestination(), unit) || path.size() == 0) {
+            cancelMove(unit);
+            return;
+        }
+        while (unit.getMotionPoint() > 0 && !path.isEmpty()) {
             Tile tile = path.pop();
             if (tile == unit.getPosition()) continue;
             int newMotionPoint = unit.getMotionPoint();
