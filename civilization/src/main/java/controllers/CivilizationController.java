@@ -110,7 +110,7 @@ public class CivilizationController {
         //TODO handle river and road or railroad on river;
     }
 
-   private void moveToAdjacent(Unit unit, Tile tile) {
+    private void moveToAdjacent(Unit unit, Tile tile) {
         Tile currentTile = unit.getPosition();
         if ((unit instanceof CombatUnit) && currentTile.getCombatUnit().equals(unit)) currentTile.setCombatUnit((CombatUnit)null);
         else if ((unit instanceof NonCombatUnit) && currentTile.getNonCombatUnit().equals(unit)) currentTile.setNonCombatUnit((NonCombatUnit)null);
@@ -118,12 +118,27 @@ public class CivilizationController {
         if (unit instanceof CombatUnit && tile.getCombatUnit() == null) tile.setCombatUnit((CombatUnit)unit);
         else if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() == null) tile.setNonCombatUnit((NonCombatUnit)unit);
 
-   }
+    }
 
-    private void completeMoveForOneTurn(Unit unit) {
-        Stack<Tile> path = unit.getPath();
+    private boolean isPathValid(Stack<Tile> path, Tile originTile, Tile destinationTile,Unit unit) {
+        if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile) return false;
+        else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) return false;
+        else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit() != null) return false;
+        return true;
+    }
+
+    private void continueMoveForOneTurn(Unit unit) {
+        Stack<Tile> path = getShortestPath(unit.getPosition(), unit.getDestination());
+        if (!isPathValid(path, unit.getPosition(), unit.getDestination(), unit)) {
+            cancelMove(unit);
+            return;
+        }
+        continueMoveForOneTurn(unit, path);
+    }
+
+    private void continueMoveForOneTurn(Unit unit, Stack<Tile> path) {
         if (path == null) return;
-        while (!unit.getPath().isEmpty()) {
+        while (unit.getMotionPoint() > 0 && !unit.getPath().isEmpty()) {
             Tile tile = path.pop();
             if (tile == unit.getPosition()) continue;
             int newMotionPoint = unit.getMotionPoint();
@@ -143,8 +158,8 @@ public class CivilizationController {
         Tile destinationTile = getTileByPosition(destination);
         Stack<Tile> path = getShortestPath(originTile, destinationTile);
         if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile) return "no valid path";
-        unit.setPath(path);
-        completeMoveForOneTurn(unit);
+        unit.setDestination(destinationTile);
+        continueMoveForOneTurn(unit, path);
 
         //TODO
         return "success";
