@@ -16,6 +16,7 @@ import models.tile.Tile;
 import models.Technology;
 
 public class CivilizationController {
+    private final static int INF = 100000;
     private static CivilizationController instance = null;
 
     private CivilizationController() {
@@ -67,7 +68,7 @@ public class CivilizationController {
     }
 
     private Stack<Tile> extractPathFromParentsHashMap(HashMap<Tile, Tile> previousInShortestPath, Tile destinationTile) {
-        Stack<Tile> ans = new Stack<Tile>();
+        Stack<Tile> ans = new Stack<>();
         Tile pointerTile = destinationTile;
         while (pointerTile != null) {
             ans.push(pointerTile);
@@ -126,7 +127,7 @@ public class CivilizationController {
                 if (adjacentVertex.isUnmoveable() || mark.get(adjacentVertex)) continue;
                 if (GameController.getInstance().getCivilization().isInFog(adjacentVertex)) continue;
                 int newDistance = distance.get(currentVertex) + calculateMotionCost(currentVertex, adjacentVertex);
-                if (isRiver.get(i)) newDistance = motionPointLimit;
+                if (isRiver.get(i) && !returnThePath) newDistance = motionPointLimit;
                 if (distance.get(adjacentVertex) != null && newDistance >= distance.get(adjacentVertex)) continue;
                 distance.put(adjacentVertex, newDistance);
                 mark.put(adjacentVertex, false);
@@ -153,7 +154,7 @@ public class CivilizationController {
 
     }
 
-    private boolean isPathValid(Stack<Tile> path, Tile originTile, Tile destinationTile,Unit unit) {
+    private boolean isPathValid(Stack<Tile> path, Tile originTile, Tile destinationTile, Unit unit) {
         if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile) return false;
         else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) return false;
         else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit() != null) return false;
@@ -164,8 +165,8 @@ public class CivilizationController {
         unit.setDestination(null);
     }
 
-    private void continueMoveForOneTurn(Unit unit) {
-        if (unit.getDestination() == null) return;
+    private boolean continueMoveForOneTurn(Unit unit) {
+        if (unit.getDestination() == null) return false;
         HashMap<Tile, Integer> distancesFromDestination = doBFSAndReturnDistances(unit.getDestination());
         Tile temporaryDestination = unit.getPosition();
         HashMap<Tile, Integer> distancesFromOriginByMP = (HashMap<Tile, Integer>)doDijkstra(unit.getPosition(), unit.getDestination(), unit.getMotionPoint(), false);
@@ -176,12 +177,16 @@ public class CivilizationController {
             Integer tileDistance = distancesFromDestination.get(tile);
             if (tileDistance != null && tileDistance < distancesFromDestination.get(temporaryDestination)) temporaryDestination = tile;
         }
-        if (temporaryDestination == null) cancelMove(unit);
+        if (temporaryDestination == null || temporaryDestination == unit.getPosition()) {
+            cancelMove(unit);
+            return false;
+        }
         Stack<Tile> path = (Stack<Tile>)doDijkstra(unit.getPosition(), temporaryDestination, unit.getMotionPoint(), true);
-        continueMoveForOneTurn(unit, path);
+        continueMoveByPath(unit, path);
+        return true;
     }
 
-    private void continueMoveForOneTurn(Unit unit, Stack<Tile> path) {
+    private void continueMoveByPath(Unit unit, Stack<Tile> path) {
         if (path == null) return;
         if (!isPathValid(path, unit.getPosition(), unit.getDestination(), unit) || path.size() == 0) {
             cancelMove(unit);
@@ -190,14 +195,13 @@ public class CivilizationController {
         while (unit.getMotionPoint() > 0 && !path.isEmpty()) {
             Tile tile = path.pop();
             if (tile == unit.getPosition()) continue;
-            int newMotionPoint = unit.getMotionPoint();
+            int newMotionPoint = 0;
             int motionCost = calculateMotionCost(unit.getPosition(), tile);
             newMotionPoint = Math.max(0, unit.getMotionPoint() - motionCost);
+            //TODO handle river
             unit.setMotionPoint(newMotionPoint);
             moveToAdjacent(unit, tile);
         }
-
-        //TODO handle multi-step movement
     }
 
     public String moveUnit(Unit unit, int[] destination) {
@@ -205,12 +209,10 @@ public class CivilizationController {
         if (!ans.equals("true")) return ans;
         Tile originTile = unit.getPosition();
         Tile destinationTile = getTileByPosition(destination);
-        Stack<Tile> path = getShortestPath(originTile, destinationTile);
-        if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile) return "no valid path";
+        Stack<Tile> path = (Stack<Tile>)doDijkstra(originTile, destinationTile, INF, true);
+        if (!isPathValid(path, originTile, destinationTile, unit)) return "no valid path";
         unit.setDestination(destinationTile);
-        continueMoveForOneTurn(unit, path);
-
-        //TODO
+        if (!continueMoveForOneTurn(unit)) return "no valid path";
         return "success";
     }
 
@@ -237,6 +239,12 @@ public class CivilizationController {
             }
         }
         return new ArrayList<>(ans);
+    }
+
+    private void continueMoves() {
+        for (Unit unit : GameController.getInstance().getCivilization().getUnits()) {
+            continueMoveForOneTurn(unit);
+        }
     }
 
     public ArrayList<Tile> getVisibleTiles(Unit unit) {
