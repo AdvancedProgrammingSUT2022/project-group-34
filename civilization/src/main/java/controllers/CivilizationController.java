@@ -166,7 +166,18 @@ public class CivilizationController {
 
     private void continueMoveForOneTurn(Unit unit) {
         if (unit.getDestination() == null) return;
-        Stack<Tile> path = getShortestPath(unit.getPosition(), unit.getDestination());
+        HashMap<Tile, Integer> distancesFromDestination = doBFSAndReturnDistances(unit.getDestination());
+        Tile temporaryDestination = unit.getPosition();
+        HashMap<Tile, Integer> distancesFromOriginByMP = (HashMap<Tile, Integer>)doDijkstra(unit.getPosition(), unit.getDestination(), unit.getMotionPoint(), false);
+        for (Tile tile : distancesFromOriginByMP.keySet()) {
+            if (tile == null) continue;
+            if (unit instanceof CombatUnit && tile.getCombatUnit() != null) continue;
+            if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() != null) continue;
+            Integer tileDistance = distancesFromDestination.get(tile);
+            if (tileDistance != null && tileDistance < distancesFromDestination.get(temporaryDestination)) temporaryDestination = tile;
+        }
+        if (temporaryDestination == null) cancelMove(unit);
+        Stack<Tile> path = (Stack<Tile>)doDijkstra(unit.getPosition(), temporaryDestination, unit.getMotionPoint(), true);
         continueMoveForOneTurn(unit, path);
     }
 
