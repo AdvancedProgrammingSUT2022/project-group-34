@@ -66,43 +66,76 @@ public class CivilizationController {
         return false;
     }
 
-
-    private Stack<Tile> getShortestPath(Tile originTile, Tile destinationTile) {
-        HashMap<Tile, Integer> distance = new HashMap<Tile, Integer>();
-        HashMap<Tile, Boolean> mark = new HashMap<Tile, Boolean>();
-        HashMap<Tile, Tile> previousInShortestPath = new HashMap<Tile, Tile>();
-        distance.put(originTile, 0);
-        previousInShortestPath.put(originTile, null);
-        mark.put(originTile, false);
-        LinkedList <Tile> BFSQueue = new LinkedList<>();
-        BFSQueue.add(originTile);
-        while (!BFSQueue.isEmpty()) {
-            Tile currentVertex = BFSQueue.poll();
-            if (mark.get(currentVertex)) continue;
-            mark.put(currentVertex, true);
-            if (currentVertex.equals(destinationTile)) break;
-            ArrayList<Tile> adjacentVertices = currentVertex.getAdjacentTiles();
-            ArrayList<Boolean> isRiver = currentVertex.getIsRiver();
-            for (int i = 0; i < adjacentVertices.size(); i++) {
-                Tile adjacentVertex = adjacentVertices.get(i);
-                if (adjacentVertex.isUnmovable()) continue;
-                if (mark.get(adjacentVertex)) continue;
-                if (GameController.getInstance().getCivilization().isInFog()) continue;
-                int newDistance = distance.get(currentVertex) + 1;
-                if (distance.get(adjacentVertex) != null && newDistance >= distance.get(adjacentVertex)) continue;
-                distance.put(adjacentVertex, newDistance);
-                mark.put(adjacentVertex, false);
-                previousInShortestPath.put(adjacentVertex, currentVertex);
-            }
-        }
+    private Stack<Tile> extractPathFromParentsHashMap(HashMap<Tile, Tile> previousInShortestPath, Tile destinationTile) {
         Stack<Tile> ans = new Stack<Tile>();
-        if (mark.get(destinationTile) == null) return null;
         Tile pointerTile = destinationTile;
         while (pointerTile != null) {
             ans.push(pointerTile);
             pointerTile = previousInShortestPath.get(pointerTile);
         }
         return ans;
+    }
+
+    private HashMap<Tile, Integer> doBFSAndReturnDistances(Tile originTile) {
+        HashMap<Tile, Integer> distance = new HashMap<>();
+        HashMap<Tile, Boolean> mark = new HashMap<>();
+        distance.put(originTile, 0);
+        mark.put(originTile, false);
+        LinkedList<Tile> BFSQueue = new LinkedList<>();
+        BFSQueue.add(originTile);
+        while (!BFSQueue.isEmpty()) {
+            Tile currentVertex = BFSQueue.poll();
+            if (mark.get(currentVertex)) continue;
+            mark.put(currentVertex, true);
+            ArrayList<Tile> adjacentVertices = currentVertex.getAdjacentTiles();
+            for (Tile adjacentVertex : adjacentVertices) {
+                if (adjacentVertex.isUnmoveable() || mark.get(adjacentVertex)) continue;
+                int newDistance = distance.get(currentVertex) + 1;
+                if (distance.get(adjacentVertex) == null || distance.get(adjacentVertex) > newDistance) {
+                    distance.put(adjacentVertex, newDistance);
+                    mark.put(adjacentVertex, false);
+                }
+            }
+        }
+        return distance;
+    }
+
+    private Object doDijkstra(Tile originTile, Tile destinationTile, int motionPointLimit, boolean returnThePath) {
+        HashMap<Tile, Integer> distance = new HashMap<>();
+        HashMap<Tile, Boolean> mark = new HashMap<>();
+        HashMap<Tile, Tile> previousInShortestPath = new HashMap<>();
+        distance.put(originTile, 0);
+        previousInShortestPath.put(originTile, null);
+        mark.put(originTile, false);
+        while (true) {
+            Tile currentVertex = null;
+            for (Tile tile : mark.keySet()) {
+                if (mark.get(tile)) continue;
+                else if (currentVertex == null) currentVertex = tile;
+                else if (distance.get(tile) < distance.get(currentVertex)) currentVertex = tile;
+            }
+            if (currentVertex == null) break;
+
+            mark.put(currentVertex, true);
+            if (distance.get(currentVertex) >= motionPointLimit) break;
+            if (returnThePath && currentVertex.equals(destinationTile)) break;
+            ArrayList<Tile> adjacentVertices = currentVertex.getAdjacentTiles();
+            ArrayList<Boolean> isRiver = currentVertex.getIsRiver();
+            for (int i = 0; i < adjacentVertices.size(); i++) {
+                Tile adjacentVertex = adjacentVertices.get(i);
+                if (adjacentVertex.isUnmoveable() || mark.get(adjacentVertex)) continue;
+                if (GameController.getInstance().getCivilization().isInFog(adjacentVertex)) continue;
+                int newDistance = distance.get(currentVertex) + calculateMotionCost(currentVertex, adjacentVertex);
+                if (isRiver.get(i)) newDistance = motionPointLimit;
+                if (distance.get(adjacentVertex) != null && newDistance >= distance.get(adjacentVertex)) continue;
+                distance.put(adjacentVertex, newDistance);
+                mark.put(adjacentVertex, false);
+                previousInShortestPath.put(adjacentVertex, currentVertex);
+            }
+        }
+        if (mark.get(destinationTile) == null) return null;
+        else if (!returnThePath) return distance;
+        else return extractPathFromParentsHashMap(previousInShortestPath, destinationTile);
     }
 
     private int calculateMotionCost(Tile originTile, Tile destinationTile) {
