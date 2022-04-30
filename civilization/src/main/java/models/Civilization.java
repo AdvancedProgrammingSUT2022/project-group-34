@@ -25,7 +25,9 @@ public class Civilization {
 
     private ArrayList<Notification> notifications;
     private HashMap<String, Resource> civilizationResources;
-    private HashMap<String, Technology> civilizationTechnologies;
+
+    private HashMap<String, Technology> civilizationResearchedTechnologies;
+    private HashMap<String, Technology> civilizationNotResearchedTechnologies;
 
     private int numberOfBeakers;
     private Technology studyingTechnology;
@@ -43,7 +45,8 @@ public class Civilization {
         this.units = units;
         this.mainCapital = mainCapital;
         this.civilizationResources = civilizationResources;
-        this.civilizationTechnologies = civilizationTechnologies;
+        this.civilizationResearchedTechnologies    = Technology.getAllTechnologiesCopy();
+        this.civilizationNotResearchedTechnologies = new HashMap<>();
 
         this.numberOfBeakers = numberOfBeakers;
         this.studyingTechnology = null;
@@ -133,12 +136,20 @@ public class Civilization {
         this.civilizationResources = civilizationResources;
     }
 
-    public HashMap<String, Technology> getCivilizationTechnologies() {
-        return civilizationTechnologies;
+    public HashMap<String, Technology> getCivilizationResearchedTechnologies() {
+        return civilizationResearchedTechnologies;
     }
 
-    public void setCivilizationTechnologies(HashMap<String, Technology> civilizationTechnologies) {
-        this.civilizationTechnologies = civilizationTechnologies;
+    public void setCivilizationResearchedTechnologies(HashMap<String, Technology> civilizationResearchedTechnologies) {
+        this.civilizationResearchedTechnologies = civilizationResearchedTechnologies;
+    }
+
+    public HashMap<String, Technology> getCivilizationNotResearchedTechnologies() {
+        return civilizationNotResearchedTechnologies;
+    }
+
+    public void setCivilizationNotResearchedTechnologies(HashMap<String, Technology> civilizationNotResearchedTechnologies) {
+        this.civilizationNotResearchedTechnologies = civilizationNotResearchedTechnologies;
     }
 
     public int getNumberOfBeakers() {

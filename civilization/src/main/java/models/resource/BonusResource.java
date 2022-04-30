@@ -1,9 +1,24 @@
 package models.resource;
 
-import java.util.ArrayList;
-
 public class BonusResource extends Resource{
-    public BonusResource(ArrayList<String> requiredTechnologiesToBeUsable, String requiredImprovement, String name, int foodBonus, int goldBonus, int productionBonus, boolean isUsable, boolean isExchangeable) {
-        super(requiredTechnologiesToBeUsable, requiredImprovement, name, foodBonus, goldBonus, productionBonus, isUsable, isExchangeable);
+
+    private int foodBonus;
+
+    public BonusResource(String requiredImprovement, String name, int foodBouns) {
+        super(requiredImprovement, name, true, false);
+        this.foodBonus = foodBouns;
     }
+
+
+
+    @Override
+    public Resource clonResource(){
+        BonusResource bonusResource = new BonusResource(getRequiredImprovement(),getName(), foodBonus);
+        return bonusResource;
+    }
+    @Override
+    public int getFoodBonus() {
+        return foodBonus;
+    }
+
 }

@@ -1,5 +1,6 @@
 package models.tile;
 
+import models.resource.Resource;
 import models.unit.NonCombatUnit;
 import models.unit.CombatUnit;
 
@@ -13,7 +14,7 @@ public class Tile extends Property{
     public String featureName;
     public String improvementName = null;
 
-    public ArrayList<String> resources;
+    public ArrayList<Resource> resources;
 
     public boolean hasRoad = false;
     public boolean hasRail = false;
@@ -112,11 +113,11 @@ public class Tile extends Property{
 
 
 
-    public ArrayList<String> getResources() {
+    public ArrayList<Resource> getResources() {
         return resources;
     }
 
-    public void setResources(ArrayList<String> resources) {
+    public void setResources(ArrayList<Resource> resources) {
         this.resources = resources;
     }
 

@@ -1,20 +1,36 @@
 package models.resource;
 
-import java.util.ArrayList;
-
 public class StrategicResource extends Resource{
 
-    private ArrayList<String> requiredTechnologiesToBeVisible;
+    private String requiredTechnology;
     private boolean isVisible;
+    private int productionBonus;
 
-    public StrategicResource(ArrayList<String> requiredTechnologiesToBeUsable, String requiredImprovement, String name, int foodBonus, int goldBonus, int productionBonus, boolean isUsable, boolean isExchangeable) {
-        super(requiredTechnologiesToBeUsable, requiredImprovement, name, foodBonus, goldBonus, productionBonus, isUsable, isExchangeable);
-        isVisible = false;
+    public StrategicResource(String requiredImprovement, String name, int productionBonus, String requiredTechnology) {
+        super(requiredImprovement, name, false, true);
+        this.productionBonus = productionBonus;
+        this.requiredTechnology = requiredTechnology;
     }
 
+    public boolean deleteResearchedTechnology(String technology) {
+        if (this.isVisible)
+            return false;
+        if (this.requiredTechnology.equals(technology)){
+            this.isVisible = true;
+            return true;
+        }
+        return false;
+    }
 
-    public void removeResearchedTechnologyToBeVisible(String technologyName) {
-        requiredTechnologiesToBeVisible.remove(technologyName);
-        removeResearchedTechnologyToBeVisible(technologyName);
+    @Override
+    public Resource clonResource(){
+        StrategicResource strategicResource = new StrategicResource(getRequiredImprovement(),getName(), productionBonus, requiredTechnology);
+        strategicResource.isVisible = this.isVisible;
+        return strategicResource;
+    }
+
+    @Override
+    public int getProductionBonus(){
+        return productionBonus;
     }
 }
