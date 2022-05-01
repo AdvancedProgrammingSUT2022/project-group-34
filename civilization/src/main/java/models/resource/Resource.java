@@ -38,9 +38,9 @@ public class Resource {
 
         HashMap<String, Resource> allResourcesCopy = new HashMap<>();
 
-        allResourcesCopy.forEach((name,resource)->{
+        allResources.forEach((name,resource)->{
             Resource resourceCopy = resource.clonResource();
-            allResourcesCopy.put(name,resource);
+            allResourcesCopy.put(name,resourceCopy);
         });
 
         return allResourcesCopy;

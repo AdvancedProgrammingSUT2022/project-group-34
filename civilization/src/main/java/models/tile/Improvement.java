@@ -1,69 +1,82 @@
 package models.tile;
 
+import models.Technology;
+import models.resource.Resource;
+
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Improvement extends Property{
+public enum Improvement{
 
-    static ArrayList<HashMap<String, String>> dataSheet = new ArrayList<>();
-    static HashMap<String, Improvement> allImprovements = new HashMap<>();
 
-    private ArrayList<String> requiredTechnologiesToBeUsed = new ArrayList<>();
+    Camp("Camp",0,0,0,false,"Trapping"
+            ,new String[]{"asd"},new String[]{"asd"}, new String[]{"asd"}),
+    Farm("Farm",0,0,0,false,"Trapping"
+                 ,new String[]{"asd"},new String[]{"asd"}, new String[]{"asd"}),
+    LumberMill("LumberMill",0,0,0,false,"Trapping"
+                 ,new String[]{"asd"},new String[]{"asd"}, new String[]{"asd"}),
+    ;
+
+
+    private String name;
+    private int foodRate;
+    private int goldRate;
+    private int productionRate;
     private boolean isUsable;
+    private Technology requiredTechnology = null;
+    private ArrayList<Terrain> suitableTerrainForThisImprovement;
+    private ArrayList<Feature> suitableFeatureForThisImprovement;
+    private ArrayList<Resource> allResourcesThatNeedThisTechnology;
 
-    public Improvement(HashMap<String,String> stringStringHashMap) {
+    public static HashMap<String, Improvement> allImprovements = new HashMap<>();
 
-        this.name           = stringStringHashMap.get("name");
-        this.foodRate       = Integer.parseInt(stringStringHashMap.get("foodRate"));
-        this.goldRate       = Integer.parseInt(stringStringHashMap.get("goldRate"));
-        this.productionRate = Integer.parseInt(stringStringHashMap.get("productionRate"));
-        this.movingCost     = Integer.parseInt(stringStringHashMap.get("movingCost"));
-        this.impactOnWar    = Integer.parseInt(stringStringHashMap.get("impactOnWar"));
-        int numberOfRequiredTechnologiesToBeUsed = Integer.parseInt(stringStringHashMap.get("numberOfRequiredTechnologiesToBeUsed"));
+    Improvement(String name, int foodRate, int goldRate, int productionRate, boolean isUsable, String requiredTechnology,
+                String[] suitableTerrainForThisImprovement,
+                String[] suitableFeatureForThisImprovement,
+                String[] allResourcesThatNeedThisTechnology) {
 
-        for (int i = 0; i < numberOfRequiredTechnologiesToBeUsed; i++)
-            this.requiredTechnologiesToBeUsed.add("Technology" + (i + 1));
+        this.name = name;
+        this.foodRate = foodRate;
+        this.goldRate = goldRate;
+        this.productionRate = productionRate;
+        this.isUsable = isUsable;
+        this.requiredTechnology = Technology.getAllTechnologiesCopy().get(requiredTechnology);
 
-        this.isUsable = false;
+        for (String TerrainName : suitableTerrainForThisImprovement)
+            this.suitableTerrainForThisImprovement.add(Terrain.getAllTerrains().get(TerrainName));
+
+        for (String featureName : suitableFeatureForThisImprovement)
+            this.suitableFeatureForThisImprovement.add(Feature.getAllFeatures().get(featureName));
+
+        for (String resourceName : allResourcesThatNeedThisTechnology)
+            this.allResourcesThatNeedThisTechnology.add(Resource.getAllResourcesCopy().get(resourceName));
+
+    }
+
+    public static void createAllInstances() {
+        allImprovements.put("Camp",Improvement.Camp);
+        allImprovements.put("Farm",Improvement.Farm);
+        allImprovements.put("LumberMill",Improvement.LumberMill);
     }
 
 
-    public static int loadDataSheet(){
-        //ReadFromFile
+    public static HashMap<String, Improvement> getAllImprovements() {
+        if (allImprovements.isEmpty())
+            createAllInstances();
+        return new HashMap<>(allImprovements);
+    }
+
+
+    public static int setImprovementProperties(Tile tile, Improvement improvement) {
+        tile.foodRate       += improvement.foodRate;
+        tile.goldRate       += improvement.goldRate;
+        tile.productionRate += improvement.productionRate;
+
+        if (improvement.allResourcesThatNeedThisTechnology.contains(tile.getResource()))
+            if (tile.getResource().isVisible())
+                return 1;
+
         return 0;
-    }
-
-    public static int createAllInstances(){
-
-        for (HashMap<String, String> stringIntegerHashMap : dataSheet)
-            allImprovements.put(stringIntegerHashMap.get("name"), new Improvement(stringIntegerHashMap));
-
-        return 0;
-    }
-
-    public ArrayList<String> getRequiredTechnologyToBeUsed() {
-        return requiredTechnologiesToBeUsed;
-    }
-
-    public void setRequiredTechnologyToBeUsed(ArrayList<String> requiredTechnologiesToBeUsed) {
-        this.requiredTechnologiesToBeUsed = requiredTechnologiesToBeUsed;
-    }
-
-    public boolean isUsable() {
-        return isUsable;
-    }
-
-    public void setUsable(boolean usable) {
-        isUsable = usable;
-    }
-
-    public void removeSearchedTechnology(String nameTechnology){
-
-        if (!requiredTechnologiesToBeUsed.contains(nameTechnology))
-            return;
-        requiredTechnologiesToBeUsed.remove(nameTechnology);
-        if (requiredTechnologiesToBeUsed.size() == 0)
-            isUsable = true;
-
     }
 }

@@ -1,36 +1,70 @@
 package models.tile;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Feature extends Property{
+public enum Feature{
 
-    static ArrayList<HashMap<String, String>> dataSheet = new ArrayList<>();
-    static HashMap<String, Feature> allFeatures = new HashMap<>();
+    FloodPlane  ("FloodPlane"   ,2 ,0 ,0 ,-33,+1),
+    Forest      ("Forest"       ,1 ,1 ,0 ,+25,+2),
+    Jungle      ("Jungle"       ,1 ,-1,0 ,+25,+2),
+    Ice         ("Ice"          ,0 ,0 ,0 ,+0 ,-1),
+    Marsh       ("Marsh"        ,-1,0 ,0 ,-33,+2),
+    Oasis       ("Oasis"        ,3 ,0 ,1 ,-33,+1),
+    ;
 
+    private static HashMap<String,Feature> allFeatures = new HashMap<>();
 
-    public Feature(HashMap<String, String> stringIntegerHashMap) {
+    public final String name;
+    public final int foodRate;
+    public final int goldRate;
+    public final int productionRate;
+    public final int movingCost;
+    public final int impactOnWar;
 
-        super();
-        this.name = stringIntegerHashMap.get("name");
-        foodRate = Integer.parseInt(stringIntegerHashMap.get("foodRate"));
-        goldRate = Integer.parseInt(stringIntegerHashMap.get("goldRate"));
-        productionRate = Integer.parseInt(stringIntegerHashMap.get("productionRate"));
-        movingCost = Integer.parseInt(stringIntegerHashMap.get("movingCost"));
-        impactOnWar = Integer.parseInt(stringIntegerHashMap.get("impactOnWar"));
-
+    Feature(String name, int foodRate, int productionRate, int goldRate, int impactOnWar, int movingCost) {
+        this.name = name;
+        this.foodRate = foodRate;
+        this.goldRate = goldRate;
+        this.productionRate = productionRate;
+        this.movingCost = movingCost;
+        this.impactOnWar = impactOnWar;
     }
 
-    public static int loadDataSheet(){
-        //ReadFromFile
-        return 0;
+    private static void createAllInstances(){
+        allFeatures.put("FloodPlane",Feature.FloodPlane);
+        allFeatures.put("Forest"    ,Feature.Forest);
+        allFeatures.put("Jungle"    ,Feature.Jungle);
+        allFeatures.put("Ice"       ,Feature.Ice);
+        allFeatures.put("Marsh"     ,Feature.Marsh);
+        allFeatures.put("Oasis"     ,Feature.Oasis);
     }
 
-    public static int createAllInstances(){
+    public static HashMap<String, Feature> getAllFeatures() {
+        if (allFeatures.isEmpty())
+            createAllInstances();
+        return new HashMap<>(allFeatures);
+    }
 
-        for (HashMap<String, String> stringIntegerHashMap : dataSheet)
-            allFeatures.put(stringIntegerHashMap.get("name"),new Feature(stringIntegerHashMap));
+    static void setFeatureProperties(Tile tile,Feature feature) {
 
-        return 0;
+        if (feature == null)
+            return;
+        if(feature.name.equals("Forest")){
+            tile.foodRate = 1;
+            tile.goldRate = 1;
+        }
+        else{
+            tile.foodRate += feature.foodRate;
+            tile.goldRate += feature.goldRate;
+        }
+
+        tile.productionRate += feature.productionRate;
+        tile.impactOnWar    += feature.impactOnWar;
+
+        if (feature.movingCost == -1 || tile.movingCost == -1)
+            tile.movingCost = -1;
+        else
+            tile.movingCost += feature.movingCost;
+
     }
 }
