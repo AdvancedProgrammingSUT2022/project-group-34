@@ -1,8 +1,11 @@
 package models;
 
+import models.tile.Feature;
+import models.tile.Terrain;
 import models.tile.Tile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameMap {
 
@@ -119,11 +122,23 @@ public class GameMap {
     }
 
     public void createRandomMap(){
+
+        HashMap<String,Terrain> allTerrains = Terrain.getAllTerrains();
+        HashMap<String,Feature> allFeatures = Feature.getAllFeatures();
+        Terrain terrain;
+        Feature feature;
+        Tile tile;
+        map = new ArrayList<>();
         for (int i = 0 ; i < mapHeight ; i++){
             map.add(new ArrayList<>());
             for (int j = 0; j < mapWidth; j++) {
-                map.get(i).add(new Tile("Plain" , "Jungle" , i , j));
-                Tile tile = map.get(i).get(j);
+
+                terrain = allTerrains.get("Plain");
+                feature = allFeatures.get("");
+                tile = new Tile( terrain, feature , i , j);
+
+                map.get(i).add(tile);
+
                 if (i % 50 == 0 && j % 23 == 0){
                     tile.addRiver(j%6);
                     getAdjacentTileByNumber(tile,j%6).addRiver((3 + j%6) % 6);

@@ -17,18 +17,19 @@ public class City {
 
     private boolean isGarrison;
 
+    private ArrayList<Tile> territory;
     private ArrayList<Citizen> citizens;
     private ArrayList<Improvement> improvements;
 
     private int food;
     private int gold;
     private int production;
-    private int happiness;
 
-    public City(String name, Civilization owner, Tile position) {
+    public City(String name, Civilization owner, Tile position , ArrayList<Tile> territory) {
         this.name = name;
         this.owner = owner;
         this.position = position;
+        this.territory = territory;
     }
 
     public String getName() {
@@ -75,16 +76,8 @@ public class City {
         return citizens;
     }
 
-    public void setCitizens(ArrayList<Citizen> citizens) {
-        this.citizens = citizens;
-    }
-
-    public ArrayList<Improvement> getImprovements() {
-        return improvements;
-    }
-
-    public void setImprovements(ArrayList<Improvement> improvements) {
-        this.improvements = improvements;
+    public void addCitizens(Citizen citizen) {
+        this.citizens.add(citizen);
     }
 
     public int getFood() {
@@ -111,11 +104,18 @@ public class City {
         this.production = production;
     }
 
-    public int getHappiness() {
-        return happiness;
+    public ArrayList<Tile> getTerritory() {
+        return territory;
     }
 
-    public void setHappiness(int happiness) {
-        this.happiness = happiness;
+    public void addTerritory(Tile tile) {
+        this.territory.add(tile);
+    }
+
+    public ArrayList<Improvement> getImprovements() {
+        return improvements;
+    }
+    public void addImprovement(Improvement improvement) {
+        this.improvements.add(improvement);
     }
 }

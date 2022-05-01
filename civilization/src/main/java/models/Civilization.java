@@ -3,6 +3,7 @@ package models;
 import models.resource.Resource;
 import models.tile.Tile;
 import models.unit.Unit;
+import models.unit.Work;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class Civilization {
     private ArrayList<Tile> territory;
     private ArrayList<Tile> workingTiles;
     private ArrayList<Unit> units;
+    private ArrayList<Work> works;
 
     private City mainCapital;
     private City currentCapital;
@@ -198,5 +200,14 @@ public class Civilization {
 
     public void setFood(int food) {
         this.food = food;
+    }
+
+
+    public ArrayList<Work> getWorks() {
+        return works;
+    }
+
+    public void addWork(Work work) {
+        this.works.add(work);
     }
 }
