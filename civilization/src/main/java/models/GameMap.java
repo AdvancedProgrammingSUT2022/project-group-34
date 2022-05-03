@@ -146,5 +146,15 @@ public class GameMap {
                 }
             }
         }
+
+        Tile tile1;
+        for (int i = 0 ; i < mapHeight ; i++)
+            for (int j = 0; j < mapWidth; j++) {
+                tile1 = map.get(i).get(j);
+                tile1.setAdjacentTiles(getAdjacentTiles(tile1));
+            }
+
+
+
     }
 }

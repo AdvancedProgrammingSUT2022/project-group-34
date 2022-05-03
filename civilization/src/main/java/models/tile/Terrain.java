@@ -62,6 +62,6 @@ public enum Terrain{
         tile.productionRate += terrain.productionRate;
         tile.impactOnWar    += terrain.impactOnWar;
         tile.movingCost     += terrain.movingCost;
-        tile.isBlocked      |= terrain.isBlocked;
+        tile.isBlock |= terrain.isBlocked;
     }
 }

@@ -27,7 +27,8 @@ public class Tile {
     private boolean hasRail = false;
     private boolean isLooted = false;
     private boolean isInFog = false;
-    boolean isBlocked = false;
+    boolean isBlock = false;
+    private ArrayList<Tile> adjacentTiles = new ArrayList<>();
     private ArrayList<Boolean> isRiver = new ArrayList<>();
 
     private NonCombatUnit NonCombatUnit = null;
@@ -50,7 +51,7 @@ public class Tile {
         productionRate = 0;
         movingCost = 0;
         impactOnWar = 0;
-        isBlocked = false;
+        isBlock = false;
     }
 
     public void setTileProperties(){
@@ -134,8 +135,8 @@ public class Tile {
         isInFog = inFog;
     }
 
-    public void setBlocked(boolean blocked) {
-        this.isBlocked = blocked;
+    public void setBlock(boolean block) {
+        this.isBlock = block;
     }
 
     public boolean isHasRoad() {
@@ -154,8 +155,8 @@ public class Tile {
         return isInFog;
     }
 
-    public boolean isBlocked() {
-        return isBlocked;
+    public boolean isBlock() {
+        return isBlock;
     }
 
 
@@ -258,6 +259,10 @@ public class Tile {
         return movingCost;
     }
 
+    public boolean isUnmovable(){
+        return (movingCost == -1);
+    }
+
     public int getImpactOnWar() {
         return impactOnWar;
     }
@@ -284,5 +289,13 @@ public class Tile {
 
     public void setImpactOnWar(int impactOnWar) {
         this.impactOnWar = impactOnWar;
+    }
+
+    public ArrayList<Tile> getAdjacentTiles() {
+        return adjacentTiles;
+    }
+
+    public void setAdjacentTiles(ArrayList<Tile> adjacentTiles) {
+        this.adjacentTiles = adjacentTiles;
     }
 }

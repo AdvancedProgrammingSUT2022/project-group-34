@@ -106,7 +106,7 @@ public class CivilizationController {
     }
 
     private int calculateMotionCost(Tile originTile, Tile destinationTile) {
-        return destinationTile.getMovingCast();
+        return destinationTile.getMovingCost();
         //TODO handle river and road or railroad on river;
     }
 
