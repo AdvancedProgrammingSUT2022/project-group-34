@@ -34,12 +34,13 @@ public class Tile {
     private NonCombatUnit NonCombatUnit = null;
     private CombatUnit combatUnit = null;
 
-    public Tile(Terrain terrain, Feature feature, int x, int y) {
+    public Tile(Terrain terrain, Feature feature, int x, int y, City city) {
         super();
         this.terrain = terrain;
         this.feature = feature;
         this.x = x;
         this.y = y;
+        this.city = city;
 
         for (int i = 0; i < 6; i++) isRiver.add(false);
         setTileProperties();
@@ -297,5 +298,13 @@ public class Tile {
 
     public void setAdjacentTiles(ArrayList<Tile> adjacentTiles) {
         this.adjacentTiles = adjacentTiles;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 }

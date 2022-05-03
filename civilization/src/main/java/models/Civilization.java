@@ -10,6 +10,9 @@ import java.util.HashMap;
 
 public class Civilization {
 
+    private static int decreasedHappinessDueToTheFoundingOfTheCity = 4;
+
+
     private User player;
 
     private String civilizationName;
@@ -39,7 +42,7 @@ public class Civilization {
 
     private int gold;
     private int production;
-    private int happy;
+    private int happiness;
 
     public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Tile> territory, ArrayList<Unit> units, City mainCapital, HashMap<String, Resource> civilizationResources, HashMap<String, Technology> civilizationTechnologies, int numberOfBeakers, int gold, int happy, int production) {
         this.player = player;
@@ -56,7 +59,7 @@ public class Civilization {
         this.studyingTechnology = null;
 
         this.gold = gold;
-        this.happy = happy;
+        this.happiness = happy;
         this.production = production;
     }
 
@@ -78,6 +81,14 @@ public class Civilization {
 
     public ArrayList<City> getCities() {
         return cities;
+    }
+
+    public void addCities(String name, Civilization civilization, Tile position) {
+        ArrayList<Tile> territory = new ArrayList<>();
+        territory.add(position);
+        territory.addAll(position.getAdjacentTiles());
+        cities.add(new City(name,civilization,position,territory));
+        this.happiness -= decreasedHappinessDueToTheFoundingOfTheCity;
     }
 
     public void setCities(ArrayList<City> cities) {
@@ -180,12 +191,12 @@ public class Civilization {
         this.gold = gold;
     }
 
-    public int getHappy() {
-        return happy;
+    public int getHappiness() {
+        return happiness;
     }
 
-    public void setHappy(int happy) {
-        this.happy = happy;
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
     }
 
     public int getProduction() {
@@ -203,5 +214,13 @@ public class Civilization {
 
     public void addWork(Work work) {
         this.works.add(work);
+    }
+
+    public void setWorks(ArrayList<Work> works) {
+        this.works = works;
+    }
+
+    public void removeUnit(Unit unit) {
+        units.remove(unit);
     }
 }

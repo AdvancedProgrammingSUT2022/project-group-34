@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Stack;
-import models.unit.Settler;
-import models.unit.Unit;
-import models.unit.CombatUnit;
-import models.unit.NonCombatUnit;
+
+import models.Civilization;
+import models.tile.Improvement;
+import models.unit.*;
 import models.City;
 import models.tile.Tile;
 import models.Technology;
@@ -206,11 +206,6 @@ public class CivilizationController {
         //TODO
     }
 
-
-    public void foundCity(Settler settler) {
-        //TODO
-    }
-
     public void cancelMission(Unit unit) {
         //TODO
     }
@@ -223,9 +218,22 @@ public class CivilizationController {
         //TODO
     }
 
-    public void build(int[] position, String improvement) {
-        //TODO
+    public void build(Worker worker, String improvement) {
+        int[] position = {worker.getPosition().getX(),worker.getPosition().getX()};
+        Tile tile = GameController.getInstance().getGame().getMainGameMap().getTileByXY(position[0], position[1]);
+        Civilization civilization = GameController.getInstance().getCivilization();
+        civilization.addWork(new Work(tile.getCity(),tile,worker,"Build Improvement", Improvement.getAllImprovements().get(improvement)));
     }
+
+    public void foundCity(Settler settler, String name) {
+
+        Tile position = settler.getPosition();
+        Civilization civilization = GameController.getInstance().getCivilization();
+        civilization.addCities(name,civilization,position);
+        civilization.removeUnit(settler);
+
+    }
+
 
     public void removeItem(int[] position, String item) {
         //TODO

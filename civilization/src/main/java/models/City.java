@@ -10,7 +10,7 @@ public class City {
 
     private String name;
 
-    private Civilization owner;
+    private Civilization civilization;
     private Tile position;
 
     private Unit unitUnderProduct;
@@ -27,7 +27,7 @@ public class City {
 
     public City(String name, Civilization owner, Tile position , ArrayList<Tile> territory) {
         this.name = name;
-        this.owner = owner;
+        this.civilization = owner;
         this.position = position;
         this.territory = territory;
     }
@@ -40,12 +40,12 @@ public class City {
         this.name = name;
     }
 
-    public Civilization getOwner() {
-        return owner;
+    public Civilization getCivilization() {
+        return civilization;
     }
 
-    public void setOwner(Civilization owner) {
-        this.owner = owner;
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
     }
 
     public Tile getPosition() {

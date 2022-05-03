@@ -136,7 +136,7 @@ public class GameMap {
 
                 terrain = allTerrains.get("Plain");
                 feature = allFeatures.get("");
-                tile = new Tile( terrain, feature , i , j);
+                tile = new Tile( terrain, feature , i , j, city);
 
                 map.get(i).add(tile);
 

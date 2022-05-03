@@ -18,17 +18,17 @@ public class Work {
     private String type;
     private Improvement improvement = null;
 
-    public Work(City city, Tile tile, Worker worker, int tern, String type) {
+    public Work(City city, Tile tile, Worker worker, String type) {
 
         this.city = city;
         this.tile = tile;
         this.worker = worker;
-        this.tern = tern;
+        this.tern = getTern();
         this.type = type;
 
     }
 
-    public Work(City city, Tile tile, Worker worker, int tern, String type, Improvement improvement) {
+    public Work(City city, Tile tile, Worker worker, String type, Improvement improvement) {
 
         this.city = city;
         this.tile = tile;
@@ -80,5 +80,9 @@ public class Work {
                 tile.setLooted(false);
                 break;
         }
+    }
+
+    private int getTern() {
+        return 0;
     }
 }
