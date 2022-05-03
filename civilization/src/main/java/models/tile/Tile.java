@@ -1,5 +1,6 @@
 package models.tile;
 
+import models.City;
 import models.resource.Resource;
 import models.unit.NonCombatUnit;
 import models.unit.CombatUnit;
@@ -14,6 +15,7 @@ public class Tile {
     private Feature feature;
     private Improvement improvement = null;
     private Resource resource;
+    private City city;
 
     private String name;
     int foodRate;

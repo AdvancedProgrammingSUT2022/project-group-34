@@ -44,8 +44,8 @@ public class Work {
         this.worker = worker;
     }
 
-    public void StopWork(Worker worker){
-        this.worker = worker;
+    public void StopWork(){
+        this.worker = null;
     }
 
     public boolean update() {

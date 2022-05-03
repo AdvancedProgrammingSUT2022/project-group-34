@@ -128,6 +128,7 @@ public class GameMap {
         Terrain terrain;
         Feature feature;
         Tile tile;
+
         map = new ArrayList<>();
         for (int i = 0 ; i < mapHeight ; i++){
             map.add(new ArrayList<>());

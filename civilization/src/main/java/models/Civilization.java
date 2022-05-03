@@ -26,7 +26,10 @@ public class Civilization {
     private City currentCapital;
 
     private ArrayList<Notification> notifications;
+
     private HashMap<String, Resource> civilizationResources;
+    private HashMap<String, Integer> numberOfEachResource;
+    private HashMap<String, Integer> numberOfEachExchangedResource;
 
     private HashMap<String, Technology> civilizationResearchedTechnologies;
     private HashMap<String, Technology> civilizationNotResearchedTechnologies;
@@ -35,7 +38,6 @@ public class Civilization {
     private Technology studyingTechnology;
 
     private int gold;
-    private int food;
     private int production;
     private int happy;
 
@@ -192,14 +194,6 @@ public class Civilization {
 
     public void setProduction(int production) {
         this.production = production;
-    }
-
-    public int getFood() {
-        return food;
-    }
-
-    public void setFood(int food) {
-        this.food = food;
     }
 
 
