@@ -18,7 +18,7 @@ public class Work {
     private String type;
     private Improvement improvement = null;
 
-    public Work(City city, Tile tile, Worker worker, int tern, String type) {
+    public sWork(City city, Tile tile, Worker worker, int tern, String type) {
 
         this.city = city;
         this.tile = tile;
