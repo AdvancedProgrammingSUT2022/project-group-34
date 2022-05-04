@@ -90,7 +90,7 @@ public class CivilizationController {
             mark.put(currentVertex, true);
             ArrayList<Tile> adjacentVertices = currentVertex.getAdjacentTiles();
             for (Tile adjacentVertex : adjacentVertices) {
-                if (adjacentVertex.isUnmoveable() || mark.get(adjacentVertex)) continue;
+                if (adjacentVertex.isUnmovable() || mark.get(adjacentVertex)) continue;
                 int newDistance = distance.get(currentVertex) + 1;
                 if (distance.get(adjacentVertex) == null || distance.get(adjacentVertex) > newDistance) {
                     distance.put(adjacentVertex, newDistance);
@@ -124,7 +124,7 @@ public class CivilizationController {
             ArrayList<Boolean> isRiver = currentVertex.getIsRiver();
             for (int i = 0; i < adjacentVertices.size(); i++) {
                 Tile adjacentVertex = adjacentVertices.get(i);
-                if (adjacentVertex.isUnmoveable() || mark.get(adjacentVertex)) continue;
+                if (adjacentVertex.isUnmovable() || mark.get(adjacentVertex)) continue;
                 if (GameController.getInstance().getCivilization().isInFog(adjacentVertex)) continue;
                 int newDistance = distance.get(currentVertex) + calculateMotionCost(currentVertex, adjacentVertex);
                 if (isRiver.get(i) && !returnThePath) newDistance = motionPointLimit;

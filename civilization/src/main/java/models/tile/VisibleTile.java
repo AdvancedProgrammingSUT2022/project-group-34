@@ -1,5 +1,35 @@
 package models.tile;
 
+import models.unit.CombatUnit;
+import models.unit.NonCombatUnit;
+
 public class VisibleTile extends AbstractTile{
-    boolean isInFog = false;
+    boolean isInFog = true;
+
+    public VisibleTile() {
+        super();
+    }
+
+    public VisibleTile(Tile tile, boolean isInFog) {
+        super(tile);
+        this.isInFog = isInFog;
+    }
+
+    public void setInFog(boolean inFog) {
+        isInFog = inFog;
+    }
+
+    public boolean isInFog() {
+        return isInFog;
+    }
+
+    @Override
+    public CombatUnit getCombatUnit() {
+        return null;
+    }
+
+    @Override
+    public NonCombatUnit getNonCombatUnit() {
+        return null;
+    }
 }

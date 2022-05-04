@@ -51,14 +51,6 @@ public class Tile extends AbstractTile{
     }
 
 
-
-
-
-    public void deleteTerrainName() {
-        this.terrain = null;
-        setTileProperties();
-    }
-
     public void deleteFeature() {
         if (feature.name.equals("Jungle"))
             this.terrain = Terrain.Plain;
@@ -66,10 +58,6 @@ public class Tile extends AbstractTile{
         setTileProperties();
     }
 
-    public void deleteImprovement() {
-        this.improvement = null;
-        setTileProperties();
-    }
 
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
@@ -114,10 +102,6 @@ public class Tile extends AbstractTile{
         isLooted = looted;
     }
 
-    public void setInFog(boolean inFog) {
-        isInFog = inFog;
-    }
-
     public void setBlock(boolean block) {
         this.isBlock = block;
     }
@@ -134,67 +118,20 @@ public class Tile extends AbstractTile{
         return isLooted;
     }
 
-    public boolean isInFog() {
-        return isInFog;
-    }
-
     public boolean isBlock() {
         return isBlock;
     }
 
+    @Override
     public CombatUnit getCombatUnit() {
         return combatUnit;
     }
 
+    @Override
     public NonCombatUnit getNonCombatUnit() {
         return NonCombatUnit;
     }
 
-    public void setCombatUnit(NonCombatUnit combatUnit) {
-        this.NonCombatUnit = combatUnit;
-    }
-
-    public void setNonCombatUnit(CombatUnit combatUnit) {
-        this.combatUnit = combatUnit;
-    }
-
-    public void deleteCombatUnit() {
-        this.NonCombatUnit = null;
-    }
-
-    public void deleteNonCombatUnit() {
-        this.combatUnit = null;
-    }
-
-
-
-
-
-
-    public int getY() {
-        return y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-
-    public Terrain getTerrain() {
-        return terrain;
-    }
-
-    public Feature getFeature() {
-        return this.feature;
-    }
 
     public Improvement getImprovementName() {
         return improvement;
@@ -208,18 +145,10 @@ public class Tile extends AbstractTile{
         this.combatUnit = combatUnit;
     }
 
-    public ArrayList<Boolean> getIsRiver() {
-        return isRiver;
-    }
-
     public void addRiver(int index) {
         this.isRiver.set(index,true);
     }
 
-
-    public String getName() {
-        return name;
-    }
 
     public int getFoodRate() {
         return foodRate;
@@ -245,10 +174,6 @@ public class Tile extends AbstractTile{
         return impactOnWar;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setFoodRate(int foodRate) {
         this.foodRate = foodRate;
     }
@@ -269,16 +194,8 @@ public class Tile extends AbstractTile{
         this.impactOnWar = impactOnWar;
     }
 
-    public ArrayList<Tile> getAdjacentTiles() {
-        return adjacentTiles;
-    }
-
     public void setAdjacentTiles(ArrayList<Tile> adjacentTiles) {
         this.adjacentTiles = adjacentTiles;
-    }
-
-    public City getCity() {
-        return city;
     }
 
     public void setCity(City city) {
