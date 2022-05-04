@@ -1,123 +1,121 @@
 package models.tile;
 
+import models.City;
+import models.resource.Resource;
 import models.unit.NonCombatUnit;
 import models.unit.CombatUnit;
 
 import java.util.ArrayList;
 
-public class Tile extends Property{
+public class Tile {
 
-    public int x;
-    public int y;
-    public String terrainName;
-    public String featureName;
-    public String improvementName = null;
+    private int x;
+    private int y;
+    private Terrain terrain;
+    private Feature feature;
+    private Improvement improvement = null;
+    private Resource resource;
+    private City city;
 
-    public ArrayList<String> resources;
+    private String name;
+    int foodRate;
+    int goldRate;
+    int productionRate;
+    int movingCost;
+    int impactOnWar;
+    private boolean hasRoad = false;
+    private boolean hasRail = false;
+    private boolean isLooted = false;
+    private boolean isInFog = false;
+    boolean isBlock = false;
+    private ArrayList<Tile> adjacentTiles = new ArrayList<>();
+    private ArrayList<Boolean> isRiver = new ArrayList<>();
 
-    public boolean hasRoad = false;
-    public boolean hasRail = false;
-    public boolean isLooted = false;
-    public boolean isInFog = false;
-    public boolean canSeeBeyondHeights = false;
-    public ArrayList<Boolean> isRiver = new ArrayList<>();
+    private NonCombatUnit NonCombatUnit = null;
+    private CombatUnit combatUnit = null;
 
-    public NonCombatUnit NonCombatUnit = null;
-    public CombatUnit combatUnit = null;
-
-    public Tile(String terrainName, String featureName, int x, int y) {
+    public Tile(Terrain terrain, Feature feature, int x, int y, City city) {
         super();
-        this.terrainName = terrainName;
-        this.featureName = featureName;
+        this.terrain = terrain;
+        this.feature = feature;
         this.x = x;
         this.y = y;
+        this.city = city;
 
         for (int i = 0; i < 6; i++) isRiver.add(false);
         setTileProperties();
     }
 
+    private void setInit(){
+        foodRate = 0;
+        goldRate = 0;
+        productionRate = 0;
+        movingCost = 0;
+        impactOnWar = 0;
+        isBlock = false;
+    }
+
     public void setTileProperties(){
-        setTerrainProperties(this.terrainName);
-        setFeatureProperties(this.featureName);
-        setImprovementProperties(this.improvementName);
-    }
 
-    private void setTerrainProperties(String terrainName) {
-
-        if (terrainName == null) return;
-
-        this.terrainName = terrainName;
-        Terrain terrain = Terrain.allTerrains.get(terrainName);
-
-        this.foodRate       += terrain.foodRate;
-        this.goldRate       += terrain.goldRate;
-        this.productionRate += terrain.productionRate;
-        this.impactOnWar    += terrain.impactOnWar;
-        this.movingCost     += terrain.movingCost;
-        this.canSeeBeyondHeights |= terrain.canSeeBeyondHeights;
-    }
-
-    private void setFeatureProperties(String featureName) {
-        this.featureName = featureName;
-        Feature feature = Feature.allFeatures.get(featureName);
-
-        if(featureName.equals("Forest")){
-            this.foodRate       = 1;
-            this.goldRate       = 1;
+        setInit();
+        Terrain     .setTerrainProperties(this,this.terrain);
+        Feature     .setFeatureProperties(this,this.feature);
+        int flag = Improvement .setImprovementProperties(this,this.improvement);
+        if (flag == 1) {
+            foodRate += this.resource.getFoodBonus();
+            goldRate += this.resource.getGoldBonus();
+            productionRate += this.resource.getProductionBonus();
         }
-        else{
-            this.foodRate       += feature.foodRate;
-            this.goldRate       += feature.goldRate;
-        }
-
-        this.productionRate += feature.productionRate;
-        this.impactOnWar    += feature.impactOnWar;
-
-        if (feature.movingCost == -1 || this.movingCost == -1) this.movingCost = -1;
-        else this.movingCost += feature.movingCost;
-
     }
 
-    private void setImprovementProperties(String improvementName) {
-        this.improvementName = improvementName;
-        Improvement improvement = Improvement.allImprovements.get(improvementName);
-        this.foodRate       += improvement.foodRate;
-        this.goldRate       += improvement.goldRate;
-        this.productionRate += improvement.productionRate;
-    }
+
 
 
 
     public void deleteTerrainName() {
-        this.terrainName = null;
+        this.terrain = null;
         setTileProperties();
     }
 
-    public void deleteFeatureName() {
-        this.featureName = null;
-        if (featureName.equals("Jungle"))
-            this.terrainName = "Plain";
-
+    public void deleteFeature() {
+        if (feature.name.equals("Jungle"))
+            this.terrain = Terrain.Plain;
+        this.feature = null;
         setTileProperties();
     }
 
-    public void deleteImprovementName() {
-        this.featureName = null;
-        if (featureName.equals("Jungle"))
-            this.terrainName = "Plain";
+    public void deleteImprovement() {
+        this.improvement = null;
+        setTileProperties();
+    }
 
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
+        setTileProperties();
+    }
+
+    public void setFeature(Feature feature) {
+        this.feature = feature;
+        setTileProperties();
+    }
+
+    public void setImprovement(Improvement improvement) {
+        this.improvement = improvement;
         setTileProperties();
     }
 
 
 
 
-    public ArrayList<String> getResources() {
-        return resources;
+
+
+
+    public Resource getResource() {
+        return resource;
     }
 
-    public void setResources(ArrayList<String> resources) {
-        this.resources = resources;
+    public void setResources(Resource resource) {
+        this.resource = resource;
     }
 
 
@@ -138,8 +136,8 @@ public class Tile extends Property{
         isInFog = inFog;
     }
 
-    public void setCanSeeBeyondHeights(boolean canSeeBeyondHeights) {
-        this.canSeeBeyondHeights = canSeeBeyondHeights;
+    public void setBlock(boolean block) {
+        this.isBlock = block;
     }
 
     public boolean isHasRoad() {
@@ -158,8 +156,8 @@ public class Tile extends Property{
         return isInFog;
     }
 
-    public boolean isCanSeeBeyondHeights() {
-        return canSeeBeyondHeights;
+    public boolean isBlock() {
+        return isBlock;
     }
 
 
@@ -213,28 +211,16 @@ public class Tile extends Property{
     }
 
 
-    public void setTerrainName(String terrainName) {
-        this.terrainName = terrainName;
+    public Terrain getTerrain() {
+        return terrain;
     }
 
-    public void setFeatureName(String featureName) {
-        this.featureName = featureName;
+    public Feature getFeature() {
+        return this.feature;
     }
 
-    public void setImprovementName(String improvementName) {
-        this.improvementName = improvementName;
-    }
-
-    public String getTerrainName() {
-        return terrainName;
-    }
-
-    public String getFeatureName() {
-        return this.featureName;
-    }
-
-    public String getImprovementName() {
-        return improvementName;
+    public Improvement getImprovementName() {
+        return improvement;
     }
 
     public void setNonCombatUnit(models.unit.NonCombatUnit nonCombatUnit) {
@@ -254,4 +240,71 @@ public class Tile extends Property{
     }
 
 
+    public String getName() {
+        return name;
+    }
+
+    public int getFoodRate() {
+        return foodRate;
+    }
+
+    public int getGoldRate() {
+        return goldRate;
+    }
+
+    public int getProductionRate() {
+        return productionRate;
+    }
+
+    public int getMovingCost() {
+        return movingCost;
+    }
+
+    public boolean isUnmovable(){
+        return (movingCost == -1);
+    }
+
+    public int getImpactOnWar() {
+        return impactOnWar;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setFoodRate(int foodRate) {
+        this.foodRate = foodRate;
+    }
+
+    public void setGoldRate(int goldRate) {
+        this.goldRate = goldRate;
+    }
+
+    public void setProductionRate(int productionRate) {
+        this.productionRate = productionRate;
+    }
+
+    public void setMovingCost(int movingCast) {
+        this.movingCost = movingCast;
+    }
+
+    public void setImpactOnWar(int impactOnWar) {
+        this.impactOnWar = impactOnWar;
+    }
+
+    public ArrayList<Tile> getAdjacentTiles() {
+        return adjacentTiles;
+    }
+
+    public void setAdjacentTiles(ArrayList<Tile> adjacentTiles) {
+        this.adjacentTiles = adjacentTiles;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
 }

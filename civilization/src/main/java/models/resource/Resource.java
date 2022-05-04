@@ -1,6 +1,6 @@
 package models.resource;
 
-import models.tile.Terrain;
+import models.Technology;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,24 +11,16 @@ public class Resource {
     public static HashMap<String, ArrayList<String>> dataSheetLocationsOfResources;
     public static HashMap<String,Resource> allResources;
 
-    private ArrayList<String> requiredTechnologiesToBeUsable;
-    private String requiredImprovement;
     private String name;
-    private int foodBonus;
-    private int goldBonus;
-    private int productionBonus;
-    private boolean isUsable = false;
+    private String requiredImprovement;
+    private boolean isVisible;
     private boolean isExchangeable;
 
-    public Resource(ArrayList<String> requiredTechnologiesToBeUsable, String requiredImprovement, String name, int foodBonus, int goldBonus, int productionBonus, boolean isUsable, boolean isExchangeable) {
-        
-        this.requiredTechnologiesToBeUsable = requiredTechnologiesToBeUsable;
+    public Resource(String requiredImprovement, String name, boolean isVisible, boolean isExchangeable) {
+
         this.requiredImprovement = requiredImprovement;
         this.name = name;
-        this.foodBonus = foodBonus;
-        this.goldBonus = goldBonus;
-        this.productionBonus = productionBonus;
-        this.isUsable = isUsable;
+        this.isVisible= isVisible;
         this.isExchangeable = isExchangeable;
     }
 
@@ -38,15 +30,69 @@ public class Resource {
     }
 
     public static int createAllInstances(){
-        
-
 
         return 0;
     }
 
-    public void removeResearchedTechnologyToBeUsable(String technologyName) {
-        requiredTechnologiesToBeUsable.remove(technologyName);
+    public static HashMap<String, Resource> getAllResourcesCopy() {
+
+        HashMap<String, Resource> allResourcesCopy = new HashMap<>();
+
+        allResources.forEach((name,resource)->{
+            Resource resourceCopy = resource.clonResource();
+            allResourcesCopy.put(name,resourceCopy);
+        });
+
+        return allResourcesCopy;
     }
 
+
+
+
+
+    //todo
+    public Resource clonResource(){
+        return null;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getRequiredImprovement() {
+        return requiredImprovement;
+    }
+
+    public void setRequiredImprovement(String requiredImprovement) {
+        this.requiredImprovement = requiredImprovement;
+    }
+
+    public boolean isEqualsRequiredImprovement(String requiredImprovement) {
+        return this.requiredImprovement.equals(requiredImprovement);
+    }
+
+    public boolean deleteResearchedTechnology(String Improvement) {
+        return false;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public boolean isExchangeable() {
+        return isExchangeable;
+    }
+
+    public int getFoodBonus(){
+        return 0;
+    }
+
+    public int getGoldBonus(){
+        return 0;
+    }
+
+    public int getProductionBonus(){
+        return 0;
+    }
 
 }

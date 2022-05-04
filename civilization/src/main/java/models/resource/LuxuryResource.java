@@ -1,23 +1,23 @@
 package models.resource;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class LuxuryResource extends Resource{
 
-    private Boolean isPointAdded;
+    private int goldBonus;
 
-    public LuxuryResource(String name, ArrayList<String> requiredTechnologiesToBeUsable, String requiredImprovement,
-                          int foodBonus, int goldBonus, int productionBonus, boolean isUsable, boolean isExchangeable) {
-        super(requiredTechnologiesToBeUsable, requiredImprovement, name, foodBonus, goldBonus, productionBonus, isUsable, isExchangeable);
-        isPointAdded = false;
+    public LuxuryResource(String requiredImprovement, String name, int goldBonus) {
+        super(requiredImprovement, name, true, true);
+        this.goldBonus = goldBonus;
     }
 
-    public Boolean getPointAdded() {
-        return isPointAdded;
-    }
 
-    public void setPointAdded(Boolean pointAdded) {
-        isPointAdded = pointAdded;
+
+    @Override
+    public Resource clonResource(){
+        LuxuryResource luxuryResource = new LuxuryResource(getRequiredImprovement(),getName(), goldBonus);
+        return luxuryResource;
+    }
+    @Override
+    public int getGoldBonus() {
+        return goldBonus;
     }
 }

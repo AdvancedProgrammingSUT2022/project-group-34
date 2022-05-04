@@ -3,11 +3,15 @@ package models;
 import models.resource.Resource;
 import models.tile.Tile;
 import models.unit.Unit;
+import models.unit.Work;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Civilization {
+
+    private static int decreasedHappinessDueToTheFoundingOfTheCity = 4;
+
 
     private User player;
 
@@ -19,21 +23,26 @@ public class Civilization {
     private ArrayList<Tile> territory;
     private ArrayList<Tile> workingTiles;
     private ArrayList<Unit> units;
+    private ArrayList<Work> works;
 
     private City mainCapital;
     private City currentCapital;
 
     private ArrayList<Notification> notifications;
+
     private HashMap<String, Resource> civilizationResources;
-    private HashMap<String, Technology> civilizationTechnologies;
+    private HashMap<String, Integer> numberOfEachResource;
+    private HashMap<String, Integer> numberOfEachExchangedResource;
+
+    private HashMap<String, Technology> civilizationResearchedTechnologies;
+    private HashMap<String, Technology> civilizationNotResearchedTechnologies;
 
     private int numberOfBeakers;
     private Technology studyingTechnology;
 
     private int gold;
-    private int food;
     private int production;
-    private int happy;
+    private int happiness;
 
     public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Tile> territory, ArrayList<Unit> units, City mainCapital, HashMap<String, Resource> civilizationResources, HashMap<String, Technology> civilizationTechnologies, int numberOfBeakers, int gold, int happy, int production) {
         this.player = player;
@@ -43,13 +52,14 @@ public class Civilization {
         this.units = units;
         this.mainCapital = mainCapital;
         this.civilizationResources = civilizationResources;
-        this.civilizationTechnologies = civilizationTechnologies;
+        this.civilizationResearchedTechnologies    = Technology.getAllTechnologiesCopy();
+        this.civilizationNotResearchedTechnologies = new HashMap<>();
 
         this.numberOfBeakers = numberOfBeakers;
         this.studyingTechnology = null;
 
         this.gold = gold;
-        this.happy = happy;
+        this.happiness = happy;
         this.production = production;
     }
 
@@ -71,6 +81,14 @@ public class Civilization {
 
     public ArrayList<City> getCities() {
         return cities;
+    }
+
+    public void addCities(String name, Civilization civilization, Tile position) {
+        ArrayList<Tile> territory = new ArrayList<>();
+        territory.add(position);
+        territory.addAll(position.getAdjacentTiles());
+        cities.add(new City(name,civilization,position,territory));
+        this.happiness -= decreasedHappinessDueToTheFoundingOfTheCity;
     }
 
     public void setCities(ArrayList<City> cities) {
@@ -133,12 +151,20 @@ public class Civilization {
         this.civilizationResources = civilizationResources;
     }
 
-    public HashMap<String, Technology> getCivilizationTechnologies() {
-        return civilizationTechnologies;
+    public HashMap<String, Technology> getCivilizationResearchedTechnologies() {
+        return civilizationResearchedTechnologies;
     }
 
-    public void setCivilizationTechnologies(HashMap<String, Technology> civilizationTechnologies) {
-        this.civilizationTechnologies = civilizationTechnologies;
+    public void setCivilizationResearchedTechnologies(HashMap<String, Technology> civilizationResearchedTechnologies) {
+        this.civilizationResearchedTechnologies = civilizationResearchedTechnologies;
+    }
+
+    public HashMap<String, Technology> getCivilizationNotResearchedTechnologies() {
+        return civilizationNotResearchedTechnologies;
+    }
+
+    public void setCivilizationNotResearchedTechnologies(HashMap<String, Technology> civilizationNotResearchedTechnologies) {
+        this.civilizationNotResearchedTechnologies = civilizationNotResearchedTechnologies;
     }
 
     public int getNumberOfBeakers() {
@@ -165,12 +191,12 @@ public class Civilization {
         this.gold = gold;
     }
 
-    public int getHappy() {
-        return happy;
+    public int getHappiness() {
+        return happiness;
     }
 
-    public void setHappy(int happy) {
-        this.happy = happy;
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
     }
 
     public int getProduction() {
@@ -181,11 +207,20 @@ public class Civilization {
         this.production = production;
     }
 
-    public int getFood() {
-        return food;
+
+    public ArrayList<Work> getWorks() {
+        return works;
     }
 
-    public void setFood(int food) {
-        this.food = food;
+    public void addWork(Work work) {
+        this.works.add(work);
+    }
+
+    public void setWorks(ArrayList<Work> works) {
+        this.works = works;
+    }
+
+    public void removeUnit(Unit unit) {
+        units.remove(unit);
     }
 }

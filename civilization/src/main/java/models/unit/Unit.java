@@ -13,15 +13,18 @@ public abstract class Unit {
     public static int motionPointConstant;
     public static int healthConstant;
 
-    protected String name;
-    protected int movementSpeed;
-    protected int promotion;
-    protected int cost;
+    private String name;
+    private int movementSpeed;
+    private int promotion;
+    private int cost;
+    private int motionPoint;
 
-    protected int motionPoint;
+    private Stack<Tile> path;
+    private boolean isMoving;
+    private ArrayList<String> unitActionList;
 
-    protected Tile position;
-    protected Tile destination;
+    private Tile position;
+    private Tile destination;
 
     public Unit(String name, Tile position) {
         this.name = name;
@@ -124,5 +127,9 @@ public abstract class Unit {
         }
 
         return true;
+    }
+
+    public ArrayList<String> getUnitActionList() {
+        return unitActionList;
     }
 }
