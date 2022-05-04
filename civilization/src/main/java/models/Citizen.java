@@ -4,11 +4,12 @@ import models.tile.Tile;
 
 public class Citizen {
 
-    public boolean isWorking;
-    public Tile workPosition;
+    private boolean isWorking;
+    private Tile workPosition;
 
     public Citizen(Tile workPosition) {
         this.workPosition = workPosition;
+        isWorking = false;
     }
 
     public boolean isWorking() {

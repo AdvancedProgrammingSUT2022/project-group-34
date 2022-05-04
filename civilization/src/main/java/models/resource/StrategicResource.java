@@ -23,7 +23,7 @@ public class StrategicResource extends Resource{
     }
 
     @Override
-    public Resource clonResource(){
+    public Resource cloneResource(){
         StrategicResource strategicResource = new StrategicResource(getRequiredImprovement(),getName(), productionBonus, requiredTechnology);
         strategicResource.isVisible = this.isVisible;
         return strategicResource;
