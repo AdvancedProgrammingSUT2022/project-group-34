@@ -1,5 +1,7 @@
 package models.map;
 
+import models.tile.AbstractTile;
+
 public abstract class Map {
     protected int mapWidth;
     protected int mapHeight;
@@ -24,5 +26,8 @@ public abstract class Map {
         int r = y;
         return new int[]{q,r,-q-r};
     }
+
+    public abstract AbstractTile getTileByXY(int x, int y);
+    public abstract AbstractTile getTileByCube(int q, int r, int s);
 
 }

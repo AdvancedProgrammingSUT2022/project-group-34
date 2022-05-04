@@ -43,12 +43,7 @@ public class GameMap extends Map{
 
         ArrayList<Tile> tiles = new ArrayList<>();
 
-        tiles.add(getTileByCube(q+1,r+0,s-1));
-        tiles.add(getTileByCube(q+0,r+1,s-1));
-        tiles.add(getTileByCube(q-1,r+1,s+0));
-        tiles.add(getTileByCube(q-1,r+0,s+1));
-        tiles.add(getTileByCube(q+0,r-1,s+1));
-        tiles.add(getTileByCube(q+1,r-1,s+0));
+        for (int i = 0; i < 6; i++) tiles.add(getAdjacentTileByNumber(tile, i));
 
         tiles.removeAll(Collections.singleton(null));
         return tiles;

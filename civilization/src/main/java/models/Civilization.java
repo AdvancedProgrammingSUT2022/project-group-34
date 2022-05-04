@@ -1,6 +1,6 @@
 package models;
 
-import models.map.GameMap;
+import models.map.CivilizationMap;
 import models.resource.LuxuryResource;
 import models.resource.Resource;
 import models.tile.Tile;
@@ -19,7 +19,7 @@ public class Civilization {
 
     private String civilizationName;
 
-    private GameMap personalGameMap;
+    private CivilizationMap personalMap;
 
     private ArrayList<City> cities;
     private ArrayList<Tile> territory;
@@ -78,12 +78,12 @@ public class Civilization {
         this.civilizationName = civilizationName;
     }
 
-    public GameMap getPersonalGameMap() {
-        return personalGameMap;
+    public CivilizationMap getPersonalMap() {
+        return personalMap;
     }
 
-    public void setPersonalGameMap(GameMap personalGameMap) {
-        this.personalGameMap = personalGameMap;
+    public void setPersonalMap(CivilizationMap personalMap) {
+        this.personalMap = personalMap;
     }
 
     public ArrayList<City> getCities() {
@@ -238,8 +238,16 @@ public class Civilization {
         return works;
     }
 
+    public boolean isInFog(Tile tile) {
+        return personalMap.getTileByXY(tile.getX(), tile.getY()).isInFog();
+    }
+
     public void addWork(Work work) {
         this.works.add(work);
+    }
+
+    public void addCity(City city) {
+        this.cities.add(city);
     }
 
     public void removeUnit(Unit unit){
