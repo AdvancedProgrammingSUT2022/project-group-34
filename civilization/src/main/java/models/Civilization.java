@@ -242,6 +242,10 @@ public class Civilization {
         return personalMap.getTileByXY(tile.getX(), tile.getY()).isInFog();
     }
 
+    public boolean isTransparent(Tile tile) {
+        return personalMap.isTransparent(personalMap.getTileByXY(tile.getX(), tile.getY()));
+    }
+
     public void addWork(Work work) {
         this.works.add(work);
     }

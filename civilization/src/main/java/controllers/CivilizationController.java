@@ -240,6 +240,7 @@ public class CivilizationController {
                 }
             }
         }
+        //TODO handle hills
         return new ArrayList<>(ans);
     }
 

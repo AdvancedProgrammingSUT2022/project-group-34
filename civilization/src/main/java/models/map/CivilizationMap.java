@@ -1,13 +1,13 @@
 //besmellah
 package models.map;
 
-import models.tile.Tile;
 import models.tile.VisibleTile;
 
 import java.util.ArrayList;
 
 public class CivilizationMap extends Map {
     private ArrayList<ArrayList<VisibleTile>> map;
+    private ArrayList<VisibleTile> transparentTiles; //TODO at the start of each turn, determine this ArrayList.
 
     public CivilizationMap(int mapWidth, int mapHeight) {
         super(mapWidth, mapHeight);
@@ -28,5 +28,9 @@ public class CivilizationMap extends Map {
             return null;
 
         return map.get(x).get(y);
+    }
+
+    public boolean isTransparent(VisibleTile tile) {
+        return transparentTiles.contains(tile);
     }
 }
