@@ -86,6 +86,8 @@ public class Civilization {
     public void addCities(City city) {
         cities.add(city);
         this.happiness -= decreasedHappinessDueToTheFoundingOfTheCity;
+        if (cities.size()==1) setMainCapital(city);
+        getTerritory().addAll(city.getTerritory());
     }
 
     public void setCities(ArrayList<City> cities) {
