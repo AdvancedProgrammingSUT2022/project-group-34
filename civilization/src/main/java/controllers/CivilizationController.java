@@ -221,7 +221,7 @@ public class CivilizationController {
     private String isMoveValid(Unit unit, int[] destination) {
         Tile destinationTile = getTileByPosition(destination);
         if (!isPositionValid(destination)) return "invalid destination";
-//        else if (GameController.getInstance().getCivilization().isFogOfWar(destinationTile)) return "fog of war";
+        else if (GameController.getInstance().getCivilization().isInFog(destinationTile)) return "fog of war";
         else if (unit.getPosition() == destinationTile) return "already at the same tile";
         else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) return "destination occupied";
         else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit() != null)
@@ -312,9 +312,16 @@ public class CivilizationController {
                 return "too close";
         }
 
+        //Checks if city name is new
+        for (Civilization civilization1 : GameController.getInstance().getGame().getCivilizations()) {
+            if (civilization1.getCityByName(name) != null) return "duplicate name";
+        }
+
         ArrayList<Tile> territory = new ArrayList<>(adjacentTiles);
         territory.add(position);
-        civilization.addCity(new City(name, civilization, position, territory));
+        City city = new City(name, civilization, position, territory);
+        civilization.addCities(city);
+        position.setCity(city);
         civilization.removeUnit(settler);
         return "ok";
     }
@@ -337,8 +344,10 @@ public class CivilizationController {
         //TODO
     }
 
-    public void chooseCityProduction(City city, int index) {
-        //TODO
+    public void chooseCityProduction(City city, String unitType) {
+        Unit unit = GameController.getInstance().getCivilization().getProducibleUnits().get(unitType);
+        // TODO: check if resources are enough
+        city.setUnitUnderProduct(unit);
     }
 
     public void updateCivilizationAttributes() {
