@@ -260,16 +260,20 @@ public class Civilization {
         for (City city : cities)
             m += city.getCitizens().size();
 
-        this.happiness = happiness0 - (n + n * n / 8) - (m + m * m / 8);
+        this.happiness = happiness0 - (n + n*n/8) - (m + m*m/8);
 
         numberOfEachResource.forEach((key, value) -> {
 
             if (key instanceof LuxuryResource)
-                if (value - numberOfEachExchangedResource.get(key) != 0) {
+                if (value - numberOfEachExchangedResource.get(key) != 0){
                     happiness += happinessPerLuxuryResource;
                 }
         });
+
+    public void setProduction(int production) {
+        this.production = production;
     }
+
 
     public ArrayList<Work> getWorks() {
         return works;
@@ -277,9 +281,5 @@ public class Civilization {
 
     public void addWork(Work work) {
         this.works.add(work);
-    }
-
-    public void removeUnit(Unit unit){
-        units.remove(unit);
     }
 }

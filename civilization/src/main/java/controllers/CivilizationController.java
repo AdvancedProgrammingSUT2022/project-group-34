@@ -313,7 +313,7 @@ public class CivilizationController {
 
         ArrayList<Tile> territory = new ArrayList<>(adjacentTiles);
         territory.add(position);
-        civilization.addCity(new City(name, civilization, position, territory));
+        civilization.addCities(new City(name, civilization, position, territory));
         civilization.removeUnit(settler);
         return "ok";
     }
