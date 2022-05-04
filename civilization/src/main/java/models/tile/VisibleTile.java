@@ -10,8 +10,8 @@ public class VisibleTile extends AbstractTile{
         super();
     }
 
-    public VisibleTile(Tile tile, boolean isInFog) {
-        super(tile);
+    public VisibleTile(AbstractTile tile, boolean isInFog) {
+        super(tile.clone());
         this.isInFog = isInFog;
     }
 

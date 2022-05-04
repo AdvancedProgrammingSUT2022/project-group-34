@@ -21,7 +21,15 @@ public abstract class AbstractTile {
     }
 
     public AbstractTile(AbstractTile tile) {
-        this = tile.clone();
+        this.x = tile.x;
+        this.y = tile.y;
+        this.movingCost = tile.movingCost;
+        this.terrain = tile.terrain;
+        this.feature = tile.feature;;
+        this.city = tile.city;
+        this.adjacentTiles = tile.adjacentTiles;
+        this.isRiver = tile.isRiver;
+        this.isBlock = tile.isBlock;
     }
 
     public AbstractTile(Terrain terrain, Feature feature, int x, int y, City city) {
