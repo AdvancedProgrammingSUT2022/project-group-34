@@ -17,11 +17,12 @@ public class City {
     private Civilization civilization;
     private Tile position;
     private Unit unitUnderProduct;
+    private int  unitUnderProductTern;
     private boolean isGarrison;
 
     private ArrayList<Tile> territory;
-    private ArrayList<Citizen> citizens;
-    private ArrayList<Improvement> improvements;
+    private ArrayList<Citizen> citizens = new ArrayList<>();
+    private ArrayList<Improvement> improvements = new ArrayList<>();
 
     private int foodRate;
     private int food;
@@ -156,4 +157,18 @@ public class City {
         int n = numberOfCitizens;
         return n + n * n / 5;
     }
+
+    public void startProductUnit(Unit unit){
+        unitUnderProduct = unit;
+        unitUnderProductTern = 12;//TODO Unit.getTern(unit);
+    }
+
+    public boolean updateProductUnit(){
+        if (unitUnderProductTern == 0)
+            return true;
+        unitUnderProductTern--;
+        return false;
+    }
+
+
 }

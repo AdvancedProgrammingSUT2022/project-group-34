@@ -21,7 +21,7 @@ public class Civilization {
     private ArrayList<Tile> territory;
     private ArrayList<Tile> workingTiles;
     private ArrayList<Unit> units;
-    private ArrayList<Work> works;
+    private ArrayList<Work> works ;
 
     private City mainCapital;
     private City currentCapital;
@@ -29,8 +29,8 @@ public class Civilization {
     private ArrayList<Notification> notifications;
 
     private HashMap<String, Resource> civilizationResources;
-    private HashMap<Resource, Integer> numberOfEachResource;
-    private HashMap<String, Integer> numberOfEachExchangedResource;
+    private HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
+    private HashMap<String, Integer> numberOfEachExchangedResource = new HashMap<>();
 
     private HashMap<String, Technology> civilizationResearchedTechnologies;
     private HashMap<String, Technology> civilizationNotResearchedTechnologies;
@@ -54,6 +54,7 @@ public class Civilization {
         this.territory = territory;
         this.units = units;
         this.mainCapital = mainCapital;
+        this.works = new ArrayList<>();
         this.civilizationResources = Resource.getAllResourcesCopy();
         this.civilizationResearchedTechnologies    = Technology.getAllTechnologiesCopy();
         this.civilizationNotResearchedTechnologies = new HashMap<>();

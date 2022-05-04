@@ -1,11 +1,8 @@
 package models.unit;
 
 import models.City;
-import models.tile.Feature;
 import models.tile.Improvement;
 import models.tile.Tile;
-
-import javax.swing.*;
 
 public class Work {
 
@@ -18,7 +15,7 @@ public class Work {
     private String type;
     private Improvement improvement = null;
 
-    public sWork(City city, Tile tile, Worker worker, int tern, String type) {
+    public Work(City city, Tile tile, Worker worker, int tern, String type) {
 
         this.city = city;
         this.tile = tile;
@@ -51,7 +48,6 @@ public class Work {
     public boolean update() {
 
         if (this.tern == 0){
-            doWork();
             return true;
         }
 

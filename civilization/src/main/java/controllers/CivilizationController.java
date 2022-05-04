@@ -7,10 +7,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Stack;
-import models.unit.Settler;
-import models.unit.Unit;
-import models.unit.CombatUnit;
-import models.unit.NonCombatUnit;
+
+import models.Civilization;
+import models.unit.*;
 import models.City;
 import models.tile.Tile;
 import models.Technology;
@@ -255,4 +254,26 @@ public class CivilizationController {
     public void research(Technology technology) {
         //TODO
     }
+    public void updateCivilization(Civilization civilization){
+        for (City city : civilization.getCities())
+            updateCity(city);
+
+        for (Work work : civilization.getWorks())
+            if (work.update())
+                work.doWork();
+
+
+
+    }
+
+    public void updateCity(City city){
+        Civilization civilization = city.getCivilization();
+        city.updateFood(civilization.isUnHappy());
+        city.updateProduction();
+        city.updateCitizen();
+        boolean unitISReady = city.updateProductUnit();
+        if (unitISReady)
+            civilization.getUnits().add(city.getUnitUnderProduct());
+    }
+
 }
