@@ -9,40 +9,22 @@ import java.util.ArrayList;
 
 public class Tile extends AbstractTile{
 
-    private int x;
-    private int y;
-    private Terrain terrain;
-    private Feature feature;
     private Improvement improvement = null;
     private Resource resource;
-    private City city;
 
-    private String name;
     int foodRate;
     int goldRate;
     int productionRate;
-    int movingCost;
     int impactOnWar;
     private boolean hasRoad = false;
     private boolean hasRail = false;
     private boolean isLooted = false;
-    private boolean isInFog = false;
-    boolean isBlock = false;
-    private ArrayList<Tile> adjacentTiles = new ArrayList<>();
-    private ArrayList<Boolean> isRiver = new ArrayList<>();
 
     private NonCombatUnit NonCombatUnit = null;
     private CombatUnit combatUnit = null;
 
     public Tile(Terrain terrain, Feature feature, int x, int y, City city) {
-        super();
-        this.terrain = terrain;
-        this.feature = feature;
-        this.x = x;
-        this.y = y;
-        this.city = city;
-
-        for (int i = 0; i < 6; i++) isRiver.add(false);
+        super(terrain, feature, x, y, city);
         setTileProperties();
     }
 
