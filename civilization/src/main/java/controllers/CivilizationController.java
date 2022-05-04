@@ -234,7 +234,7 @@ public class CivilizationController {
         ans.add(tile);
         for (Tile adjacentTile : tile.getAdjacentTiles()) {
             ans.add(adjacentTile);
-            if (!adjacentTile.isBlock()) {
+            if (!adjacentTile.isBlock() || tile.isBlock()) {
                 for (Tile visibleTile : adjacentTile.getAdjacentTiles()) {
                     ans.add(visibleTile);
                 }
