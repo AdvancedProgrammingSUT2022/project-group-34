@@ -83,11 +83,8 @@ public class Civilization {
         return cities;
     }
 
-    public void addCities(String name, Civilization civilization, Tile position) {
-        ArrayList<Tile> territory = new ArrayList<>();
-        territory.add(position);
-        territory.addAll(position.getAdjacentTiles());
-        cities.add(new City(name,civilization,position,territory));
+    public void addCities(City city) {
+        cities.add(city);
         this.happiness -= decreasedHappinessDueToTheFoundingOfTheCity;
     }
 

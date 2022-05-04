@@ -30,11 +30,11 @@ public class CivilizationController {
         if (!isPositionValid(position))
             return "invalid position";
         if (unitType.equals("combat")) {
-            if (getTileByPosition(position).getCombatUnit()==null)
+            if (getTileByPosition(position).getCombatUnit() == null)
                 return "no such unit";
             else return unitType;
-        }else if (unitType.equals("noncombat")){
-            if (getTileByPosition(position).getNonCombatUnit()==null)
+        } else if (unitType.equals("noncombat")) {
+            if (getTileByPosition(position).getNonCombatUnit() == null)
                 return "no such unit";
             else return unitType;
         }
@@ -74,7 +74,7 @@ public class CivilizationController {
         distance.put(originTile, 0);
         previousInShortestPath.put(originTile, null);
         mark.put(originTile, false);
-        LinkedList <Tile> BFSQueue = new LinkedList<>();
+        LinkedList<Tile> BFSQueue = new LinkedList<>();
         BFSQueue.add(originTile);
         while (!BFSQueue.isEmpty()) {
             Tile currentVertex = BFSQueue.poll();
@@ -110,15 +110,18 @@ public class CivilizationController {
         //TODO handle river and road or railroad on river;
     }
 
-   private void moveToAdjacent(Unit unit, Tile tile) {
+    private void moveToAdjacent(Unit unit, Tile tile) {
         Tile currentTile = unit.getPosition();
-        if ((unit instanceof CombatUnit) && currentTile.getCombatUnit().equals(unit)) currentTile.setCombatUnit((CombatUnit)null);
-        else if ((unit instanceof NonCombatUnit) && currentTile.getNonCombatUnit().equals(unit)) currentTile.setNonCombatUnit((NonCombatUnit)null);
+        if ((unit instanceof CombatUnit) && currentTile.getCombatUnit().equals(unit))
+            currentTile.setCombatUnit((CombatUnit) null);
+        else if ((unit instanceof NonCombatUnit) && currentTile.getNonCombatUnit().equals(unit))
+            currentTile.setNonCombatUnit((NonCombatUnit) null);
         unit.setPosition(tile);
-        if (unit instanceof CombatUnit && tile.getCombatUnit() == null) tile.setCombatUnit((CombatUnit)unit);
-        else if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() == null) tile.setNonCombatUnit((NonCombatUnit)unit);
+        if (unit instanceof CombatUnit && tile.getCombatUnit() == null) tile.setCombatUnit((CombatUnit) unit);
+        else if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() == null)
+            tile.setNonCombatUnit((NonCombatUnit) unit);
 
-   }
+    }
 
     private void completeMoveForOneTurn(Unit unit) {
         Stack<Tile> path = unit.getPath();
@@ -142,7 +145,8 @@ public class CivilizationController {
         Tile originTile = unit.getPosition();
         Tile destinationTile = getTileByPosition(destination);
         Stack<Tile> path = getShortestPath(originTile, destinationTile);
-        if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile) return "no valid path";
+        if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile)
+            return "no valid path";
         unit.setPath(path);
         completeMoveForOneTurn(unit);
 
@@ -219,19 +223,29 @@ public class CivilizationController {
     }
 
     public void build(Worker worker, String improvement) {
-        int[] position = {worker.getPosition().getX(),worker.getPosition().getX()};
+        int[] position = {worker.getPosition().getX(), worker.getPosition().getX()};
         Tile tile = GameController.getInstance().getGame().getMainGameMap().getTileByXY(position[0], position[1]);
         Civilization civilization = GameController.getInstance().getCivilization();
-        civilization.addWork(new Work(tile.getCity(),tile,worker,"Build Improvement", Improvement.getAllImprovements().get(improvement)));
+        civilization.addWork(new Work(tile.getCity(), tile, worker, "Build Improvement", Improvement.getAllImprovements().get(improvement)));
     }
 
-    public void foundCity(Settler settler, String name) {
-
+    public String foundCity(Settler settler, String name) {
         Tile position = settler.getPosition();
+        ArrayList<Tile> adjacentTiles = position.getAdjacentTiles();
         Civilization civilization = GameController.getInstance().getCivilization();
-        civilization.addCities(name,civilization,position);
-        civilization.removeUnit(settler);
 
+        //Checks if settler is far enough from another civilization borders to found city
+        for (Tile adjacentTile : adjacentTiles) {
+            if (adjacentTile.getCity() != null &&
+                    !civilization.getCities().contains(adjacentTile.getCity()))
+                return "too close";
+        }
+
+        ArrayList<Tile> territory = new ArrayList<>(adjacentTiles);
+        territory.add(position);
+        civilization.addCities(new City(name, civilization, position, territory));
+        civilization.removeUnit(settler);
+        return "ok";
     }
 
 

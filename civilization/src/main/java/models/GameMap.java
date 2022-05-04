@@ -5,6 +5,7 @@ import models.tile.Terrain;
 import models.tile.Tile;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class GameMap {
@@ -68,6 +69,7 @@ public class GameMap {
         tiles.add(getTileByCube(q+0,r-1,s+1));
         tiles.add(getTileByCube(q+1,r-1,s+0));
 
+        tiles.removeAll(Collections.singleton(null));
         return tiles;
     }
 
