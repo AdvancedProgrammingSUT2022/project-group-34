@@ -1,5 +1,6 @@
 package models;
 
+import models.resource.LuxuryResource;
 import models.resource.Resource;
 import models.tile.Tile;
 import models.unit.Unit;
@@ -28,7 +29,7 @@ public class Civilization {
     private ArrayList<Notification> notifications;
 
     private HashMap<String, Resource> civilizationResources;
-    private HashMap<String, Integer> numberOfEachResource;
+    private HashMap<Resource, Integer> numberOfEachResource;
     private HashMap<String, Integer> numberOfEachExchangedResource;
 
     private HashMap<String, Technology> civilizationResearchedTechnologies;
@@ -38,17 +39,22 @@ public class Civilization {
     private Technology studyingTechnology;
 
     private int gold;
-    private int production;
-    private int happy;
+    private int goldRate;
+    private int happiness;
+    private int happiness0;
+    private int happinessPerLuxuryResource = 4;
+    private int unitMaintenanceCost = 2;
+    private int roadMaintenanceCost = 1;
+    private int railMaintenanceCost = 1;
 
-    public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Tile> territory, ArrayList<Unit> units, City mainCapital, HashMap<String, Resource> civilizationResources, HashMap<String, Technology> civilizationTechnologies, int numberOfBeakers, int gold, int happy, int production) {
+    public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Tile> territory, ArrayList<Unit> units, City mainCapital, int numberOfBeakers, int gold, int happiness, int happiness0) {
         this.player = player;
         this.civilizationName = civilizationName;
         this.cities = cities;
         this.territory = territory;
         this.units = units;
         this.mainCapital = mainCapital;
-        this.civilizationResources = civilizationResources;
+        this.civilizationResources = Resource.getAllResourcesCopy();
         this.civilizationResearchedTechnologies    = Technology.getAllTechnologiesCopy();
         this.civilizationNotResearchedTechnologies = new HashMap<>();
 
@@ -56,8 +62,8 @@ public class Civilization {
         this.studyingTechnology = null;
 
         this.gold = gold;
-        this.happy = happy;
-        this.production = production;
+        this.happiness0 = happiness0;
+        this.happiness = happiness;
     }
 
     public String getCivilizationName() {
@@ -176,24 +182,53 @@ public class Civilization {
         return gold;
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
+    public void updateGold() {
+
+        this.goldRate = 0;
+        for (City city : cities)
+            for (Citizen citizen : city.getCitizens())
+                if (citizen.isWorking())
+                    goldRate += citizen.getWorkPosition().getGoldRate();
+
+        for (Unit unit : units) {
+            goldRate -= unitMaintenanceCost;
+        }
+
+        for (Tile tile : territory) {
+            if (tile.isHasRoad())
+                goldRate -= roadMaintenanceCost;
+            if (tile.isHasRail())
+                goldRate -= railMaintenanceCost;
+        }
+
+
+        this.gold += this.goldRate;
     }
 
-    public int getHappy() {
-        return happy;
+    public int getHappiness() {
+        return happiness;
     }
 
-    public void setHappy(int happy) {
-        this.happy = happy;
+    public boolean isUnHappy(){
+        return happiness < 0;
     }
 
-    public int getProduction() {
-        return production;
-    }
+    public void setHappiness() {
+        int n = cities.size();
+        int m = 0;
+        for (City city : cities)
+            m += city.getCitizens().size();
 
-    public void setProduction(int production) {
-        this.production = production;
+        this.happiness = happiness0 - (n + n*n/8) - (m + m*m/8);
+
+        numberOfEachResource.forEach((key, value) -> {
+
+            if (key instanceof LuxuryResource)
+                if (value - numberOfEachExchangedResource.get(key) != 0){
+                    happiness += happinessPerLuxuryResource;
+                }
+        });
+
     }
 
 

@@ -2,27 +2,30 @@ package models;
 
 import models.tile.Improvement;
 import models.tile.Tile;
+import models.unit.Settler;
 import models.unit.Unit;
 
 import java.util.ArrayList;
 
 public class City {
 
+    private static int foodPerCitizens = 2;
+
+
     private String name;
 
     private Civilization civilization;
     private Tile position;
-
     private Unit unitUnderProduct;
-
     private boolean isGarrison;
 
     private ArrayList<Tile> territory;
     private ArrayList<Citizen> citizens;
     private ArrayList<Improvement> improvements;
 
+    private int foodRate;
     private int food;
-    private int gold;
+    private int productionRate;
     private int production;
 
     public City(String name, Civilization owner, Tile position , ArrayList<Tile> territory) {
@@ -84,16 +87,47 @@ public class City {
         return food;
     }
 
-    public void setFood(int food) {
-        this.food = food;
+    public void updateFood(boolean Dissatisfaction) {
+
+        foodRate = 0;
+        for (Citizen citizen : citizens)
+            foodRate += citizen.getWorkPosition().getFoodRate();
+        if (Dissatisfaction)
+            foodRate -= food*67/100;
+        if (unitUnderProduct instanceof Settler)
+            foodRate = 0;
+        foodRate -= foodPerCitizens * citizens.size();
+
+        this.food += foodRate;
     }
 
-    public int getGold() {
-        return gold;
+    // must run after updateFood
+    public int updateCitizen(){
+
+        if (this.food < 0){
+            int number = citizens.size() - (foodPerCitizens*citizens.size() + food)/foodPerCitizens;
+            for (int i = 0; i < number; i++)
+                citizens.remove(0);
+            this.food += number * foodPerCitizens;
+            return -number;
+        }
+
+        if (this.food >= getRequiredFoodToProductUnit(citizens.size())) {
+            this.food -= getRequiredFoodToProductUnit(citizens.size());
+            citizens.add(new Citizen(null));
+            return 1;
+        }
+        return 0;
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
+    public void updateProduction(){
+        productionRate = 0;
+        for (Citizen citizen : citizens) {
+            if (citizen.isWorking())
+                productionRate += citizen.getWorkPosition().getProductionRate();
+        }
+        production += productionRate;
+
     }
 
     public int getProduction() {
@@ -117,5 +151,9 @@ public class City {
     }
     public void addImprovement(Improvement improvement) {
         this.improvements.add(improvement);
+    }
+    public int getRequiredFoodToProductUnit(int numberOfCitizens){
+        int n = numberOfCitizens;
+        return n + n * n / 5;
     }
 }

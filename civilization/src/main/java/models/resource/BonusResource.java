@@ -12,7 +12,7 @@ public class BonusResource extends Resource{
 
 
     @Override
-    public Resource clonResource(){
+    public Resource cloneResource(){
         BonusResource bonusResource = new BonusResource(getRequiredImprovement(),getName(), foodBonus);
         return bonusResource;
     }
