@@ -1,5 +1,6 @@
 package models;
 
+import models.resource.LuxuryResource;
 import models.resource.Resource;
 import models.tile.Tile;
 import models.unit.Unit;
@@ -31,7 +32,7 @@ public class Civilization {
     private ArrayList<Notification> notifications;
 
     private HashMap<String, Resource> civilizationResources;
-    private HashMap<String, Integer> numberOfEachResource;
+    private HashMap<Resource, Integer> numberOfEachResource;
     private HashMap<String, Integer> numberOfEachExchangedResource;
 
     private HashMap<String, Technology> civilizationResearchedTechnologies;
@@ -41,17 +42,29 @@ public class Civilization {
     private Technology studyingTechnology;
 
     private int gold;
+<<<<<<< HEAD
     private int production;
     private int happiness;
 
     public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Tile> territory, ArrayList<Unit> units, City mainCapital, HashMap<String, Resource> civilizationResources, HashMap<String, Technology> civilizationTechnologies, int numberOfBeakers, int gold, int happy, int production) {
+=======
+    private int goldRate;
+    private int happiness;
+    private int happiness0;
+    private int happinessPerLuxuryResource = 4;
+    private int unitMaintenanceCost = 2;
+    private int roadMaintenanceCost = 1;
+    private int railMaintenanceCost = 1;
+
+    public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Tile> territory, ArrayList<Unit> units, City mainCapital, int numberOfBeakers, int gold, int happiness, int happiness0) {
+>>>>>>> e471f5659063c59aedd91973e4ac849ef439bd7c
         this.player = player;
         this.civilizationName = civilizationName;
         this.cities = cities;
         this.territory = territory;
         this.units = units;
         this.mainCapital = mainCapital;
-        this.civilizationResources = civilizationResources;
+        this.civilizationResources = Resource.getAllResourcesCopy();
         this.civilizationResearchedTechnologies    = Technology.getAllTechnologiesCopy();
         this.civilizationNotResearchedTechnologies = new HashMap<>();
 
@@ -59,8 +72,13 @@ public class Civilization {
         this.studyingTechnology = null;
 
         this.gold = gold;
+<<<<<<< HEAD
         this.happiness = happy;
         this.production = production;
+=======
+        this.happiness0 = happiness0;
+        this.happiness = happiness;
+>>>>>>> e471f5659063c59aedd91973e4ac849ef439bd7c
     }
 
     public String getCivilizationName() {
@@ -187,24 +205,62 @@ public class Civilization {
         return gold;
     }
 
-    public void setGold(int gold) {
-        this.gold = gold;
-    }
+    public void updateGold() {
 
+        this.goldRate = 0;
+        for (City city : cities)
+            for (Citizen citizen : city.getCitizens())
+                if (citizen.isWorking())
+                    goldRate += citizen.getWorkPosition().getGoldRate();
+
+        for (Unit unit : units) {
+            goldRate -= unitMaintenanceCost;
+        }
+
+<<<<<<< HEAD
     public int getHappiness() {
         return happiness;
     }
 
     public void setHappiness(int happiness) {
         this.happiness = happiness;
+=======
+        for (Tile tile : territory) {
+            if (tile.isHasRoad())
+                goldRate -= roadMaintenanceCost;
+            if (tile.isHasRail())
+                goldRate -= railMaintenanceCost;
+        }
+
+
+        this.gold += this.goldRate;
     }
 
-    public int getProduction() {
-        return production;
+    public int getHappiness() {
+        return happiness;
+>>>>>>> e471f5659063c59aedd91973e4ac849ef439bd7c
     }
 
-    public void setProduction(int production) {
-        this.production = production;
+    public boolean isUnHappy(){
+        return happiness < 0;
+    }
+
+    public void setHappiness() {
+        int n = cities.size();
+        int m = 0;
+        for (City city : cities)
+            m += city.getCitizens().size();
+
+        this.happiness = happiness0 - (n + n*n/8) - (m + m*m/8);
+
+        numberOfEachResource.forEach((key, value) -> {
+
+            if (key instanceof LuxuryResource)
+                if (value - numberOfEachExchangedResource.get(key) != 0){
+                    happiness += happinessPerLuxuryResource;
+                }
+        });
+
     }
 
 

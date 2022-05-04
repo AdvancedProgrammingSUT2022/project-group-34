@@ -18,7 +18,11 @@ public class Work {
     private String type;
     private Improvement improvement = null;
 
+<<<<<<< HEAD
     public Work(City city, Tile tile, Worker worker, String type) {
+=======
+    public sWork(City city, Tile tile, Worker worker, int tern, String type) {
+>>>>>>> e471f5659063c59aedd91973e4ac849ef439bd7c
 
         this.city = city;
         this.tile = tile;

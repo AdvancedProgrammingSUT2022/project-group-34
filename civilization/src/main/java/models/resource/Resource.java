@@ -1,7 +1,5 @@
 package models.resource;
 
-import models.Technology;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -39,7 +37,7 @@ public class Resource {
         HashMap<String, Resource> allResourcesCopy = new HashMap<>();
 
         allResources.forEach((name,resource)->{
-            Resource resourceCopy = resource.clonResource();
+            Resource resourceCopy = resource.cloneResource();
             allResourcesCopy.put(name,resourceCopy);
         });
 
@@ -51,7 +49,7 @@ public class Resource {
 
 
     //todo
-    public Resource clonResource(){
+    public Resource cloneResource(){
         return null;
     }
 
