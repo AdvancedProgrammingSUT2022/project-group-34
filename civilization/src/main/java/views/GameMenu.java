@@ -1,8 +1,11 @@
 package views;
 
 import controllers.CivilizationController;
+import controllers.GameController;
 import models.City;
 import models.Civilization;
+import models.Game;
+import models.tile.Tile;
 import models.unit.CombatUnit;
 import models.unit.NonCombatUnit;
 import models.unit.Unit;
@@ -33,29 +36,32 @@ public class GameMenu extends Menu {
     }
 
 
-    private static void handleInfoCategoryCommand(Processor processor) {
-        // TODO: 4/21/2022
-    }
-
-
     //Handles commands that start with "select unit"
     private static void handleSelectCategoryCommand(Processor processor) {
         String x = processor.get("x");
         String y = processor.get("y");
+        String name = processor.get("nickname");
 
-        if (processor.getSection() == null ||
-                processor.getSubSection() == null ||
-                !processor.getSection().equals("unit") ||
-                (!processor.getSubSection().equals("combat") && !processor.getSubSection().equals("noncombat")) ||
-                x == null ||
-                y == null ||
-                processor.getNumberOfFields() != 2) {
+        if (processor.getSection() == null)
             invalidCommand();
-            return;
-        }
-
-        int[] position = {Integer.parseInt(x), Integer.parseInt(y)};
-        selectUnit(position, processor.getSubSection());
+        else if (processor.getSection().equals("unit")) {
+            if (x == null || y == null ||
+                    processor.getNumberOfFields() != 2 ||
+                    processor.getSubSection() == null ||
+                    (!processor.getSubSection().equals("combat") && !processor.getSubSection().equals("noncombat")))
+                invalidCommand();
+            else selectUnit(new int[]{Integer.parseInt(x), Integer.parseInt(y)}, processor.getSubSection());
+        } else if (processor.getSection().equals("city")) {
+            if (processor.getSubSection() != null) invalidCommand();
+            else if (x != null) {
+                if (y == null || processor.getNumberOfFields() != 2) invalidCommand();
+                else selectCity(new int[]{Integer.parseInt(x), Integer.parseInt(y)});
+            } else if (name != null) {
+                if (processor.getNumberOfFields() != 1) invalidCommand();
+                else selectCity(name);
+            } else invalidCommand();
+        } else
+            invalidCommand();
     }
 
     //Checks what to print based on the position and unit type
@@ -71,14 +77,54 @@ public class GameMenu extends Menu {
             case "combat":
                 selectedCombatUnit = CivilizationController.getInstance().getCombatUnitByPosition(position);
                 selectedNonCombatUnit = null;
+                selectedCity = null;
                 System.out.println("Combat unit selected");
                 break;
             case "noncombat":
                 selectedNonCombatUnit = CivilizationController.getInstance().getNonCombatUnitByPosition(position);
                 selectedCombatUnit = null;
+                selectedCity = null;
                 System.out.println("Noncombat unit selected");
                 break;
         }
+    }
+
+
+    //Checks conditions for selecting city in position
+    private static void selectCity(int[] position) {
+        Tile tile = CivilizationController.getInstance().getTileByPosition(position);
+        City city = tile.getCity();
+
+        if (tile.getCity() == null)
+            System.out.println("There is no city in the selected area");
+        else if (!GameController.getInstance().getCivilization().getCities().contains(city))
+            System.out.println("This city is not in your territory");
+        else {
+            selectedCity = city;
+            selectedCombatUnit = null;
+            selectedNonCombatUnit = null;
+            System.out.format("%s city is selected\n", city.getName());
+        }
+    }
+
+
+    //Checks conditions for selecting city with "name"
+    private static void selectCity(String name) {
+        City city;
+
+        for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
+            if ((city = civilization.getCityByName(name)) != null) {
+                if (civilization == GameController.getInstance().getCivilization()) {
+                    selectedCity = city;
+                    selectedCombatUnit = null;
+                    selectedNonCombatUnit = null;
+                    System.out.format("%s city is selected\n", city.getName());
+                } else System.out.println("This city is not in your territory");
+
+                return;
+            }
+        }
+        System.out.format("There is no city named %s\n", name);
     }
 
 
@@ -123,6 +169,11 @@ public class GameMenu extends Menu {
                 selectedNonCombatUnit = null;
                 break;
         }
+    }
+
+
+    private static void handleInfoCategoryCommand(Processor processor) {
+        // TODO: 4/21/2022
     }
 
 

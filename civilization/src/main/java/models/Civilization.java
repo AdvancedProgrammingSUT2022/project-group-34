@@ -36,6 +36,7 @@ public class Civilization {
 
     private HashMap<String, Technology> civilizationResearchedTechnologies;
     private HashMap<String, Technology> civilizationNotResearchedTechnologies;
+    private HashMap<String, Unit> producibleUnits;
 
     private int numberOfBeakers;
     private Technology studyingTechnology;
@@ -87,7 +88,7 @@ public class Civilization {
         cities.add(city);
         this.happiness -= decreasedHappinessDueToTheFoundingOfTheCity;
         if (cities.size()==1) setMainCapital(city);
-        getTerritory().addAll(city.getTerritory());
+        this.getTerritory().addAll(city.getTerritory());
     }
 
     public void setCities(ArrayList<City> cities) {
@@ -206,6 +207,22 @@ public class Civilization {
         this.production = production;
     }
 
+    public HashMap<String, Unit> getProducibleUnits() {
+        return producibleUnits;
+    }
+
+    public void setProducibleUnits(HashMap<String, Unit> producibleUnits) {
+        this.producibleUnits = producibleUnits;
+    }
+
+
+
+    public City getCityByName(String name){
+        for (City city : cities) {
+            if (city.getName().equals(name)) return city;
+        }
+        return null;
+    }
 
     public ArrayList<Work> getWorks() {
         return works;
