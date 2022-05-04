@@ -243,8 +243,7 @@ public class CivilizationController {
 
         //Checks if city name is new
         for (Civilization civilization1 : GameController.getInstance().getGame().getCivilizations()) {
-            if (civilization1.getCityByName(name)!=null)
-                return "duplicate name";
+            if (civilization1.getCityByName(name) != null) return "duplicate name";
         }
 
         ArrayList<Tile> territory = new ArrayList<>(adjacentTiles);
@@ -276,6 +275,7 @@ public class CivilizationController {
 
     public void chooseCityProduction(City city, String unitType) {
         Unit unit = GameController.getInstance().getCivilization().getProducibleUnits().get(unitType);
+        // TODO: check if resources are enough
         city.setUnitUnderProduct(unit);
     }
 
