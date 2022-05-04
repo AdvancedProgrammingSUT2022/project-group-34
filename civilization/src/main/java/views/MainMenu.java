@@ -6,6 +6,8 @@ import models.Game;
 import models.User;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainMenu extends Menu {
@@ -47,7 +49,7 @@ public class MainMenu extends Menu {
     //Starts a game between logged-in user and users in the command
     //play game --player1 <username> --player2 <username>
     private static void startNewGame(Processor processor) {
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<User> users = new ArrayList<>(List.of(UserController.getInstance().getLoggedInUser()));
 
         for (int i = 1; i < processor.getNumberOfFields() + 1; i++) {
             if (processor.get("player" + i) == null) {
