@@ -74,12 +74,6 @@ public class Tile extends AbstractTile{
         setTileProperties();
     }
 
-
-
-
-
-
-
     public Resource getResource() {
         return resource;
     }
@@ -106,7 +100,7 @@ public class Tile extends AbstractTile{
         this.isBlock = block;
     }
 
-    public boolean isHasRoad() {
+    public boolean HasRoad() {
         return hasRoad;
     }
 

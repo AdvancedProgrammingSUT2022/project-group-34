@@ -1,5 +1,6 @@
 package models;
 
+import models.map.GameMap;
 import models.resource.LuxuryResource;
 import models.resource.Resource;
 import models.tile.Tile;
@@ -42,15 +43,6 @@ public class Civilization {
     private Technology studyingTechnology;
 
     private int gold;
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private int production;
-    private int happiness;
-
-    public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Tile> territory, ArrayList<Unit> units, City mainCapital, HashMap<String, Resource> civilizationResources, HashMap<String, Technology> civilizationTechnologies, int numberOfBeakers, int gold, int happy, int production) {
-=======
-=======
->>>>>>> 04826e8f7c90fc902ad1c77836c97178bf38eae1
     private int goldRate;
     private int happiness;
     private int happiness0;
@@ -60,10 +52,6 @@ public class Civilization {
     private int railMaintenanceCost = 1;
 
     public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Tile> territory, ArrayList<Unit> units, City mainCapital, int numberOfBeakers, int gold, int happiness, int happiness0) {
-<<<<<<< HEAD
->>>>>>> e471f5659063c59aedd91973e4ac849ef439bd7c
-=======
->>>>>>> 04826e8f7c90fc902ad1c77836c97178bf38eae1
         this.player = player;
         this.civilizationName = civilizationName;
         this.cities = cities;
@@ -78,18 +66,8 @@ public class Civilization {
         this.studyingTechnology = null;
 
         this.gold = gold;
-<<<<<<< HEAD
-<<<<<<< HEAD
-        this.happiness = happy;
-        this.production = production;
-=======
         this.happiness0 = happiness0;
         this.happiness = happiness;
->>>>>>> e471f5659063c59aedd91973e4ac849ef439bd7c
-=======
-        this.happiness0 = happiness0;
-        this.happiness = happiness;
->>>>>>> 04826e8f7c90fc902ad1c77836c97178bf38eae1
     }
 
     public String getCivilizationName() {
@@ -220,21 +198,10 @@ public class Civilization {
             goldRate -= unitMaintenanceCost;
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public int getHappiness() {
-        return happiness;
-    }
-
-    public void setHappiness(int happiness) {
-        this.happiness = happiness;
-=======
-=======
->>>>>>> 04826e8f7c90fc902ad1c77836c97178bf38eae1
         for (Tile tile : territory) {
-            if (tile.isHasRoad())
+            if (tile.HasRoad())
                 goldRate -= roadMaintenanceCost;
-            if (tile.isHasRail())
+            if (tile.HasRail())
                 goldRate -= railMaintenanceCost;
         }
 
@@ -244,10 +211,6 @@ public class Civilization {
 
     public int getHappiness() {
         return happiness;
-<<<<<<< HEAD
->>>>>>> e471f5659063c59aedd91973e4ac849ef439bd7c
-=======
->>>>>>> 04826e8f7c90fc902ad1c77836c97178bf38eae1
     }
 
     public boolean isUnHappy(){
@@ -260,20 +223,16 @@ public class Civilization {
         for (City city : cities)
             m += city.getCitizens().size();
 
-        this.happiness = happiness0 - (n + n*n/8) - (m + m*m/8);
+        this.happiness = happiness0 - (n + n * n / 8) - (m + m * m / 8);
 
         numberOfEachResource.forEach((key, value) -> {
 
             if (key instanceof LuxuryResource)
-                if (value - numberOfEachExchangedResource.get(key) != 0){
+                if (value - numberOfEachExchangedResource.get(key) != 0) {
                     happiness += happinessPerLuxuryResource;
                 }
         });
-
-    public void setProduction(int production) {
-        this.production = production;
     }
-
 
     public ArrayList<Work> getWorks() {
         return works;
@@ -281,5 +240,9 @@ public class Civilization {
 
     public void addWork(Work work) {
         this.works.add(work);
+    }
+
+    public void removeUnit(Unit unit){
+        units.remove(unit);
     }
 }

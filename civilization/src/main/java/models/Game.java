@@ -1,5 +1,6 @@
 package models;
 
+import models.map.GameMap;
 import models.resource.Resource;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package models;
+package models.map;
 
 import models.tile.Feature;
 import models.tile.Terrain;
@@ -8,31 +8,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class GameMap {
+public class GameMap extends Map{
 
     private ArrayList<ArrayList<Tile>> map;
-    private int mapWidth;
-    private int mapHeight;
 
     public GameMap(int mapWidth, int mapHeight) {
-        this.mapWidth = mapWidth;
-        this.mapHeight = mapHeight;
-    }
-
-    public static int[] getS(int q, int r){
-        return new int[]{q, r, -r - q};
-    }
-
-    public static int[] cubeToXY(int q, int r , int s){
-        int y = r;
-        int x = q + (r - (r&1))/2;
-        return new int[]{x, y};
-    }
-
-    public static int[] XYToCube(int x, int y){
-        int q = x - (y - (y&1))/2;
-        int r = y;
-        return new int[]{q,r,-q-r};
+        super(mapWidth, mapHeight);
     }
 
     public Tile getTileByXY(int x, int y){
