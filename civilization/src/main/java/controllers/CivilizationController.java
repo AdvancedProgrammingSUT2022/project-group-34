@@ -151,7 +151,7 @@ public class CivilizationController {
         unit.setPosition(tile);
         if (unit instanceof CombatUnit && tile.getCombatUnit() == null) tile.setCombatUnit((CombatUnit)unit);
         else if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() == null) tile.setNonCombatUnit((NonCombatUnit)unit);
-
+        //TODO exit from fog of war
     }
 
     private boolean isPathValid(Stack<Tile> path, Tile originTile, Tile destinationTile, Unit unit) {

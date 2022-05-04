@@ -7,7 +7,7 @@ import models.unit.CombatUnit;
 
 import java.util.ArrayList;
 
-public class Tile {
+public class Tile extends AbstractTile{
 
     private int x;
     private int y;
@@ -144,7 +144,7 @@ public class Tile {
         return hasRoad;
     }
 
-    public boolean isHasRail() {
+    public boolean HasRail() {
         return hasRail;
     }
 
@@ -159,11 +159,6 @@ public class Tile {
     public boolean isBlock() {
         return isBlock;
     }
-
-
-
-
-
 
     public CombatUnit getCombatUnit() {
         return combatUnit;
