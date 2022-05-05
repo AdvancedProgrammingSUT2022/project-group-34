@@ -1,7 +1,10 @@
 package models.resource;
 
+import java.util.ArrayList;
+
 public class StrategicResource extends Resource{
 
+    private static ArrayList<StrategicResource> allStrategicResource = new ArrayList<>();
     private String requiredTechnology;
     private boolean isVisible;
     private int productionBonus;
@@ -32,5 +35,18 @@ public class StrategicResource extends Resource{
     @Override
     public int getProductionBonus(){
         return productionBonus;
+    }
+
+
+    public static void createAllInstance(){
+        allStrategicResource.add(new StrategicResource("coal"    ,"Banana"   ,1,""));
+        allStrategicResource.add(new StrategicResource("Horse"    ,"Cow"      ,1,""));
+        allStrategicResource.add(new StrategicResource("Iron"   ,"Gazelle"  ,1,""));
+    }
+
+    public static ArrayList<StrategicResource> getAllLuxuryResource(){
+        if (allStrategicResource.size() == 0)
+            createAllInstance();
+        return new ArrayList<>(allStrategicResource);
     }
 }

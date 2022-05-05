@@ -10,6 +10,7 @@ import java.util.Stack;
 
 import models.Civilization;
 import models.tile.Improvement;
+
 import models.unit.*;
 import models.City;
 import models.tile.Tile;
@@ -357,4 +358,26 @@ public class CivilizationController {
     public void research(Technology technology) {
         //TODO
     }
+    public void updateCivilization(Civilization civilization){
+        for (City city : civilization.getCities())
+            updateCity(city);
+
+        for (Work work : civilization.getWorks())
+            if (work.update())
+                work.doWork();
+
+
+
+    }
+
+    public void updateCity(City city){
+        Civilization civilization = city.getCivilization();
+        city.updateFood(civilization.isUnHappy());
+        city.updateProduction();
+        city.updateCitizen();
+        boolean unitISReady = city.updateProductUnit();
+        if (unitISReady)
+            civilization.getUnits().add(city.getUnitUnderProduct());
+    }
+
 }

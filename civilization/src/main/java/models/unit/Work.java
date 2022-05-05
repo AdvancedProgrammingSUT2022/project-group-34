@@ -1,11 +1,8 @@
 package models.unit;
 
 import models.City;
-import models.tile.Feature;
 import models.tile.Improvement;
 import models.tile.Tile;
-
-import javax.swing.*;
 
 public class Work {
 
@@ -52,7 +49,6 @@ public class Work {
     public boolean update() {
 
         if (this.tern == 0){
-            doWork();
             return true;
         }
 
