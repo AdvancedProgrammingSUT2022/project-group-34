@@ -40,6 +40,7 @@ public class GameMenu extends Menu {
     private static void handleSelectCategoryCommand(Processor processor) {
         String x = processor.get("x");
         String y = processor.get("y");
+        // TODO: check name field
         String name = processor.get("nickname");
 
         if (processor.getSection() == null)
@@ -89,7 +90,6 @@ public class GameMenu extends Menu {
         }
     }
 
-
     //Checks conditions for selecting city in position
     private static void selectCity(int[] position) {
         Tile tile = CivilizationController.getInstance().getTileByPosition(position);
@@ -106,7 +106,6 @@ public class GameMenu extends Menu {
             System.out.format("%s city is selected\n", city.getName());
         }
     }
-
 
     //Checks conditions for selecting city with "name"
     private static void selectCity(String name) {
@@ -130,44 +129,49 @@ public class GameMenu extends Menu {
 
     //Handles commands that start with "unit"
     private static void handleUnitCategoryCommand(Processor processor) {
-        String x = processor.get("x");
-        String y = processor.get("y");
 
-        if (processor.getSection() == null ||
-                x == null ||
-                y == null ||
-                processor.getNumberOfFields() != 2)
+        if (processor.getSection() == null)
             invalidCommand();
-        else if (processor.getSection().equals("moveto")) {
-            int[] destination = {Integer.parseInt(x), Integer.parseInt(y)};
-
-            if (selectedNonCombatUnit == null) movetoCommand(selectedCombatUnit, destination);
-            else if (selectedCombatUnit == null) movetoCommand(selectedNonCombatUnit, destination);
-            else System.out.println("First select a unit");
-        } else
+        else if (processor.getSection().equals("moveto"))
+            movetoCommand(processor);
+        else
             invalidCommand();
     }
 
+    
     //Checks what to print based on the destination and selected unit
-    private static void movetoCommand(Unit unit, int[] destination) {
-        switch (CivilizationController.getInstance().moveUnit(unit, destination)) {
-            case "invalid destination":
-                System.out.println("Destination is not valid.");
-                break;
-            case "fog of war":
-                System.out.println("Destination is in fog of war");
-                break;
-            case "already at the same tile":
-                System.out.println("We already are at the tile you want to move to");
-                break;
-            case "destination occupied":
-                System.out.println("There is already a unit in the tile you want to move to");
-                break;
-            case "success":
-                System.out.println("Unit move to destination successfully");
-                selectedCombatUnit = null;
-                selectedNonCombatUnit = null;
-                break;
+    private static void movetoCommand(Processor processor) {
+        String x = processor.get("x");
+        String y = processor.get("y");
+        Unit unit;
+
+        if (x == null || y == null || processor.getNumberOfFields() != 2) {
+            invalidCommand();
+            return;
+        }
+        if (selectedNonCombatUnit != null) unit = selectedNonCombatUnit;
+        else if (selectedCombatUnit != null) unit = selectedCombatUnit;
+        else {
+            System.out.println("First select a unit");
+            return;
+        }
+
+        String response = CivilizationController.getInstance().moveUnit(unit, new int[]{Integer.parseInt(x), Integer.parseInt(y)});
+
+        if (response.equals("invalid destination"))
+            System.out.println("Destination is not valid");
+        else if (response.equals("fog of war"))
+            System.out.println("Destination is in fog of war");
+        else if (response.equals("already at the same tile"))
+            System.out.println("We already are at the tile you want to move to");
+        else if (response.equals("destination occupied"))
+            System.out.println("There is already a unit in the tile you want to move to");
+        else if (response.equals("no valid path"))
+            System.out.println("There is no path to the tile you want to move to");
+        else if (response.equals("success")) {
+            System.out.println("Unit move to destination successfully");
+            selectedCombatUnit = null;
+            selectedNonCombatUnit = null;
         }
     }
 
