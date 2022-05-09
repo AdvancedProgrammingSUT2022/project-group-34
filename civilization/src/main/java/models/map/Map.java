@@ -6,6 +6,10 @@ public abstract class Map {
     protected int mapWidth;
     protected int mapHeight;
 
+    public Map() {
+        //TODO
+    }
+
     public Map(int mapWidth, int mapHeight) {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;

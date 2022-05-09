@@ -19,6 +19,8 @@ public class Game {
     private int tern;
 
     public Game(ArrayList<User> users) {
+        mainGameMap = GameMap.load();
+        //TODO
         this.users = users;
     }
 

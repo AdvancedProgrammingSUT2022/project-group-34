@@ -12,6 +12,20 @@ public class GameMap extends Map{
 
     private ArrayList<ArrayList<Tile>> map;
 
+    public GameMap() {
+        super();
+        // TODO
+    }
+
+    static public GameMap load() {
+        return null;
+        // TODO: make a map in GSon and save it, load it here.
+        // The template of the file (saving map) :
+        // map height
+        // map width
+        // a JSon array for each argument of Tile constructor
+    }
+
     public GameMap(int mapWidth, int mapHeight) {
         super(mapWidth, mapHeight);
     }
