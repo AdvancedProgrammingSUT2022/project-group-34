@@ -75,6 +75,9 @@ public class GameMenu extends Menu {
                 System.out.format("No %s unit exists in position[%d %d]\n",
                         unitType.substring(0, 1).toUpperCase() + unitType.substring(1), position[0], position[1]);
                 break;
+            case "not yours":
+                System.out.println("This unit is not yours");
+                break;
             case "combat":
                 selectedCombatUnit = CivilizationController.getInstance().getCombatUnitByPosition(position);
                 selectedNonCombatUnit = null;
@@ -95,7 +98,9 @@ public class GameMenu extends Menu {
         Tile tile = CivilizationController.getInstance().getTileByPosition(position);
         City city = tile.getCity();
 
-        if (tile.getCity() == null)
+        if (tile == null)
+            System.out.println("Position is invalid");
+        else if (tile.getCity() == null)
             System.out.println("There is no city in the selected area");
         else if (!GameController.getInstance().getCivilization().getCities().contains(city))
             System.out.println("This city is not in your territory");
@@ -156,7 +161,8 @@ public class GameMenu extends Menu {
             return;
         }
 
-        String response = CivilizationController.getInstance().moveUnit(unit, new int[]{Integer.parseInt(x), Integer.parseInt(y)});
+        int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
+        String response = CivilizationController.getInstance().moveUnit(unit, position);
 
         if (response.equals("invalid destination"))
             System.out.println("Destination is not valid");

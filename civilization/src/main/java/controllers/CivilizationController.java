@@ -31,16 +31,18 @@ public class CivilizationController {
     public String selectUnit(int[] position, String unitType) {
         if (!isPositionValid(position))
             return "invalid position";
-        if (unitType.equals("combat")) {
-            if (getTileByPosition(position).getCombatUnit() == null)
-                return "no such unit";
-            else return unitType;
-        } else if (unitType.equals("noncombat")) {
-            if (getTileByPosition(position).getNonCombatUnit() == null)
-                return "no such unit";
-            else return unitType;
-        }
-        return "ok";
+
+        Unit unit = null;
+        if (unitType.equals("combat"))
+            unit = getTileByPosition(position).getCombatUnit();
+        else if (unitType.equals("noncombat"))
+            unit = getTileByPosition(position).getNonCombatUnit();
+
+        if (unit == null)
+            return "no such unit";
+        else if (!GameController.getInstance().getCivilization().getUnits().contains(unit))
+            return "not yours";
+        else return unitType;
     }
 
     public CombatUnit getCombatUnitByPosition(int[] position) {
@@ -152,13 +154,15 @@ public class CivilizationController {
         else if ((unit instanceof NonCombatUnit) && currentTile.getNonCombatUnit().equals(unit))
             currentTile.setNonCombatUnit((NonCombatUnit) null);
         unit.setPosition(tile);
-        if (unit instanceof CombatUnit && tile.getCombatUnit() == null) tile.setCombatUnit((CombatUnit)unit);
-        else if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() == null) tile.setNonCombatUnit((NonCombatUnit)unit);
+        if (unit instanceof CombatUnit && tile.getCombatUnit() == null) tile.setCombatUnit((CombatUnit) unit);
+        else if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() == null)
+            tile.setNonCombatUnit((NonCombatUnit) unit);
         //TODO exit from fog of war
     }
 
     private boolean isPathValid(Stack<Tile> path, Tile originTile, Tile destinationTile, Unit unit) {
-        if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile) return false;
+        if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile)
+            return false;
         else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) return false;
         else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit() != null) return false;
         return true;
@@ -172,19 +176,20 @@ public class CivilizationController {
         if (unit.getDestination() == null) return false;
         HashMap<Tile, Integer> distancesFromDestination = doBFSAndReturnDistances(unit.getDestination());
         Tile temporaryDestination = unit.getPosition();
-        HashMap<Tile, Integer> distancesFromOriginByMP = (HashMap<Tile, Integer>)doDijkstra(unit.getPosition(), unit.getDestination(), unit.getMotionPoint(), false);
+        HashMap<Tile, Integer> distancesFromOriginByMP = (HashMap<Tile, Integer>) doDijkstra(unit.getPosition(), unit.getDestination(), unit.getMotionPoint(), false);
         for (Tile tile : distancesFromOriginByMP.keySet()) {
             if (tile == null) continue;
             if (unit instanceof CombatUnit && tile.getCombatUnit() != null) continue;
             if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() != null) continue;
             Integer tileDistance = distancesFromDestination.get(tile);
-            if (tileDistance != null && tileDistance < distancesFromDestination.get(temporaryDestination)) temporaryDestination = tile;
+            if (tileDistance != null && tileDistance < distancesFromDestination.get(temporaryDestination))
+                temporaryDestination = tile;
         }
         if (temporaryDestination == null || temporaryDestination == unit.getPosition()) {
             cancelMove(unit);
             return false;
         }
-        Stack<Tile> path = (Stack<Tile>)doDijkstra(unit.getPosition(), temporaryDestination, unit.getMotionPoint(), true);
+        Stack<Tile> path = (Stack<Tile>) doDijkstra(unit.getPosition(), temporaryDestination, unit.getMotionPoint(), true);
         continueMoveByPath(unit, path);
         return true;
     }
@@ -212,7 +217,7 @@ public class CivilizationController {
         if (!ans.equals("true")) return ans;
         Tile originTile = unit.getPosition();
         Tile destinationTile = getTileByPosition(destination);
-        Stack<Tile> path = (Stack<Tile>)doDijkstra(originTile, destinationTile, INF, true);
+        Stack<Tile> path = (Stack<Tile>) doDijkstra(originTile, destinationTile, INF, true);
         if (!isPathValid(path, originTile, destinationTile, unit)) return "no valid path";
         unit.setDestination(destinationTile);
         if (!continueMoveForOneTurn(unit)) return "no valid path";
@@ -358,7 +363,8 @@ public class CivilizationController {
     public void research(Technology technology) {
         //TODO
     }
-    public void updateCivilization(Civilization civilization){
+
+    public void updateCivilization(Civilization civilization) {
         for (City city : civilization.getCities())
             updateCity(city);
 
@@ -367,10 +373,9 @@ public class CivilizationController {
                 work.doWork();
 
 
-
     }
 
-    public void updateCity(City city){
+    public void updateCity(City city) {
         Civilization civilization = city.getCivilization();
         city.updateFood(civilization.isUnHappy());
         city.updateProduction();
