@@ -20,6 +20,10 @@ public class Game {
 
     public Game(ArrayList<User> users) {
         mainGameMap = GameMap.load();
+        // TODO : make or import civilizations and cities.
+        for (Civilization civilization : civilizations) {
+            civilization.setPersonalMap(mainGameMap.clone());
+        }
         //TODO
         this.users = users;
     }
