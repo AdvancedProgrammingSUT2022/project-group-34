@@ -40,8 +40,8 @@ public class GameMenu extends Menu {
     private static void handleSelectCategoryCommand(Processor processor) {
         String x = processor.get("x");
         String y = processor.get("y");
-        // TODO: check name field
         String name = processor.get("nickname");
+        if (name == null) name = processor.get("name");
 
         if (processor.getSection() == null)
             invalidCommand();
@@ -138,7 +138,7 @@ public class GameMenu extends Menu {
             invalidCommand();
     }
 
-    
+
     //Checks what to print based on the destination and selected unit
     private static void movetoCommand(Processor processor) {
         String x = processor.get("x");
