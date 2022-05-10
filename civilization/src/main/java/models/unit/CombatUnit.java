@@ -100,4 +100,13 @@ public class CombatUnit extends Unit{
     public void setGarrisonCity(City garrisonCity) {
         GarrisonCity = garrisonCity;
     }
+
+    @Override
+    public void makeUnitAwake() {
+        super.makeUnitAwake();
+        setAlert(false);
+        setFortify(false);
+        setFortifyUntilHealed(false);
+        setGarrisonCity(null);
+    }
 }

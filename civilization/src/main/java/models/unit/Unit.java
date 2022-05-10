@@ -100,7 +100,6 @@ public abstract class Unit {
         isSleep = sleep;
     }
 
-
     public Tile getPosition() {
         return position;
     }
@@ -141,5 +140,9 @@ public abstract class Unit {
 
     public ArrayList<String> getUnitActionList() {
         return unitActionList;
+    }
+
+    public void makeUnitAwake(){
+        setSleep(false);
     }
 }

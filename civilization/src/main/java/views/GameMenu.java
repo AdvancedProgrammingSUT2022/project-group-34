@@ -148,9 +148,9 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("alert"))
             alertCommand();
         else if (processor.getSection().equals("fortify"))
-            ;// TODO: 5/10/2022
+            fortifyCommand();
         else if (processor.getSection().equals("heal"))
-            ;// TODO: 5/10/2022
+            healCommand();
         else if (processor.getSection().equals("garrison"))
             ;// TODO: 5/10/2022
         else if (processor.getSection().equals("setup"))
@@ -205,33 +205,57 @@ public class GameMenu extends Menu {
         else if (response.equals("no valid path"))
             System.out.println("There is no path to the tile you want to move to");
         else if (response.equals("success")) {
-            System.out.println("Unit move to destination successfully");
+            unit.makeUnitAwake();
+            System.out.println("Unit moved to destination successfully");
             selectedCombatUnit = null;
             selectedNonCombatUnit = null;
         }
     }
 
-    //Makes unit sleep
     private static void sleepCommand() {
         if (selectedNonCombatUnit != null) selectedNonCombatUnit.setSleep(true);
         else {
+            selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit.setSleep(true);
-            System.out.println("Unit is sleep");
         }
+        selectedCombatUnit = null;
+        selectedNonCombatUnit = null;
+        System.out.println("Unit is sleep");
     }
 
-    //Makes unit alert
     private static void alertCommand() {
         if (selectedCombatUnit == null)
             System.out.println("Selected unit is not a military unit");
         else {
-            System.out.println("Unit is alert");
+            selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit.setAlert(true);
             selectedCombatUnit = null;
+            System.out.println("Unit is alert");
         }
     }
 
-    //Founds a city with selected unit if command is correct
+    private static void fortifyCommand() {
+        if (selectedCombatUnit == null)
+            System.out.println("Selected unit is not a military unit");
+        else {
+            selectedCombatUnit.makeUnitAwake();
+            selectedCombatUnit.setFortify(true);
+            selectedCombatUnit = null;
+            System.out.println("Unit is fortified");
+        }
+    }
+
+    private static void healCommand() {
+        if (selectedCombatUnit == null)
+            System.out.println("Selected unit is not a military unit");
+        else {
+            selectedCombatUnit.makeUnitAwake();
+            selectedCombatUnit.setFortifyUntilHealed(true);
+            selectedCombatUnit = null;
+            System.out.println("Unit is fortified");
+        }
+    }
+
     private static void foundCityCommand(Processor processor) {
         String name = processor.get("nickname");
         if (name == null) name = processor.get("name");
