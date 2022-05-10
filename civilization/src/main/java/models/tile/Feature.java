@@ -5,7 +5,7 @@ import java.util.HashMap;
 public enum Feature{
 
     FloodPlane  ("FloodPlane"   ,2 ,0 ,0 ,-33,+1),
-    Forest      ("Forest"       ,1 ,1 ,0 ,+25,+2),
+    Forests     ("Forests"       ,1 ,1 ,0 ,+25,+2),
     Jungle      ("Jungle"       ,1 ,-1,0 ,+25,+2),
     Ice         ("Ice"          ,0 ,0 ,0 ,+0 ,-1),
     Marsh       ("Marsh"        ,-1,0 ,0 ,-33,+2),
@@ -32,7 +32,7 @@ public enum Feature{
 
     private static void createAllInstances(){
         allFeatures.put("FloodPlane",Feature.FloodPlane);
-        allFeatures.put("Forest"    ,Feature.Forest);
+        allFeatures.put("Forests"   ,Feature.Forests);
         allFeatures.put("Jungle"    ,Feature.Jungle);
         allFeatures.put("Ice"       ,Feature.Ice);
         allFeatures.put("Marsh"     ,Feature.Marsh);
