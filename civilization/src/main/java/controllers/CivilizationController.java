@@ -320,7 +320,7 @@ public class CivilizationController {
         return "ok";
     }
 
-    
+
     public void repair(int[] position) {
         //TODO
     }

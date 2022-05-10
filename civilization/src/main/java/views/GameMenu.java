@@ -138,9 +138,11 @@ public class GameMenu extends Menu {
     unit heal
     unit garrison
     unit setup
+    unit cancel
     unit found city --name <name>
     unit wake
-    unit delete*/
+    unit delete
+    unit pillage*/
     private static void handleUnitCategoryCommand(Processor processor) {
 
         // TODO: Booleans in unit class (Specially combat units)
