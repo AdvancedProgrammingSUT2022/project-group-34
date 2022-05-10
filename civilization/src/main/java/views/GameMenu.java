@@ -8,6 +8,7 @@ import models.Game;
 import models.tile.Tile;
 import models.unit.CombatUnit;
 import models.unit.NonCombatUnit;
+import models.unit.Settler;
 import models.unit.Unit;
 
 import java.util.Scanner;
@@ -139,6 +140,34 @@ public class GameMenu extends Menu {
             invalidCommand();
         else if (processor.getSection().equals("moveto"))
             movetoCommand(processor);
+        else if (processor.getSection().equals("sleep"))
+            ;// TODO: 5/10/2022
+        else if (processor.getSection().equals("alert"))
+            ;// TODO: 5/10/2022
+        else if (processor.getSection().equals("fortify"))
+            ;// TODO: 5/10/2022
+        else if (processor.getSection().equals("heal"))
+            ;// TODO: 5/10/2022
+        else if (processor.getSection().equals("garrison"))
+            ;// TODO: 5/10/2022
+        else if (processor.getSection().equals("setup"))
+            ;// TODO: 5/10/2022
+        else if (processor.getSection().equals("attack"))
+            ;// TODO: 5/10/2022
+        else if (processor.getSection().equals("found"))
+            foundCityCommand(processor);
+        else if (processor.getSection().equals("cancel"))
+            ;// TODO: 5/10/2022
+        else if (processor.getSection().equals("wake"))
+            ;// TODO: 5/10/2022
+        else if (processor.getSection().equals("delete"))
+            ;// TODO: 5/10/2022
+        else if (processor.getSection().equals("build"))
+            ;// TODO: 5/10/2022
+        else if (processor.getSection().equals("remove"))
+            ;// TODO: 5/10/2022  
+        else if (processor.getSection().equals("repair"))
+            ;// TODO: 5/10/2022
         else
             invalidCommand();
     }
@@ -150,16 +179,18 @@ public class GameMenu extends Menu {
         String y = processor.get("y");
         Unit unit;
 
-        if (x == null || y == null || processor.getNumberOfFields() != 2) {
-            invalidCommand();
-            return;
-        }
         if (selectedNonCombatUnit != null) unit = selectedNonCombatUnit;
         else if (selectedCombatUnit != null) unit = selectedCombatUnit;
         else {
             System.out.println("First select a unit");
             return;
         }
+
+        if (x == null || y == null || processor.getNumberOfFields() != 2) {
+            invalidCommand();
+            return;
+        }
+
 
         int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
         String response = CivilizationController.getInstance().moveUnit(unit, position);
@@ -179,6 +210,33 @@ public class GameMenu extends Menu {
             selectedCombatUnit = null;
             selectedNonCombatUnit = null;
         }
+    }
+
+
+    private static void foundCityCommand(Processor processor) {
+        String name = processor.get("nickname");
+        if (name == null) name = processor.get("name");
+
+        if (name == null || processor.getNumberOfFields() != 1)
+            invalidCommand();
+        if (processor.getSubSection() != null && processor.getSubSection().equals("city")) {
+            if (!(selectedNonCombatUnit instanceof Settler))
+                System.out.println("Selected unit is not a settler");
+            else {
+                switch (CivilizationController.getInstance().foundCity((Settler) selectedNonCombatUnit, name)) {
+                    case "too close":
+                        System.out.println("You cannot found a city close to another civilization");
+                        break;
+                    case "duplicate name":
+                        System.out.println("This name is used before");
+                        break;
+                    case "ok":
+                        System.out.println("City founded!");
+                        break;
+                }
+            }
+        } else
+            invalidCommand();
     }
 
 
