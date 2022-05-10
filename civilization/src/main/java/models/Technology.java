@@ -3,35 +3,193 @@ package models;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Technology {
+public enum Technology {
+
+    Agriculture("Agriculture", 20, false, false, false
+            , new Technology[]{}
+            , new Technology[]{}),
+    AnimalHusbandry("Agriculture", 20, false, false, false
+            , new Technology[]{Agriculture}
+            , new Technology[]{}),
+    Archery("Agriculture", 20, false, false, false
+            , new Technology[]{Agriculture}
+            , new Technology[]{}),
+    Mining("Agriculture", 20, false, false, false
+            , new Technology[]{Agriculture}
+            , new Technology[]{}),
+    Pottery("Agriculture", 20, false, false, false
+            , new Technology[]{Agriculture}
+            , new Technology[]{}),
+    BronzeWorking("Agriculture", 20, false, false, false
+            , new Technology[]{Mining}
+            , new Technology[]{}),
+    Calendar("Agriculture", 20, false, false, false
+            , new Technology[]{Pottery}
+            , new Technology[]{}),
+    Masonry("Agriculture", 20, false, false, false
+            , new Technology[]{Mining}
+            , new Technology[]{}),
+    TheWheel("Agriculture", 20, false, false, false
+            , new Technology[]{AnimalHusbandry}
+            , new Technology[]{}),
+    Trapping("Agriculture", 20, false, false, false
+            , new Technology[]{AnimalHusbandry}
+            , new Technology[]{}),
+    Writing("Agriculture", 20, false, false, false
+            , new Technology[]{Pottery}
+            , new Technology[]{}),
+
+
+
+    Construction("Agriculture", 20, false, false, false
+            , new Technology[]{Masonry}
+            , new Technology[]{}),
+    HorsebackRiding("Agriculture", 20, false, false, false
+            , new Technology[]{TheWheel}
+            , new Technology[]{}),
+    IronWorking("Agriculture", 20, false, false, false
+            , new Technology[]{BronzeWorking}
+            , new Technology[]{}),
+    Mathematics("Agriculture", 20, false, false, false
+            , new Technology[]{TheWheel,Archery}
+            , new Technology[]{}),
+    Philosophy("Agriculture", 20, false, false, false
+            , new Technology[]{Writing}
+            , new Technology[]{}),
+
+
+
+    CivilService("Agriculture", 20, false, false, false
+            , new Technology[]{Philosophy,Trapping}
+            , new Technology[]{}),
+    Chivalry("Agriculture", 20, false, false, false
+            , new Technology[]{CivilService,HorsebackRiding,Currency}
+            , new Technology[]{}),
+    Currency("Agriculture", 20, false, false, false
+            , new Technology[]{Mathematics}
+            , new Technology[]{}),
+    Education("Agriculture", 20, false, false, false
+            , new Technology[]{Theology}
+            , new Technology[]{}),
+    Engineering("Agriculture", 20, false, false, false
+            , new Technology[]{Mathematics,Construction}
+            , new Technology[]{}),
+    Machinery("Agriculture", 20, false, false, false
+            , new Technology[]{}
+            , new Technology[]{}),
+    MetalCasting("Agriculture", 20, false, false, false
+            , new Technology[]{}
+            , new Technology[]{}),
+    Physics("Agriculture", 20, false, false, false
+            , new Technology[]{}
+            , new Technology[]{}),
+    Steel("Agriculture", 20, false, false, false
+            , new Technology[]{}
+            , new Technology[]{}),
+    Theology("Agriculture", 20, false, false, false
+            , new Technology[]{}
+            , new Technology[]{}),
+
+
+
+    Acoustics("Agriculture", 20, false, false, false
+            , new Technology[]{Education}
+            , new Technology[]{}),
+    Archaeology("Agriculture", 20, false, false, false
+            , new Technology[]{Acoustics}
+            , new Technology[]{}),
+    Banking("Agriculture", 20, false, false, false
+            , new Technology[]{Education,Chivalry}
+            , new Technology[]{}),
+    Gunpowder("Agriculture", 20, false, false, false
+            , new Technology[]{}
+            , new Technology[]{}),
+    Chemistry("Agriculture", 20, false, false, false
+            , new Technology[]{Gunpowder}
+            , new Technology[]{}),
+    Economics("Agriculture", 20, false, false, false
+            , new Technology[]{Banking,PrintingPress}
+            , new Technology[]{}),
+    Fertilizer("Agriculture", 20, false, false, false
+            , new Technology[]{Chemistry}
+            , new Technology[]{}),
+    Metallurgy("Agriculture", 20, false, false, false
+            , new Technology[]{Gunpowder}
+            , new Technology[]{}),
+    MilitaryScience("Agriculture", 20, false, false, false
+            , new Technology[]{Economics,Chemistry}
+            , new Technology[]{}),
+    PrintingPress("Agriculture", 20, false, false, false
+            , new Technology[]{Machinery,Physics}
+            , new Technology[]{}),
+    Rifling("Agriculture", 20, false, false, false
+            , new Technology[]{Metallurgy}
+            , new Technology[]{}),
+    ScientificTheory("Agriculture", 20, false, false, false
+            , new Technology[]{Acoustics}
+            , new Technology[]{}),
+    Biology("Agriculture", 20, false, false, false
+            , new Technology[]{Archaeology,ScientificTheory}
+            , new Technology[]{}),
+    Dynamic("Agriculture", 20, false, false, false
+            , new Technology[]{Fertilizer,Rifling}
+            , new Technology[]{}),
+    Electricity("Agriculture", 20, false, false, false
+            , new Technology[]{Biology,SteamPower}
+            , new Technology[]{}),
+    SteamPower("Agriculture", 20, false, false, false
+            , new Technology[]{ScientificTheory,MilitaryScience}
+            , new Technology[]{}),
+    Railroad("Agriculture", 20, false, false, false
+            , new Technology[]{SteamPower}
+            , new Technology[]{}),
+    Replaceable("Agriculture", 20, false, false, false
+            , new Technology[]{SteamPower}
+            , new Technology[]{}),
+    Radio("Agriculture", 20, false, false, false
+            , new Technology[]{Electricity}
+            , new Technology[]{}),
+    Parts("Agriculture", 20, false, false, false
+            , new Technology[]{}
+            , new Technology[]{}),
+    Combustion("Agriculture", 20, false, false, false
+            , new Technology[]{Replaceable,Parts,Railroad,Dynamic}
+            , new Technology[]{}),
+    Telegraph("Agriculture", 20, false, false, false
+            , new Technology[]{Electricity}
+            , new Technology[]{}),
+    ;
+
 
     public static HashMap<String,HashMap<String, String>> dataSheet = new HashMap<>();
     public static HashMap<String,Technology> allTechnologies = new HashMap<>();
 
     private String name;
     private int remainingTerm;
+    private int cost; // TODO : Using cost instead of remainingTerm
     private boolean isResearching;
     private boolean isResearchable;
     private boolean isResearched;
-    private ArrayList<String> prerequisiteTechnologies;
-    private ArrayList<String> relatedTechnologies;
+    private ArrayList<Technology> prerequisiteTechnologies;
+    private ArrayList<Technology> relatedTechnologies;
 
 
-    private Technology(HashMap<String, String> stringStringHashMap) {
+    Technology(String name, int cost, boolean isResearching, boolean isResearchable, boolean isResearched, Technology[] prerequisiteTechnologies, Technology[] relatedTechnologies) {
+        this.name = name;
+        this.cost = cost;
+        this.isResearching = isResearching;
+        this.isResearchable = isResearchable;
+        this.isResearched = isResearched;
 
-        this.remainingTerm = Integer.parseInt(stringStringHashMap.get("remainingTerm"));
-        this.isResearched  = false;
+        this.prerequisiteTechnologies = new ArrayList<>();
+        for (Technology technology : prerequisiteTechnologies)
+            this.prerequisiteTechnologies.add(technology);
 
-        int numberOfPrerequisiteTechnologies = Integer.parseInt(stringStringHashMap.get("numberOfPrerequisiteTechnologies"));
-        for (int i = 0; i < numberOfPrerequisiteTechnologies; i++)
-            this.prerequisiteTechnologies.add("prerequisiteTechnology" + (i + 1));
-
-        int numberOfRelatedTechnologies = Integer.parseInt(stringStringHashMap.get("numberOfRelatedTechnologies"));
-        for (int i = 0; i < numberOfRelatedTechnologies; i++)
-            this.prerequisiteTechnologies.add("relatedTechnology" + (i + 1));
+        this.relatedTechnologies = new ArrayList<>();
+        for (Technology technology : relatedTechnologies)
+            this.relatedTechnologies.add(technology);
 
     }
-
 
     public static void loadDataSheet(){
         //todo : ReadFromFile
@@ -39,10 +197,6 @@ public class Technology {
 
     public static int createAllInstances(){
 
-        for (HashMap<String, String> stringStringHashMap : dataSheet.values())
-            allTechnologies.put(stringStringHashMap.get("name"),new Technology(stringStringHashMap));
-
-        return 0;
     }
 
     public static HashMap<String, Technology> getAllTechnologiesCopy() {

@@ -9,7 +9,7 @@ public class StrategicResource extends Resource{
     private boolean isVisible;
     private int productionBonus;
 
-    public StrategicResource(String requiredImprovement, String name, int productionBonus, String requiredTechnology) {
+    public StrategicResource(String name, String requiredImprovement, int productionBonus, String requiredTechnology) {
         super(requiredImprovement, name, false, true);
         this.productionBonus = productionBonus;
         this.requiredTechnology = requiredTechnology;
@@ -39,9 +39,9 @@ public class StrategicResource extends Resource{
 
 
     public static void createAllInstance(){
-        allStrategicResource.add(new StrategicResource("coal"    ,"Banana"   ,1,""));
-        allStrategicResource.add(new StrategicResource("Horse"    ,"Cow"      ,1,""));
-        allStrategicResource.add(new StrategicResource("Iron"   ,"Gazelle"  ,1,""));
+        allStrategicResource.add(new StrategicResource("Coal"   ,"Mine"     ,1,""));
+        allStrategicResource.add(new StrategicResource("Horse"  ,"Pasture"  ,1,""));
+        allStrategicResource.add(new StrategicResource("Iron"   ,"Mine"     ,1,""));
     }
 
     public static ArrayList<StrategicResource> getAllLuxuryResource(){
