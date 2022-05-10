@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.Stack;
 
 import models.Civilization;
+import models.Game;
+import models.map.GameMap;
 import models.tile.Improvement;
 
 import models.unit.*;
@@ -46,23 +48,26 @@ public class CivilizationController {
     }
 
     public CombatUnit getCombatUnitByPosition(int[] position) {
-        //TODO
-        return null;
+        Tile tile = getTileByPosition(position);
+        if (tile==null) return null;
+        else return tile.getCombatUnit();
     }
 
     public NonCombatUnit getNonCombatUnitByPosition(int[] position) {
-        //TODO
-        return null;
+        Tile tile = getTileByPosition(position);
+        if (tile==null) return null;
+        else return tile.getNonCombatUnit();
     }
 
     public City getCityByPosition(int[] position) {
-        //TODO
-        return null;
+        Tile tile = getTileByPosition(position);
+        if (tile==null) return null;
+        else return tile.getCity();
     }
 
     public Tile getTileByPosition(int[] position) {
-        //TODO
-        return null;
+        GameMap gameMap = GameController.getInstance().getGame().getMainGameMap();
+        return gameMap.getTileByXY(position[0], position[1]);
     }
 
     public boolean isPositionValid(int[] position) {
@@ -263,21 +268,6 @@ public class CivilizationController {
     //TODO: exit from fog of war
 
 
-    public void makeUnitSleep(Unit unit) {
-        //TODO
-    }
-
-    public void alertUnit(Unit unit) {
-        //TODO
-    }
-
-    public void fortifyUnit(Unit unit) {
-        //TODO
-    }
-
-    public void fullyFortifyUnit(Unit unit) {
-        //TODO
-    }
 
     public String garrisonCity(CombatUnit unit) {
         City city;
@@ -289,18 +279,6 @@ public class CivilizationController {
         unit.setGarrisonCity(city);
         city.setGarrison(true);
         return "ok";
-    }
-
-    public void setupUnit(Unit unit) {
-        //TODO
-    }
-
-    public void cancelMission(Unit unit) {
-        //TODO
-    }
-
-    public void wakeUnit(Unit unit) {
-        //TODO
     }
 
     public void deleteUnit(Unit unit) {
@@ -342,11 +320,7 @@ public class CivilizationController {
         return "ok";
     }
 
-
-    public void removeItem(int[] position, String item) {
-        //TODO
-    }
-
+    
     public void repair(int[] position) {
         //TODO
     }
