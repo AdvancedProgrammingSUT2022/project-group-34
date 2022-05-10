@@ -152,7 +152,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("heal"))
             healCommand();
         else if (processor.getSection().equals("garrison"))
-            ;// TODO: 5/10/2022
+            garrisonCommand();
         else if (processor.getSection().equals("setup"))
             ;// TODO: 5/10/2022
         else if (processor.getSection().equals("attack"))
@@ -252,7 +252,22 @@ public class GameMenu extends Menu {
             selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit.setFortifyUntilHealed(true);
             selectedCombatUnit = null;
-            System.out.println("Unit is fortified");
+            System.out.println("Unit is healed");
+        }
+    }
+
+    private static void garrisonCommand(){
+        City city;
+        if (selectedCombatUnit == null)
+            System.out.println("Selected unit is not a military unit");
+        else if ((city = selectedCombatUnit.getPosition().getCity())==null)
+            System.out.println("There is no city in this tile");
+        else {
+            selectedCombatUnit.makeUnitAwake();
+            selectedCombatUnit.setGarrisonCity(city);
+            city.setGarrison(true);
+            selectedCombatUnit = null;
+            System.out.println("City is garrisoned");
         }
     }
 
