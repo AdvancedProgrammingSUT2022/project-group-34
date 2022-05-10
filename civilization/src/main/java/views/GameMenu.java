@@ -136,6 +136,7 @@ public class GameMenu extends Menu {
     //Handles commands that start with "unit"
     private static void handleUnitCategoryCommand(Processor processor) {
 
+        // TODO: Booleans in unit class (Specially combat units)
         if (selectedCombatUnit == null || selectedNonCombatUnit == null)
             System.out.println("Please select a unit first");
         else if (processor.getSection() == null)
@@ -145,7 +146,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("sleep"))
             sleepCommand();
         else if (processor.getSection().equals("alert"))
-            ;// TODO: 5/10/2022
+            alertCommand();
         else if (processor.getSection().equals("fortify"))
             ;// TODO: 5/10/2022
         else if (processor.getSection().equals("heal"))
@@ -210,10 +211,24 @@ public class GameMenu extends Menu {
         }
     }
 
-    //Makes the unit sleep
+    //Makes unit sleep
     private static void sleepCommand() {
         if (selectedNonCombatUnit != null) selectedNonCombatUnit.setSleep(true);
-        else selectedCombatUnit.setSleep(true);
+        else {
+            selectedCombatUnit.setSleep(true);
+            System.out.println("Unit is sleep");
+        }
+    }
+
+    //Makes unit alert
+    private static void alertCommand() {
+        if (selectedCombatUnit == null)
+            System.out.println("Selected unit is not a military unit");
+        else {
+            System.out.println("Unit is alert");
+            selectedCombatUnit.setAlert(true);
+            selectedCombatUnit = null;
+        }
     }
 
     //Founds a city with selected unit if command is correct
