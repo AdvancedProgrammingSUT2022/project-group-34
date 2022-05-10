@@ -159,9 +159,9 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("cancel"))
             ;// TODO: 5/10/2022
         else if (processor.getSection().equals("wake"))
-            ;// TODO: 5/10/2022
+            wakeUnit();
         else if (processor.getSection().equals("delete"))
-            ;// TODO: 5/10/2022
+            deleteCommand();
         else if (processor.getSection().equals("build"))
             ;// TODO: 5/10/2022
         else if (processor.getSection().equals("remove"))
@@ -304,6 +304,28 @@ public class GameMenu extends Menu {
             }
         } else
             invalidCommand();
+    }
+
+    private static void wakeUnit(){
+        if (selectedNonCombatUnit != null) selectedNonCombatUnit.makeUnitAwake();
+        else selectedCombatUnit.makeUnitAwake();
+
+        selectedCombatUnit = null;
+        selectedNonCombatUnit = null;
+        System.out.println("Unit is awake");
+    }
+
+    private static void deleteCommand(){
+        Unit unit = selectedCombatUnit;
+        if (unit==null) unit = selectedNonCombatUnit;
+
+        Civilization civilization = GameController.getInstance().getCivilization();
+        civilization.setGold(civilization.getGold()+ unit.getCost()/10);
+        civilization.removeUnit(unit);
+
+        selectedNonCombatUnit = null;
+        selectedCombatUnit = null;
+        System.out.println("Unit deleted");
     }
 
 

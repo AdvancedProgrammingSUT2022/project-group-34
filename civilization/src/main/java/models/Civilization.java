@@ -195,6 +195,10 @@ public class Civilization {
         return gold;
     }
 
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
     public void updateGold() {
 
         this.goldRate = 0;
