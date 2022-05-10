@@ -167,11 +167,13 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("found"))
             foundCityCommand(processor);
         else if (processor.getSection().equals("cancel"))
-            ;// TODO: 5/10/2022
+            cancelCommand();
         else if (processor.getSection().equals("wake"))
             wakeUnit();
         else if (processor.getSection().equals("delete"))
             deleteUnitCommand();
+        else if (processor.getSection().equals("pillage"))
+            pillageCommand();
         else if (processor.getSection().equals("build"))
             ;// TODO: 5/10/2022
         else if (processor.getSection().equals("remove"))
@@ -287,6 +289,18 @@ public class GameMenu extends Menu {
         }
     }
 
+    private static void cancelCommand(){
+        Unit unit = selectedCombatUnit;
+        if (unit==null) unit = selectedNonCombatUnit;
+
+        if (unit.getDestination()==unit.getPosition())
+            System.out.println("Unit is not in a multiple-turn movement");
+        else {
+        unit.setDestination(unit.getPosition());
+        System.out.println("Unit's multiple-turn movement canceled");
+        }
+    }
+
     private static void foundCityCommand(Processor processor) {
         String name = processor.get("nickname");
         if (name == null) name = processor.get("name");
@@ -332,6 +346,19 @@ public class GameMenu extends Menu {
         selectedNonCombatUnit = null;
         selectedCombatUnit = null;
         System.out.println("Unit deleted");
+    }
+
+    private static void pillageCommand(){
+        if (selectedCombatUnit == null)
+            System.out.println("Selected unit is not a military unit");
+        else if (selectedCombatUnit.getPosition().getImprovementName()==null)
+            System.out.println("There is no improvement in this tile");
+        else {
+            selectedCombatUnit.makeUnitAwake();
+            selectedCombatUnit.getPosition().setLooted(true);
+            selectedCombatUnit = null;
+            System.out.println("Tile is pillaged");
+        }
     }
 
 

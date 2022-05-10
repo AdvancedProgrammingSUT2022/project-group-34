@@ -9,7 +9,6 @@ public class Worker extends NonCombatUnit{
 
     public Worker(String name, Tile position) {
         super(name, position);
-
     }
 
     public boolean isWorking() {
