@@ -6,10 +6,7 @@ import models.City;
 import models.Civilization;
 import models.Game;
 import models.tile.Tile;
-import models.unit.CombatUnit;
-import models.unit.NonCombatUnit;
-import models.unit.Settler;
-import models.unit.Unit;
+import models.unit.*;
 
 import java.util.Scanner;
 
@@ -154,7 +151,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("garrison"))
             garrisonCommand();
         else if (processor.getSection().equals("setup"))
-            ;// TODO: 5/10/2022
+            setupCommand();
         else if (processor.getSection().equals("attack"))
             ;// TODO: 5/10/2022
         else if (processor.getSection().equals("found"))
@@ -256,11 +253,11 @@ public class GameMenu extends Menu {
         }
     }
 
-    private static void garrisonCommand(){
+    private static void garrisonCommand() {
         City city;
         if (selectedCombatUnit == null)
             System.out.println("Selected unit is not a military unit");
-        else if ((city = selectedCombatUnit.getPosition().getCity())==null)
+        else if ((city = selectedCombatUnit.getPosition().getCity()) == null)
             System.out.println("There is no city in this tile");
         else {
             selectedCombatUnit.makeUnitAwake();
@@ -268,6 +265,17 @@ public class GameMenu extends Menu {
             city.setGarrison(true);
             selectedCombatUnit = null;
             System.out.println("City is garrisoned");
+        }
+    }
+
+    private static void setupCommand() {
+        if (!(selectedCombatUnit instanceof Archer) || !((Archer) selectedCombatUnit).isSiegeTool)
+            System.out.println("Selected unit is not a siege tool unit");
+        else {
+            selectedCombatUnit.makeUnitAwake();
+            ((Archer) selectedCombatUnit).setSetup(true);
+            selectedCombatUnit = null;
+            System.out.println("Unit is setup");
         }
     }
 

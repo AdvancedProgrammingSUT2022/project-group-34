@@ -4,7 +4,7 @@ import models.tile.Tile;
 
 import java.util.HashMap;
 
-public class Archer extends Unit{
+public class Archer extends CombatUnit{
 
     public static HashMap<String, HashMap<String, String>> archerDataSheet = new HashMap<>();
 
@@ -46,6 +46,12 @@ public class Archer extends Unit{
 
     public void setSetup(boolean setup) {
         isSetup = setup;
+    }
+
+    @Override
+    public void makeUnitAwake() {
+        super.makeUnitAwake();
+        setSetup(false);
     }
 
     public void attack(Tile position){
