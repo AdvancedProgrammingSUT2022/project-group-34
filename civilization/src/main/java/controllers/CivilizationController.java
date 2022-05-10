@@ -279,8 +279,16 @@ public class CivilizationController {
         //TODO
     }
 
-    public void garrisonUnit(Unit unit) {
-        //TODO
+    public String garrisonCity(CombatUnit unit) {
+        City city;
+        if (unit == null)
+            return "not military";
+        else if ((city = unit.getPosition().getCity()) == null)
+            return "no city";
+        unit.makeUnitAwake();
+        unit.setGarrisonCity(city);
+        city.setGarrison(true);
+        return "ok";
     }
 
     public void setupUnit(Unit unit) {
@@ -295,8 +303,10 @@ public class CivilizationController {
         //TODO
     }
 
-    public void removeUnit(Unit unit) {
-        //TODO
+    public void deleteUnit(Unit unit) {
+        Civilization civilization = GameController.getInstance().getCivilization();
+        civilization.setGold(civilization.getGold() + unit.getCost() / 10);
+        civilization.removeUnit(unit);
     }
 
     public void build(Worker worker, String improvement) {

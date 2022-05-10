@@ -4,7 +4,6 @@ import controllers.CivilizationController;
 import controllers.GameController;
 import models.City;
 import models.Civilization;
-import models.Game;
 import models.tile.Tile;
 import models.unit.*;
 
@@ -34,7 +33,11 @@ public class GameMenu extends Menu {
     }
 
 
-    //Handles commands that start with "select unit"
+    /*Handles commands that start with "select unit":
+    1.select unit combat --x <x> --y <y>
+    2.select unit noncombat --x <x> --y <y>
+    3.select city --name <name>
+    4.select city --x <x> --y <y>*/
     private static void handleSelectCategoryCommand(Processor processor) {
         String x = processor.get("x");
         String y = processor.get("y");
@@ -63,7 +66,6 @@ public class GameMenu extends Menu {
             invalidCommand();
     }
 
-    //Checks what to print based on the position and unit type
     private static void selectUnit(int[] position, String unitType) {
         switch (CivilizationController.getInstance().selectUnit(position, unitType)) {
             case "invalid position":
@@ -91,7 +93,6 @@ public class GameMenu extends Menu {
         }
     }
 
-    //Checks conditions for selecting city in position
     private static void selectCity(int[] position) {
         Tile tile = CivilizationController.getInstance().getTileByPosition(position);
         City city = tile.getCity();
@@ -110,7 +111,6 @@ public class GameMenu extends Menu {
         }
     }
 
-    //Checks conditions for selecting city with "name"
     private static void selectCity(String name) {
         City city;
 
@@ -130,7 +130,17 @@ public class GameMenu extends Menu {
     }
 
 
-    //Handles commands that start with "unit"
+    /*Handles commands that start with "unit"
+    unit moveto --x <x> --y <y>
+    unit sleep
+    unit found city
+    unit fortify
+    unit heal
+    unit garrison
+    unit setup
+    unit found city --name <name>
+    unit wake
+    unit delete*/
     private static void handleUnitCategoryCommand(Processor processor) {
 
         // TODO: Booleans in unit class (Specially combat units)
@@ -161,19 +171,17 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("wake"))
             wakeUnit();
         else if (processor.getSection().equals("delete"))
-            deleteCommand();
+            deleteUnitCommand();
         else if (processor.getSection().equals("build"))
             ;// TODO: 5/10/2022
         else if (processor.getSection().equals("remove"))
-            ;// TODO: 5/10/2022  
+            ;// TODO: 5/10/2022
         else if (processor.getSection().equals("repair"))
             ;// TODO: 5/10/2022
         else
             invalidCommand();
     }
 
-
-    //Checks what to print based on the destination and selected unit
     private static void movetoCommand(Processor processor) {
         String x = processor.get("x");
         String y = processor.get("y");
@@ -254,17 +262,17 @@ public class GameMenu extends Menu {
     }
 
     private static void garrisonCommand() {
-        City city;
-        if (selectedCombatUnit == null)
-            System.out.println("Selected unit is not a military unit");
-        else if ((city = selectedCombatUnit.getPosition().getCity()) == null)
-            System.out.println("There is no city in this tile");
-        else {
-            selectedCombatUnit.makeUnitAwake();
-            selectedCombatUnit.setGarrisonCity(city);
-            city.setGarrison(true);
-            selectedCombatUnit = null;
-            System.out.println("City is garrisoned");
+        switch (CivilizationController.getInstance().garrisonCity(selectedCombatUnit)) {
+            case "not military":
+                System.out.println("Selected unit is not a military unit");
+                break;
+            case "no city":
+                System.out.println("There is no city in this tile");
+                break;
+            case "ok":
+                selectedCombatUnit = null;
+                System.out.println("City is garrisoned");
+                break;
         }
     }
 
@@ -306,7 +314,7 @@ public class GameMenu extends Menu {
             invalidCommand();
     }
 
-    private static void wakeUnit(){
+    private static void wakeUnit() {
         if (selectedNonCombatUnit != null) selectedNonCombatUnit.makeUnitAwake();
         else selectedCombatUnit.makeUnitAwake();
 
@@ -315,13 +323,11 @@ public class GameMenu extends Menu {
         System.out.println("Unit is awake");
     }
 
-    private static void deleteCommand(){
+    private static void deleteUnitCommand() {
         Unit unit = selectedCombatUnit;
-        if (unit==null) unit = selectedNonCombatUnit;
+        if (unit == null) unit = selectedNonCombatUnit;
 
-        Civilization civilization = GameController.getInstance().getCivilization();
-        civilization.setGold(civilization.getGold()+ unit.getCost()/10);
-        civilization.removeUnit(unit);
+        CivilizationController.getInstance().deleteUnit(unit);
 
         selectedNonCombatUnit = null;
         selectedCombatUnit = null;
