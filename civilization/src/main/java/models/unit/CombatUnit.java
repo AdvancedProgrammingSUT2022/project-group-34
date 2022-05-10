@@ -14,7 +14,6 @@ public class CombatUnit extends Unit{
     protected int combatStrength;
     protected int hitPoint;
 
-    protected boolean isSleep;
     protected boolean isAlert;
     protected boolean isFortify;
     protected boolean isFortifyUntilHealed;
@@ -64,14 +63,6 @@ public class CombatUnit extends Unit{
 
     public void setHitPoint(int hitPoint) {
         this.hitPoint = hitPoint;
-    }
-
-    public boolean isSleep() {
-        return isSleep;
-    }
-
-    public void setSleep(boolean sleep) {
-        isSleep = sleep;
     }
 
     public boolean isAlert() {

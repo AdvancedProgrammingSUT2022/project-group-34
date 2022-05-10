@@ -18,6 +18,7 @@ public abstract class Unit {
     private int promotion;
     private int cost;
     private int motionPoint;
+    protected boolean isSleep;
 
     private Stack<Tile> path;
     private boolean isMoving;
@@ -90,6 +91,15 @@ public abstract class Unit {
     public void setMotionPoint(int motionPoint) {
         this.motionPoint = motionPoint;
     }
+
+    public boolean isSleep() {
+        return isSleep;
+    }
+
+    public void setSleep(boolean sleep) {
+        isSleep = sleep;
+    }
+
 
     public Tile getPosition() {
         return position;

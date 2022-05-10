@@ -136,12 +136,14 @@ public class GameMenu extends Menu {
     //Handles commands that start with "unit"
     private static void handleUnitCategoryCommand(Processor processor) {
 
-        if (processor.getSection() == null)
+        if (selectedCombatUnit == null || selectedNonCombatUnit == null)
+            System.out.println("Please select a unit first");
+        else if (processor.getSection() == null)
             invalidCommand();
         else if (processor.getSection().equals("moveto"))
             movetoCommand(processor);
         else if (processor.getSection().equals("sleep"))
-            ;// TODO: 5/10/2022
+            sleepCommand();
         else if (processor.getSection().equals("alert"))
             ;// TODO: 5/10/2022
         else if (processor.getSection().equals("fortify"))
@@ -177,14 +179,10 @@ public class GameMenu extends Menu {
     private static void movetoCommand(Processor processor) {
         String x = processor.get("x");
         String y = processor.get("y");
-        Unit unit;
+        Unit unit = null;
 
         if (selectedNonCombatUnit != null) unit = selectedNonCombatUnit;
         else if (selectedCombatUnit != null) unit = selectedCombatUnit;
-        else {
-            System.out.println("First select a unit");
-            return;
-        }
 
         if (x == null || y == null || processor.getNumberOfFields() != 2) {
             invalidCommand();
@@ -212,7 +210,13 @@ public class GameMenu extends Menu {
         }
     }
 
+    //Makes the unit sleep
+    private static void sleepCommand() {
+        if (selectedNonCombatUnit != null) selectedNonCombatUnit.setSleep(true);
+        else selectedCombatUnit.setSleep(true);
+    }
 
+    //Founds a city with selected unit if command is correct
     private static void foundCityCommand(Processor processor) {
         String name = processor.get("nickname");
         if (name == null) name = processor.get("name");
@@ -232,6 +236,7 @@ public class GameMenu extends Menu {
                         break;
                     case "ok":
                         System.out.println("City founded!");
+                        selectedNonCombatUnit = null;
                         break;
                 }
             }
