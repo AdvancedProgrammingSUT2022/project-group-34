@@ -372,7 +372,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("research"))
             researchInfoMenu();
         else if (processor.getSection().equals("units"))
-            ;// TODO: 5/11/2022
+            unitsInfoPanel();
         else if (processor.getSection().equals("cities"))
             ;// TODO: 5/11/2022
         else if (processor.getSection().equals("diplomacy"))
@@ -384,7 +384,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("notifications"))
             ;// TODO: 5/11/2022
         else if (processor.getSection().equals("military"))
-            ;// TODO: 5/11/2022
+            militaryInfoMenu();
         else if (processor.getSection().equals("economic"))
             ;// TODO: 5/11/2022
         else if (processor.getSection().equals("diplomatic"))
@@ -406,11 +406,16 @@ public class GameMenu extends Menu {
         System.out.println(output);
     }
 
+    // TODO: Sort units arraylist
     private static void unitsInfoPanel() {
         Civilization civilization = GameController.getInstance().getCivilization();
 
         StringBuilder output = new StringBuilder("List of units: ").append("\n");
-        printListOfUnits(output, civilization);
+        for (int i = 1; i <= civilization.getUnits().size(); i++) {
+            Unit unit = civilization.getUnits().get(i-1);
+            output.append(i).append(".").append(unit.getName()).append("\t(").append(unit.getPosition().getX());
+            output.append(", ").append(unit.getPosition().getY()).append(")").append("\n");
+        }
 
         output.append("If you want to select a unit, please type its index.\n");
         output.append("If you want to enter military overview screen, please type \"military\".\n");
@@ -420,9 +425,7 @@ public class GameMenu extends Menu {
 
         String choice = getUnitsPanelChoice(civilization);
         if (choice.equals("military"))
-            ;// TODO: 5/11/2022
-        else if (choice.equals("exit"))
-            return;
+            militaryInfoMenu();
         else {
             selectedCombatUnit = null;
             selectedNonCombatUnit = null;
@@ -431,24 +434,6 @@ public class GameMenu extends Menu {
             Unit unit = civilization.getUnits().get(index);
             if (unit instanceof CombatUnit) selectedCombatUnit = (CombatUnit) unit;
             else selectedNonCombatUnit = (NonCombatUnit) unit;
-        }
-    }
-
-    private static void printListOfUnits(StringBuilder output, Civilization civilization){
-        for (int i = 1; i <= civilization.getUnits().size(); i++) {
-            Unit unit = civilization.getUnits().get(i-1);
-            output.append(i).append(".").append(unit.getName()).append("\t(").append(unit.getPosition().getX());
-            output.append(", ").append(unit.getPosition().getY()).append(")").append("\t");
-            if (unit.isSleep()) output.append("sleep");
-            else {
-                if (unit instanceof CombatUnit){
-                    if (((CombatUnit) unit).isAlert()) output.append("alert");
-                    else if (((CombatUnit) unit).isFortify()) output.append("fortified");
-                    else if (((CombatUnit) unit).isFortifyUntilHealed()) output.append("healed");
-                    else output.append("active");
-                }else output.append("active");
-            }
-            output.append("\n");
         }
     }
 
@@ -491,8 +476,33 @@ public class GameMenu extends Menu {
         // TODO: 4/21/2022
     }
 
-    private static void militaryInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
+    private static void militaryInfoMenu() {
+        Civilization civilization = GameController.getInstance().getCivilization();
+
+        StringBuilder output = new StringBuilder("List of units: ").append("\n");
+        printListOfUnits(output, civilization);
+
+        System.out.println(output);
+    }
+
+    private static void printListOfUnits(StringBuilder output, Civilization civilization){
+        for (int i = 1; i <= civilization.getUnits().size(); i++) {
+            Unit unit = civilization.getUnits().get(i-1);
+            output.append(i).append(".").append(unit.getName()).append("\t(").append(unit.getPosition().getX());
+            output.append(", ").append(unit.getPosition().getY()).append(")").append("\t");
+            if (unit.isSleep()) output.append("sleep");
+            else {
+                if (unit instanceof CombatUnit){
+                    if (((CombatUnit) unit).isAlert()) output.append("alert");
+                    else if (((CombatUnit) unit).isFortify()) output.append("fortified");
+                    else if (((CombatUnit) unit).isFortifyUntilHealed()) output.append("healed");
+                    else output.append("active");
+                }else if (unit instanceof Worker)
+                    if (((Worker) unit).isWorking) output.append("is working");
+                else output.append("active");
+            }
+            output.append("\n");
+        }
     }
 
     private static void economicInfoMenu(Scanner scanner) {
