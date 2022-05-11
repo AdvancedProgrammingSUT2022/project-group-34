@@ -28,6 +28,7 @@ public class GameMenu extends Menu {
             else if (processor.getCategory().equals("select")) handleSelectCategoryCommand(processor);
             else if (processor.getCategory().equals("unit")) handleUnitCategoryCommand(processor);
             else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
+            else if (processor.getCategory().equals("info")) handleInfoCategoryCommand(processor);
             else invalidCommand();
         }
     }
@@ -365,7 +366,32 @@ public class GameMenu extends Menu {
 
 
     private static void handleInfoCategoryCommand(Processor processor) {
-        // TODO: 4/21/2022
+        if (processor.getSection()==null)
+            invalidCommand();
+        else if (processor.getSection().equals("research"))
+            ;// TODO: 5/11/2022
+        else if (processor.getSection().equals("units"))
+            ;// TODO: 5/11/2022
+        else if (processor.getSection().equals("cities"))
+            ;// TODO: 5/11/2022
+        else if (processor.getSection().equals("diplomacy"))
+            ;// TODO: 5/11/2022
+        else if (processor.getSection().equals("victory"))
+            ;// TODO: 5/11/2022
+        else if (processor.getSection().equals("demographics"))
+            ;// TODO: 5/11/2022
+        else if (processor.getSection().equals("notifications"))
+            ;// TODO: 5/11/2022
+        else if (processor.getSection().equals("military"))
+            ;// TODO: 5/11/2022
+        else if (processor.getSection().equals("economic"))
+            ;// TODO: 5/11/2022
+        else if (processor.getSection().equals("diplomatic"))
+            ;// TODO: 5/11/2022
+        else if (processor.getSection().equals("deals"))
+            ;// TODO: 5/11/2022
+        else
+            invalidCommand();
     }
 
 
