@@ -370,7 +370,7 @@ public class GameMenu extends Menu {
         if (processor.getSection() == null)
             invalidCommand();
         else if (processor.getSection().equals("research"))
-            ResearchInfoMenu();
+            researchInfoMenu();
         else if (processor.getSection().equals("units"))
             ;// TODO: 5/11/2022
         else if (processor.getSection().equals("cities"))
@@ -395,7 +395,7 @@ public class GameMenu extends Menu {
             invalidCommand();
     }
 
-    private static void ResearchInfoMenu() {
+    private static void researchInfoMenu() {
         Technology technology = GameController.getInstance().getCivilization().getStudyingTechnology();
 
         StringBuilder output = new StringBuilder("Current Research Project: ").append(technology.getName()).append("\n");
@@ -406,43 +406,104 @@ public class GameMenu extends Menu {
         System.out.println(output);
     }
 
-    private static void UnitsInfoMenu(Scanner scanner) {
+    private static void unitsInfoPanel() {
+        Civilization civilization = GameController.getInstance().getCivilization();
+
+        StringBuilder output = new StringBuilder("List of units: ").append("\n");
+        printListOfUnits(output, civilization);
+
+        output.append("If you want to select a unit, please type its index.\n");
+        output.append("If you want to enter military overview screen, please type \"military\".\n");
+        output.append("If you want to exit the panel, please type \"exit\".");
+
+        System.out.println(output);
+
+        String choice = getUnitsPanelChoice(civilization);
+        if (choice.equals("military"))
+            ;// TODO: 5/11/2022
+        else if (choice.equals("exit"))
+            return;
+        else {
+            selectedCombatUnit = null;
+            selectedNonCombatUnit = null;
+            selectedCity = null;
+            int index = Integer.parseInt(choice)-1;
+            Unit unit = civilization.getUnits().get(index);
+            if (unit instanceof CombatUnit) selectedCombatUnit = (CombatUnit) unit;
+            else selectedNonCombatUnit = (NonCombatUnit) unit;
+        }
+    }
+
+    private static void printListOfUnits(StringBuilder output, Civilization civilization){
+        for (int i = 1; i <= civilization.getUnits().size(); i++) {
+            Unit unit = civilization.getUnits().get(i-1);
+            output.append(i).append(".").append(unit.getName()).append("\t(").append(unit.getPosition().getX());
+            output.append(", ").append(unit.getPosition().getY()).append(")").append("\t");
+            if (unit.isSleep()) output.append("sleep");
+            else {
+                if (unit instanceof CombatUnit){
+                    if (((CombatUnit) unit).isAlert()) output.append("alert");
+                    else if (((CombatUnit) unit).isFortify()) output.append("fortified");
+                    else if (((CombatUnit) unit).isFortifyUntilHealed()) output.append("healed");
+                    else output.append("active");
+                }else output.append("active");
+            }
+            output.append("\n");
+        }
+    }
+
+    private static String getUnitsPanelChoice(Civilization civilization){
+        String choice;
+        while (true) {
+            choice = getInput();
+
+            if (choice.equals("military"))
+                return choice;
+            else if (choice.equals("exit"))
+                return choice;
+            else if (choice.matches("\\d+")) {
+                int number = Integer.parseInt(choice);
+                if (number < 1 || number > civilization.getUnits().size())
+                    System.out.println("Invalid number!");
+                else return choice;
+            } else
+                invalidCommand();
+        }
+    }
+
+    private static void citiesInfoMenu(Scanner scanner) {
         // TODO: 4/21/2022
     }
 
-    private static void CitiesInfoMenu(Scanner scanner) {
+    private static void diplomacyInfoMenu(Scanner scanner) {
         // TODO: 4/21/2022
     }
 
-    private static void DiplomacyInfoMenu(Scanner scanner) {
+    private static void victoryInfoMenu(Scanner scanner) {
         // TODO: 4/21/2022
     }
 
-    private static void VictoryInfoMenu(Scanner scanner) {
+    private static void demographicsInfoMenu(Scanner scanner) {
         // TODO: 4/21/2022
     }
 
-    private static void DemographicsInfoMenu(Scanner scanner) {
+    private static void notificationsInfoMenu(Scanner scanner) {
         // TODO: 4/21/2022
     }
 
-    private static void NotificationsInfoMenu(Scanner scanner) {
+    private static void militaryInfoMenu(Scanner scanner) {
         // TODO: 4/21/2022
     }
 
-    private static void MilitaryInfoMenu(Scanner scanner) {
+    private static void economicInfoMenu(Scanner scanner) {
         // TODO: 4/21/2022
     }
 
-    private static void EconomicInfoMenu(Scanner scanner) {
+    private static void diplomaticInfoMenu(Scanner scanner) {
         // TODO: 4/21/2022
     }
 
-    private static void DiplomaticInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void DealsInfoMenu(Scanner scanner) {
+    private static void dealsInfoMenu(Scanner scanner) {
         // TODO: 4/21/2022
     }
 
