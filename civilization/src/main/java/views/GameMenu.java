@@ -374,7 +374,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("units"))
             unitsInfoPanel();
         else if (processor.getSection().equals("cities"))
-            ;// TODO: 5/11/2022
+            citiesInfoPanel();
         else if (processor.getSection().equals("diplomacy"))
             ;// TODO: 5/11/2022
         else if (processor.getSection().equals("victory"))
@@ -407,12 +407,13 @@ public class GameMenu extends Menu {
     }
 
     // TODO: Sort units arraylist
+    // TODO: Change printing format
     private static void unitsInfoPanel() {
         Civilization civilization = GameController.getInstance().getCivilization();
 
         StringBuilder output = new StringBuilder("List of units: ").append("\n");
         for (int i = 1; i <= civilization.getUnits().size(); i++) {
-            Unit unit = civilization.getUnits().get(i-1);
+            Unit unit = civilization.getUnits().get(i - 1);
             output.append(i).append(".").append(unit.getName()).append("\t(").append(unit.getPosition().getX());
             output.append(", ").append(unit.getPosition().getY()).append(")").append("\n");
         }
@@ -426,38 +427,80 @@ public class GameMenu extends Menu {
         String choice = getUnitsPanelChoice(civilization);
         if (choice.equals("military"))
             militaryInfoMenu();
+        else if (choice.equals("exit"))
+            return;
         else {
             selectedCombatUnit = null;
             selectedNonCombatUnit = null;
             selectedCity = null;
-            int index = Integer.parseInt(choice)-1;
+            int index = Integer.parseInt(choice) - 1;
             Unit unit = civilization.getUnits().get(index);
             if (unit instanceof CombatUnit) selectedCombatUnit = (CombatUnit) unit;
             else selectedNonCombatUnit = (NonCombatUnit) unit;
         }
     }
 
-    private static String getUnitsPanelChoice(Civilization civilization){
+    private static String getUnitsPanelChoice(Civilization civilization) {
         String choice;
         while (true) {
             choice = getInput();
 
-            if (choice.equals("military"))
-                return choice;
-            else if (choice.equals("exit"))
-                return choice;
+            if (choice.equals("military")) return choice;
+            else if (choice.equals("exit")) return choice;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
+
                 if (number < 1 || number > civilization.getUnits().size())
                     System.out.println("Invalid number!");
                 else return choice;
-            } else
-                invalidCommand();
+            } else invalidCommand();
         }
     }
 
-    private static void citiesInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
+    private static void citiesInfoPanel() {
+        Civilization civilization = GameController.getInstance().getCivilization();
+
+        StringBuilder output = new StringBuilder("List of cities: ").append("\n");
+        for (int i = 1; i <= civilization.getCities().size(); i++) {
+            City city = civilization.getCities().get(i - 1);
+
+            output.append("name:").append(city.getName());
+            if (civilization.getCurrentCapital().equals(city)) output.append("(Capital)");
+            output.append("|Number of Citizens:").append(city.getCitizens().size());
+            output.append("|City Production:").append(city.getUnitUnderProduct().getName()).append("\n");
+        }
+
+        output.append("If you want to select a city, please type its index.\n");
+        output.append("If you want to enter economic overview screen, please type \"economic\".\n");
+        output.append("If you want to exit the panel, please type \"exit\".");
+
+        System.out.println(output);
+
+        String choice = getUnitsPanelChoice(civilization);
+        if (choice.equals("economic"))
+            ;// TODO: 5/11/2022
+        else if (choice.equals("exit"))
+            return;
+        else{
+            ;// TODO: 5/11/2022
+        }
+    }
+
+    private static String getCitiesPanelChoice(Civilization civilization) {
+        String choice;
+        while (true) {
+            choice = getInput();
+
+            if (choice.equals("economic")) return choice;
+            else if (choice.equals("exit")) return choice;
+            else if (choice.matches("\\d+")) {
+                int index = Integer.parseInt(choice);
+
+                if (index < 1 || index > civilization.getCities().size())
+                    System.out.println("Invalid number!");
+                else return choice;
+            } else invalidCommand();
+        }
     }
 
     private static void diplomacyInfoMenu(Scanner scanner) {
@@ -485,21 +528,21 @@ public class GameMenu extends Menu {
         System.out.println(output);
     }
 
-    private static void printListOfUnits(StringBuilder output, Civilization civilization){
+    private static void printListOfUnits(StringBuilder output, Civilization civilization) {
         for (int i = 1; i <= civilization.getUnits().size(); i++) {
-            Unit unit = civilization.getUnits().get(i-1);
+            Unit unit = civilization.getUnits().get(i - 1);
             output.append(i).append(".").append(unit.getName()).append("\t(").append(unit.getPosition().getX());
             output.append(", ").append(unit.getPosition().getY()).append(")").append("\t");
             if (unit.isSleep()) output.append("sleep");
             else {
-                if (unit instanceof CombatUnit){
+                if (unit instanceof CombatUnit) {
                     if (((CombatUnit) unit).isAlert()) output.append("alert");
                     else if (((CombatUnit) unit).isFortify()) output.append("fortified");
                     else if (((CombatUnit) unit).isFortifyUntilHealed()) output.append("healed");
                     else output.append("active");
-                }else if (unit instanceof Worker)
+                } else if (unit instanceof Worker)
                     if (((Worker) unit).isWorking) output.append("is working");
-                else output.append("active");
+                    else output.append("active");
             }
             output.append("\n");
         }
