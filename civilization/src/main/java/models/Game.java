@@ -4,7 +4,9 @@ import models.map.GameMap;
 import models.resource.Resource;
 import models.unit.Unit;
 import models.unit.Settler;
+import models.tile.Tile;
 
+import java.util.Collections;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,7 +31,7 @@ public class Game {
             ArrayList<City> cityList = new ArrayList<>();
             ArrayList<Unit> unitList = new ArrayList<>();
             unitList.add(settler);
-            civilizations.add(new Civilization(users.get(i), users.get(i).getNickname(), cityList, null, unitList, null, 0, 0, 0, 0);
+            civilizations.add(new Civilization(users.get(i), users.get(i).getNickname(), cityList, null, unitList, null, 0, 0, 0, 0));
             settler.setCivilization(civilizations.get(i));
         }
         for (Civilization civilization : civilizations) {
@@ -88,6 +90,18 @@ public class Game {
     }
 
     private ArrayList<Settler> makeRandomSettlers(GameMap mainGameMap, int count) {
-        //TODO
+        ArrayList<Tile> candidateTiles = new ArrayList<>();
+        for (int row = 0; row < mainGameMap.getMapHeight(); row++) {
+            for (int column = 0; column < mainGameMap.getMapWidth(); column++) {
+                Tile tile = mainGameMap.getTileByXY(row, column);
+                if (tile != null && !tile.isUnmovable()) candidateTiles.add(tile)
+            }
+        }
+        Collections.shuffle(candidateTiles);
+        ArrayList<Settler> answer = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            answer.add(new Settler("Initial settler", candidateTiles.get(i)));
+        }
+        return answer;
     }
 }
