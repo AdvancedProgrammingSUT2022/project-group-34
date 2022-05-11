@@ -19,6 +19,7 @@ public abstract class Unit {
     private int promotion;
     private int cost;
     private int motionPoint;
+    protected boolean isSleep;
 
     private Stack<Tile> path;
     private boolean isMoving;
@@ -103,6 +104,14 @@ public abstract class Unit {
         this.motionPoint = motionPoint;
     }
 
+    public boolean isSleep() {
+        return isSleep;
+    }
+
+    public void setSleep(boolean sleep) {
+        isSleep = sleep;
+    }
+
     public Tile getPosition() {
         return position;
     }
@@ -143,5 +152,9 @@ public abstract class Unit {
 
     public ArrayList<String> getUnitActionList() {
         return unitActionList;
+    }
+
+    public void makeUnitAwake(){
+        setSleep(false);
     }
 }

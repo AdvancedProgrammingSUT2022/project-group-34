@@ -10,7 +10,6 @@ public class Worker extends NonCombatUnit{
 
     public Worker(String name, Tile position, Civilization civilization) {
         super(name, position, civilization);
-
     }
 
     public boolean isWorking() {
