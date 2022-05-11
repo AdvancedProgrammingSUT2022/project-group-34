@@ -10,12 +10,50 @@ import java.util.HashMap;
 public enum Improvement{
 
 
-    Camp("Camp",0,0,0,false,"Trapping"
-            ,new String[]{"asd"},new String[]{"asd"}, new String[]{"asd"}),
-    Farm("Farm",0,0,0,false,"Trapping"
-                 ,new String[]{"asd"},new String[]{"asd"}, new String[]{"asd"}),
-    LumberMill("LumberMill",0,0,0,false,"Trapping"
-                 ,new String[]{"asd"},new String[]{"asd"}, new String[]{"asd"}),
+    Camp        ("Camp"         ,0,0,0,false,"Trapping"
+            , new Terrain[]{Terrain.Tundra,Terrain.Plains,Terrain.Desert}
+            , new Feature[]{Feature.Forests}
+            , new String[]{"Ivory","Furs","Deer"}),
+
+    Farm        ("Farm"         ,1,0,0,false,"Agriculture"
+            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert}
+            , new Feature[]{}
+            , new String[]{"Wheat"}),
+
+    LumberMill  ("LumberMill"   ,0,0,1,false,"Engineering"
+            , new Terrain[]{}
+            , new Feature[]{Feature.Forests}
+            , new String[]{}),
+
+    Mine        ("Mine"         ,0,0,1,false,"Mining"
+            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills,Terrain.Snow}
+            , new Feature[]{Feature.Jungle,Feature.Forests,Feature.Marsh}
+            , new String[]{"Iron","Coal","Gems","Gold","Silver"}),
+
+    Pasture     ("Pasture"      ,0,0,0,false,"AnimalHusbandry"
+            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills}
+            , new Feature[]{}
+            , new String[]{"Horses","Cattle","Sheep"}),
+
+    Plantation  ("Plantation"   ,0,0,0,false,"Calendar"
+            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert}
+            , new Feature[]{Feature.Forests,Feature.Marsh,Feature.FloodPlane,Feature.Jungle}
+            , new String[]{"Bananas","Silk","Sugar","Cotton","Dyes","Incense"}),
+
+    Quarry      ("Quarry"       ,0,0,0,false,"Masonry"
+            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills}
+            , new Feature[]{}
+            , new String[]{"Marble"}),
+
+    TradingPost ("TradingPost"  ,0,1,0,false,"Trapping"
+            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra}
+            , new Feature[]{}
+            , new String[]{}),
+
+    Manufactory ("Manufactory"  ,0,0,3,true ,null
+            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Snow}
+            , new Feature[]{}
+            , new String[]{}),
     ;
 
 
@@ -32,8 +70,8 @@ public enum Improvement{
     public static HashMap<String, Improvement> allImprovements = new HashMap<>();
 
     Improvement(String name, int foodRate, int goldRate, int productionRate, boolean isUsable, String requiredTechnology,
-                String[] suitableTerrainForThisImprovement,
-                String[] suitableFeatureForThisImprovement,
+                Terrain[] suitableTerrainForThisImprovement,
+                Feature[] suitableFeatureForThisImprovement,
                 String[] allResourcesThatNeedThisTechnology) {
 
         this.name = name;
@@ -43,21 +81,28 @@ public enum Improvement{
         this.isUsable = isUsable;
         this.requiredTechnology = Technology.getAllTechnologiesCopy().get(requiredTechnology);
 
-        for (String TerrainName : suitableTerrainForThisImprovement)
-            this.suitableTerrainForThisImprovement.add(Terrain.getAllTerrains().get(TerrainName));
+        for (Terrain terrain : suitableTerrainForThisImprovement)
+            this.suitableTerrainForThisImprovement.add(Terrain.getAllTerrains().get(terrain));
 
-        for (String featureName : suitableFeatureForThisImprovement)
-            this.suitableFeatureForThisImprovement.add(Feature.getAllFeatures().get(featureName));
+        for (Feature feature : suitableFeatureForThisImprovement)
+            this.suitableFeatureForThisImprovement.add(Feature.getAllFeatures().get(feature));
 
+        HashMap<String,Resource> allResourcesCopy = Resource.getAllResourcesCopy();
         for (String resourceName : allResourcesThatNeedThisTechnology)
-            this.allResourcesThatNeedThisTechnology.add(Resource.getAllResourcesCopy().get(resourceName));
+            this.allResourcesThatNeedThisTechnology.add(allResourcesCopy.get(resourceName));
 
     }
 
     public static void createAllInstances() {
-        allImprovements.put("Camp",Improvement.Camp);
-        allImprovements.put("Farm",Improvement.Farm);
-        allImprovements.put("LumberMill",Improvement.LumberMill);
+        allImprovements.put(Improvement.Camp.name       ,Improvement.Camp);
+        allImprovements.put(Improvement.Farm.name       ,Improvement.Farm);
+        allImprovements.put(Improvement.LumberMill.name ,Improvement.LumberMill);
+        allImprovements.put(Improvement.Mine.name       ,Improvement.Mine);
+        allImprovements.put(Improvement.Pasture.name    ,Improvement.Pasture);
+        allImprovements.put(Improvement.Plantation.name ,Improvement.Plantation);
+        allImprovements.put(Improvement.Quarry.name     ,Improvement.Quarry);
+        allImprovements.put(Improvement.TradingPost.name,Improvement.TradingPost);
+        allImprovements.put(Improvement.Manufactory.name,Improvement.Manufactory);
     }
 
 

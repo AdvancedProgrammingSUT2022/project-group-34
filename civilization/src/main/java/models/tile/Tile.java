@@ -53,7 +53,7 @@ public class Tile extends AbstractTile{
 
     public void deleteFeature() {
         if (feature.name.equals("Jungle"))
-            this.terrain = Terrain.Plain;
+            this.terrain = Terrain.Plains;
         this.feature = null;
         setTileProperties();
     }
