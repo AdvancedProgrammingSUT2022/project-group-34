@@ -4,6 +4,7 @@ import controllers.CivilizationController;
 import controllers.GameController;
 import models.City;
 import models.Civilization;
+import models.Notification;
 import models.Technology;
 import models.tile.Tile;
 import models.unit.*;
@@ -382,7 +383,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("demographics"))
             ;// TODO: 5/11/2022
         else if (processor.getSection().equals("notifications"))
-            ;// TODO: 5/11/2022
+            notificationsInfoMenu();
         else if (processor.getSection().equals("military"))
             militaryInfoMenu();
         else if (processor.getSection().equals("economic"))
@@ -516,8 +517,16 @@ public class GameMenu extends Menu {
         // TODO: 4/21/2022
     }
 
-    private static void notificationsInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
+    private static void notificationsInfoMenu() {
+        Civilization civilization = GameController.getInstance().getCivilization();
+
+        StringBuilder output = new StringBuilder("List of notifications:").append("\n");
+        for (Notification notification : civilization.getNotifications()) {
+            output.append("Message:").append(notification.getMessage());
+            output.append("|Tern:").append(notification.getTern()).append("\n");
+        }
+
+        System.out.println(output);
     }
 
     private static void militaryInfoMenu() {
