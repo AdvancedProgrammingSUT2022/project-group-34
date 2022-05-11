@@ -149,16 +149,5 @@ public class GameMap extends Map{
                 tile1.setAdjacentTiles(getAdjacentTiles(tile1));
             }
 
-
-
-    }
-
-    public CivilizationMap clone() {
-        //TODO
-        CivilizationMap answer = new CivilizationMap(mapWidth, mapHeight);
-        ArrayList<ArrayList<VisibleTile>> = new ArrayList<>();
-        //TODO : clone every Tile
-        for ();
-        return null;
     }
 }

@@ -1,5 +1,6 @@
 package models;
 
+import models.map.CivilizationMap;
 import models.map.GameMap;
 import models.resource.Resource;
 import models.unit.Unit;
@@ -25,19 +26,18 @@ public class Game {
     public Game(ArrayList<User> users) {
         mainGameMap = GameMap.load();
         ArrayList<Settler> settlers = makeRandomSettlers(mainGameMap, users.size());
-        // TODO: make random cities in the map.
         for (int i = 0; i < users.size(); i++) {
             Settler settler = settlers.get(i);
             ArrayList<City> cityList = new ArrayList<>();
             ArrayList<Unit> unitList = new ArrayList<>();
             unitList.add(settler);
-            civilizations.add(new Civilization(users.get(i), users.get(i).getNickname(), cityList, null, unitList, null, 0, 0, 0, 0));
-            settler.setCivilization(civilizations.get(i));
+            Civilization civilization = new Civilization(users.get(i), users.get(i).getNickname(), cityList, null, unitList, null, 0, 0, 0, 0);
+            civilizations.add(civilization);
+            settler.setCivilization(civilization);
+            civilization.setPersonalMap(new CivilizationMap(mainGameMap.getMapWidth(), mainGameMap.getMapHeight(), mainGameMap));
+            //TODO: update transparentTiles.
+            civilization.updatePersonalMap(mainGameMap);
         }
-        for (Civilization civilization : civilizations) {
-            civilization.setPersonalMap(mainGameMap.clone());
-        }
-        //TODO
         this.users = users;
     }
 

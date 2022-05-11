@@ -15,6 +15,14 @@ public abstract class Map {
         this.mapHeight = mapHeight;
     }
 
+    public int getMapWidth() {
+        return mapWidth;
+    }
+
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
     public static int[] getS(int q, int r){
         return new int[]{q, r, -r - q};
     }
