@@ -386,7 +386,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("military"))
             militaryInfoMenu();
         else if (processor.getSection().equals("economic"))
-            ;// TODO: 5/11/2022
+            economicInfoMenu();
         else if (processor.getSection().equals("diplomatic"))
             ;// TODO: 5/11/2022
         else if (processor.getSection().equals("deals"))
@@ -407,7 +407,6 @@ public class GameMenu extends Menu {
     }
 
     // TODO: Sort units arraylist
-    // TODO: Change printing format
     private static void unitsInfoPanel() {
         Civilization civilization = GameController.getInstance().getCivilization();
 
@@ -465,8 +464,9 @@ public class GameMenu extends Menu {
         for (int i = 1; i <= civilization.getCities().size(); i++) {
             City city = civilization.getCities().get(i - 1);
 
-            output.append(i).append(".name:").append(city.getName());
+            output.append(i).append(".Name:").append(city.getName());
             if (civilization.getCurrentCapital().equals(city)) output.append("(Capital)");
+            output.append("|(").append(city.getPosition().getX()).append(", ").append(city.getPosition().getY()).append(")");
             output.append("|Number of Citizens:").append(city.getCitizens().size());
             output.append("|City Production:").append(city.getUnitUnderProduct().getName()).append("\n");
         }
@@ -479,11 +479,11 @@ public class GameMenu extends Menu {
 
         String choice = getCitiesPanelChoice(civilization);
         if (choice.equals("economic"))
-            ;// TODO: 5/11/2022
+            economicInfoMenu();
         else if (choice.equals("exit"))
             return;
-        else{
-            ;// TODO: 5/11/2022
+        else {
+            // TODO: Enter city screen
         }
     }
 
@@ -495,9 +495,9 @@ public class GameMenu extends Menu {
             if (choice.equals("economic")) return choice;
             else if (choice.equals("exit")) return choice;
             else if (choice.matches("\\d+")) {
-                int index = Integer.parseInt(choice);
+                int number = Integer.parseInt(choice);
 
-                if (index < 1 || index > civilization.getCities().size())
+                if (number < 1 || number > civilization.getCities().size())
                     System.out.println("Invalid number!");
                 else return choice;
             } else invalidCommand();
@@ -549,8 +549,58 @@ public class GameMenu extends Menu {
         }
     }
 
-    private static void economicInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
+    private static void economicInfoMenu() {
+        Civilization civilization = GameController.getInstance().getCivilization();
+
+        StringBuilder output = new StringBuilder("List of cities: ").append("\n");
+        printListOfCities(output, civilization);
+
+        output.append("If you want to select a city, please type its index.\n");
+        output.append("If you want to exit the screen, please type \"exit\".\n");
+
+        System.out.println(output);
+
+        String choice = getEconomicMenuChoice(civilization);
+
+        if (choice.equals("exit"))
+            return;
+        else {
+            // TODO: Enter city screen
+        }
+    }
+
+    private static void printListOfCities(StringBuilder output, Civilization civilization) {
+        for (int i = 1; i <= civilization.getCities().size(); i++) {
+            City city = civilization.getCities().get(i - 1);
+
+            output.append(i).append(".Name:").append(city.getName());
+            if (civilization.getCurrentCapital().equals(city)) output.append("(Capital)");
+            output.append("|(").append(city.getPosition().getX()).append(", ").append(city.getPosition().getY()).append(")");
+            output.append("|Number of Citizens:").append(city.getCitizens().size());
+            output.append("|City Strength:").append(city.getStrength());
+            output.append("|Food:").append(city.getFood());
+            output.append("|Production Rate:").append(city.getProductionRate());
+            output.append("|Science Rate:").append(city.getScienceRate());
+            output.append("|Gold Rate:").append(city.getGoldRate());
+            output.append("|City Production:").append(city.getUnitUnderProduct().getName());
+            output.append("(").append(city.getUnitUnderProductTern()).append("\n");
+        }
+    }
+
+    private static String getEconomicMenuChoice(Civilization civilization){
+        String choice;
+
+        while (true){
+            choice=getInput();
+            if (choice.equals("exit")) return choice;
+            else if (choice.matches("\\d+")){
+                int number = Integer.parseInt(choice);
+
+                if (number<1||number>civilization.getCities().size()) System.out.println("Invalid number!");
+                else return choice;
+            }else
+                invalidCommand();
+        }
     }
 
     private static void diplomaticInfoMenu(Scanner scanner) {
