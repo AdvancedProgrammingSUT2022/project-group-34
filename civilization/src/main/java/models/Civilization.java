@@ -1,11 +1,9 @@
 package models;
 
 import models.map.CivilizationMap;
-import models.map.GameMap;
 import models.resource.LuxuryResource;
 import models.resource.Resource;
 import models.tile.Tile;
-import models.tile.VisibleTile;
 import models.unit.Unit;
 import models.unit.Work;
 
@@ -288,18 +286,5 @@ public class Civilization {
 
     public void removeUnit(Unit unit){
         units.remove(unit);
-    }
-
-    public void updatePersonalMap(GameMap mainMap) {
-        for (int i = 0; i < personalMap.getMapHeight(); i++) {
-            for (int j = 0; j < personalMap.getMapWidth(); j++) {
-                Tile tile = mainMap.getTileByXY(i, j);
-                if (tile == null) personalMap.setTileByXY(i, j,null);
-//TODO
-                if (personalMap.isTransparent(personalMap.getTileByXY(i, j))) {
-                    personalMap.setTileByXY(i, j, new VisibleTile(tile, false));
-                }
-            }
-        }
     }
 }

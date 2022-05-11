@@ -1,6 +1,5 @@
 package models;
 
-import models.map.CivilizationMap;
 import models.map.GameMap;
 import models.resource.Resource;
 import models.unit.Unit;
@@ -34,11 +33,9 @@ public class Game {
             Civilization civilization = new Civilization(users.get(i), users.get(i).getNickname(), cityList, null, unitList, null, 0, 0, 0, 0);
             civilizations.add(civilization);
             settler.setCivilization(civilization);
-            civilization.setPersonalMap(new CivilizationMap(mainGameMap.getMapWidth(), mainGameMap.getMapHeight(), mainGameMap));
-            //TODO: update transparentTiles.
-            civilization.updatePersonalMap(mainGameMap);
         }
         this.users = users;
+        //personal maps initialized in controller.
     }
 
     public HashMap<String, Resource> getGameResources() {
@@ -94,7 +91,7 @@ public class Game {
         for (int row = 0; row < mainGameMap.getMapHeight(); row++) {
             for (int column = 0; column < mainGameMap.getMapWidth(); column++) {
                 Tile tile = mainGameMap.getTileByXY(row, column);
-                if (tile != null && !tile.isUnmovable()) candidateTiles.add(tile)
+                if (tile != null && !tile.isUnmovable()) candidateTiles.add(tile);
             }
         }
         Collections.shuffle(candidateTiles);

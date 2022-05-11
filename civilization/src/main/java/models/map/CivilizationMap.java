@@ -1,6 +1,8 @@
 //besmellah
 package models.map;
 
+import models.tile.AbstractTile;
+import models.tile.Tile;
 import models.tile.VisibleTile;
 
 import java.util.ArrayList;
@@ -43,5 +45,15 @@ public class CivilizationMap extends Map {
 
     public boolean isTransparent(VisibleTile tile) {
         return transparentTiles.contains(tile);
+    }
+
+    public void removeTransparentTiles() {
+        transparentTiles = new ArrayList<>();
+    }
+
+    public void addTransparentTiles(ArrayList<AbstractTile> tiles) {
+        for (AbstractTile tile : tiles) {
+            transparentTiles.add(getTileByXY(tile.getX(), tile.getY()));
+        }
     }
 }
