@@ -36,6 +36,12 @@ public class City {
         this.territory = territory;
     }
 
+    public City(String name, Tile position , ArrayList<Tile> territory) {
+        this.name = name;
+        this.position = position;
+        this.territory = territory;
+    }
+
     public String getName() {
         return name;
     }

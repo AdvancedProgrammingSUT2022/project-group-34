@@ -20,6 +20,7 @@ public class GameMap extends Map{
     }
 
     static public GameMap load() {
+        GameMap answer = new GameMap();
         return null;
         // TODO: make a map in GSon and save it, load it here.
         // The template of the file (saving map) :
