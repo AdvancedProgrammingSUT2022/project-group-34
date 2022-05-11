@@ -133,7 +133,7 @@ public class GameMenu extends Menu {
     }
 
 
-    /*Handles commands that start with "unit"
+    /*Handles commands that start with "unit":
     unit moveto --x <x> --y <y>
     unit sleep
     unit found city
@@ -367,6 +367,14 @@ public class GameMenu extends Menu {
     }
 
 
+    /*Handles commands that start with "info":
+    1.info research
+    2.info units
+    3.info cities
+    4.info demographics
+    5.info notifications
+    6.info military
+    7.info economic*/
     private static void handleInfoCategoryCommand(Processor processor) {
         if (processor.getSection() == null)
             invalidCommand();
@@ -377,9 +385,9 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("cities"))
             citiesInfoPanel();
         else if (processor.getSection().equals("diplomacy"))
-            ;// TODO: 5/11/2022
+            ;// TODO: Next phase
         else if (processor.getSection().equals("victory"))
-            ;// TODO: 5/11/2022
+            ;// TODO: Next phase
         else if (processor.getSection().equals("demographics"))
             ;// TODO: 5/11/2022
         else if (processor.getSection().equals("notifications"))
@@ -389,9 +397,9 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("economic"))
             economicInfoMenu();
         else if (processor.getSection().equals("diplomatic"))
-            ;// TODO: 5/11/2022
+            ;// TODO: Next phase
         else if (processor.getSection().equals("deals"))
-            ;// TODO: 5/11/2022
+            ;// TODO: Next phase
         else
             invalidCommand();
     }
