@@ -4,6 +4,7 @@ import controllers.CivilizationController;
 import controllers.GameController;
 import models.City;
 import models.Civilization;
+import models.Technology;
 import models.tile.Tile;
 import models.unit.*;
 
@@ -292,15 +293,15 @@ public class GameMenu extends Menu {
         }
     }
 
-    private static void cancelCommand(){
+    private static void cancelCommand() {
         Unit unit = selectedCombatUnit;
-        if (unit==null) unit = selectedNonCombatUnit;
+        if (unit == null) unit = selectedNonCombatUnit;
 
-        if (unit.getDestination()==unit.getPosition())
+        if (unit.getDestination() == unit.getPosition())
             System.out.println("Unit is not in a multiple-turn movement");
         else {
-        unit.setDestination(unit.getPosition());
-        System.out.println("Unit's multiple-turn movement canceled");
+            unit.setDestination(unit.getPosition());
+            System.out.println("Unit's multiple-turn movement canceled");
         }
     }
 
@@ -351,10 +352,10 @@ public class GameMenu extends Menu {
         System.out.println("Unit deleted");
     }
 
-    private static void pillageCommand(){
+    private static void pillageCommand() {
         if (selectedCombatUnit == null)
             System.out.println("Selected unit is not a military unit");
-        else if (selectedCombatUnit.getPosition().getImprovementName()==null)
+        else if (selectedCombatUnit.getPosition().getImprovementName() == null)
             System.out.println("There is no improvement in this tile");
         else {
             selectedCombatUnit.makeUnitAwake();
@@ -366,10 +367,10 @@ public class GameMenu extends Menu {
 
 
     private static void handleInfoCategoryCommand(Processor processor) {
-        if (processor.getSection()==null)
+        if (processor.getSection() == null)
             invalidCommand();
         else if (processor.getSection().equals("research"))
-            ;// TODO: 5/11/2022
+            ResearchInfoMenu();
         else if (processor.getSection().equals("units"))
             ;// TODO: 5/11/2022
         else if (processor.getSection().equals("cities"))
@@ -394,6 +395,57 @@ public class GameMenu extends Menu {
             invalidCommand();
     }
 
+    private static void ResearchInfoMenu() {
+        Technology technology = GameController.getInstance().getCivilization().getStudyingTechnology();
+
+        StringBuilder output = new StringBuilder("Current Research Project: ").append(technology.getName()).append("\n");
+        output.append("Remaining terms: ").append(technology.getRemainingTerm()).append("\n");
+        output.append("Features unlocked: ").append("\n");
+        // TODO: technologies, improvements, units, resources
+
+        System.out.println(output);
+    }
+
+    private static void UnitsInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void CitiesInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void DiplomacyInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void VictoryInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void DemographicsInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void NotificationsInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void MilitaryInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void EconomicInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void DiplomaticInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void DealsInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
 
     private static void handleCityCategoryCommand(Processor processor) {
         // TODO: 4/21/2022
@@ -411,49 +463,6 @@ public class GameMenu extends Menu {
         // TODO: 4/21/2022
     }
 
-    private static void handleResearchInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleUnitsInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleCitiesInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleDiplomacyInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleVictoryInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleDemographicsInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleNotificationsInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleMilitaryInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleEconomicInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleDiplomaticInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleDealsInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
 
     private static void handleCityInfo(Scanner scanner) {
         // TODO: 4/21/2022
