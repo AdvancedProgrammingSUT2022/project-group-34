@@ -7,6 +7,7 @@ import models.Civilization;
 import models.Notification;
 import models.Technology;
 import models.map.CivilizationMap;
+import models.map.GameMap;
 import models.tile.Tile;
 import models.tile.VisibleTile;
 import models.unit.*;
@@ -661,7 +662,8 @@ public class GameMenu extends Menu {
         System.out.printf("%s : ", civilization.getCivilizationName());
         System.out.printf("Turn %d\n", civilization.getTurn());
 
-        CivilizationMap map = civilization.getPersonalMap();
+        CivilizationMap personalMap = civilization.getPersonalMap();
+        GameMap map = GameController.getInstance().getGame().getMainGameMap();
 
         int arrayHeight = VIEW_MAP_HEIGHT * 10;
         int arrayWidth = VIEW_MAP_WIDTH * 20;
@@ -699,7 +701,8 @@ public class GameMenu extends Menu {
                 }
                 int x = mapX + i;
                 int y = mapY + j;
-                VisibleTile tile = map.getTileByXY(x, y);
+                VisibleTile visibleTile = personalMap.getTileByXY(x, y);
+                Tile tile = map.getTileByXY(x, y);
 
                 int upperBound;
                 int leftBound = 13 * (j + VIEW_MAP_WIDTH);
@@ -738,6 +741,10 @@ public class GameMenu extends Menu {
                 // TODO : handle rivers
 
                 // TODO : complete, print;
+
+                if (civilization.isInFog(tile)) {
+                    
+                }
             }
         }
     }
