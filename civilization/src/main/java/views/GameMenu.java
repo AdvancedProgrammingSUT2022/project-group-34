@@ -6,12 +6,17 @@ import models.City;
 import models.Civilization;
 import models.Notification;
 import models.Technology;
+import models.map.CivilizationMap;
 import models.tile.Tile;
+import models.tile.VisibleTile;
 import models.unit.*;
 
 import java.util.Scanner;
 
 public class GameMenu extends Menu {
+    private final static int VIEW_MAP_WIDTH = 9;
+    private final static int VIEW_MAP_HEIGHT = 7;
+
     private static CombatUnit selectedCombatUnit = null;
     private static NonCombatUnit selectedNonCombatUnit = null;
     private static City selectedCity = null;
@@ -651,6 +656,89 @@ public class GameMenu extends Menu {
     }
 
     private static void showMap() {
-        // TODO: 4/21/2022
+        // TODO
+        Civilization civilization = GameController.getInstance().getCivilization();
+        System.out.printf("%s : ", civilization.getCivilizationName());
+        System.out.printf("Turn %d\n", civilization.getTurn());
+
+        CivilizationMap map = civilization.getPersonalMap();
+
+        int arrayHeight = VIEW_MAP_HEIGHT * 10;
+        int arrayWidth = VIEW_MAP_WIDTH * 20;
+
+        StringBuilder output[][] = new StringBuilder[arrayHeight][arrayWidth];
+
+        for (int i = 0; i < arrayHeight; i++) {
+            for (int j = 0; j < arrayWidth; j++) {
+                output[i][j] = new StringBuilder(" ");
+            }
+        }
+
+        /*
+                   0   3       12 16         25 29        38
+        0              __________                __________
+                      /          \              /          \
+                     /            \            /            \
+        3           /              \__________/              \
+                    \              /          \              /
+                     \            /            \            /
+        6             \__________/              \__________/
+                      /          \              /          \
+                     /            \            /            \
+        9           /              \__________/              \
+                    \              /          \              /
+                     \            /            \            /
+        12            \__________/              \__________/
+        */
+
+        for (int i = -VIEW_MAP_HEIGHT / 2; i <= VIEW_MAP_HEIGHT; i++) {
+            for (int j = -VIEW_MAP_WIDTH / 2; j <= VIEW_MAP_WIDTH; j++) {
+                if (j % 2 == 1) {
+                    if (mapY % 2 == 1 && i == -VIEW_MAP_HEIGHT) continue;
+                    else if (mapY % 2 == 0 && i == VIEW_MAP_HEIGHT) continue;
+                }
+                int x = mapX + i;
+                int y = mapY + j;
+                VisibleTile tile = map.getTileByXY(x, y);
+
+                int upperBound;
+                int leftBound = 13 * (j + VIEW_MAP_WIDTH);
+                if (j % 2 == 0) {
+                    upperBound = 6 * (i + VIEW_MAP_HEIGHT);
+                }
+                else {
+                    if (mapY % 2 == 1) {
+                        upperBound = 6 * (i + VIEW_MAP_HEIGHT) - 3;
+                    }
+                    else {
+                        upperBound = 6 * (i + VIEW_MAP_HEIGHT) + 3;
+                    }
+                }
+
+                for (int k = leftBound + 3; k < leftBound + 13; k++) {
+                    output[upperBound][k].replace(0, 1, "_");
+                }
+                output[upperBound + 1][leftBound + 2].replace(0, 1, "/");
+                output[upperBound + 2][leftBound + 1].replace(0, 1, "/");
+                output[upperBound + 3][leftBound + 0].replace(0, 1, "/");
+                output[upperBound + 4][leftBound + 0].replace(0, 1, "\\");
+                output[upperBound + 5][leftBound + 1].replace(0, 1, "\\");
+                output[upperBound + 6][leftBound + 2].replace(0, 1, "\\");
+
+                output[upperBound + 1][leftBound + 13].replace(0, 1, "\\");
+                output[upperBound + 2][leftBound + 14].replace(0, 1, "\\");
+                output[upperBound + 3][leftBound + 15].replace(0, 1, "\\");
+                output[upperBound + 4][leftBound + 15].replace(0, 1, "/");
+                output[upperBound + 5][leftBound + 14].replace(0, 1, "/");
+                output[upperBound + 6][leftBound + 13].replace(0, 1, "/");
+                for (int k = leftBound + 3; k < leftBound + 13; k++) {
+                    output[upperBound + 6][k].replace(0, 1, "_");
+                }
+
+                // TODO : handle rivers
+
+                // TODO : complete, print;
+            }
+        }
     }
 }
