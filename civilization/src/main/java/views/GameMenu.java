@@ -4,6 +4,8 @@ import controllers.CivilizationController;
 import controllers.GameController;
 import models.City;
 import models.Civilization;
+import models.Notification;
+import models.Technology;
 import models.tile.Tile;
 import models.unit.*;
 
@@ -28,6 +30,7 @@ public class GameMenu extends Menu {
             else if (processor.getCategory().equals("select")) handleSelectCategoryCommand(processor);
             else if (processor.getCategory().equals("unit")) handleUnitCategoryCommand(processor);
             else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
+            else if (processor.getCategory().equals("info")) handleInfoCategoryCommand(processor);
             else invalidCommand();
         }
     }
@@ -130,7 +133,7 @@ public class GameMenu extends Menu {
     }
 
 
-    /*Handles commands that start with "unit"
+    /*Handles commands that start with "unit":
     unit moveto --x <x> --y <y>
     unit sleep
     unit found city
@@ -291,15 +294,15 @@ public class GameMenu extends Menu {
         }
     }
 
-    private static void cancelCommand(){
+    private static void cancelCommand() {
         Unit unit = selectedCombatUnit;
-        if (unit==null) unit = selectedNonCombatUnit;
+        if (unit == null) unit = selectedNonCombatUnit;
 
-        if (unit.getDestination()==unit.getPosition())
+        if (unit.getDestination() == unit.getPosition())
             System.out.println("Unit is not in a multiple-turn movement");
         else {
-        unit.setDestination(unit.getPosition());
-        System.out.println("Unit's multiple-turn movement canceled");
+            unit.setDestination(unit.getPosition());
+            System.out.println("Unit's multiple-turn movement canceled");
         }
     }
 
@@ -350,10 +353,10 @@ public class GameMenu extends Menu {
         System.out.println("Unit deleted");
     }
 
-    private static void pillageCommand(){
+    private static void pillageCommand() {
         if (selectedCombatUnit == null)
             System.out.println("Selected unit is not a military unit");
-        else if (selectedCombatUnit.getPosition().getImprovementName()==null)
+        else if (selectedCombatUnit.getPosition().getImprovementName() == null)
             System.out.println("There is no improvement in this tile");
         else {
             selectedCombatUnit.makeUnitAwake();
@@ -364,7 +367,264 @@ public class GameMenu extends Menu {
     }
 
 
+    /*Handles commands that start with "info":
+    1.info research
+    2.info units
+    3.info cities
+    4.info demographics
+    5.info notifications
+    6.info military
+    7.info economic*/
     private static void handleInfoCategoryCommand(Processor processor) {
+        if (processor.getSection() == null)
+            invalidCommand();
+        else if (processor.getSection().equals("research"))
+            researchInfoMenu();
+        else if (processor.getSection().equals("units"))
+            unitsInfoPanel();
+        else if (processor.getSection().equals("cities"))
+            citiesInfoPanel();
+        else if (processor.getSection().equals("diplomacy"))
+            ;// TODO: Next phase
+        else if (processor.getSection().equals("victory"))
+            ;// TODO: Next phase
+        else if (processor.getSection().equals("demographics"))
+            ;// TODO: 5/11/2022
+        else if (processor.getSection().equals("notifications"))
+            notificationsInfoMenu();
+        else if (processor.getSection().equals("military"))
+            militaryInfoMenu();
+        else if (processor.getSection().equals("economic"))
+            economicInfoMenu();
+        else if (processor.getSection().equals("diplomatic"))
+            ;// TODO: Next phase
+        else if (processor.getSection().equals("deals"))
+            ;// TODO: Next phase
+        else
+            invalidCommand();
+    }
+
+    private static void researchInfoMenu() {
+        Technology technology = GameController.getInstance().getCivilization().getStudyingTechnology();
+
+        StringBuilder output = new StringBuilder("Current Research Project: ").append(technology.getName()).append("\n");
+        output.append("Remaining terms: ").append(technology.getRemainingTerm()).append("\n");
+        output.append("Features unlocked: ").append("\n");
+        // TODO: technologies, improvements, units, resources
+
+        System.out.println(output);
+    }
+
+    // TODO: Sort units arraylist
+    private static void unitsInfoPanel() {
+        Civilization civilization = GameController.getInstance().getCivilization();
+
+        StringBuilder output = new StringBuilder("List of units: ").append("\n");
+        for (int i = 1; i <= civilization.getUnits().size(); i++) {
+            Unit unit = civilization.getUnits().get(i - 1);
+
+            output.append(i).append(".").append(unit.getName()).append("|(").append(unit.getPosition().getX());
+            output.append(", ").append(unit.getPosition().getY()).append(")").append("\n");
+        }
+
+        output.append("If you want to select a unit, please type its index.\n");
+        output.append("If you want to enter military overview screen, please type \"military\".\n");
+        output.append("If you want to exit the panel, please type \"exit\".");
+
+        System.out.println(output);
+
+        String choice = getUnitsPanelChoice(civilization);
+        if (choice.equals("military"))
+            militaryInfoMenu();
+        else if (choice.equals("exit"))
+            return;
+        else {
+            selectedCombatUnit = null;
+            selectedNonCombatUnit = null;
+            selectedCity = null;
+            int index = Integer.parseInt(choice) - 1;
+            Unit unit = civilization.getUnits().get(index);
+            if (unit instanceof CombatUnit) selectedCombatUnit = (CombatUnit) unit;
+            else selectedNonCombatUnit = (NonCombatUnit) unit;
+        }
+    }
+
+    private static String getUnitsPanelChoice(Civilization civilization) {
+        String choice;
+        while (true) {
+            choice = getInput();
+
+            if (choice.equals("military")) return choice;
+            else if (choice.equals("exit")) return choice;
+            else if (choice.matches("\\d+")) {
+                int number = Integer.parseInt(choice);
+
+                if (number < 1 || number > civilization.getUnits().size())
+                    System.out.println("Invalid number!");
+                else return choice;
+            } else invalidCommand();
+        }
+    }
+
+    private static void citiesInfoPanel() {
+        Civilization civilization = GameController.getInstance().getCivilization();
+
+        StringBuilder output = new StringBuilder("List of cities: ").append("\n");
+        for (int i = 1; i <= civilization.getCities().size(); i++) {
+            City city = civilization.getCities().get(i - 1);
+
+            output.append(i).append(".Name:").append(city.getName());
+            if (civilization.getCurrentCapital().equals(city)) output.append("(Capital)");
+            output.append("|(").append(city.getPosition().getX()).append(", ").append(city.getPosition().getY()).append(")");
+            output.append("|Number of Citizens:").append(city.getCitizens().size());
+            output.append("|City Production:").append(city.getUnitUnderProduct().getName()).append("\n");
+        }
+
+        output.append("If you want to select a city, please type its index.\n");
+        output.append("If you want to enter economic overview screen, please type \"economic\".\n");
+        output.append("If you want to exit the panel, please type \"exit\".");
+
+        System.out.println(output);
+
+        String choice = getCitiesPanelChoice(civilization);
+        if (choice.equals("economic"))
+            economicInfoMenu();
+        else if (choice.equals("exit"))
+            return;
+        else {
+            // TODO: Enter city screen
+        }
+    }
+
+    private static String getCitiesPanelChoice(Civilization civilization) {
+        String choice;
+        while (true) {
+            choice = getInput();
+
+            if (choice.equals("economic")) return choice;
+            else if (choice.equals("exit")) return choice;
+            else if (choice.matches("\\d+")) {
+                int number = Integer.parseInt(choice);
+
+                if (number < 1 || number > civilization.getCities().size())
+                    System.out.println("Invalid number!");
+                else return choice;
+            } else invalidCommand();
+        }
+    }
+
+    private static void diplomacyInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void victoryInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void demographicsInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void notificationsInfoMenu() {
+        Civilization civilization = GameController.getInstance().getCivilization();
+
+        StringBuilder output = new StringBuilder("List of notifications:").append("\n");
+        for (Notification notification : civilization.getNotifications()) {
+            output.append("Message:").append(notification.getMessage());
+            output.append("|Tern:").append(notification.getTern()).append("\n");
+        }
+
+        System.out.println(output);
+    }
+
+    private static void militaryInfoMenu() {
+        Civilization civilization = GameController.getInstance().getCivilization();
+
+        StringBuilder output = new StringBuilder("List of units: ").append("\n");
+        printListOfUnits(output, civilization);
+
+        System.out.println(output);
+    }
+
+    private static void printListOfUnits(StringBuilder output, Civilization civilization) {
+        for (int i = 1; i <= civilization.getUnits().size(); i++) {
+            Unit unit = civilization.getUnits().get(i - 1);
+            output.append(i).append(".").append(unit.getName()).append("|(").append(unit.getPosition().getX());
+            output.append(", ").append(unit.getPosition().getY()).append(")").append("|");
+            if (unit.isSleep()) output.append("sleep");
+            else {
+                if (unit instanceof CombatUnit) {
+                    if (((CombatUnit) unit).isAlert()) output.append("alert");
+                    else if (((CombatUnit) unit).isFortify()) output.append("fortified");
+                    else if (((CombatUnit) unit).isFortifyUntilHealed()) output.append("healed");
+                    else output.append("active");
+                } else if (unit instanceof Worker)
+                    if (((Worker) unit).isWorking) output.append("is working");
+                    else output.append("active");
+            }
+            output.append("\n");
+        }
+    }
+
+    private static void economicInfoMenu() {
+        Civilization civilization = GameController.getInstance().getCivilization();
+
+        StringBuilder output = new StringBuilder("List of cities: ").append("\n");
+        printListOfCities(output, civilization);
+
+        output.append("If you want to select a city, please type its index.\n");
+        output.append("If you want to exit the screen, please type \"exit\".\n");
+
+        System.out.println(output);
+
+        String choice = getEconomicMenuChoice(civilization);
+
+        if (choice.equals("exit"))
+            return;
+        else {
+            // TODO: Enter city screen
+        }
+    }
+
+    private static void printListOfCities(StringBuilder output, Civilization civilization) {
+        for (int i = 1; i <= civilization.getCities().size(); i++) {
+            City city = civilization.getCities().get(i - 1);
+
+            output.append(i).append(".Name:").append(city.getName());
+            if (civilization.getCurrentCapital().equals(city)) output.append("(Capital)");
+            output.append("|(").append(city.getPosition().getX()).append(", ").append(city.getPosition().getY()).append(")");
+            output.append("|Number of Citizens:").append(city.getCitizens().size());
+            output.append("|City Strength:").append(city.getStrength());
+            output.append("|Food:").append(city.getFood());
+            output.append("|Production Rate:").append(city.getProductionRate());
+            output.append("|Science Rate:").append(city.getScienceRate());
+            output.append("|Gold Rate:").append(city.getGoldRate());
+            output.append("|City Production:").append(city.getUnitUnderProduct().getName());
+            output.append("(").append(city.getUnitUnderProductTern()).append("\n");
+        }
+    }
+
+    private static String getEconomicMenuChoice(Civilization civilization){
+        String choice;
+
+        while (true){
+            choice=getInput();
+            if (choice.equals("exit")) return choice;
+            else if (choice.matches("\\d+")){
+                int number = Integer.parseInt(choice);
+
+                if (number<1||number>civilization.getCities().size()) System.out.println("Invalid number!");
+                else return choice;
+            }else
+                invalidCommand();
+        }
+    }
+
+    private static void diplomaticInfoMenu(Scanner scanner) {
+        // TODO: 4/21/2022
+    }
+
+    private static void dealsInfoMenu(Scanner scanner) {
         // TODO: 4/21/2022
     }
 
@@ -385,49 +645,6 @@ public class GameMenu extends Menu {
         // TODO: 4/21/2022
     }
 
-    private static void handleResearchInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleUnitsInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleCitiesInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleDiplomacyInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleVictoryInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleDemographicsInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleNotificationsInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleMilitaryInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleEconomicInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleDiplomaticInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
-
-    private static void handleDealsInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
-    }
 
     private static void handleCityInfo(Scanner scanner) {
         // TODO: 4/21/2022

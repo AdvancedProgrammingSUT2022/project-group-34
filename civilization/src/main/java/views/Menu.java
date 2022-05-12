@@ -1,5 +1,6 @@
 package views;
 
+import controllers.GameController;
 import controllers.UserController;
 
 import java.util.Scanner;
@@ -67,7 +68,10 @@ public class Menu {
                 break;
             case "main":
                 if (currentMenu.equals("register")) System.out.println("Please login first");
-                else setCurrentMenu("main");
+                else {
+                    setCurrentMenu("main");
+                    GameController.getInstance().setGame(null);
+                }
                 break;
             case "profile":
                 if (currentMenu.equals("register")) System.out.println("Please login first");
@@ -93,6 +97,7 @@ public class Menu {
             setCurrentMenu("register");
             UserController.getInstance().setLoggedInUser(null);
         } else setCurrentMenu("main");
+        GameController.getInstance().setGame(null);
     }
 
 

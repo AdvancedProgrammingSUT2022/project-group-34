@@ -3,6 +3,7 @@ package models;
 public class Notification {
 
     private String message;
+    private int tern;
     private String type;
 
     public Notification(String message, String type) {
@@ -22,5 +23,13 @@ public class Notification {
     }
 
     public void refuse(String type) {
+    }
+
+    public int getTern() {
+        return tern;
+    }
+
+    public void setTern(int tern) {
+        this.tern = tern;
     }
 }
