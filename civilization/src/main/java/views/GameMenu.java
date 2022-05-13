@@ -704,7 +704,7 @@ public class GameMenu extends Menu {
                    0   3       12 16         25 29        38
         0              __________                __________
                       /          \              /          \
-                     /            \            /            \
+                     /    FOG     \            /            \
         3           /              \__________/              \
                     \              /  D Ma    \              /
                      \            /      A     \            /
@@ -764,7 +764,7 @@ public class GameMenu extends Menu {
 
                 // TODO : handle rivers
 
-                // TODO : complete, print;
+                // TODO : Handle improvements, resources, fog of war, revealed;
 
                 int[] position = {x, y};
 
@@ -829,6 +829,29 @@ public class GameMenu extends Menu {
                                     output[upperBound + 4][leftBound + 6].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
                                 }
                             }
+                        }
+                    }
+                    else {
+                        String backgroundCode = ANSI_RED_BACKGROUND;
+                        for (int k = leftBound + 3; k <= leftBound + 12; k++) {
+                            output[upperBound + 1][k].insert(0, backgroundCode);
+                            output[upperBound + 1][k].insert(output[upperBound + 1][k].length(), ANSI_RESET);
+                        }
+                        for (int k = leftBound + 2; k <= leftBound + 13; k++) {
+                            output[upperBound + 2][k].insert(0, backgroundCode);
+                            output[upperBound + 2][k].insert(output[upperBound + 2][k].length(), ANSI_RESET);
+                        }
+                        for (int k = leftBound + 1; k <= leftBound + 14; k++) {
+                            output[upperBound + 3][k].insert(0, backgroundCode);
+                            output[upperBound + 3][k].insert(output[upperBound + 3][k].length(), ANSI_RESET);
+                        }
+                        for (int k = leftBound + 1; k <= leftBound + 14; k++) {
+                            output[upperBound + 4][k].insert(0, backgroundCode);
+                            output[upperBound + 4][k].insert(output[upperBound + 4][k].length(), ANSI_RESET);
+                        }
+                        for (int k = leftBound + 2; k <= leftBound + 13; k++) {
+                            output[upperBound + 5][k].insert(0, backgroundCode);
+                            output[upperBound + 5][k].insert(output[upperBound + 5][k].length(), ANSI_RESET);
                         }
                     }
 
