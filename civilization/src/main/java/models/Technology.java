@@ -5,159 +5,160 @@ import java.util.HashMap;
 
 public enum Technology {
 
-    Agriculture("Agriculture", 20, false, false, false
+    Agriculture("Agriculture", 20, false, false, true
             , new Technology[]{}
-            , new Technology[]{}),
-    AnimalHusbandry("Agriculture", 20, false, false, false
+            , new String[]{"Pottery","AnimalHusbandry","Archery","Mining"}),
+    AnimalHusbandry("Agriculture", 35, false, false, false
             , new Technology[]{Agriculture}
-            , new Technology[]{}),
-    Archery("Agriculture", 20, false, false, false
+            , new String[]{"Trapping","TheWheel"}),
+    Archery("Agriculture", 35, false, false, false
             , new Technology[]{Agriculture}
-            , new Technology[]{}),
-    Mining("Agriculture", 20, false, false, false
+            , new String[]{"Mathematics"}),
+    Mining("Agriculture", 35, false, false, false
             , new Technology[]{Agriculture}
-            , new Technology[]{}),
-    Pottery("Agriculture", 20, false, false, false
+            , new String[]{"Masonry","BronzeWorking"}),
+    Pottery("Agriculture", 35, false, false, false
             , new Technology[]{Agriculture}
-            , new Technology[]{}),
-    BronzeWorking("Agriculture", 20, false, false, false
+            , new String[]{Calendar,Writing}),
+    BronzeWorking("Agriculture", 55, false, false, false
             , new Technology[]{Mining}
-            , new Technology[]{}),
-    Calendar("Agriculture", 20, false, false, false
+            , new String[]{IronWorking}),
+    Calendar("Agriculture", 70, false, false, false
             , new Technology[]{Pottery}
-            , new Technology[]{}),
-    Masonry("Agriculture", 20, false, false, false
+            , new String[]{Theology}),
+    Masonry("Agriculture", 55, false, false, false
             , new Technology[]{Mining}
-            , new Technology[]{}),
-    TheWheel("Agriculture", 20, false, false, false
+            , new String[]{Construction}),
+    TheWheel("Agriculture", 55, false, false, false
             , new Technology[]{AnimalHusbandry}
-            , new Technology[]{}),
-    Trapping("Agriculture", 20, false, false, false
+            , new String[]{HorsebackRiding,Mathematics}),
+    Trapping("Agriculture", 55, false, false, false
             , new Technology[]{AnimalHusbandry}
-            , new Technology[]{}),
-    Writing("Agriculture", 20, false, false, false
+            , new String[]{CivilService}),
+    Writing("Agriculture", 55, false, false, false
             , new Technology[]{Pottery}
-            , new Technology[]{}),
+            , new String[]{Philosophy}),
 
 
 
-    Construction("Agriculture", 20, false, false, false
+    Construction("Agriculture", 100, false, false, false
             , new Technology[]{Masonry}
-            , new Technology[]{}),
-    HorsebackRiding("Agriculture", 20, false, false, false
+            , new String[]{Engineering}),
+    HorsebackRiding("Agriculture", 100, false, false, false
             , new Technology[]{TheWheel}
-            , new Technology[]{}),
-    IronWorking("Agriculture", 20, false, false, false
+            , new String[]{Chivalry}),
+    IronWorking("Agriculture", 150, false, false, false
             , new Technology[]{BronzeWorking}
-            , new Technology[]{}),
-    Mathematics("Agriculture", 20, false, false, false
+            , new String[]{MetalCasting}),
+    Mathematics("Agriculture", 100, false, false, false
             , new Technology[]{TheWheel,Archery}
-            , new Technology[]{}),
-    Philosophy("Agriculture", 20, false, false, false
+            , new String[]{Currency,Engineering}),
+    Philosophy("Agriculture", 100, false, false, false
             , new Technology[]{Writing}
-            , new Technology[]{}),
+            , new String[]{Theology,CivilService}),
 
 
 
-    CivilService("Agriculture", 20, false, false, false
+    CivilService("Agriculture", 400, false, false, false
             , new Technology[]{Philosophy,Trapping}
-            , new Technology[]{}),
-    Chivalry("Agriculture", 20, false, false, false
-            , new Technology[]{CivilService,HorsebackRiding,Currency}
-            , new Technology[]{}),
-    Currency("Agriculture", 20, false, false, false
+            , new String[]{Chivalry}),
+    Currency("Agriculture", 250, false, false, false
             , new Technology[]{Mathematics}
-            , new Technology[]{}),
-    Education("Agriculture", 20, false, false, false
+            , new String[]{Chivalry}),
+    Chivalry("Agriculture", 440, false, false, false
+            , new Technology[]{CivilService,HorsebackRiding,Currency}
+            , new String[]{Banking}),
+    Education("Agriculture", 440, false, false, false
             , new Technology[]{Theology}
-            , new Technology[]{}),
-    Engineering("Agriculture", 20, false, false, false
+            , new String[]{Acoustics,Banking}),
+    Engineering("Agriculture", 250, false, false, false
             , new Technology[]{Mathematics,Construction}
-            , new Technology[]{}),
-    Machinery("Agriculture", 20, false, false, false
-            , new Technology[]{}
-            , new Technology[]{}),
-    MetalCasting("Agriculture", 20, false, false, false
-            , new Technology[]{}
-            , new Technology[]{}),
-    Physics("Agriculture", 20, false, false, false
-            , new Technology[]{}
-            , new Technology[]{}),
-    Steel("Agriculture", 20, false, false, false
-            , new Technology[]{}
-            , new Technology[]{}),
-    Theology("Agriculture", 20, false, false, false
-            , new Technology[]{}
-            , new Technology[]{}),
+            , new String[]{Machinery,Banking}),
+    Machinery("Agriculture", 440, false, false, false
+            , new Technology[]{Engineering}
+            , new String[]{PrintingPress}),
+    MetalCasting("Agriculture", 240, false, false, false
+            , new Technology[]{IronWorking}
+            , new String[]{Physics,Steel}),
+    Physics("Agriculture", 440, false, false, false
+            , new Technology[]{Engineering,MetalCasting}
+            , new String[]{PrintingPress,Gunpowder}),
+    Steel("Agriculture", 440, false, false, false
+            , new Technology[]{MetalCasting}
+            , new String[]{Gunpowder}),
+    Theology("Agriculture", 250, false, false, false
+            , new Technology[]{Calendar,Philosophy}
+            , new String[]{Education}),
 
 
 
-    Acoustics("Agriculture", 20, false, false, false
+    Acoustics("Agriculture", 650, false, false, false
             , new Technology[]{Education}
-            , new Technology[]{}),
-    Archaeology("Agriculture", 20, false, false, false
+            , new String[]{ScientificTheory}),
+    Archaeology("Agriculture", 1300, false, false, false
             , new Technology[]{Acoustics}
-            , new Technology[]{}),
-    Banking("Agriculture", 20, false, false, false
+            , new String[]{Biology}),
+    Banking("Agriculture", 650, false, false, false
             , new Technology[]{Education,Chivalry}
-            , new Technology[]{}),
-    Gunpowder("Agriculture", 20, false, false, false
-            , new Technology[]{}
-            , new Technology[]{}),
-    Chemistry("Agriculture", 20, false, false, false
+            , new String[]{Economics}),
+    Gunpowder("Agriculture", 680, false, false, false
+            , new Technology[]{Physics,Steel}
+            , new String[]{Chemistry,Metallurgy}),
+    Chemistry("Agriculture", 900, false, false, false
             , new Technology[]{Gunpowder}
-            , new Technology[]{}),
-    Economics("Agriculture", 20, false, false, false
+            , new String[]{MilitaryScience, Fertilize}),
+    Economics("Agriculture", 900, false, false, false
             , new Technology[]{Banking,PrintingPress}
-            , new Technology[]{}),
-    Fertilizer("Agriculture", 20, false, false, false
+            , new String[]{MilitaryScience}),
+    Fertilize("Agriculture", 1300, false, false, false
             , new Technology[]{Chemistry}
-            , new Technology[]{}),
-    Metallurgy("Agriculture", 20, false, false, false
+            , new String[]{Dynamite}),
+    Metallurgy("Agriculture", 900, false, false, false
             , new Technology[]{Gunpowder}
-            , new Technology[]{}),
-    MilitaryScience("Agriculture", 20, false, false, false
+            , new String[]{Rifling}),
+    MilitaryScience("Agriculture", 1300, false, false, false
             , new Technology[]{Economics,Chemistry}
-            , new Technology[]{}),
-    PrintingPress("Agriculture", 20, false, false, false
+            , new String[]{SteamPower}),
+    PrintingPress("Agriculture", 650, false, false, false
             , new Technology[]{Machinery,Physics}
-            , new Technology[]{}),
-    Rifling("Agriculture", 20, false, false, false
+            , new String[]{Economics}),
+    Rifling("Agriculture", 1425, false, false, false
             , new Technology[]{Metallurgy}
-            , new Technology[]{}),
-    ScientificTheory("Agriculture", 20, false, false, false
+            , new String[]{Dynamite}),
+    ScientificTheory("Agriculture", 1300, false, false, false
             , new Technology[]{Acoustics}
-            , new Technology[]{}),
-    Biology("Agriculture", 20, false, false, false
+            , new String[]{Biology,SteamPower}),
+
+
+
+
+    Biology("Agriculture", 1680, false, false, false
             , new Technology[]{Archaeology,ScientificTheory}
-            , new Technology[]{}),
-    Dynamic("Agriculture", 20, false, false, false
-            , new Technology[]{Fertilizer,Rifling}
-            , new Technology[]{}),
-    Electricity("Agriculture", 20, false, false, false
-            , new Technology[]{Biology,SteamPower}
-            , new Technology[]{}),
-    SteamPower("Agriculture", 20, false, false, false
+            , new String[]{Electricity}),
+    Dynamite("Agriculture", 1900, false, false, false
+            , new Technology[]{Fertilize,Rifling}
+            , new String[]{}),
+    SteamPower("Agriculture", 1680, false, false, false
             , new Technology[]{ScientificTheory,MilitaryScience}
-            , new Technology[]{}),
-    Railroad("Agriculture", 20, false, false, false
-            , new Technology[]{SteamPower}
-            , new Technology[]{}),
-    Replaceable("Agriculture", 20, false, false, false
-            , new Technology[]{SteamPower}
-            , new Technology[]{}),
-    Radio("Agriculture", 20, false, false, false
+            , new String[]{Electricity,ReplaceableParts,Railroad}),
+    Electricity("Agriculture", 1900, false, false, false
+            , new Technology[]{Biology,SteamPower}
+            , new String[]{Telegraph,Radio}),
+    Radio("Agriculture", 2200, false, false, false
             , new Technology[]{Electricity}
-            , new Technology[]{}),
-    Parts("Agriculture", 20, false, false, false
-            , new Technology[]{}
-            , new Technology[]{}),
-    Combustion("Agriculture", 20, false, false, false
-            , new Technology[]{Replaceable,Parts,Railroad,Dynamic}
-            , new Technology[]{}),
-    Telegraph("Agriculture", 20, false, false, false
+            , new String[]{}),
+    Railroad("Agriculture", 1900, false, false, false
+            , new Technology[]{SteamPower}
+            , new String[]{Combustion}),
+    ReplaceableParts("Agriculture", 1900, false, false, false
+            , new Technology[]{SteamPower}
+            , new String[]{Combustion}),
+    Combustion("Agriculture", 2200, false, false, false
+            , new Technology[]{ReplaceableParts,Railroad, Dynamite}
+            , new String[]{}),
+    Telegraph("Agriculture", 2200, false, false, false
             , new Technology[]{Electricity}
-            , new Technology[]{}),
+            , new String[]{}),
     ;
 
 
@@ -171,10 +172,10 @@ public enum Technology {
     private boolean isResearchable;
     private boolean isResearched;
     private ArrayList<Technology> prerequisiteTechnologies;
-    private ArrayList<Technology> relatedTechnologies;
+    private ArrayList<String> relatedTechnologies;
 
 
-    Technology(String name, int cost, boolean isResearching, boolean isResearchable, boolean isResearched, Technology[] prerequisiteTechnologies, Technology[] relatedTechnologies) {
+    Technology(String name, int cost, boolean isResearching, boolean isResearchable, boolean isResearched, Technology[] prerequisiteTechnologies, String[] relatedTechnologies) {
         this.name = name;
         this.cost = cost;
         this.isResearching = isResearching;
@@ -186,7 +187,7 @@ public enum Technology {
             this.prerequisiteTechnologies.add(technology);
 
         this.relatedTechnologies = new ArrayList<>();
-        for (Technology technology : relatedTechnologies)
+        for (String technology : relatedTechnologies)
             this.relatedTechnologies.add(technology);
 
     }
@@ -195,7 +196,7 @@ public enum Technology {
         //todo : ReadFromFile
     }
 
-    public static int createAllInstances(){
+    public static void createAllInstances(){
 
     }
 
@@ -204,7 +205,7 @@ public enum Technology {
         HashMap<String, Technology> allTechnologiesCopy = new HashMap<>();
 
         allTechnologies.forEach((name,technology)->{
-            Technology technologyCopy = technology.clone();
+            Technology technologyCopy = technology.cloneTechnology();
             allTechnologiesCopy.put(name,technologyCopy);
         });
 
@@ -216,8 +217,8 @@ public enum Technology {
 
 
 
-    public Technology clone(){
-        Technology technologyCopy = new Technology(dataSheet.get("Null"));
+    public Technology cloneTechnology(){
+        Technology technologyCopy = allTechnologies.get("Null");
 
         technologyCopy.setName(this.getName());
         technologyCopy.setRemainingTerm (this.getRemainingTerm());
@@ -225,10 +226,10 @@ public enum Technology {
         technologyCopy.setResearching   (this.isResearching());
         technologyCopy.setResearched    (this.isResearched());
 
-        for (String prerequisiteTechnology  : this.prerequisiteTechnologies)
+        for (Technology prerequisiteTechnology  : this.prerequisiteTechnologies)
             technologyCopy.prerequisiteTechnologies.add(prerequisiteTechnology);
 
-        for (String relatedTechnology       : this.relatedTechnologies)
+        for (Technology relatedTechnology       : this.relatedTechnologies)
             technologyCopy.relatedTechnologies.add(relatedTechnology);
 
         return technologyCopy;
@@ -277,11 +278,11 @@ public enum Technology {
 
 
 
-    public ArrayList<String> getPrerequisiteTechnologies() {
+    public ArrayList<Technology> getPrerequisiteTechnologies() {
         return prerequisiteTechnologies;
     }
 
-    public ArrayList<String> getRelatedTechnologies() {
+    public ArrayList<Technology> getRelatedTechnologies() {
         return relatedTechnologies;
     }
 
