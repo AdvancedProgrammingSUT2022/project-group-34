@@ -18,6 +18,30 @@ public class GameMenu extends Menu {
     private final static int VIEW_MAP_WIDTH = 9;
     private final static int VIEW_MAP_HEIGHT = 7;
 
+    private final static String ANSI_RESET = "\u001B[0m";
+
+    private final static String ANSI_BLACK = "\u001B[30m";
+    private final static String ANSI_RED = "\u001B[31m";
+    private final static String ANSI_GREEN = "\u001B[32m";
+    private final static String ANSI_YELLOW = "\u001B[33m";
+    private final static String ANSI_BLUE = "\u001B[34m";
+    private final static String ANSI_PURPLE = "\u001B[35m";
+    private final static String ANSI_CYAN = "\u001B[36m";
+    private final static String ANSI_WHITE = "\u001B[37m";
+
+    private final static String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    private final static String ANSI_RED_BACKGROUND = "\u001B[41m";
+    private final static String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    private final static String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    private final static String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    private final static String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    private final static String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    private final static String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
+    private final static String[] ANSI_COLOR = {ANSI_BLACK, ANSI_RED, ANSI_GREEN, ANSI_YELLOW, ANSI_BLUE, ANSI_PURPLE, ANSI_CYAN, ANSI_WHITE};
+    private final static String[] ANSI_BACKGROUND = {ANSI_BLACK_BACKGROUND, ANSI_RED_BACKGROUND, ANSI_GREEN_BACKGROUND, ANSI_YELLOW_BACKGROUND,
+            ANSI_BLUE_BACKGROUND, ANSI_PURPLE_BACKGROUND, ANSI_CYAN_BACKGROUND, ANSI_WHITE_BACKGROUND};
+
     private static CombatUnit selectedCombatUnit = null;
     private static NonCombatUnit selectedNonCombatUnit = null;
     private static City selectedCity = null;
@@ -682,10 +706,10 @@ public class GameMenu extends Menu {
                       /          \              /          \
                      /            \            /            \
         3           /              \__________/              \
-                    \              /          \              /
-                     \            /            \            /
-        6             \__________/              \__________/
-                      /          \              /          \
+                    \              /  D Ma    \              /
+                     \            /      A     \            /
+        6             \__________/    xx, yy    \__________/
+                      /          \     s Bal    /          \
                      /            \            /            \
         9           /              \__________/              \
                     \              /          \              /
@@ -742,10 +766,83 @@ public class GameMenu extends Menu {
 
                 // TODO : complete, print;
 
-                if (civilization.isInFog(tile)) {
-                    
+                int[] position = {x, y};
+
+                if (CivilizationController.getInstance().isPositionValid(position)) {
+                    if (tile != null) {
+                        if (!civilization.isInFog(tile)) {
+                            if (tile.getCivilization() != null) {
+                                int index = GameController.getInstance().getIndex(civilization);
+                                output[upperBound + 2][leftBound + 8].replace(0, 1, String.valueOf((char)('A' + index)));
+                                String colorCode = ANSI_COLOR[index % 7 + 1];
+                                output[upperBound + 2][leftBound + 8].insert(0, colorCode);
+                                output[upperBound + 2][leftBound + 8].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
+                            }
+
+                            String terrainName = tile.getTerrain().name.toString();
+                            output[upperBound + 1][leftBound + 5].replace(0, 1, String.valueOf(terrainName.charAt(0)));
+                            String colorCode = ANSI_WHITE;
+                            if (terrainName.equals("Desert")) colorCode = ANSI_YELLOW;
+                            else if (terrainName.equals("Grasslands")) colorCode = ANSI_GREEN;
+                            else if (terrainName.equals("Ocean")) colorCode = ANSI_BLUE;
+                            output[upperBound + 1][leftBound + 5].insert(0, colorCode);
+                            output[upperBound + 1][leftBound + 5].insert(output[upperBound + 1][leftBound + 5].length(), ANSI_RESET);
+
+                            if (tile.getFeature() != null) {
+                                String featureName = tile.getFeature().name.toString();
+                                output[upperBound + 1][leftBound + 7].replace(0, 1, String.valueOf(terrainName.charAt(0)));
+                                output[upperBound + 1][leftBound + 8].replace(0, 1, String.valueOf(terrainName.charAt(1)));
+                                colorCode = ANSI_WHITE;
+                                if (terrainName.equals("FloodPlane")) colorCode = ANSI_GREEN;
+                                else if (terrainName.equals("Forests")) colorCode = ANSI_GREEN;
+                                else if (terrainName.equals("Jungle")) colorCode = ANSI_GREEN;
+                                else if (terrainName.equals("Marsh")) colorCode = ANSI_YELLOW;
+                                else if (terrainName.equals("Oasis")) colorCode = ANSI_YELLOW;
+                                output[upperBound + 1][leftBound + 7].insert(0, colorCode);
+                                output[upperBound + 1][leftBound + 8].insert(0, colorCode);
+                                output[upperBound + 1][leftBound + 7].insert(output[upperBound + 1][leftBound + 7].length(), ANSI_RESET);
+                                output[upperBound + 1][leftBound + 8].insert(output[upperBound + 1][leftBound + 8].length(), ANSI_RESET);
+                            }
+
+                            if (civilization.isTransparent(tile)) {
+                                if (tile.getCombatUnit() != null) {
+                                    Unit unit = tile.getCombatUnit();
+                                    int index = GameController.getInstance().getIndex(unit.getCivilization());
+                                    output[upperBound + 4][leftBound + 8].replace(0, 1, String.valueOf(unit.getName().charAt(0)));
+                                    output[upperBound + 4][leftBound + 9].replace(0, 1, String.valueOf(unit.getName().charAt(1)));
+                                    output[upperBound + 4][leftBound + 10].replace(0, 1, String.valueOf(unit.getName().charAt(2)));
+                                    colorCode = ANSI_COLOR[index % 7 + 1];
+                                    output[upperBound + 4][leftBound + 8].insert(0, colorCode);
+                                    output[upperBound + 4][leftBound + 9].insert(0, colorCode);
+                                    output[upperBound + 4][leftBound + 10].insert(0, colorCode);
+                                    output[upperBound + 4][leftBound + 8].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
+                                    output[upperBound + 4][leftBound + 9].insert(output[upperBound + 2][leftBound + 9].length(), ANSI_RESET);
+                                    output[upperBound + 4][leftBound + 10].insert(output[upperBound + 2][leftBound + 9].length(), ANSI_RESET);
+                                }
+                                if (tile.getNonCombatUnit() != null) {
+                                    Unit unit = tile.getNonCombatUnit();
+                                    int index = GameController.getInstance().getIndex(unit.getCivilization());
+                                    if (unit instanceof Settler) output[upperBound + 4][leftBound + 6].replace(0, 1, "S");
+                                    else output[upperBound + 4][leftBound + 6].replace(0, 1, "W");
+                                    colorCode = ANSI_COLOR[index % 7 + 1];
+                                    output[upperBound + 4][leftBound + 6].insert(0, colorCode);
+                                    output[upperBound + 4][leftBound + 6].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
+                                }
+                            }
+                        }
+                    }
+
+                    output[upperBound + 3][leftBound + 5].replace(0, 1, String.valueOf(x / 10));
+                    output[upperBound + 3][leftBound + 6].replace(0, 1, String.valueOf(x % 10));
+                    output[upperBound + 3][leftBound + 7].replace(0, 1, ",");
+                    output[upperBound + 3][leftBound + 8].replace(0, 1, String.valueOf(y / 10));
+                    output[upperBound + 3][leftBound + 9].replace(0, 1, String.valueOf(y % 10));
                 }
+
+
             }
         }
     }
 }
+
+

@@ -1,6 +1,7 @@
 package models.tile;
 
 import models.City;
+import models.Civilization;
 import models.unit.CombatUnit;
 import models.unit.NonCombatUnit;
 
@@ -13,6 +14,7 @@ public abstract class AbstractTile {
     protected Terrain terrain;
     protected Feature feature;;
     protected City city;
+    protected Civilization civilization;
     protected ArrayList<Tile> adjacentTiles = new ArrayList<>();
     protected ArrayList<Boolean> isRiver = new ArrayList<>();
     protected boolean isBlock = false;
@@ -30,14 +32,16 @@ public abstract class AbstractTile {
         this.adjacentTiles = tile.adjacentTiles;
         this.isRiver = tile.isRiver;
         this.isBlock = tile.isBlock;
+        this.civilization = tile.civilization;
     }
 
-    public AbstractTile(Terrain terrain, Feature feature, int x, int y, City city) {
+    public AbstractTile(Terrain terrain, Feature feature, int x, int y, City city, Civilization civilization) {
         this.terrain = terrain;
         this.feature = feature;
         this.x = x;
         this.y = y;
         this.city = city;
+        this.civilization = civilization;
         for (int i = 0; i < 6; i++) isRiver.add(false);
     }
 
@@ -70,6 +74,14 @@ public abstract class AbstractTile {
 
     public City getCity() {
         return city;
+    }
+
+    public Civilization getCivilization() {
+        return civilization;
+    }
+
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
     }
 
     @Override

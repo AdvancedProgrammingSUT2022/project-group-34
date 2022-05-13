@@ -51,6 +51,11 @@ public class GameController {
     }
 
 
+    public int getIndex(Civilization civilization) {
+        return game.getCivilizations().indexOf(civilization);
+    }
+
+
     public void generateMap() {
         // TODO: 4/25/2022
     }
