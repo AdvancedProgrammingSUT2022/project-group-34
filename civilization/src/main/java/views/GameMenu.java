@@ -12,7 +12,9 @@ import models.tile.Tile;
 import models.tile.VisibleTile;
 import models.unit.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import java.util.Random;
 
 public class GameMenu extends Menu {
     private final static int VIEW_MAP_WIDTH = 9;
@@ -41,6 +43,9 @@ public class GameMenu extends Menu {
     private final static String[] ANSI_COLOR = {ANSI_BLACK, ANSI_RED, ANSI_GREEN, ANSI_YELLOW, ANSI_BLUE, ANSI_PURPLE, ANSI_CYAN, ANSI_WHITE};
     private final static String[] ANSI_BACKGROUND = {ANSI_BLACK_BACKGROUND, ANSI_RED_BACKGROUND, ANSI_GREEN_BACKGROUND, ANSI_YELLOW_BACKGROUND,
             ANSI_BLUE_BACKGROUND, ANSI_PURPLE_BACKGROUND, ANSI_CYAN_BACKGROUND, ANSI_WHITE_BACKGROUND};
+
+    private final static String[] CHARACTER_SEED = {"A", "B", "G", "K", "M", "!", "@", "#", "H", "$", "%", "^", "&", "3",
+            "5", "8", "a", "g", "q", "0", "}", "{", "[", "|", ",", ";", "m", "?", "="};
 
     private static CombatUnit selectedCombatUnit = null;
     private static NonCombatUnit selectedNonCombatUnit = null;
@@ -764,7 +769,7 @@ public class GameMenu extends Menu {
 
                 // TODO : handle rivers
 
-                // TODO : Handle improvements, resources, fog of war, revealed;
+                // TODO : Handle improvements, resources, fog of war, revealed; then print;
 
                 int[] position = {x, y};
 
@@ -828,6 +833,33 @@ public class GameMenu extends Menu {
                                     output[upperBound + 4][leftBound + 6].insert(0, colorCode);
                                     output[upperBound + 4][leftBound + 6].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
                                 }
+                            }
+                        }
+                        else {
+                            output[upperBound + 2][leftBound + 6].replace(0, 1, "F");
+                            output[upperBound + 2][leftBound + 7].replace(0, 1, "O");
+                            output[upperBound + 2][leftBound + 8].replace(0, 1, "G");
+                            String colorCode = ANSI_PURPLE;
+                            Random random = new Random(upperBound + leftBound + x + y);
+                            for (int k = leftBound + 3; k <= leftBound + 12; k++) {
+                                if (output[upperBound + 1][k].charAt(0) != ' ') continue;
+                                output[upperBound + 1][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
+                            }
+                            for (int k = leftBound + 2; k <= leftBound + 13; k++) {
+                                if (output[upperBound + 2][k].charAt(0) != ' ') continue;
+                                output[upperBound + 2][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
+                            }
+                            for (int k = leftBound + 1; k <= leftBound + 14; k++) {
+                                if (output[upperBound + 3][k].charAt(0) != ' ') continue;
+                                output[upperBound + 3][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
+                            }
+                            for (int k = leftBound + 1; k <= leftBound + 14; k++) {
+                                if (output[upperBound + 4][k].charAt(0) != ' ') continue;
+                                output[upperBound + 4][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
+                            }
+                            for (int k = leftBound + 2; k <= leftBound + 13; k++) {
+                                if (output[upperBound + 5][k].charAt(0) != ' ') continue;
+                                output[upperBound + 5][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
                             }
                         }
                     }
