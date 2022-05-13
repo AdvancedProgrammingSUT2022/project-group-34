@@ -83,6 +83,7 @@ public class Processor {
         return fields.size();
     }
 
+
     private String getCompleteForm(char c) {
         // This is not static because maybe in future there will be need to return complete form in terms of category.
         if (c == 'u') return "username";
