@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -71,19 +72,4 @@ public class UserProcessesTest {
 //        verify(System.out.format("A user with username %s already exists\n", processor.get("username")));
     }
 
-
-    @Test
-    public void CheckIfPasswordIsStrong(){
-        String password1 = "abcde";
-        String password2 = "Abcdef";
-        String password3 = "A12345";
-        String password4 = "a12345";
-        String password5 = "Aa1234";
-
-        Assertions.assertFalse(UserController.getInstance().isPasswordStrong(password1));
-        Assertions.assertFalse(UserController.getInstance().isPasswordStrong(password2));
-        Assertions.assertFalse(UserController.getInstance().isPasswordStrong(password3));
-        Assertions.assertFalse(UserController.getInstance().isPasswordStrong(password4));
-        Assertions.assertTrue(UserController.getInstance().isPasswordStrong(password5));
-    }
 }
