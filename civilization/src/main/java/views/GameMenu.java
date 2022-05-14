@@ -447,8 +447,8 @@ public class GameMenu extends Menu {
 
         System.out.println(output);
     }
+    
 
-    // TODO: Sort units arraylist
     private static void unitsInfoPanel() {
         Civilization civilization = GameController.getInstance().getCivilization();
 
@@ -499,6 +499,7 @@ public class GameMenu extends Menu {
         }
     }
 
+
     private static void citiesInfoPanel() {
         Civilization civilization = GameController.getInstance().getCivilization();
 
@@ -546,6 +547,7 @@ public class GameMenu extends Menu {
         }
     }
 
+
     private static void diplomacyInfoMenu() {
         // TODO: Not Phase1
     }
@@ -553,6 +555,7 @@ public class GameMenu extends Menu {
     private static void victoryInfoMenu() {
         // TODO: Not Phase1
     }
+
 
     private static void demographicsInfoMenu() {
         ArrayList<Civilization> civilizations = GameController.getInstance().getGame().getCivilizations();
@@ -651,7 +654,6 @@ public class GameMenu extends Menu {
     }
 
 
-
     private static void notificationsInfoMenu() {
         Civilization civilization = GameController.getInstance().getCivilization();
 
@@ -663,6 +665,7 @@ public class GameMenu extends Menu {
 
         System.out.println(output);
     }
+
 
     private static void militaryInfoMenu() {
         Civilization civilization = GameController.getInstance().getCivilization();
@@ -692,6 +695,7 @@ public class GameMenu extends Menu {
             output.append("\n");
         }
     }
+
 
     private static void economicInfoMenu() {
         Civilization civilization = GameController.getInstance().getCivilization();
@@ -746,6 +750,7 @@ public class GameMenu extends Menu {
                 invalidCommand();
         }
     }
+
 
     private static void diplomaticInfoMenu() {
         // TODO: Not Phase1

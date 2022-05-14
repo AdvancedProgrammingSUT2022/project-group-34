@@ -30,7 +30,6 @@ public class City {
     private int productionRate;
     private int production;
     private int scienceRate;
-    private int goldRate;
 
     public City(String name, Civilization owner, Tile position , ArrayList<Tile> territory) {
         this.name = name;
@@ -205,10 +204,10 @@ public class City {
     }
 
     public int getGoldRate() {
-        return goldRate;
-    }
+        int goldRate=0;
+        for (Citizen citizen : citizens)
+            if (citizen.isWorking()) goldRate += citizen.getWorkPosition().getGoldRate();
 
-    public void setGoldRate(int goldRate) {
-        this.goldRate = goldRate;
+        return goldRate;
     }
 }
