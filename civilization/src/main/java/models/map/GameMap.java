@@ -114,13 +114,13 @@ public class GameMap extends Map{
 
                 terrain = allTerrains.get("Plain");
                 feature = allFeatures.get("");
-                tile = new Tile( terrain, feature , i , j, city);
+//                tile = new Tile( terrain, feature , i , j, city);
 
-                map.get(i).add(tile);
+//                map.get(i).add(tile);
 
                 if (i % 50 == 0 && j % 23 == 0){
-                    tile.addRiver(j%6);
-                    getAdjacentTileByNumber(tile,j%6).addRiver((3 + j%6) % 6);
+//                    tile.addRiver(j%6);
+//                    getAdjacentTileByNumber(tile,j%6).addRiver((3 + j%6) % 6);
                 }
             }
         }

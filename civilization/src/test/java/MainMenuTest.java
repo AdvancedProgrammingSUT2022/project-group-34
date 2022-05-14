@@ -11,12 +11,14 @@ import views.Processor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 import static org.mockito.Mockito.when;
 
 public class MainMenuTest {
     private final PrintStream standard = System.out;
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    private final Processor processor = Mockito.mock(Processor.class);
     private final MainMenu mainMenu = new MainMenu();
 
     @BeforeEach
@@ -27,12 +29,12 @@ public class MainMenuTest {
     @AfterEach
     public void tearDown(){
         System.setOut(standard);
+        UserController.getInstance().setUsers(new ArrayList<>());
+        UserController.getInstance().setLoggedInUser(null);
     }
 
     @Test
     public void checkLogout() throws Exception {
-        Processor processor = Mockito.mock(Processor.class);
-
         when(processor.getSection()).thenReturn("logout");
 
         User user = new User("abc", "ghi4JKL", "def");
@@ -43,5 +45,13 @@ public class MainMenuTest {
 
         Assertions.assertNull(UserController.getInstance().getLoggedInUser());
         Assertions.assertEquals(outputStream.toString().trim(), "User logged out successfully!");
+    }
+
+
+    @Test
+    public void checkStartGame(){
+        when(processor.getNumberOfFields()).thenReturn(1);
+
+
     }
 }
