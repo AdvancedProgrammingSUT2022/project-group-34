@@ -12,9 +12,9 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 public class UserControllerTest {
-    User user1 = Mockito.mock(User.class);
-    User user2 = Mockito.mock(User.class);
-    User user3 = Mockito.mock(User.class);
+    private final User user1 = Mockito.mock(User.class);
+    private final User user2 = Mockito.mock(User.class);
+    private final User user3 = Mockito.mock(User.class);
 
     @BeforeEach
     public void setUp() {

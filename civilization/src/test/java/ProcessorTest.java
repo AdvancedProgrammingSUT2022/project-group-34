@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import views.Processor;
 
 public class ProcessorTest {
-    Processor processor;
+    private Processor processor;
 
     @Test
     public void checkInvalidCommand() {
