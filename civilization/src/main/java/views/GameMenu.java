@@ -12,9 +12,7 @@ import models.tile.Tile;
 import models.tile.VisibleTile;
 import models.unit.*;
 
-import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
-import java.util.Random;
+import java.util.*;
 
 public class GameMenu extends Menu {
     private final static int VIEW_MAP_WIDTH = 9;
@@ -420,11 +418,11 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("cities"))
             citiesInfoPanel();
         else if (processor.getSection().equals("diplomacy"))
-            ;// TODO: Next phase
+            ;// TODO: Not Phase1
         else if (processor.getSection().equals("victory"))
-            ;// TODO: Next phase
+            ;// TODO: Not Phase1
         else if (processor.getSection().equals("demographics"))
-            ;// TODO: 5/11/2022
+            demographicsInfoMenu();
         else if (processor.getSection().equals("notifications"))
             notificationsInfoMenu();
         else if (processor.getSection().equals("military"))
@@ -432,9 +430,9 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("economic"))
             economicInfoMenu();
         else if (processor.getSection().equals("diplomatic"))
-            ;// TODO: Next phase
+            ;// TODO: Not Phase1
         else if (processor.getSection().equals("deals"))
-            ;// TODO: Next phase
+            ;// TODO: Not Phase1
         else
             invalidCommand();
     }
@@ -548,22 +546,116 @@ public class GameMenu extends Menu {
         }
     }
 
-    private static void diplomacyInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
+    private static void diplomacyInfoMenu() {
+        // TODO: Not Phase1
     }
 
-    private static void victoryInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
+    private static void victoryInfoMenu() {
+        // TODO: Not Phase1
     }
 
-    private static void demographicsInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
+    private static void demographicsInfoMenu() {
+        ArrayList<Civilization> civilizations = GameController.getInstance().getGame().getCivilizations();
+
+        System.out.println("Demographics Screen:");
+        territoryRank(civilizations);
+        populationRank(civilizations);
+        goldRank(civilizations);
+        happinessRank(civilizations);
+        unitsRank(civilizations);
     }
+
+    private static void territoryRank(ArrayList<Civilization> civilizations) {
+        ArrayList<Integer> territory = new ArrayList<>();
+        for (Civilization civilization : civilizations)
+            territory.add(civilization.getTerritory().size());
+
+        Collections.sort(territory);
+
+        int territorySize = GameController.getInstance().getCivilization().getTerritory().size();
+        int rank = territory.indexOf(territorySize) + 1;
+        int best = territory.get(0);
+        int average = territory.get(territory.size() / 2);
+        int worst = territory.get(territory.size() - 1);
+
+        System.out.format("Territory: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", territorySize,
+                best, average, worst, rank);
+    }
+
+    private static void populationRank(ArrayList<Civilization> civilizations){
+        ArrayList<Integer> population = new ArrayList<>();
+        for (Civilization civilization : civilizations)
+            population.add(civilization.getPopulation());
+
+        Collections.sort(population);
+
+        int populationSize = GameController.getInstance().getCivilization().getPopulation();
+        int rank = population.indexOf(populationSize)+1;
+        int best = population.get(0);
+        int average = population.get(population.size()/2);
+        int worst = population.get(population.size()-1);
+
+        System.out.format("Population: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", populationSize,
+                best, average, worst, rank);
+    }
+
+    private static void goldRank(ArrayList<Civilization> civilizations){
+        ArrayList<Integer> gold = new ArrayList<>();
+        for (Civilization civilization : civilizations)
+            gold.add(civilization.getGold());
+
+        Collections.sort(gold);
+
+        int goldAmount = GameController.getInstance().getCivilization().getGold();
+        int rank = gold.indexOf(goldAmount)+1;
+        int best = gold.get(0);
+        int average = gold.get(gold.size()/2);
+        int worst = gold.get(gold.size()-1);
+
+        System.out.format("Wealth: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", goldAmount,
+                best, average, worst, rank);
+    }
+
+    private static void happinessRank(ArrayList<Civilization> civilizations){
+        ArrayList<Integer> happiness = new ArrayList<>();
+        for (Civilization civilization : civilizations)
+            happiness.add(civilization.getHappiness());
+
+        Collections.sort(happiness);
+
+        int happinessAmount = GameController.getInstance().getCivilization().getHappiness();
+        int rank = happiness.indexOf(happinessAmount)+1;
+        int best = happiness.get(0);
+        int average= happiness.get(happiness.size()/2);
+        int worst  = happiness.get(happiness.size()-1);
+
+        System.out.format("Happiness: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", happinessAmount,
+                best, average, worst, rank);
+    }
+
+    private static void unitsRank(ArrayList<Civilization> civilizations){
+        ArrayList<Integer> units = new ArrayList<>();
+        for (Civilization civilization : civilizations)
+            units.add(civilization.getUnits().size());
+
+        Collections.sort(units);
+
+        int unitsSize = GameController.getInstance().getCivilization().getUnits().size();
+        int rank = units.indexOf(unitsSize)+1;
+        int best = units.get(0);
+        int average = units.get(units.size()/2);
+        int worst = units.get(units.size()-1);
+
+        System.out.format("Number of units: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", unitsSize,
+                best, average, worst, rank);
+    }
+
+
 
     private static void notificationsInfoMenu() {
         Civilization civilization = GameController.getInstance().getCivilization();
 
-        StringBuilder output = new StringBuilder("List of notifications:").append("\n");
+        StringBuilder output = new StringBuilder("Notifications Log:").append("\n");
         for (Notification notification : civilization.getNotifications()) {
             output.append("Message:").append(notification.getMessage());
             output.append("|Tern:").append(notification.getTern()).append("\n");
@@ -639,28 +731,28 @@ public class GameMenu extends Menu {
         }
     }
 
-    private static String getEconomicMenuChoice(Civilization civilization){
+    private static String getEconomicMenuChoice(Civilization civilization) {
         String choice;
 
-        while (true){
-            choice=getInput();
+        while (true) {
+            choice = getInput();
             if (choice.equals("exit")) return choice;
-            else if (choice.matches("\\d+")){
+            else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
 
-                if (number<1||number>civilization.getCities().size()) System.out.println("Invalid number!");
+                if (number < 1 || number > civilization.getCities().size()) System.out.println("Invalid number!");
                 else return choice;
-            }else
+            } else
                 invalidCommand();
         }
     }
 
-    private static void diplomaticInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
+    private static void diplomaticInfoMenu() {
+        // TODO: Not Phase1
     }
 
-    private static void dealsInfoMenu(Scanner scanner) {
-        // TODO: 4/21/2022
+    private static void dealsInfoMenu() {
+        // TODO: Not Phase1
     }
 
 
@@ -737,12 +829,10 @@ public class GameMenu extends Menu {
                 int leftBound = 13 * (j + VIEW_MAP_WIDTH);
                 if (j % 2 == 0) {
                     upperBound = 6 * (i + VIEW_MAP_HEIGHT);
-                }
-                else {
+                } else {
                     if (mapY % 2 == 1) {
                         upperBound = 6 * (i + VIEW_MAP_HEIGHT) - 3;
-                    }
-                    else {
+                    } else {
                         upperBound = 6 * (i + VIEW_MAP_HEIGHT) + 3;
                     }
                 }
@@ -778,7 +868,7 @@ public class GameMenu extends Menu {
                         if (!civilization.isInFog(tile)) {
                             if (tile.getCivilization() != null) {
                                 int index = GameController.getInstance().getIndex(civilization);
-                                output[upperBound + 2][leftBound + 8].replace(0, 1, String.valueOf((char)('A' + index)));
+                                output[upperBound + 2][leftBound + 8].replace(0, 1, String.valueOf((char) ('A' + index)));
                                 String colorCode = ANSI_COLOR[index % 7 + 1];
                                 output[upperBound + 2][leftBound + 8].insert(0, colorCode);
                                 output[upperBound + 2][leftBound + 8].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
@@ -827,15 +917,15 @@ public class GameMenu extends Menu {
                                 if (tile.getNonCombatUnit() != null) {
                                     Unit unit = tile.getNonCombatUnit();
                                     int index = GameController.getInstance().getIndex(unit.getCivilization());
-                                    if (unit instanceof Settler) output[upperBound + 4][leftBound + 6].replace(0, 1, "S");
+                                    if (unit instanceof Settler)
+                                        output[upperBound + 4][leftBound + 6].replace(0, 1, "S");
                                     else output[upperBound + 4][leftBound + 6].replace(0, 1, "W");
                                     colorCode = ANSI_COLOR[index % 7 + 1];
                                     output[upperBound + 4][leftBound + 6].insert(0, colorCode);
                                     output[upperBound + 4][leftBound + 6].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             output[upperBound + 2][leftBound + 6].replace(0, 1, "F");
                             output[upperBound + 2][leftBound + 7].replace(0, 1, "O");
                             output[upperBound + 2][leftBound + 8].replace(0, 1, "G");
@@ -862,8 +952,7 @@ public class GameMenu extends Menu {
                                 output[upperBound + 5][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
                             }
                         }
-                    }
-                    else {
+                    } else {
                         String backgroundCode = ANSI_RED_BACKGROUND;
                         for (int k = leftBound + 3; k <= leftBound + 12; k++) {
                             output[upperBound + 1][k].insert(0, backgroundCode);

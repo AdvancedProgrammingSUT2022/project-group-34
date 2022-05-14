@@ -297,4 +297,12 @@ public class Civilization {
     public void removeUnit(Unit unit){
         units.remove(unit);
     }
+
+    public int getPopulation(){
+        int population = 0;
+        for (City city : cities)
+            population+=city.getCitizens().size();
+
+        return population;
+    }
 }
