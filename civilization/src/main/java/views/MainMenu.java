@@ -50,6 +50,10 @@ public class MainMenu extends Menu {
     //play game --player1 <username> --player2 <username>
     private static void startNewGame(Processor processor) {
         ArrayList<User> users = new ArrayList<>(List.of(UserController.getInstance().getLoggedInUser()));
+        if (processor.getNumberOfFields()==0){
+            System.out.println("Please select some other players");
+            return;
+        }
 
         for (int i = 1; i < processor.getNumberOfFields() + 1; i++) {
             if (processor.get("player" + i) == null) {
@@ -74,6 +78,6 @@ public class MainMenu extends Menu {
 
 
     private static void loadGame(Processor processor) {
-        // TODO: 4/21/2022
+        // TODO: Not phase1
     }
 }

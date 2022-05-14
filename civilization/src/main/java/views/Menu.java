@@ -39,7 +39,7 @@ public class Menu {
 
     //Scans one line of input
     protected static String getInput() {
-        return scanner.nextLine().trim();
+        return scanner.nextLine().trim().toLowerCase();
     }
 
 
