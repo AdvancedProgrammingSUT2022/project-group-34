@@ -74,6 +74,6 @@ public class MainMenu extends Menu {
 
 
     private static void loadGame(Processor processor) {
-        // TODO: 4/21/2022
+        // TODO: Not phase1
     }
 }
