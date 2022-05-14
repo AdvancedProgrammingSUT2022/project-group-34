@@ -1,8 +1,10 @@
 package models.map;
 
+import models.Civilization;
 import models.tile.Feature;
 import models.tile.Terrain;
 import models.tile.Tile;
+import models.tile.VisibleTile;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,6 +13,21 @@ import java.util.HashMap;
 public class GameMap extends Map{
 
     private ArrayList<ArrayList<Tile>> map;
+
+    public GameMap() {
+        super();
+        // TODO
+    }
+
+    static public GameMap load() {
+        GameMap answer = new GameMap();
+        return null;
+        // TODO: make a map in GSon and save it, load it here.
+        // The template of the file (saving map) :
+        // map height
+        // map width
+        // a JSon array for each argument of Tile constructor
+    }
 
     public GameMap(int mapWidth, int mapHeight) {
         super(mapWidth, mapHeight);
@@ -131,8 +148,6 @@ public class GameMap extends Map{
                 tile1 = map.get(i).get(j);
                 tile1.setAdjacentTiles(getAdjacentTiles(tile1));
             }
-
-
 
     }
 }

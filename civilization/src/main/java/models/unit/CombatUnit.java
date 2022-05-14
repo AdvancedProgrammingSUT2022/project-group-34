@@ -1,6 +1,7 @@
 package models.unit;
 
 import models.City;
+import models.Civilization;
 import models.tile.Tile;
 
 import java.util.HashMap;
@@ -20,9 +21,8 @@ public class CombatUnit extends Unit{
     protected City GarrisonCity;
 
 
-    public CombatUnit(String name, Tile position) {
-        super(name, position);
-
+    public CombatUnit(String name, Tile position, Civilization civilization) {
+        super(name, position, civilization);
     }
 
     public static HashMap<String, HashMap<String, String>> getCombatUnitDataSheet() {

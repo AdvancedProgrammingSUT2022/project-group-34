@@ -1,6 +1,7 @@
 package models.tile;
 
 import models.City;
+import models.Civilization;
 import models.resource.Resource;
 import models.unit.NonCombatUnit;
 import models.unit.CombatUnit;
@@ -23,8 +24,8 @@ public class Tile extends AbstractTile{
     private NonCombatUnit NonCombatUnit = null;
     private CombatUnit combatUnit = null;
 
-    public Tile(Terrain terrain, Feature feature, int x, int y, City city) {
-        super(terrain, feature, x, y, city);
+    public Tile(Terrain terrain, Feature feature, int x, int y, City city, Civilization civilization) {
+        super(terrain, feature, x, y, city, civilization);
         setTileProperties();
     }
 
@@ -53,7 +54,7 @@ public class Tile extends AbstractTile{
 
     public void deleteFeature() {
         if (feature.name.equals("Jungle"))
-            this.terrain = Terrain.Plain;
+            this.terrain = Terrain.Plains;
         this.feature = null;
         setTileProperties();
     }

@@ -11,8 +11,10 @@ import java.util.Stack;
 import models.Civilization;
 import models.Game;
 import models.map.GameMap;
+import models.tile.AbstractTile;
 import models.tile.Improvement;
 
+import models.tile.VisibleTile;
 import models.unit.*;
 import models.City;
 import models.tile.Tile;
@@ -367,6 +369,29 @@ public class CivilizationController {
         boolean unitISReady = city.updateProductUnit();
         if (unitISReady)
             civilization.getUnits().add(city.getUnitUnderProduct());
+    }
+
+    public void updateTransparentTiles(Civilization civilization) {
+        civilization.getPersonalMap().removeTransparentTiles();
+        for (Unit unit : civilization.getUnits()) {
+            ArrayList<AbstractTile> visibleTiles = new ArrayList<>();
+            visibleTiles.addAll(CivilizationController.getInstance().getVisibleTiles(unit));
+            civilization.getPersonalMap().addTransparentTiles(visibleTiles);
+        }
+
+        //TODO: add Cities, Territory, etc. :)
+    }
+
+    public void updatePersonalMap(Civilization civilization, GameMap mainMap) {
+        for (int i = 0; i < civilization.getPersonalMap().getMapHeight(); i++) {
+            for (int j = 0; j < civilization.getPersonalMap().getMapWidth(); j++) {
+                Tile tile = mainMap.getTileByXY(i, j);
+                if (tile == null) civilization.getPersonalMap().setTileByXY(i, j,null);
+                else if (civilization.getPersonalMap().isTransparent(civilization.getPersonalMap().getTileByXY(i, j))) {
+                    civilization.getPersonalMap().setTileByXY(i, j, new VisibleTile(tile, false));
+                }
+            }
+        }
     }
 
 }

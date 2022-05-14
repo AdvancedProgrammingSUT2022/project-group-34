@@ -69,7 +69,7 @@ public class MainMenu extends Menu {
                 users.add(UserController.getInstance().getUserByUsername(processor.get("player" + i)));
         }
         if (users.size() > 0) {
-            GameController.getInstance().setGame(new Game(users));
+            GameController.getInstance().startNewGame(users);
             setCurrentMenu("game");
             System.out.println("Game started!");
         } else

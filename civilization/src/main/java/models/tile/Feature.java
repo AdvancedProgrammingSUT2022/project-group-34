@@ -5,14 +5,14 @@ import java.util.HashMap;
 public enum Feature{
 
     FloodPlane  ("FloodPlane"   ,2 ,0 ,0 ,-33,+1),
-    Forest      ("Forest"       ,1 ,1 ,0 ,+25,+2),
+    Forests     ("Forests"       ,1 ,1 ,0 ,+25,+2),
     Jungle      ("Jungle"       ,1 ,-1,0 ,+25,+2),
     Ice         ("Ice"          ,0 ,0 ,0 ,+0 ,-1),
     Marsh       ("Marsh"        ,-1,0 ,0 ,-33,+2),
     Oasis       ("Oasis"        ,3 ,0 ,1 ,-33,+1),
     ;
 
-    private static HashMap<String,Feature> allFeatures = new HashMap<>();
+    private static final HashMap<String,Feature> allFeatures = new HashMap<>();
 
     public final String name;
     public final int foodRate;
@@ -31,12 +31,8 @@ public enum Feature{
     }
 
     private static void createAllInstances(){
-        allFeatures.put("FloodPlane",Feature.FloodPlane);
-        allFeatures.put("Forest"    ,Feature.Forest);
-        allFeatures.put("Jungle"    ,Feature.Jungle);
-        allFeatures.put("Ice"       ,Feature.Ice);
-        allFeatures.put("Marsh"     ,Feature.Marsh);
-        allFeatures.put("Oasis"     ,Feature.Oasis);
+        for (Feature feature : Feature.values())
+            allFeatures.put(feature.name,feature);
     }
 
     public static HashMap<String, Feature> getAllFeatures() {

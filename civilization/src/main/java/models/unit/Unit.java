@@ -1,5 +1,6 @@
 package models.unit;
 
+import models.Civilization;
 import models.tile.Tile;
 
 import java.util.ArrayList;
@@ -27,9 +28,12 @@ public abstract class Unit {
     private Tile position;
     private Tile destination;
 
-    public Unit(String name, Tile position) {
+    private Civilization civilization;
+
+    public Unit(String name, Tile position, Civilization civilization) {
         this.name = name;
         this.position = position;
+        this.civilization = null;
 
         this.movementSpeed       = Integer.parseInt(unitDataSheet.get(name).get("movementSpeed"));
         this.promotion           = Integer.parseInt(unitDataSheet.get(name).get("promotion"));
@@ -50,6 +54,14 @@ public abstract class Unit {
     public static void loadDataSheet() {
         Unit.dataBaseRequiredTechnology = null; // todo Read from file
         Unit.unitDataSheet              = null; // todo Read from file
+    }
+
+    public Civilization getCivilization() {
+        return civilization;
+    }
+
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
     }
 
     public String getName() {

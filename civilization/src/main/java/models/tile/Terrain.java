@@ -5,11 +5,11 @@ import java.util.HashMap;
 public enum Terrain{
 
     Desert      ("Desert"   ,0,0,0,-33,+1,false),
-    Grassland   ("Grassland",2,0,0,-33,+1,false),
+    Grasslands   ("Grasslands",2,0,0,-33,+1,false),
     Hills       ("Hills"    ,0,2,0,+25,+2,true ),
     Mountain    ("Mountain" ,0,0,0,+0 ,-1,true ),
     Oceana      ("Ocean"    ,0,0,0,+0 ,-1,false),
-    Plain       ("Plain"    ,1,1,0,-33,+1,false),
+    Plains      ("Plains"    ,1,1,0,-33,+1,false),
     Snow        ("Snow"     ,0,0,0,-33,+1,false),
     Tundra      ("Tundra"   ,1,0,0,-33,+1,false),
     ;
@@ -38,11 +38,11 @@ public enum Terrain{
     private static void createAllInstances(){
 
         allTerrains.put("Desert"    ,Terrain.Desert);
-        allTerrains.put("Grassland" ,Terrain.Grassland);
+        allTerrains.put("Grasslands",Terrain.Grasslands);
         allTerrains.put("Hills"     ,Terrain.Hills);
         allTerrains.put("Mountain"  ,Terrain.Mountain);
         allTerrains.put("Oceana"    ,Terrain.Oceana);
-        allTerrains.put("Plain"     ,Terrain.Plain);
+        allTerrains.put("Plains"    ,Terrain.Plains);
         allTerrains.put("Snow"      ,Terrain.Snow);
         allTerrains.put("Tundra"    ,Terrain.Tundra);
     }

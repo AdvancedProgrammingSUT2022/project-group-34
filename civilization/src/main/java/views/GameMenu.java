@@ -6,12 +6,47 @@ import models.City;
 import models.Civilization;
 import models.Notification;
 import models.Technology;
+import models.map.CivilizationMap;
+import models.map.GameMap;
 import models.tile.Tile;
+import models.tile.VisibleTile;
 import models.unit.*;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+import java.util.Random;
 
 public class GameMenu extends Menu {
+    private final static int VIEW_MAP_WIDTH = 9;
+    private final static int VIEW_MAP_HEIGHT = 7;
+
+    private final static String ANSI_RESET = "\u001B[0m";
+
+    private final static String ANSI_BLACK = "\u001B[30m";
+    private final static String ANSI_RED = "\u001B[31m";
+    private final static String ANSI_GREEN = "\u001B[32m";
+    private final static String ANSI_YELLOW = "\u001B[33m";
+    private final static String ANSI_BLUE = "\u001B[34m";
+    private final static String ANSI_PURPLE = "\u001B[35m";
+    private final static String ANSI_CYAN = "\u001B[36m";
+    private final static String ANSI_WHITE = "\u001B[37m";
+
+    private final static String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    private final static String ANSI_RED_BACKGROUND = "\u001B[41m";
+    private final static String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    private final static String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    private final static String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    private final static String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    private final static String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    private final static String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
+    private final static String[] ANSI_COLOR = {ANSI_BLACK, ANSI_RED, ANSI_GREEN, ANSI_YELLOW, ANSI_BLUE, ANSI_PURPLE, ANSI_CYAN, ANSI_WHITE};
+    private final static String[] ANSI_BACKGROUND = {ANSI_BLACK_BACKGROUND, ANSI_RED_BACKGROUND, ANSI_GREEN_BACKGROUND, ANSI_YELLOW_BACKGROUND,
+            ANSI_BLUE_BACKGROUND, ANSI_PURPLE_BACKGROUND, ANSI_CYAN_BACKGROUND, ANSI_WHITE_BACKGROUND};
+
+    private final static String[] CHARACTER_SEED = {"A", "B", "G", "K", "M", "!", "@", "#", "H", "$", "%", "^", "&", "3",
+            "5", "8", "a", "g", "q", "0", "}", "{", "[", "|", ",", ";", "m", "?", "="};
+
     private static CombatUnit selectedCombatUnit = null;
     private static NonCombatUnit selectedNonCombatUnit = null;
     private static City selectedCity = null;
@@ -651,6 +686,218 @@ public class GameMenu extends Menu {
     }
 
     private static void showMap() {
-        // TODO: 4/21/2022
+        // TODO
+        Civilization civilization = GameController.getInstance().getCivilization();
+        System.out.printf("%s : ", civilization.getCivilizationName());
+        System.out.printf("Turn %d\n", civilization.getTurn());
+
+        CivilizationMap personalMap = civilization.getPersonalMap();
+        GameMap map = GameController.getInstance().getGame().getMainGameMap();
+
+        int arrayHeight = VIEW_MAP_HEIGHT * 10;
+        int arrayWidth = VIEW_MAP_WIDTH * 20;
+
+        StringBuilder output[][] = new StringBuilder[arrayHeight][arrayWidth];
+
+        for (int i = 0; i < arrayHeight; i++) {
+            for (int j = 0; j < arrayWidth; j++) {
+                output[i][j] = new StringBuilder(" ");
+            }
+        }
+
+        /*
+                   0   3       12 16         25 29        38
+        0              __________                __________
+                      /          \              /          \
+                     /    FOG     \            /            \
+        3           /              \__________/              \
+                    \              /  D Ma    \              /
+                     \            /      A     \            /
+        6             \__________/    xx, yy    \__________/
+                      /          \     s Bal    /          \
+                     /            \            /            \
+        9           /              \__________/              \
+                    \              /          \              /
+                     \            /            \            /
+        12            \__________/              \__________/
+        */
+
+        for (int i = -VIEW_MAP_HEIGHT / 2; i <= VIEW_MAP_HEIGHT; i++) {
+            for (int j = -VIEW_MAP_WIDTH / 2; j <= VIEW_MAP_WIDTH; j++) {
+                if (j % 2 == 1) {
+                    if (mapY % 2 == 1 && i == -VIEW_MAP_HEIGHT) continue;
+                    else if (mapY % 2 == 0 && i == VIEW_MAP_HEIGHT) continue;
+                }
+                int x = mapX + i;
+                int y = mapY + j;
+                VisibleTile visibleTile = personalMap.getTileByXY(x, y);
+                Tile tile = map.getTileByXY(x, y);
+
+                int upperBound;
+                int leftBound = 13 * (j + VIEW_MAP_WIDTH);
+                if (j % 2 == 0) {
+                    upperBound = 6 * (i + VIEW_MAP_HEIGHT);
+                }
+                else {
+                    if (mapY % 2 == 1) {
+                        upperBound = 6 * (i + VIEW_MAP_HEIGHT) - 3;
+                    }
+                    else {
+                        upperBound = 6 * (i + VIEW_MAP_HEIGHT) + 3;
+                    }
+                }
+
+                for (int k = leftBound + 3; k < leftBound + 13; k++) {
+                    output[upperBound][k].replace(0, 1, "_");
+                }
+                output[upperBound + 1][leftBound + 2].replace(0, 1, "/");
+                output[upperBound + 2][leftBound + 1].replace(0, 1, "/");
+                output[upperBound + 3][leftBound + 0].replace(0, 1, "/");
+                output[upperBound + 4][leftBound + 0].replace(0, 1, "\\");
+                output[upperBound + 5][leftBound + 1].replace(0, 1, "\\");
+                output[upperBound + 6][leftBound + 2].replace(0, 1, "\\");
+
+                output[upperBound + 1][leftBound + 13].replace(0, 1, "\\");
+                output[upperBound + 2][leftBound + 14].replace(0, 1, "\\");
+                output[upperBound + 3][leftBound + 15].replace(0, 1, "\\");
+                output[upperBound + 4][leftBound + 15].replace(0, 1, "/");
+                output[upperBound + 5][leftBound + 14].replace(0, 1, "/");
+                output[upperBound + 6][leftBound + 13].replace(0, 1, "/");
+                for (int k = leftBound + 3; k < leftBound + 13; k++) {
+                    output[upperBound + 6][k].replace(0, 1, "_");
+                }
+
+                // TODO : handle rivers
+
+                // TODO : Handle improvements, resources, fog of war, revealed; then print;
+
+                int[] position = {x, y};
+
+                if (CivilizationController.getInstance().isPositionValid(position)) {
+                    if (tile != null) {
+                        if (!civilization.isInFog(tile)) {
+                            if (tile.getCivilization() != null) {
+                                int index = GameController.getInstance().getIndex(civilization);
+                                output[upperBound + 2][leftBound + 8].replace(0, 1, String.valueOf((char)('A' + index)));
+                                String colorCode = ANSI_COLOR[index % 7 + 1];
+                                output[upperBound + 2][leftBound + 8].insert(0, colorCode);
+                                output[upperBound + 2][leftBound + 8].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
+                            }
+
+                            String terrainName = tile.getTerrain().name.toString();
+                            output[upperBound + 1][leftBound + 5].replace(0, 1, String.valueOf(terrainName.charAt(0)));
+                            String colorCode = ANSI_WHITE;
+                            if (terrainName.equals("Desert")) colorCode = ANSI_YELLOW;
+                            else if (terrainName.equals("Grasslands")) colorCode = ANSI_GREEN;
+                            else if (terrainName.equals("Ocean")) colorCode = ANSI_BLUE;
+                            output[upperBound + 1][leftBound + 5].insert(0, colorCode);
+                            output[upperBound + 1][leftBound + 5].insert(output[upperBound + 1][leftBound + 5].length(), ANSI_RESET);
+
+                            if (tile.getFeature() != null) {
+                                String featureName = tile.getFeature().name.toString();
+                                output[upperBound + 1][leftBound + 7].replace(0, 1, String.valueOf(terrainName.charAt(0)));
+                                output[upperBound + 1][leftBound + 8].replace(0, 1, String.valueOf(terrainName.charAt(1)));
+                                colorCode = ANSI_WHITE;
+                                if (terrainName.equals("FloodPlane")) colorCode = ANSI_GREEN;
+                                else if (terrainName.equals("Forests")) colorCode = ANSI_GREEN;
+                                else if (terrainName.equals("Jungle")) colorCode = ANSI_GREEN;
+                                else if (terrainName.equals("Marsh")) colorCode = ANSI_YELLOW;
+                                else if (terrainName.equals("Oasis")) colorCode = ANSI_YELLOW;
+                                output[upperBound + 1][leftBound + 7].insert(0, colorCode);
+                                output[upperBound + 1][leftBound + 8].insert(0, colorCode);
+                                output[upperBound + 1][leftBound + 7].insert(output[upperBound + 1][leftBound + 7].length(), ANSI_RESET);
+                                output[upperBound + 1][leftBound + 8].insert(output[upperBound + 1][leftBound + 8].length(), ANSI_RESET);
+                            }
+
+                            if (civilization.isTransparent(tile)) {
+                                if (tile.getCombatUnit() != null) {
+                                    Unit unit = tile.getCombatUnit();
+                                    int index = GameController.getInstance().getIndex(unit.getCivilization());
+                                    output[upperBound + 4][leftBound + 8].replace(0, 1, String.valueOf(unit.getName().charAt(0)));
+                                    output[upperBound + 4][leftBound + 9].replace(0, 1, String.valueOf(unit.getName().charAt(1)));
+                                    output[upperBound + 4][leftBound + 10].replace(0, 1, String.valueOf(unit.getName().charAt(2)));
+                                    colorCode = ANSI_COLOR[index % 7 + 1];
+                                    output[upperBound + 4][leftBound + 8].insert(0, colorCode);
+                                    output[upperBound + 4][leftBound + 9].insert(0, colorCode);
+                                    output[upperBound + 4][leftBound + 10].insert(0, colorCode);
+                                    output[upperBound + 4][leftBound + 8].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
+                                    output[upperBound + 4][leftBound + 9].insert(output[upperBound + 2][leftBound + 9].length(), ANSI_RESET);
+                                    output[upperBound + 4][leftBound + 10].insert(output[upperBound + 2][leftBound + 9].length(), ANSI_RESET);
+                                }
+                                if (tile.getNonCombatUnit() != null) {
+                                    Unit unit = tile.getNonCombatUnit();
+                                    int index = GameController.getInstance().getIndex(unit.getCivilization());
+                                    if (unit instanceof Settler) output[upperBound + 4][leftBound + 6].replace(0, 1, "S");
+                                    else output[upperBound + 4][leftBound + 6].replace(0, 1, "W");
+                                    colorCode = ANSI_COLOR[index % 7 + 1];
+                                    output[upperBound + 4][leftBound + 6].insert(0, colorCode);
+                                    output[upperBound + 4][leftBound + 6].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
+                                }
+                            }
+                        }
+                        else {
+                            output[upperBound + 2][leftBound + 6].replace(0, 1, "F");
+                            output[upperBound + 2][leftBound + 7].replace(0, 1, "O");
+                            output[upperBound + 2][leftBound + 8].replace(0, 1, "G");
+                            String colorCode = ANSI_PURPLE;
+                            Random random = new Random(upperBound + leftBound + x + y);
+                            for (int k = leftBound + 3; k <= leftBound + 12; k++) {
+                                if (output[upperBound + 1][k].charAt(0) != ' ') continue;
+                                output[upperBound + 1][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
+                            }
+                            for (int k = leftBound + 2; k <= leftBound + 13; k++) {
+                                if (output[upperBound + 2][k].charAt(0) != ' ') continue;
+                                output[upperBound + 2][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
+                            }
+                            for (int k = leftBound + 1; k <= leftBound + 14; k++) {
+                                if (output[upperBound + 3][k].charAt(0) != ' ') continue;
+                                output[upperBound + 3][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
+                            }
+                            for (int k = leftBound + 1; k <= leftBound + 14; k++) {
+                                if (output[upperBound + 4][k].charAt(0) != ' ') continue;
+                                output[upperBound + 4][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
+                            }
+                            for (int k = leftBound + 2; k <= leftBound + 13; k++) {
+                                if (output[upperBound + 5][k].charAt(0) != ' ') continue;
+                                output[upperBound + 5][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
+                            }
+                        }
+                    }
+                    else {
+                        String backgroundCode = ANSI_RED_BACKGROUND;
+                        for (int k = leftBound + 3; k <= leftBound + 12; k++) {
+                            output[upperBound + 1][k].insert(0, backgroundCode);
+                            output[upperBound + 1][k].insert(output[upperBound + 1][k].length(), ANSI_RESET);
+                        }
+                        for (int k = leftBound + 2; k <= leftBound + 13; k++) {
+                            output[upperBound + 2][k].insert(0, backgroundCode);
+                            output[upperBound + 2][k].insert(output[upperBound + 2][k].length(), ANSI_RESET);
+                        }
+                        for (int k = leftBound + 1; k <= leftBound + 14; k++) {
+                            output[upperBound + 3][k].insert(0, backgroundCode);
+                            output[upperBound + 3][k].insert(output[upperBound + 3][k].length(), ANSI_RESET);
+                        }
+                        for (int k = leftBound + 1; k <= leftBound + 14; k++) {
+                            output[upperBound + 4][k].insert(0, backgroundCode);
+                            output[upperBound + 4][k].insert(output[upperBound + 4][k].length(), ANSI_RESET);
+                        }
+                        for (int k = leftBound + 2; k <= leftBound + 13; k++) {
+                            output[upperBound + 5][k].insert(0, backgroundCode);
+                            output[upperBound + 5][k].insert(output[upperBound + 5][k].length(), ANSI_RESET);
+                        }
+                    }
+
+                    output[upperBound + 3][leftBound + 5].replace(0, 1, String.valueOf(x / 10));
+                    output[upperBound + 3][leftBound + 6].replace(0, 1, String.valueOf(x % 10));
+                    output[upperBound + 3][leftBound + 7].replace(0, 1, ",");
+                    output[upperBound + 3][leftBound + 8].replace(0, 1, String.valueOf(y / 10));
+                    output[upperBound + 3][leftBound + 9].replace(0, 1, String.valueOf(y % 10));
+                }
+
+
+            }
+        }
     }
 }
+
+

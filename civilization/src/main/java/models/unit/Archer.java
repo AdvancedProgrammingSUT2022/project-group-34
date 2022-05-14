@@ -1,5 +1,6 @@
 package models.unit;
 
+import models.Civilization;
 import models.tile.Tile;
 
 import java.util.HashMap;
@@ -12,8 +13,8 @@ public class Archer extends CombatUnit{
     public boolean isSiegeTool;
     public boolean isSetup;
 
-    public Archer(String name, Tile position) {
-        super(name, position);
+    public Archer(String name, Tile position, Civilization civilization) {
+        super(name, position, civilization);
     }
 
     public static HashMap<String, HashMap<String, String>> getArcherDataSheet() {
