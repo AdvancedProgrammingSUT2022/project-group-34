@@ -769,7 +769,7 @@ public class GameMenu extends Menu {
 
                 // TODO : handle rivers
 
-                // TODO : Handle improvements, resources, and then print;
+                // TODO : Handle improvements, resources;
 
                 int[] position = {x, y};
 
@@ -922,8 +922,14 @@ public class GameMenu extends Menu {
                     output[upperBound + 3][leftBound + 9].replace(0, 1, String.valueOf(y % 10));
                 }
 
-
             }
+        }
+
+        for (int i = 0; i < arrayHeight; i++) {
+            for (int j = 0; j < arrayWidth; j++) {
+                System.out.printf("%s", output[i][j].toString());
+            }
+            System.out.println();
         }
     }
 }
