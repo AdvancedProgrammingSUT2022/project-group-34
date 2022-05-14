@@ -1,66 +1,44 @@
-import controllers.UserController;
-import models.User;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
 import views.Processor;
 import views.RegisterMenu;
 
-import javax.annotation.processing.Processor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.mockito.Mockito.*;
 
-@PrepareForTest(UserController.class)
 public class RegisterMenuTest {
-//    UserController controller;
-
+    private final PrintStream standard = System.out;
+    private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
     @BeforeEach
-    public void setUp() throws Exception {
-//        controller = Whitebox.invokeConstructor(UserController.class);
-//        PowerMockito.mockStatic(UserController.class);
+    public void setUp() {
+        System.setOut(new PrintStream(outputStream));
+    }
+
+    @AfterEach
+    public void tearDown() {
+        System.setOut(standard);
     }
 
     @Test
-    public void checkCreatingUser() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public void checkCreatingUser() throws Exception {
+        RegisterMenu registerMenu = new RegisterMenu();
 
         Processor processor = Mockito.mock(Processor.class);
-
-        User user = new User("abc", "def", "ghi4JKL");
-
-        RegisterMenu registerMenu = new RegisterMenu();
 
         when(processor.get("username")).thenReturn("abc");
         when(processor.get("nickname")).thenReturn("def");
         when(processor.get("password")).thenReturn("ghi4JKL");
         when(processor.getNumberOfFields()).thenReturn(3);
 
+        Whitebox.invokeMethod(registerMenu, "register", processor);
 
-        ArrayList<User> users = Mockito.mock(ArrayList.class);
-
-
-        PowerMockito.mockStatic(UserController.class);
-        when(UserController.getInstance().getUsers()).thenReturn(users);
-
-
-        verify(UserController.getInstance()).getUsers().add(user);
-
-
-
-//        Method method = RegisterMenu.class.getDeclaredMethod("register", Processor.class);
-//        method.setAccessible(true);
-
-//        method.invoke(registerMenu, processor);
-
-//        verify(method.invoke(registerMenu, processor), times(1));
-//        verify(System.out.format("A user with username %s already exists\n", processor.get("username")));
+        Assertions.assertEquals(outputStream.toString().trim(), "User Created successfully!");
     }
-
 }
