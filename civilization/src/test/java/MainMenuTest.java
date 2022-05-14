@@ -1,3 +1,4 @@
+import controllers.GameController;
 import controllers.UserController;
 import models.User;
 import org.junit.jupiter.api.AfterEach;
@@ -22,12 +23,15 @@ public class MainMenuTest {
     private final MainMenu mainMenu = new MainMenu();
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() {
         System.setOut(new PrintStream(outputStream));
+        User user = new User("abc", "ghi4JKL", "def");
+        UserController.getInstance().getUsers().add(user);
+        UserController.getInstance().setLoggedInUser(user);
     }
 
     @AfterEach
-    public void tearDown(){
+    public void tearDown() {
         System.setOut(standard);
         UserController.getInstance().setUsers(new ArrayList<>());
         UserController.getInstance().setLoggedInUser(null);
@@ -37,10 +41,6 @@ public class MainMenuTest {
     public void checkLogout() throws Exception {
         when(processor.getSection()).thenReturn("logout");
 
-        User user = new User("abc", "ghi4JKL", "def");
-        UserController.getInstance().getUsers().add(user);
-        UserController.getInstance().setLoggedInUser(user);
-
         Whitebox.invokeMethod(mainMenu, "logout", processor);
 
         Assertions.assertNull(UserController.getInstance().getLoggedInUser());
@@ -49,9 +49,19 @@ public class MainMenuTest {
 
 
     @Test
-    public void checkStartGame(){
+    public void checkStartGame() throws Exception {
         when(processor.getNumberOfFields()).thenReturn(1);
 
+        User user2 = new User("ABC", "GHI4jkl", "DEF");
+        UserController.getInstance().getUsers().add(user2);
 
+        when(processor.get("player1")).thenReturn(user2.getUsername());
+
+        Whitebox.invokeMethod(mainMenu, "startNewGame", processor);
+
+        Assertions.assertNotNull(GameController.getInstance().getGame());
+        Assertions.assertEquals(outputStream.toString().trim(), "Game started!");
+
+        GameController.getInstance().setGame(null);
     }
 }
