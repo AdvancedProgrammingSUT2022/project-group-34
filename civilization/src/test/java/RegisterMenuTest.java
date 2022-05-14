@@ -18,11 +18,14 @@ import static org.mockito.Mockito.*;
 public class RegisterMenuTest {
     private final PrintStream standard = System.out;
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    private final Processor processor = Mockito.mock(Processor.class);
     private final RegisterMenu registerMenu = new RegisterMenu();
 
     @BeforeEach
     public void setUp() {
         System.setOut(new PrintStream(outputStream));
+        when(processor.get("username")).thenReturn("abc");
+        when(processor.get("password")).thenReturn("ghi4JKL");
     }
 
     @AfterEach
@@ -33,11 +36,7 @@ public class RegisterMenuTest {
 
     @Test
     public void checkCreatingUser() throws Exception {
-        Processor processor = Mockito.mock(Processor.class);
-
-        when(processor.get("username")).thenReturn("abc");
         when(processor.get("nickname")).thenReturn("def");
-        when(processor.get("password")).thenReturn("ghi4JKL");
         when(processor.getNumberOfFields()).thenReturn(3);
 
         Whitebox.invokeMethod(registerMenu, "register", processor);
@@ -48,10 +47,6 @@ public class RegisterMenuTest {
 
     @Test
     public void checkLogin() throws Exception {
-        Processor processor = Mockito.mock(Processor.class);
-
-        when(processor.get("username")).thenReturn("abc");
-        when(processor.get("password")).thenReturn("ghi4JKL");
         when(processor.getNumberOfFields()).thenReturn(2);
 
         UserController.getInstance().getUsers().add(new User("abc", "ghi4JKL", "def"));
