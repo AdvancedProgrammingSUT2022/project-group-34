@@ -1,5 +1,6 @@
 package views;
 
+import controllers.CheatController;
 import controllers.CivilizationController;
 import controllers.GameController;
 import models.City;
@@ -21,6 +22,8 @@ import java.util.Random;
 public class GameMenu extends Menu {
     private final static int VIEW_MAP_WIDTH = 9;
     private final static int VIEW_MAP_HEIGHT = 7;
+
+    private final static String NON_NEGATIVE_NUMBER_REGEX = "^+?\\d+$";
 
     private final static String ANSI_RESET = "\u001B[0m";
 
@@ -680,19 +683,53 @@ public class GameMenu extends Menu {
     }
 
     private static void handleCheatCategoryCommand(Processor processor) {
-        //TODO
         if (processor.getSection().equals("increase")) {
+            String amountField = processor.get("amount");
+            if (amountField == null) {
+                System.out.printf("field 'amount' required\n");
+            }
+            else if (!amountField.matches(NON_NEGATIVE_NUMBER_REGEX)) {
+                System.out.printf("must enter a valid non-negative integer in 'amount' field\n");
+                return;
+            }
+            int amount = Integer.parseInt(amountField);
+            if (processor.getSubSection().equals("gold")) CheatController.getInstance().increaseGold(amount);
+            else
             //TODO
         }
         else if (processor.getSection().equals("teleport")) {
-            //TODO
+            Unit selectedUnit = selectedCombatUnit;
+            if (selectedUnit == null) selectedUnit = selectedNonCombatUnit;
+            if (selectedUnit == null) {
+                System.out.printf("no unit selected\n");
+                return;
+            }
+            String xField = processor.get("x");
+            String yField = processor.get("y");
+            if (xField == null || yField == null) System.out.printf("fields 'x' and 'y' required\n");
+            else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("must enter a valid non-negative integer in x and y fields");
+            else {
+                int x = Integer.parseInt(xField);
+                int y = Integer.parseInt(yField);
+                System.out.printf("%s\n", CheatController.getInstance().teleport(selectedUnit, x, y));
+            }
         }
         else if (processor.getSection().equals("finish")) {
-            //TODO
+            if (!processor.getSubSection().equals("research")) invalidCommand();
+            else //TODO
         }
         else if (processor.getSection().equals("reveal")) {
-            //TODO
+            String xField = processor.get("x");
+            String yField = processor.get("y");
+            if (xField == null || yField == null) System.out.printf("fields 'x' and 'y' required\n");
+            else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("must enter a valid non-negative integer in x and y fields");
+            else {
+                int x = Integer.parseInt(xField);
+                int y = Integer.parseInt(yField);
+                System.out.printf("%s\n", CheatController.getInstance().reveal(x, y));
+            }
         }
+        else invalidCommand();
 
     }
 
@@ -765,7 +802,7 @@ public class GameMenu extends Menu {
 
                 // TODO : handle rivers, improvements, resources;
 
-                putTile(civilization, tile, visibleTile, output, upperBound, leftBound);
+                putTile(civilization, tile, visibleTile, output, x, y, upperBound, leftBound);
             }
         }
 
@@ -829,7 +866,7 @@ public class GameMenu extends Menu {
         putColor(backgroundCode, output, upperBound + 5, leftBound + 2, 12);
     }
 
-    private static void putTile(Civilization civilization, Tile tile, VisibleTile visibleTile, StringBuilder[][] output, int upperBound, int leftBound) {
+    private static void putTile(Civilization civilization, Tile tile, VisibleTile visibleTile, StringBuilder[][] output, int x, int y, int upperBound, int leftBound) {
         putTileBorders(output, upperBound, leftBound);
         
         if (tile != null) {
