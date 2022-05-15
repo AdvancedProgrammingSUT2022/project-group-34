@@ -876,7 +876,7 @@ public class GameMenu extends Menu {
     }
 
     private static void putTile(Civilization civilization, Tile tile, VisibleTile visibleTile, StringBuilder[][] output, int x, int y, int upperBound, int leftBound) {
-        putTileBorders(output, upperBound, leftBound);
+        putTileBorders(civilization, tile, output, upperBound, leftBound, x, y);
         
         if (tile != null) {
             putString(x + "," + y, output, upperBound + 3, leftBound + 5);
@@ -897,7 +897,7 @@ public class GameMenu extends Menu {
         else putNullTile(output, upperBound, leftBound);
     }
 
-    private static void putTileBorders(StringBuilder[][] output, int upperBound, int leftBound) {
+    private static void putTileBorders(Civilization civilization, Tile tile, StringBuilder[][] output, int upperBound, int leftBound, int x, int y) {
         putString("__________", output, upperBound, leftBound + 3);
         putString("/          \\", output, upperBound + 1, leftBound + 2);
         putString("/            \\", output, upperBound + 2, leftBound + 1);
@@ -905,6 +905,61 @@ public class GameMenu extends Menu {
         putString("\\              /", output, upperBound + 4, leftBound + 0);
         putString("\\            /", output, upperBound + 5, leftBound + 1);
         putString("\\__________/", output, upperBound + 6, leftBound + 2);
+
+        if (!civilization.isInFog(tile)) putRivers(tile, output, upperBound, leftBound, x, y);
+    }
+
+    private static void putRivers(Tile tile, StringBuilder[][] output, int upperBound, int leftBound, int x, int y) {
+        Tile otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y});
+        if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 0);
+        otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x + 1, y});
+        if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 3);
+        if (y % 2 == 0) {
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y - 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 5);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y - 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 4);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y + 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 1);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y + 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 2);
+        }
+        else {
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y - 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 5);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x + 1, y - 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 4);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y + 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 1);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x + 1, y + 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 2);
+        }
+    }
+
+    private static void putRiver(StringBuilder[][] output, int upperBound, int leftBound, int whichBorderFromUpperClockwise) {
+        int whichBorder = whichBorderFromUpperClockwise;
+        if (whichBorder == 0) putColor(ANSI_BLUE_BACKGROUND, output, upperBound, leftBound + 3, 10);
+        else if (whichBorder == 1) {
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 1, leftBound + 12);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 2, leftBound + 13);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 3, leftBound + 14);
+        }
+        else if (whichBorder == 2) {
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 6, leftBound + 12);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 5, leftBound + 13);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 4, leftBound + 14);
+        }
+        else if (whichBorder == 3) putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 6, leftBound + 2, 12);
+        else if (whichBorder == 4) {
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 6, leftBound + 2);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 5, leftBound + 1);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 4, leftBound + 0);
+        }
+        else if (whichBorder == 5) {
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 1, leftBound + 2);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 2, leftBound + 1);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 3, leftBound + 0);
+        }
     }
 
     private static void putCivilization(Civilization civilization, StringBuilder[][] output, int upperBound, int leftBound) {
