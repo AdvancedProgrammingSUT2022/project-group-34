@@ -68,6 +68,7 @@ public class GameMenu extends Menu {
             else if (processor.getCategory().equals("unit")) handleUnitCategoryCommand(processor);
             else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
             else if (processor.getCategory().equals("info")) handleInfoCategoryCommand(processor);
+            else if (processor.getCategory().equals("cheat")) handleCheatCategoryCommand(processor);
             else invalidCommand();
         }
     }
@@ -679,7 +680,20 @@ public class GameMenu extends Menu {
     }
 
     private static void handleCheatCategoryCommand(Processor processor) {
-        // TODO: 4/21/2022
+        //TODO
+        if (processor.getSection().equals("increase")) {
+            //TODO
+        }
+        else if (processor.getSection().equals("teleport")) {
+            //TODO
+        }
+        else if (processor.getSection().equals("finish")) {
+            //TODO
+        }
+        else if (processor.getSection().equals("reveal")) {
+            //TODO
+        }
+
     }
 
 
