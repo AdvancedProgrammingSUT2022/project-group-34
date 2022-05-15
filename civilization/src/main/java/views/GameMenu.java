@@ -696,13 +696,19 @@ public class GameMenu extends Menu {
             System.out.printf("field 'amount' required\n");
         }
         else if (!amountField.matches(NON_NEGATIVE_NUMBER_REGEX)) {
-            System.out.printf("must enter a valid non-negative integer in 'amount' field\n");
+            System.out.printf("amount must be a valid non-negative integer\n");
             return;
         }
         int amount = Integer.parseInt(amountField);
-        if (subSection.equals("gold")) CheatController.getInstance().increaseGold(amount);
-        else
-        //TODO
+        if (subSection.equals("gold")) {
+            CheatController.getInstance().increaseGold(amount);
+            System.out.printf("Done");
+        }
+        else if (subSection.equals("beaker")) {
+            CheatController.getInstance().increaseBeaker(amount);
+            System.out.printf("Done");
+        }
+        else invalidCommand();
     }
 
     private static void teleportCheatCommand(String xField, String yField) {
@@ -713,7 +719,7 @@ public class GameMenu extends Menu {
             return;
         }
         if (xField == null || yField == null) System.out.printf("fields 'x' and 'y' required\n");
-        else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("must enter a valid non-negative integer in x and y fields");
+        else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("x, y must be valid non-negative integers");
         else {
             int x = Integer.parseInt(xField);
             int y = Integer.parseInt(yField);
@@ -723,12 +729,12 @@ public class GameMenu extends Menu {
 
     private static void finishCheatCommand(String subSection) {
         if (!subSection.equals("research")) invalidCommand();
-        else //TODO
+        else System.out.printf(CheatController.getInstance().finishResearch());
     }
 
     private static void revealCheatCommand(String xField, String yField) {
         if (xField == null || yField == null) System.out.printf("fields 'x' and 'y' required\n");
-        else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("must enter a valid non-negative integer in x and y fields");
+        else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("x, y must be valid non-negative integers");
         else {
             int x = Integer.parseInt(xField);
             int y = Integer.parseInt(yField);

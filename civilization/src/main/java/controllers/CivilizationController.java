@@ -154,7 +154,7 @@ public class CivilizationController {
         //TODO handle river and road or railroad on river;
     }
 
-    private void moveToAdjacent(Unit unit, Tile tile) {
+    public void moveToAdjacent(Unit unit, Tile tile) {
         Tile currentTile = unit.getPosition();
         if ((unit instanceof CombatUnit) && currentTile.getCombatUnit().equals(unit))
             currentTile.setCombatUnit((CombatUnit) null);
@@ -231,7 +231,7 @@ public class CivilizationController {
         return "success";
     }
 
-    private String isMoveValid(Unit unit, int[] destination) {
+    public String isMoveValid(Unit unit, int[] destination) {
         Tile destinationTile = getTileByPosition(destination);
         if (!isPositionValid(destination)) return "invalid destination";
         else if (GameController.getInstance().getCivilization().isInFog(destinationTile)) return "fog of war";
@@ -239,6 +239,7 @@ public class CivilizationController {
         else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) return "destination occupied";
         else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit() != null)
             return "destination occupied";
+        else if (destinationTile.isUnmovable()) return "destination unmovable";
         return "true";
     }
 

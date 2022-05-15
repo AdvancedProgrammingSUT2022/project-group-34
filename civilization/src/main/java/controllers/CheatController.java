@@ -2,11 +2,45 @@
 
 package controllers;
 
+import models.Civilization;
+import models.unit.Unit;
+import models.tile.Tile;
+
 public class CheatController {
     private static CheatController instance = null;
 
     public static CheatController getInstance() {
         if (instance == null) instance = new CheatController();
         return instance;
+    }
+
+    public void increaseGold(int amount) {
+        Civilization civilization = GameController.getInstance().getCivilization();
+        civilization.setGold(civilization.getGold() + amount);
+    }
+
+    public void increaseBeaker(int amount) {
+        Civilization civilization = GameController.getInstance().getCivilization();
+        civilization.setNumberOfBeakers(civilization.getNumberOfBeakers() + amount);
+    }
+
+    public String teleport(Unit unit, int x, int y) {
+        String check = CivilizationController.getInstance().isMoveValid(unit, new int[]{x, y});
+        if (check.equals("invalid destination") || check.equals("destination occupied")) return check;
+        Tile destination = CivilizationController.getInstance().getTileByPosition(new int[]{x, y});
+        reveal(x, y);
+        CivilizationController.getInstance().moveToAdjacent(unit, destination);
+        return "done";
+    }
+
+    public String reveal(int x, int y) {
+        if (!CivilizationController.getInstance().isPositionValid(new int[]{x, y})) return "invalid position";
+        GameController.getInstance().getCivilization().getPersonalMap().getTileByXY(x, y).setInFog(false);
+        return "done";
+    }
+
+    public String finishResearch() {
+        //TODO
+        return "TODO";
     }
 }
