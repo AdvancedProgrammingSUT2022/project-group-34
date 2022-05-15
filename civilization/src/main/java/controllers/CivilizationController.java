@@ -10,6 +10,7 @@ import java.util.Stack;
 
 import models.Civilization;
 import models.Game;
+import models.map.CivilizationMap;
 import models.map.GameMap;
 import models.tile.AbstractTile;
 import models.tile.Improvement;
@@ -273,6 +274,18 @@ public class CivilizationController {
     }
 
     //TODO: exit from fog of war
+    public void reveal(int x, int y) {
+        Tile tile = getTileByPosition(new int[]{x, y});
+        reveal(tile);
+    }
+
+    public void reveal(Tile tile) {
+        CivilizationMap map = GameController.getInstance().getCivilization().getPersonalMap();
+        map.setTileByXY(tile.getX(), tile.getY(), new VisibleTile(tile, false));
+        ArrayList<AbstractTile> tileList = new ArrayList<>();
+        tileList.add(tile);
+        map.addTransparentTiles(tileList);
+    }
 
 
 

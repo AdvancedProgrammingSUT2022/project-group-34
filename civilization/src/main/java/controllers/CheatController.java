@@ -36,8 +36,7 @@ public class CheatController {
 
     public String reveal(int x, int y) {
         if (!CivilizationController.getInstance().isPositionValid(new int[]{x, y})) return "invalid position";
-        Tile tile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y});
-        GameController.getInstance().getCivilization().getPersonalMap().setTileByXY(x, y, new VisibleTile(tile, false));
+        CivilizationController.getInstance().reveal(x, y);
         return "done";
     }
 
