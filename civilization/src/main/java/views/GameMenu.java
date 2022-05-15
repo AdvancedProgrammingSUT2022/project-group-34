@@ -1178,7 +1178,7 @@ public class GameMenu extends Menu {
     }
 
     private static void putTerrain(Terrain terrain, StringBuilder[][] output, int upperBound, int leftBound) {
-        String terrainName = terrain.name.toString();
+        String terrainName = terrain.getName().toString();
         putString(terrainName.substring(0, 1), output, upperBound + 1, leftBound + 5);
         String colorCode = ANSI_WHITE;
         if (terrainName.equals("Desert")) colorCode = ANSI_YELLOW;
@@ -1189,7 +1189,7 @@ public class GameMenu extends Menu {
 
     private static void putFeature(Feature feature, StringBuilder[][] output, int upperBound, int leftBound) {
         if (feature == null) return;
-        String featureName = feature.name.toString();
+        String featureName = feature.getName().toString();
         putString(featureName.substring(0, 2), output, upperBound + 1, leftBound + 7);
         String colorCode = ANSI_WHITE;
         if (featureName.equals("FloodPlane")) colorCode = ANSI_GREEN;
