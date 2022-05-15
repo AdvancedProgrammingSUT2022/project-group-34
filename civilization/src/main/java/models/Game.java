@@ -30,7 +30,7 @@ public class Game {
             ArrayList<City> cityList = new ArrayList<>();
             ArrayList<Unit> unitList = new ArrayList<>();
             unitList.add(settler);
-            Civilization civilization = new Civilization(users.get(i), users.get(i).getNickname(), cityList, new ArrayList<>(), unitList, null, 0, 0, 0, 0);
+            Civilization civilization = new Civilization(users.get(i), users.get(i).getNickname(), cityList, unitList, null, 0, 0, 0, 0);
             civilizations.add(civilization);
             settler.setCivilization(civilization);
         }

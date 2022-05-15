@@ -401,8 +401,14 @@ public class CivilizationController {
             visibleTiles.addAll(CivilizationController.getInstance().getVisibleTiles(unit));
             civilization.getPersonalMap().addTransparentTiles(visibleTiles);
         }
-
-        //TODO: add Cities, Territory, etc. :)
+        civilization.getPersonalMap().addTransparentTiles(civilization.getTerritory());
+        for (AbstractTile territoryTile : civilization.getTerritory()) {
+            for (AbstractTile adjacentTile : territoryTile.getAdjacentTiles()) {
+                ArrayList<AbstractTile> tiles = new ArrayList<>();
+                tiles.add(adjacentTile);
+                if (adjacentTile != null) civilization.getPersonalMap().addTransparentTiles(tiles);
+            }
+        }
     }
 
     public void updatePersonalMap(Civilization civilization, GameMap mainMap) {

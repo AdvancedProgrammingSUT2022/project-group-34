@@ -3,6 +3,7 @@ package models;
 import models.map.CivilizationMap;
 import models.resource.LuxuryResource;
 import models.resource.Resource;
+import models.tile.AbstractTile;
 import models.tile.Tile;
 import models.unit.Unit;
 import models.unit.Work;
@@ -22,7 +23,6 @@ public class Civilization {
     private CivilizationMap personalMap;
 
     private ArrayList<City> cities;
-    private ArrayList<Tile> territory;
     private ArrayList<Tile> workingTiles;
     private ArrayList<Unit> units;
     private ArrayList<Work> works ;
@@ -54,11 +54,10 @@ public class Civilization {
 
     private int turn = 0;
 
-    public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Tile> territory, ArrayList<Unit> units, City mainCapital, int numberOfBeakers, int gold, int happiness, int happiness0) {
+    public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Unit> units, City mainCapital, int numberOfBeakers, int gold, int happiness, int happiness0) {
         this.player = player;
         this.civilizationName = civilizationName;
         this.cities = cities;
-        this.territory = territory;
         this.units = units;
         this.mainCapital = mainCapital;
         this.works = new ArrayList<>();
@@ -105,12 +104,10 @@ public class Civilization {
         this.cities = cities;
     }
 
-    public ArrayList<Tile> getTerritory() {
+    public ArrayList<AbstractTile> getTerritory() {
+        ArrayList<AbstractTile> territory = new ArrayList<>();
+        for (City city : cities) territory.addAll(city.getTerritory());
         return territory;
-    }
-
-    public void setTerritory(ArrayList<Tile> territory) {
-        this.territory = territory;
     }
 
     public ArrayList<Tile> getWorkingTiles() {
