@@ -2,6 +2,8 @@ package models.unit;
 
 import models.City;
 import models.Civilization;
+import models.TechnologyEnum;
+import models.resource.ResourceEnum;
 import models.tile.Tile;
 
 import java.util.HashMap;
@@ -11,18 +13,34 @@ public class CombatUnit extends Unit{
     public static HashMap<String, HashMap<String, String>> combatUnitDataSheet = new HashMap<>();
     public static int hitPointConstant;
 
+    protected String combatType;
     protected int range;
     protected int combatStrength;
     protected int hitPoint;
 
+    protected boolean isSleep;
     protected boolean isAlert;
     protected boolean isFortify;
     protected boolean isFortifyUntilHealed;
-    protected City GarrisonCity;
+    protected City garrisonCity;
+    protected boolean isVisible;
+    protected TechnologyEnum requiredTechnology;
+    protected ResourceEnum requiredResource;
 
 
-    public CombatUnit(String name, Tile position, Civilization civilization) {
-        super(name, position, civilization);
+    public CombatUnit(UnitEnum unitEnum, Tile position) {
+        super(unitEnum, position);
+
+        this.requiredTechnology = unitEnum.requiredTechnology;
+        this.requiredResource = unitEnum.requiredResource;
+        this.combatStrength = unitEnum.combatStrength;
+        this.combatType = unitEnum.combatType;
+        this.range = unitEnum.range;
+        this.isSleep = false;
+        this.isAlert = false;
+        this.isFortify = false;
+        this.isFortifyUntilHealed= false;
+        this.garrisonCity = null;
     }
 
     public static HashMap<String, HashMap<String, String>> getCombatUnitDataSheet() {
@@ -74,7 +92,7 @@ public class CombatUnit extends Unit{
     }
 
     public boolean isGarrison() {
-        return GarrisonCity != null;
+        return garrisonCity != null;
     }
 
     public boolean isFortify() {
@@ -94,11 +112,11 @@ public class CombatUnit extends Unit{
     }
 
     public City getGarrisonCity() {
-        return GarrisonCity;
+        return garrisonCity;
     }
 
     public void setGarrisonCity(City garrisonCity) {
-        GarrisonCity = garrisonCity;
+        this.garrisonCity = garrisonCity;
     }
 
     @Override

@@ -3,34 +3,36 @@ package models.unit;
 import models.Civilization;
 import models.tile.Tile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Archer extends CombatUnit{
 
     public static HashMap<String, HashMap<String, String>> archerDataSheet = new HashMap<>();
 
-    public int remoteCombatPower;
+    public int RangedCombatStrength;
     public boolean isSiegeTool;
     public boolean isSetup;
+    public ArrayList<String> unitActionList = new ArrayList<>();
 
-    public Archer(String name, Tile position, Civilization civilization) {
-        super(name, position, civilization);
+    public Archer(UnitEnum unitEnum, Tile position) {
+
+        super(unitEnum, position);
+        this.RangedCombatStrength = unitEnum.rangedCombatStrength;
+        this.isSiegeTool = unitEnum.isSiegeTool;
+        this.isSetup = false;
     }
 
     public static HashMap<String, HashMap<String, String>> getArcherDataSheet() {
         return archerDataSheet;
     }
 
-    public static void loadDataSheet() {
-        Archer.archerDataSheet = null; // todo Read from file
+    public int getRangedCombatStrength() {
+        return RangedCombatStrength;
     }
 
-    public int getRemoteCombatPower() {
-        return remoteCombatPower;
-    }
-
-    public void setRemoteCombatPower(int remoteCombatPower) {
-        this.remoteCombatPower = remoteCombatPower;
+    public void setRangedCombatStrength(int rangedCombatStrength) {
+        this.RangedCombatStrength = rangedCombatStrength;
     }
 
     public boolean isSiegeTool() {
