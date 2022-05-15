@@ -1,35 +1,42 @@
 package models.resource;
 
+import models.TechnologyEnum;
+import models.tile.Improvement;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class StrategicResource extends Resource{
 
-    private static ArrayList<StrategicResource> allStrategicResource = new ArrayList<>();
-    private String requiredTechnology;
-    private boolean isVisible;
-    private int productionBonus;
+    private static final HashMap<String,StrategicResource> allStrategicResource = new HashMap<>();
+    private final TechnologyEnum requiredTechnology;
+    private final int productionBonus;
 
-    public StrategicResource(String name, String requiredImprovement, int productionBonus, String requiredTechnology) {
-        super(requiredImprovement, name, false, true);
+    public StrategicResource(String name, Improvement requiredImprovement, int productionBonus, TechnologyEnum requiredTechnology) {
+        super(name, requiredImprovement, true);
         this.productionBonus = productionBonus;
         this.requiredTechnology = requiredTechnology;
     }
 
-    public boolean deleteResearchedTechnology(String technology) {
-        if (this.isVisible)
-            return false;
-        if (this.requiredTechnology.equals(technology)){
-            this.isVisible = true;
-            return true;
-        }
-        return false;
+    public static void createAllInstance(){
+        ArrayList<Resource> arrayList = new ArrayList<>();
+        arrayList.add(ResourceEnum.Coal.getResource());
+        arrayList.add(ResourceEnum.Horses.getResource());
+        arrayList.add(ResourceEnum.Iron.getResource());
+        for (Resource resource : arrayList)
+            allStrategicResource.put(resource.getName(), (StrategicResource) resource);
     }
+
+    public static HashMap<String,StrategicResource> getAllLuxuryResource(){
+        if (allStrategicResource.isEmpty())
+            createAllInstance();
+        return allStrategicResource;
+    }
+
 
     @Override
     public Resource cloneResource(){
-        StrategicResource strategicResource = new StrategicResource(getRequiredImprovement(),getName(), productionBonus, requiredTechnology);
-        strategicResource.isVisible = this.isVisible;
-        return strategicResource;
+        return new StrategicResource(getName(),getRequiredImprovement(), productionBonus, requiredTechnology);
     }
 
     @Override
@@ -37,16 +44,8 @@ public class StrategicResource extends Resource{
         return productionBonus;
     }
 
-
-    public static void createAllInstance(){
-        allStrategicResource.add(new StrategicResource("Coal"   ,"Mine"     ,1,""));
-        allStrategicResource.add(new StrategicResource("Horse"  ,"Pasture"  ,1,""));
-        allStrategicResource.add(new StrategicResource("Iron"   ,"Mine"     ,1,""));
+    public boolean isVisible() {
+        return requiredTechnology == null;
     }
 
-    public static ArrayList<StrategicResource> getAllLuxuryResource(){
-        if (allStrategicResource.size() == 0)
-            createAllInstance();
-        return new ArrayList<>(allStrategicResource);
-    }
 }

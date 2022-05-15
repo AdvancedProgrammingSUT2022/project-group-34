@@ -1,5 +1,7 @@
 package models.resource;
 
+import models.tile.Improvement;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,16 +11,14 @@ public class Resource {
     public static HashMap<String, ArrayList<String>> dataSheetLocationsOfResources;
     public static HashMap<String,Resource> allResources;
 
-    private String name;
-    private String requiredImprovement;
-    private boolean isVisible;
-    private boolean isExchangeable;
+    private final String name;
+    private final Improvement requiredImprovement;
+    private final boolean isExchangeable;
 
-    public Resource(String requiredImprovement, String name, boolean isVisible, boolean isExchangeable) {
+    public Resource(String name, Improvement requiredImprovement, boolean isExchangeable) {
 
         this.requiredImprovement = requiredImprovement;
         this.name = name;
-        this.isVisible= isVisible;
         this.isExchangeable = isExchangeable;
     }
 
@@ -34,14 +34,20 @@ public class Resource {
 
     public static HashMap<String, Resource> getAllResourcesCopy() {
 
-        HashMap<String, Resource> allResourcesCopy = new HashMap<>();
-
-        allResources.forEach((name,resource)->{
+        StrategicResource.allResources.forEach((name,resource)->{
             Resource resourceCopy = resource.cloneResource();
-            allResourcesCopy.put(name,resourceCopy);
+            allResources.put(name,resourceCopy);
+        });
+        BonusResource.allResources.forEach((name,resource)->{
+            Resource resourceCopy = resource.cloneResource();
+            allResources.put(name,resourceCopy);
+        });
+        LuxuryResource.allResources.forEach((name,resource)->{
+            Resource resourceCopy = resource.cloneResource();
+            allResources.put(name,resourceCopy);
         });
 
-        return allResourcesCopy;
+        return allResources;
     }
 
 
@@ -57,12 +63,8 @@ public class Resource {
         return name;
     }
 
-    public String getRequiredImprovement() {
+    public Improvement getRequiredImprovement() {
         return requiredImprovement;
-    }
-
-    public void setRequiredImprovement(String requiredImprovement) {
-        this.requiredImprovement = requiredImprovement;
     }
 
     public boolean isEqualsRequiredImprovement(String requiredImprovement) {
@@ -74,7 +76,7 @@ public class Resource {
     }
 
     public boolean isVisible() {
-        return isVisible;
+        return true;
     }
 
     public boolean isExchangeable() {
