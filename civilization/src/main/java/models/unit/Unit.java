@@ -56,6 +56,11 @@ public abstract class Unit {
         return unitDataSheet;
     }
 
+    public static void loadDataSheet() {
+        Unit.dataBaseRequiredTechnology = null; // todo Read from file
+        Unit.unitDataSheet              = null; // todo Read from file
+    }
+
     public Civilization getCivilization() {
         return civilization;
     }

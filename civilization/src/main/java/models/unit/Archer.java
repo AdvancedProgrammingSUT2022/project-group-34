@@ -21,6 +21,7 @@ public class Archer extends CombatUnit{
         this.RangedCombatStrength = unitEnum.rangedCombatStrength;
         this.isSiegeTool = unitEnum.isSiegeTool;
         this.isSetup = false;
+
     }
 
     public static HashMap<String, HashMap<String, String>> getArcherDataSheet() {

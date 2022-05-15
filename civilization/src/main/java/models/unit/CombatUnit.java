@@ -1,7 +1,10 @@
 package models.unit;
 
 import models.City;
+<<<<<<< HEAD
 import models.Civilization;
+=======
+>>>>>>> bab60cdcb7713cdd55cd0e36c931fd758a1ddc3d
 import models.TechnologyEnum;
 import models.resource.ResourceEnum;
 import models.tile.Tile;
@@ -26,6 +29,7 @@ public class CombatUnit extends Unit{
     protected boolean isVisible;
     protected TechnologyEnum requiredTechnology;
     protected ResourceEnum requiredResource;
+    private City GarrisonCity;
 
 
     public CombatUnit(UnitEnum unitEnum, Tile position, Civilization civilization) {
@@ -57,10 +61,6 @@ public class CombatUnit extends Unit{
 
     public static void setHitPointConstant(int hitPointConstant) {
         CombatUnit.hitPointConstant = hitPointConstant;
-    }
-
-    public int getRange() {
-        return range;
     }
 
     public void setRange(int range) {
