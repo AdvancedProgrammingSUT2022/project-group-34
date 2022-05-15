@@ -28,8 +28,8 @@ public class CombatUnit extends Unit{
     protected ResourceEnum requiredResource;
 
 
-    public CombatUnit(UnitEnum unitEnum, Tile position) {
-        super(unitEnum, position);
+    public CombatUnit(UnitEnum unitEnum, Tile position, Civilization civilization) {
+        super(unitEnum, position, civilization);
 
         this.requiredTechnology = unitEnum.requiredTechnology;
         this.requiredResource = unitEnum.requiredResource;

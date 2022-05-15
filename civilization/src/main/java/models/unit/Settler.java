@@ -7,12 +7,12 @@ public class Settler extends NonCombatUnit{
 
     public boolean isSettle;
 
-    public Settler(String name, Tile position, Civilization civilization) {
-        super(name, position, civilization);
+    public Settler(UnitEnum unitEnum, Tile position, Civilization civilization) {
+        super(unitEnum, position, civilization);
     }
 
-    public Settler(String name, Tile position) {
-        super(name, position, null);
+    public Settler(UnitEnum unitEnum, Tile position) {
+        super(unitEnum, position, null);
     }
 
     public boolean isSettle() {

@@ -29,7 +29,7 @@ public abstract class Unit {
 
     private Civilization civilization;
 
-    public Unit(UnitEnum unitEnum, Tile position) {
+    public Unit(UnitEnum unitEnum, Tile position, Civilization civilization) {
 
         this.name           = unitEnum.name;
         this.movement       = unitEnum.movement;
@@ -44,6 +44,8 @@ public abstract class Unit {
         this.unitActionList.add("a");
         this.unitActionList.add("b");
         this.unitActionList.add("c");
+
+        this.civilization = civilization;
     }
 
     public static HashMap<String, ArrayList<String>> getDataBaseRequiredTechnology() {
