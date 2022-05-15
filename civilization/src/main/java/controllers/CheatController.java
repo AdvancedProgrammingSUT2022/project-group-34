@@ -29,7 +29,7 @@ public class CheatController {
         if (check.equals("invalid destination") || check.equals("destination occupied")) return check;
         Tile destination = CivilizationController.getInstance().getTileByPosition(new int[]{x, y});
         reveal(x, y);
-        CivilizationController.getInstance().moveToAdjacent(unit, destination);
+        CivilizationController.getInstance().forcedMove(unit, destination);
         return "done";
     }
 

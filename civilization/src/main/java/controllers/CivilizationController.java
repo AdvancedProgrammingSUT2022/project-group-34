@@ -154,7 +154,15 @@ public class CivilizationController {
         //TODO handle river and road or railroad on river;
     }
 
-    public void moveToAdjacent(Unit unit, Tile tile) {
+    private void moveToAdjacent(Unit unit, Tile tile) {
+        forcedMove(unit, tile);
+        int newMotionPoint = 0;
+        int motionCost = calculateMotionCost(unit.getPosition(), tile);
+        newMotionPoint = Math.max(0, unit.getMotionPoint() - motionCost);
+        unit.setMotionPoint(newMotionPoint);
+    }
+
+    public void forcedMove(Unit unit, Tile tile) {
         Tile currentTile = unit.getPosition();
         if ((unit instanceof CombatUnit) && currentTile.getCombatUnit().equals(unit))
             currentTile.setCombatUnit((CombatUnit) null);
@@ -210,11 +218,7 @@ public class CivilizationController {
         while (unit.getMotionPoint() > 0 && !path.isEmpty()) {
             Tile tile = path.pop();
             if (tile == unit.getPosition()) continue;
-            int newMotionPoint = 0;
-            int motionCost = calculateMotionCost(unit.getPosition(), tile);
-            newMotionPoint = Math.max(0, unit.getMotionPoint() - motionCost);
             //TODO handle river
-            unit.setMotionPoint(newMotionPoint);
             moveToAdjacent(unit, tile);
         }
     }
