@@ -14,12 +14,12 @@ public enum Feature{
 
     private static final HashMap<String,Feature> allFeatures = new HashMap<>();
 
-    public final String name;
-    public final int foodRate;
-    public final int goldRate;
-    public final int productionRate;
-    public final int movingCost;
-    public final int impactOnWar;
+    private final String name;
+    private final int foodRate;
+    private final int goldRate;
+    private final int productionRate;
+    private final int movingCost;
+    private final int impactOnWar;
 
     Feature(String name, int foodRate, int productionRate, int goldRate, int impactOnWar, int movingCost) {
         this.name = name;
