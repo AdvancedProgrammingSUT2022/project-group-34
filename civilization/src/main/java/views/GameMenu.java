@@ -809,7 +809,7 @@ public class GameMenu extends Menu {
                     }
                 }
 
-                // TODO : handle rivers, improvements, resources;
+                // TODO : handle improvements, resources;
 
                 putTile(civilization, tile, visibleTile, output, x, y, upperBound, leftBound);
             }
