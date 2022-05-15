@@ -5,6 +5,7 @@ package controllers;
 import models.Civilization;
 import models.unit.Unit;
 import models.tile.Tile;
+import models.tile.VisibleTile;
 
 public class CheatController {
     private static CheatController instance = null;
@@ -35,7 +36,8 @@ public class CheatController {
 
     public String reveal(int x, int y) {
         if (!CivilizationController.getInstance().isPositionValid(new int[]{x, y})) return "invalid position";
-        GameController.getInstance().getCivilization().getPersonalMap().getTileByXY(x, y).setInFog(false);
+        Tile tile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y});
+        GameController.getInstance().getCivilization().getPersonalMap().setTileByXY(x, y, new VisibleTile(tile, false));
         return "done";
     }
 
