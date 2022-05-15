@@ -25,7 +25,7 @@ public class Civilization {
     private ArrayList<Tile> territory;
     private ArrayList<Tile> workingTiles;
     private ArrayList<Unit> units;
-    private ArrayList<Work> works ;
+    private ArrayList<Work> works;
 
     private City mainCapital;
     private City currentCapital;
@@ -63,7 +63,7 @@ public class Civilization {
         this.mainCapital = mainCapital;
         this.works = new ArrayList<>();
         this.civilizationResources = Resource.getAllResourcesCopy();
-        this.civilizationResearchedTechnologies    = Technology.getAllTechnologiesCopy();
+        this.civilizationResearchedTechnologies = Technology.getAllTechnologiesCopy();
         this.civilizationNotResearchedTechnologies = new HashMap<>();
 
         this.numberOfBeakers = numberOfBeakers;
@@ -97,7 +97,7 @@ public class Civilization {
     public void addCities(City city) {
         cities.add(city);
         this.happiness -= decreasedHappinessDueToTheFoundingOfTheCity;
-        if (cities.size()==1) setMainCapital(city);
+        if (cities.size() == 1) setMainCapital(city);
         this.getTerritory().addAll(city.getTerritory());
     }
 
@@ -228,7 +228,7 @@ public class Civilization {
         return happiness;
     }
 
-    public boolean isUnHappy(){
+    public boolean isUnHappy() {
         return happiness < 0;
     }
 
@@ -266,8 +266,7 @@ public class Civilization {
     }
 
 
-
-    public City getCityByName(String name){
+    public City getCityByName(String name) {
         for (City city : cities) {
             if (city.getName().equals(name)) return city;
         }
@@ -294,15 +293,22 @@ public class Civilization {
         this.cities.add(city);
     }
 
-    public void removeUnit(Unit unit){
+    public void removeUnit(Unit unit) {
         units.remove(unit);
     }
 
-    public int getPopulation(){
+    public int getPopulation() {
         int population = 0;
         for (City city : cities)
-            population+=city.getCitizens().size();
+            population += city.getCitizens().size();
 
         return population;
+    }
+
+    public Work getWorkByTile(Tile tile) {
+        for (Work work : works)
+            if (work.getTile().equals(tile)) return work;
+
+        return null;
     }
 }

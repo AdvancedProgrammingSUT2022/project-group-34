@@ -7,7 +7,6 @@ import models.tile.Tile;
 public class Work {
 
 
-    private City city;
     private final Tile tile;
     private Worker worker;
     private int tern;
@@ -16,25 +15,32 @@ public class Work {
     private Improvement improvement = null;
 
 
-    public Work(City city, Tile tile, Worker worker, String type) {
+    public Work(Tile tile, Worker worker, String type, int turn) {
 
-        this.city = city;
         this.tile = tile;
         this.worker = worker;
-        this.tern = getTern();
+        this.tern =turn;
         this.type = type;
-
+        worker.startWork();
+        worker.setTernWork(turn);
     }
 
-    public Work(City city, Tile tile, Worker worker, String type, Improvement improvement) {
+    public Work(Tile tile, Worker worker, String type, Improvement improvement) {
 
-        this.city = city;
         this.tile = tile;
         this.worker = worker;
         this.tern = tern;
         this.type = type;
         this.improvement = improvement;
+        worker.startWork();
+        worker.setTernWork(tern);
+    }
 
+
+    public void changeWork(Worker worker, int tern, String type){
+        this.worker=worker;
+        this.tern=tern;
+        this.type=type;
     }
 
 
@@ -44,6 +50,10 @@ public class Work {
 
     public void StopWork(){
         this.worker = null;
+    }
+
+    public Tile getTile() {
+        return tile;
     }
 
     public boolean update() {
@@ -60,20 +70,20 @@ public class Work {
 
     public void doWork(){
         switch (this.type) {
-            case "Build Road":
+            case "build road":
                 tile.setHasRoad(true);
                 break;
-            case "Build Rail":
+            case "build rail":
                 tile.setHasRail(true);
                 break;
-            case "Build Improvement":
+            case "build improvement":
                 tile.setImprovement(improvement);
-                city.addImprovement(improvement);
+                tile.getCity().addImprovement(improvement);
                 break;
-            case "Remove Feature":
+            case "remove feature":
                 tile.deleteFeature();
                 break;
-            case "Repair":
+            case "repair":
                 tile.setLooted(false);
                 break;
         }

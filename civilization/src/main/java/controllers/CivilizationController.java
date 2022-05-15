@@ -11,13 +11,10 @@ import java.util.Stack;
 import models.Civilization;
 import models.Game;
 import models.map.GameMap;
-import models.tile.AbstractTile;
-import models.tile.Improvement;
+import models.tile.*;
 
-import models.tile.VisibleTile;
 import models.unit.*;
 import models.City;
-import models.tile.Tile;
 import models.Technology;
 
 public class CivilizationController {
@@ -51,19 +48,19 @@ public class CivilizationController {
 
     public CombatUnit getCombatUnitByPosition(int[] position) {
         Tile tile = getTileByPosition(position);
-        if (tile==null) return null;
+        if (tile == null) return null;
         else return tile.getCombatUnit();
     }
 
     public NonCombatUnit getNonCombatUnitByPosition(int[] position) {
         Tile tile = getTileByPosition(position);
-        if (tile==null) return null;
+        if (tile == null) return null;
         else return tile.getNonCombatUnit();
     }
 
     public City getCityByPosition(int[] position) {
         Tile tile = getTileByPosition(position);
-        if (tile==null) return null;
+        if (tile == null) return null;
         else return tile.getCity();
     }
 
@@ -270,7 +267,6 @@ public class CivilizationController {
     //TODO: exit from fog of war
 
 
-
     public String garrisonCity(CombatUnit unit) {
         City city;
         if (unit == null)
@@ -293,7 +289,7 @@ public class CivilizationController {
         int[] position = {worker.getPosition().getX(), worker.getPosition().getX()};
         Tile tile = GameController.getInstance().getGame().getMainGameMap().getTileByXY(position[0], position[1]);
         Civilization civilization = GameController.getInstance().getCivilization();
-        civilization.addWork(new Work(tile.getCity(), tile, worker, "Build Improvement", Improvement.getAllImprovements().get(improvement)));
+        civilization.addWork(new Work(tile, worker, "Build Improvement", Improvement.getAllImprovements().get(improvement)));
     }
 
     public String foundCity(Settler settler, String name) {
@@ -322,6 +318,37 @@ public class CivilizationController {
         return "ok";
     }
 
+
+    public String removeFeature(NonCombatUnit selectedNonCombatUnit, String type) {
+        Tile tile;
+        if (!(selectedNonCombatUnit instanceof Worker))
+            return "not worker";
+        else if ((tile = selectedNonCombatUnit.getPosition()).getFeature() != Feature.Forests ||
+                tile.getFeature() != Feature.Jungle || tile.getFeature() != Feature.Marsh)
+            return "irremovable feature";
+        else {
+            selectedNonCombatUnit.makeUnitAwake();
+            tile.setImprovement(null);
+            Work work = GameController.getInstance().getCivilization().getWorkByTile(tile);
+            if (work == null) {
+                if (type.equals("jungle"))
+                    work = new Work(selectedNonCombatUnit.getPosition(), (Worker) selectedNonCombatUnit, "remove feature", 7);
+                else if (type.equals("forest"))
+                    work = new Work(selectedNonCombatUnit.getPosition(), (Worker) selectedNonCombatUnit, "remove feature", 4);
+                else
+                    work = new Work(selectedNonCombatUnit.getPosition(), (Worker) selectedNonCombatUnit, "remove feature", 6);
+                GameController.getInstance().getCivilization().addWork(work);
+            } else {
+                if (type.equals("jungle"))
+                    work.changeWork((Worker) selectedNonCombatUnit, 7, "remove feature");
+                else if (type.equals("forest"))
+                    work.changeWork((Worker) selectedNonCombatUnit, 4, "remove feature");
+                else
+                    work.changeWork((Worker) selectedNonCombatUnit, 6, "remove feature");
+            }
+            return "ok";
+        }
+    }
 
     public void repair(int[] position) {
         //TODO
@@ -386,7 +413,7 @@ public class CivilizationController {
         for (int i = 0; i < civilization.getPersonalMap().getMapHeight(); i++) {
             for (int j = 0; j < civilization.getPersonalMap().getMapWidth(); j++) {
                 Tile tile = mainMap.getTileByXY(i, j);
-                if (tile == null) civilization.getPersonalMap().setTileByXY(i, j,null);
+                if (tile == null) civilization.getPersonalMap().setTileByXY(i, j, null);
                 else if (civilization.getPersonalMap().isTransparent(civilization.getPersonalMap().getTileByXY(i, j))) {
                     civilization.getPersonalMap().setTileByXY(i, j, new VisibleTile(tile, false));
                 }

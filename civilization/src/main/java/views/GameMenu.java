@@ -8,6 +8,7 @@ import models.Notification;
 import models.Technology;
 import models.map.CivilizationMap;
 import models.map.GameMap;
+import models.tile.Feature;
 import models.tile.Tile;
 import models.tile.VisibleTile;
 import models.unit.*;
@@ -182,7 +183,7 @@ public class GameMenu extends Menu {
     private static void handleUnitCategoryCommand(Processor processor) {
 
         // TODO: Booleans in unit class (Specially combat units)
-        if (selectedCombatUnit == null || selectedNonCombatUnit == null)
+        if (selectedCombatUnit == null && selectedNonCombatUnit == null)
             System.out.println("Please select a unit first");
         else if (processor.getSection() == null)
             invalidCommand();
@@ -215,7 +216,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("build"))
             ;// TODO: 5/10/2022
         else if (processor.getSection().equals("remove"))
-            ;// TODO: 5/10/2022
+            removeCommand(processor);
         else if (processor.getSection().equals("repair"))
             ;// TODO: 5/10/2022
         else
@@ -327,6 +328,16 @@ public class GameMenu extends Menu {
         }
     }
 
+    private static void attackCommand(Processor processor) {
+        if (selectedCombatUnit == null)
+            System.out.println("Selected unit is not a military unit");
+        else {
+            selectedCombatUnit.makeUnitAwake();
+            selectedCombatUnit = null;
+            // TODO: 5/15/2022
+        }
+    }
+
     private static void cancelCommand() {
         Unit unit = selectedCombatUnit;
         if (unit == null) unit = selectedNonCombatUnit;
@@ -399,6 +410,36 @@ public class GameMenu extends Menu {
         }
     }
 
+    private static void buildCommand() {
+        // TODO: 5/15/2022
+    }
+
+    private static void removeCommand(Processor processor) {
+        if (processor.getSubSection() == null)
+            invalidCommand();
+        else if (!processor.getSubSection().equals("jungle") ||
+                !processor.getSubSection().equals("forest") ||
+                !processor.getSubSection().equals("marsh"))
+            invalidCommand();
+        else {
+            switch (CivilizationController.getInstance().removeFeature(selectedNonCombatUnit, processor.getSubSection())) {
+                case "not worker":
+                    System.out.println("Selected unit is not a worker");
+                    break;
+                case "irremovable feature":
+                    System.out.println("This tiles feature cannot get removed");
+                    break;
+                case "ok":
+                    System.out.println("Removing feature started");
+                    break;
+            }
+        }
+    }
+
+    private static void repairCommand() {
+        // TODO: 5/15/2022
+    }
+
 
     /*Handles commands that start with "info":
     1.info research
@@ -447,7 +488,7 @@ public class GameMenu extends Menu {
 
         System.out.println(output);
     }
-    
+
 
     private static void unitsInfoPanel() {
         Civilization civilization = GameController.getInstance().getCivilization();
@@ -585,7 +626,7 @@ public class GameMenu extends Menu {
                 best, average, worst, rank);
     }
 
-    private static void populationRank(ArrayList<Civilization> civilizations){
+    private static void populationRank(ArrayList<Civilization> civilizations) {
         ArrayList<Integer> population = new ArrayList<>();
         for (Civilization civilization : civilizations)
             population.add(civilization.getPopulation());
@@ -593,16 +634,16 @@ public class GameMenu extends Menu {
         Collections.sort(population);
 
         int populationSize = GameController.getInstance().getCivilization().getPopulation();
-        int rank = population.indexOf(populationSize)+1;
+        int rank = population.indexOf(populationSize) + 1;
         int best = population.get(0);
-        int average = population.get(population.size()/2);
-        int worst = population.get(population.size()-1);
+        int average = population.get(population.size() / 2);
+        int worst = population.get(population.size() - 1);
 
         System.out.format("Population: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", populationSize,
                 best, average, worst, rank);
     }
 
-    private static void goldRank(ArrayList<Civilization> civilizations){
+    private static void goldRank(ArrayList<Civilization> civilizations) {
         ArrayList<Integer> gold = new ArrayList<>();
         for (Civilization civilization : civilizations)
             gold.add(civilization.getGold());
@@ -610,16 +651,16 @@ public class GameMenu extends Menu {
         Collections.sort(gold);
 
         int goldAmount = GameController.getInstance().getCivilization().getGold();
-        int rank = gold.indexOf(goldAmount)+1;
+        int rank = gold.indexOf(goldAmount) + 1;
         int best = gold.get(0);
-        int average = gold.get(gold.size()/2);
-        int worst = gold.get(gold.size()-1);
+        int average = gold.get(gold.size() / 2);
+        int worst = gold.get(gold.size() - 1);
 
         System.out.format("Wealth: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", goldAmount,
                 best, average, worst, rank);
     }
 
-    private static void happinessRank(ArrayList<Civilization> civilizations){
+    private static void happinessRank(ArrayList<Civilization> civilizations) {
         ArrayList<Integer> happiness = new ArrayList<>();
         for (Civilization civilization : civilizations)
             happiness.add(civilization.getHappiness());
@@ -627,16 +668,16 @@ public class GameMenu extends Menu {
         Collections.sort(happiness);
 
         int happinessAmount = GameController.getInstance().getCivilization().getHappiness();
-        int rank = happiness.indexOf(happinessAmount)+1;
+        int rank = happiness.indexOf(happinessAmount) + 1;
         int best = happiness.get(0);
-        int average= happiness.get(happiness.size()/2);
-        int worst  = happiness.get(happiness.size()-1);
+        int average = happiness.get(happiness.size() / 2);
+        int worst = happiness.get(happiness.size() - 1);
 
         System.out.format("Happiness: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", happinessAmount,
                 best, average, worst, rank);
     }
 
-    private static void unitsRank(ArrayList<Civilization> civilizations){
+    private static void unitsRank(ArrayList<Civilization> civilizations) {
         ArrayList<Integer> units = new ArrayList<>();
         for (Civilization civilization : civilizations)
             units.add(civilization.getUnits().size());
@@ -644,10 +685,10 @@ public class GameMenu extends Menu {
         Collections.sort(units);
 
         int unitsSize = GameController.getInstance().getCivilization().getUnits().size();
-        int rank = units.indexOf(unitsSize)+1;
+        int rank = units.indexOf(unitsSize) + 1;
         int best = units.get(0);
-        int average = units.get(units.size()/2);
-        int worst = units.get(units.size()-1);
+        int average = units.get(units.size() / 2);
+        int worst = units.get(units.size() - 1);
 
         System.out.format("Number of units: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", unitsSize,
                 best, average, worst, rank);
