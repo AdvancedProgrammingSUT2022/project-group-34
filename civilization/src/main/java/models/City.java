@@ -16,6 +16,7 @@ public class City {
 
     private Civilization civilization;
     private Tile position;
+    private int strength;
     private Unit unitUnderProduct;
     private int  unitUnderProductTern;
     private boolean isGarrison;
@@ -28,10 +29,18 @@ public class City {
     private int food;
     private int productionRate;
     private int production;
+    private int scienceRate;
+    private int goldRate;
 
     public City(String name, Civilization owner, Tile position , ArrayList<Tile> territory) {
         this.name = name;
         this.civilization = owner;
+        this.position = position;
+        this.territory = territory;
+    }
+
+    public City(String name, Tile position , ArrayList<Tile> territory) {
+        this.name = name;
         this.position = position;
         this.territory = territory;
     }
@@ -60,12 +69,24 @@ public class City {
         this.position = position;
     }
 
+    public int getStrength() {
+        return strength;
+    }
+
+    public void setStrength(int strength) {
+        this.strength = strength;
+    }
+
     public Unit getUnitUnderProduct() {
         return unitUnderProduct;
     }
 
     public void setUnitUnderProduct(Unit unitUnderProduct) {
         this.unitUnderProduct = unitUnderProduct;
+    }
+
+    public int getUnitUnderProductTern() {
+        return unitUnderProductTern;
     }
 
     public boolean isGarrison() {
@@ -78,6 +99,10 @@ public class City {
 
     public ArrayList<Citizen> getCitizens() {
         return citizens;
+    }
+
+    public int getProductionRate() {
+        return productionRate;
     }
 
     public void addCitizens(Citizen citizen) {
@@ -171,4 +196,19 @@ public class City {
     }
 
 
+    public int getScienceRate() {
+        return scienceRate;
+    }
+
+    public void setScienceRate(int numberOfBeakers) {
+        this.scienceRate = numberOfBeakers;
+    }
+
+    public int getGoldRate() {
+        return goldRate;
+    }
+
+    public void setGoldRate(int goldRate) {
+        this.goldRate = goldRate;
+    }
 }

@@ -1,5 +1,6 @@
 package models.unit;
 
+import models.Civilization;
 import models.tile.Tile;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public abstract class Unit {
     private int movement;
     private int cost;
     private int motionPoint;
+    protected boolean isSleep;
 
     private Stack<Tile> path;
     private boolean isMoving;
@@ -24,7 +26,7 @@ public abstract class Unit {
 
     private Tile position;
     private Tile destination;
-
+    private Civilization civilization;
 
     public Unit(UnitEnum unitEnum, Tile position) {
 
@@ -41,7 +43,8 @@ public abstract class Unit {
         this.unitActionList.add("a");
         this.unitActionList.add("b");
         this.unitActionList.add("c");
-    }
+
+}
 
     public static HashMap<String, ArrayList<String>> getDataBaseRequiredTechnology() {
         return dataBaseRequiredTechnology;
@@ -51,6 +54,20 @@ public abstract class Unit {
         return unitDataSheet;
     }
 
+
+    public static void loadDataSheet() {
+        Unit.dataBaseRequiredTechnology = null; // todo Read from file
+        Unit.unitDataSheet              = null; // todo Read from file
+    }
+
+    public Civilization getCivilization() {
+        return civilization;
+    }
+
+    public void setCivilization(Civilization civilization) {
+        this.civilization = civilization;
+    }
+    
     public String getName() {
         return name;
     }
@@ -81,6 +98,14 @@ public abstract class Unit {
 
     public void setMotionPoint(int motionPoint) {
         this.motionPoint = motionPoint;
+    }
+
+    public boolean isSleep() {
+        return isSleep;
+    }
+
+    public void setSleep(boolean sleep) {
+        isSleep = sleep;
     }
 
     public Tile getPosition() {
@@ -123,5 +148,9 @@ public abstract class Unit {
 
     public ArrayList<String> getUnitActionList() {
         return unitActionList;
+    }
+
+    public void makeUnitAwake(){
+        setSleep(false);
     }
 }

@@ -1,5 +1,6 @@
 package models.unit;
 
+import models.Civilization;
 import models.tile.Tile;
 
 public class Worker extends NonCombatUnit{
@@ -7,9 +8,8 @@ public class Worker extends NonCombatUnit{
     public boolean isWorking;
     public int ternWork;
 
-    public Worker(String name, Tile position) {
-        super(name, position);
-
+    public Worker(String name, Tile position, Civilization civilization) {
+        super(name, position, civilization);
     }
 
     public boolean isWorking() {

@@ -24,6 +24,7 @@ public class CombatUnit extends Unit{
     protected boolean isVisible;
     protected TechnologyEnum requiredTechnology;
     protected ResourceEnum requiredResource;
+    private City GarrisonCity;
 
 
     public CombatUnit(UnitEnum unitEnum, Tile position) {
@@ -40,8 +41,7 @@ public class CombatUnit extends Unit{
         this.isFortifyUntilHealed= false;
         this.garrisonCity = null;
 
-
-    }
+}
 
     public static HashMap<String, HashMap<String, String>> getCombatUnitDataSheet() {
         return combatUnitDataSheet;
@@ -59,5 +59,70 @@ public class CombatUnit extends Unit{
         CombatUnit.hitPointConstant = hitPointConstant;
     }
 
+
+    public void setRange(int range) {
+        this.range = range;
+    }
+
+    public int getCombatStrength() {
+        return combatStrength;
+    }
+
+    public void setCombatStrength(int combatStrength) {
+        this.combatStrength = combatStrength;
+    }
+
+    public int getHitPoint() {
+        return hitPoint;
+    }
+
+    public void setHitPoint(int hitPoint) {
+        this.hitPoint = hitPoint;
+    }
+
+    public boolean isAlert() {
+        return isAlert;
+    }
+
+    public void setAlert(boolean alert) {
+        isAlert = alert;
+    }
+
+    public boolean isGarrison() {
+        return GarrisonCity != null;
+    }
+
+    public boolean isFortify() {
+        return isFortify;
+    }
+
+    public void setFortify(boolean fortify) {
+        isFortify = fortify;
+    }
+
+    public boolean isFortifyUntilHealed() {
+        return isFortifyUntilHealed;
+    }
+
+    public void setFortifyUntilHealed(boolean fortifyUntilHealed) {
+        isFortifyUntilHealed = fortifyUntilHealed;
+    }
+
+    public City getGarrisonCity() {
+        return GarrisonCity;
+    }
+
+    public void setGarrisonCity(City garrisonCity) {
+        GarrisonCity = garrisonCity;
+    }
+
+    @Override
+    public void makeUnitAwake() {
+        super.makeUnitAwake();
+        setAlert(false);
+        setFortify(false);
+        setFortifyUntilHealed(false);
+        setGarrisonCity(null);
+    }
 
 }

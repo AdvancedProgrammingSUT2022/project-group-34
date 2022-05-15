@@ -36,7 +36,7 @@ public class ProfileMenu extends Menu {
     private static void changeNickname(Processor processor) {
         String nickname = processor.get("nickname");
 
-        if (processor.getNumberOfFields() != 1)
+        if (nickname == null || processor.getNumberOfFields() != 1)
             invalidCommand();
         else if (UserController.getInstance().getLoggedInUser().getNickname().equals(nickname))
             System.out.println("Please enter a new nickname");

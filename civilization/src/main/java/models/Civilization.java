@@ -52,6 +52,8 @@ public class Civilization {
     private int roadMaintenanceCost = 1;
     private int railMaintenanceCost = 1;
 
+    private int turn = 0;
+
     public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Tile> territory, ArrayList<Unit> units, City mainCapital, int numberOfBeakers, int gold, int happiness, int happiness0) {
         this.player = player;
         this.civilizationName = civilizationName;
@@ -195,6 +197,10 @@ public class Civilization {
         return gold;
     }
 
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
     public void updateGold() {
 
         this.goldRate = 0;
@@ -249,6 +255,14 @@ public class Civilization {
 
     public void setProducibleUnits(HashMap<String, Unit> producibleUnits) {
         this.producibleUnits = producibleUnits;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void setTurn(int turn) {
+        this.turn = turn;
     }
 
 
