@@ -74,8 +74,8 @@ public class CivilizationController {
     }
 
     public boolean isPositionValid(int[] position) {
-        //TODO
-        return false;
+        Tile tile = getTileByPosition(position);
+        return tile != null;
     }
 
     private Stack<Tile> extractPathFromParentsHashMap(HashMap<Tile, Tile> previousInShortestPath, Tile destinationTile) {
@@ -173,7 +173,7 @@ public class CivilizationController {
         if (unit instanceof CombatUnit && tile.getCombatUnit() == null) tile.setCombatUnit((CombatUnit) unit);
         else if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() == null)
             tile.setNonCombatUnit((NonCombatUnit) unit);
-        //TODO exit from fog of war
+        reveal(getVisibleTiles(unit));
     }
 
     private boolean isPathValid(Stack<Tile> path, Tile originTile, Tile destinationTile, Unit unit) {
@@ -248,7 +248,7 @@ public class CivilizationController {
         return "true";
     }
 
-    public ArrayList<Tile> getVisibleTiles(Tile tile) {
+    public ArrayList<AbstractTile> getVisibleTiles(Tile tile) {
         HashSet<Tile> ans = new HashSet<>();
         ans.add(tile);
         for (Tile adjacentTile : tile.getAdjacentTiles()) {
@@ -269,15 +269,19 @@ public class CivilizationController {
         }
     }
 
-    public ArrayList<Tile> getVisibleTiles(Unit unit) {
+    public ArrayList<AbstractTile> getVisibleTiles(Unit unit) {
         return getVisibleTiles(unit.getPosition());
     }
-
-    //TODO: exit from fog of war
 
     public void reveal(int x, int y) {
         Tile tile = getTileByPosition(new int[]{x, y});
         reveal(tile);
+    }
+
+    public void reveal(ArrayList<AbstractTile> tiles) {
+        for (AbstractTile tile : tiles) {
+            reveal(tile);
+        }
     }
 
     public void reveal(AbstractTile tile) {
