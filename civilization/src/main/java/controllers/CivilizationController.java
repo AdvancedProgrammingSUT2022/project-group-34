@@ -287,6 +287,7 @@ public class CivilizationController {
         civilization.removeUnit(unit);
     }
 
+    // TODO: 5/15/2022
     public void build(Worker worker, String improvement) {
         int[] position = {worker.getPosition().getX(), worker.getPosition().getX()};
         Tile tile = GameController.getInstance().getGame().getMainGameMap().getTileByXY(position[0], position[1]);
@@ -354,8 +355,23 @@ public class CivilizationController {
         }
     }
 
-    public void repair(int[] position) {
-        //TODO
+    public String repair(NonCombatUnit selectedNonCombatUnit) {
+        Tile tile;
+        if (!(selectedNonCombatUnit instanceof Worker))
+            return "not worker";
+        else if (!selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
+            return "in movement";
+        else if ((tile = selectedNonCombatUnit.getPosition()).getImprovementName() == null)
+            return "no improvement";
+        else {
+            selectedNonCombatUnit.makeUnitAwake();
+            Work work = GameController.getInstance().getCivilization().getWorkByTile(tile);
+            if (work == null)
+                new Work(tile, (Worker) selectedNonCombatUnit, "repair", 3);
+            else
+                work.changeWork((Worker) selectedNonCombatUnit, 3, "repair");
+            return "ok";
+        }
     }
 
 

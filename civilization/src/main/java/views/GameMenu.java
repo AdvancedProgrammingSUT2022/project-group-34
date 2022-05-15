@@ -168,18 +168,22 @@ public class GameMenu extends Menu {
 
 
     /*Handles commands that start with "unit":
-    unit moveto --x <x> --y <y>
-    unit sleep
-    unit found city
-    unit fortify
-    unit heal
-    unit garrison
-    unit setup
-    unit cancel
-    unit found city --name <name>
-    unit wake
-    unit delete
-    unit pillage*/
+    1.unit moveto --x <x> --y <y>
+    2.unit sleep
+    3.unit alert
+    4.unit fortify
+    5.unit heal
+    6.unit wake
+    7.unit found city --name <name>
+    8.unit garrison
+    9.unit cancel
+    10.unit setup
+    11.unit attack
+    12.unit delete
+    13.unit build
+    14.unit remove <jungle/forest/marsh>
+    15.unit repair
+    16.unit pillage*/
     private static void handleUnitCategoryCommand(Processor processor) {
 
         // TODO: Booleans in unit class (Specially combat units)
@@ -218,7 +222,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("remove"))
             removeCommand(processor);
         else if (processor.getSection().equals("repair"))
-            ;// TODO: 5/10/2022
+            repairCommand();
         else
             invalidCommand();
     }
@@ -451,13 +455,28 @@ public class GameMenu extends Menu {
                     break;
                 case "ok":
                     System.out.println("Removing feature started");
+                    selectedNonCombatUnit = null;
                     break;
             }
         }
     }
 
     private static void repairCommand() {
-        // TODO: 5/15/2022
+        switch (CivilizationController.getInstance().repair(selectedNonCombatUnit)) {
+            case "not worker":
+                System.out.println("Selected unit is not a worker");
+                break;
+            case "in movement":
+                System.out.println("Unit is in a multiple-turn movement");
+                break;
+            case "no improvement":
+                System.out.println("There is no improvement in this tile to get repaired");
+                break;
+            case "ok":
+                System.out.println("Repairing tile started");
+                selectedNonCombatUnit = null;
+                break;
+        }
     }
 
 
