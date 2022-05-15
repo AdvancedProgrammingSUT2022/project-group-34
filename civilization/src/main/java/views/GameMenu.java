@@ -683,54 +683,57 @@ public class GameMenu extends Menu {
     }
 
     private static void handleCheatCategoryCommand(Processor processor) {
-        if (processor.getSection().equals("increase")) {
-            String amountField = processor.get("amount");
-            if (amountField == null) {
-                System.out.printf("field 'amount' required\n");
-            }
-            else if (!amountField.matches(NON_NEGATIVE_NUMBER_REGEX)) {
-                System.out.printf("must enter a valid non-negative integer in 'amount' field\n");
-                return;
-            }
-            int amount = Integer.parseInt(amountField);
-            if (processor.getSubSection().equals("gold")) CheatController.getInstance().increaseGold(amount);
-            else
-            //TODO
-        }
-        else if (processor.getSection().equals("teleport")) {
-            Unit selectedUnit = selectedCombatUnit;
-            if (selectedUnit == null) selectedUnit = selectedNonCombatUnit;
-            if (selectedUnit == null) {
-                System.out.printf("no unit selected\n");
-                return;
-            }
-            String xField = processor.get("x");
-            String yField = processor.get("y");
-            if (xField == null || yField == null) System.out.printf("fields 'x' and 'y' required\n");
-            else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("must enter a valid non-negative integer in x and y fields");
-            else {
-                int x = Integer.parseInt(xField);
-                int y = Integer.parseInt(yField);
-                System.out.printf("%s\n", CheatController.getInstance().teleport(selectedUnit, x, y));
-            }
-        }
-        else if (processor.getSection().equals("finish")) {
-            if (!processor.getSubSection().equals("research")) invalidCommand();
-            else //TODO
-        }
-        else if (processor.getSection().equals("reveal")) {
-            String xField = processor.get("x");
-            String yField = processor.get("y");
-            if (xField == null || yField == null) System.out.printf("fields 'x' and 'y' required\n");
-            else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("must enter a valid non-negative integer in x and y fields");
-            else {
-                int x = Integer.parseInt(xField);
-                int y = Integer.parseInt(yField);
-                System.out.printf("%s\n", CheatController.getInstance().reveal(x, y));
-            }
-        }
+        if (processor.getSection().equals("increase")) increaseCheatCommand(processor.get("amount"), processor.getSubSection());
+        else if (processor.getSection().equals("teleport")) teleportCheatCommand(processor.get("x"), processor.get("y"));
+        else if (processor.getSection().equals("finish")) finishCheatCommand(processor.getSubSection());
+        else if (processor.getSection().equals("reveal")) revealCheatCommand(processor.get("x"), processor.get("y"));
         else invalidCommand();
 
+    }
+
+    private static void increaseCheatCommand(String amountField, String subSection) {
+        if (amountField == null) {
+            System.out.printf("field 'amount' required\n");
+        }
+        else if (!amountField.matches(NON_NEGATIVE_NUMBER_REGEX)) {
+            System.out.printf("must enter a valid non-negative integer in 'amount' field\n");
+            return;
+        }
+        int amount = Integer.parseInt(amountField);
+        if (subSection.equals("gold")) CheatController.getInstance().increaseGold(amount);
+        else
+        //TODO
+    }
+
+    private static void teleportCheatCommand(String xField, String yField) {
+        Unit selectedUnit = selectedCombatUnit;
+        if (selectedUnit == null) selectedUnit = selectedNonCombatUnit;
+        if (selectedUnit == null) {
+            System.out.printf("no unit selected\n");
+            return;
+        }
+        if (xField == null || yField == null) System.out.printf("fields 'x' and 'y' required\n");
+        else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("must enter a valid non-negative integer in x and y fields");
+        else {
+            int x = Integer.parseInt(xField);
+            int y = Integer.parseInt(yField);
+            System.out.printf("%s\n", CheatController.getInstance().teleport(selectedUnit, x, y));
+        }
+    }
+
+    private static void finishCheatCommand(String subSection) {
+        if (!subSection.equals("research")) invalidCommand();
+        else //TODO
+    }
+
+    private static void revealCheatCommand(String xField, String yField) {
+        if (xField == null || yField == null) System.out.printf("fields 'x' and 'y' required\n");
+        else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("must enter a valid non-negative integer in x and y fields");
+        else {
+            int x = Integer.parseInt(xField);
+            int y = Integer.parseInt(yField);
+            System.out.printf("%s\n", CheatController.getInstance().reveal(x, y));
+        }
     }
 
 
