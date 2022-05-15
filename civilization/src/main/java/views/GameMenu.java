@@ -9,6 +9,7 @@ import models.Technology;
 import models.map.CivilizationMap;
 import models.map.GameMap;
 import models.tile.Feature;
+import models.tile.Improvement;
 import models.tile.Tile;
 import models.tile.VisibleTile;
 import models.unit.*;
@@ -218,7 +219,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("pillage"))
             pillageCommand();
         else if (processor.getSection().equals("build"))
-            ;// TODO: 5/10/2022
+            buildCommand();
         else if (processor.getSection().equals("remove"))
             removeCommand(processor);
         else if (processor.getSection().equals("repair"))
@@ -432,7 +433,40 @@ public class GameMenu extends Menu {
     }
 
     private static void buildCommand() {
-        // TODO: 5/15/2022
+        if (!(selectedNonCombatUnit instanceof Worker))
+            System.out.println("Selected unit is not a worker");
+        else if (!selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
+            System.out.println("Unit is in a multiple-turn movement");
+        else {
+            Tile tile = selectedNonCombatUnit.getPosition();
+            ArrayList<String> improvements = CivilizationController.getInstance().getPossibleImprovements(tile);
+            String choice = getBuildChoice(improvements);
+            if (!choice.equals("exit")) {
+                CivilizationController.getInstance().build((Worker) selectedNonCombatUnit, improvements.get(Integer.parseInt(choice) - 1));
+                System.out.println("Building improvement started");
+                selectedNonCombatUnit = null;
+            }
+        }
+    }
+
+    private static String getBuildChoice(ArrayList<String> improvements) {
+        System.out.println("Please type improvement index you want to build");
+        System.out.println("Type \"exit\" if you don't want to choose any improvement");
+
+        for (int i = 0; i < improvements.size(); i++)
+            System.out.println(i + 1 + "." + improvements.get(i));
+
+        String command;
+        while (true) {
+            command = getInput();
+
+            if (command.equals("exit")) return "exit";
+            else if (command.matches("\\d+")) {
+                int number = Integer.parseInt(command);
+                if (number < 1 || number > improvements.size()) System.out.println("Invalid number!");
+                else return command;
+            } else invalidCommand();
+        }
     }
 
     private static void removeCommand(Processor processor) {

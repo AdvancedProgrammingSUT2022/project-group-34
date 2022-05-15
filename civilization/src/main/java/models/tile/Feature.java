@@ -63,4 +63,8 @@ public enum Feature{
             tile.movingCost += feature.movingCost;
 
     }
+
+    public String getName() {
+        return name;
+    }
 }

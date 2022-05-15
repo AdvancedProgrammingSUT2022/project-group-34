@@ -1,6 +1,7 @@
 package models.unit;
 
 import models.City;
+import models.tile.Feature;
 import models.tile.Improvement;
 import models.tile.Tile;
 
@@ -15,23 +16,23 @@ public class Work {
     private Improvement improvement = null;
 
 
-    public Work(Tile tile, Worker worker, String type, int turn) {
+    public Work(Tile tile, Worker worker, String type, int tern) {
 
         this.tile = tile;
         this.worker = worker;
-        this.tern =turn;
+        this.tern =tern;
         this.type = type;
         worker.startWork();
-        worker.setTernWork(turn);
+        worker.setTernWork(tern);
     }
 
-    public Work(Tile tile, Worker worker, String type, Improvement improvement) {
+    public Work(Tile tile, Worker worker, String type, String improvement, int tern) {
 
         this.tile = tile;
         this.worker = worker;
         this.tern = tern;
         this.type = type;
-        this.improvement = improvement;
+        this.improvement = Improvement.getAllImprovements().get(improvement);
         worker.startWork();
         worker.setTernWork(tern);
     }
@@ -77,6 +78,9 @@ public class Work {
                 tile.setHasRail(true);
                 break;
             case "build improvement":
+                if ((tile.getFeature().equals(Feature.Forests)|| tile.getFeature().equals(Feature.Jungle)|| tile.getFeature().equals(Feature.Marsh))&&
+                        (improvement.equals(Improvement.Farm)|| improvement.equals(Improvement.Mine)))
+                    tile.deleteFeature();
                 tile.setImprovement(improvement);
                 tile.getCity().addImprovement(improvement);
                 break;

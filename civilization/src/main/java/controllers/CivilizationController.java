@@ -287,12 +287,46 @@ public class CivilizationController {
         civilization.removeUnit(unit);
     }
 
-    // TODO: 5/15/2022
+
     public void build(Worker worker, String improvement) {
-        int[] position = {worker.getPosition().getX(), worker.getPosition().getX()};
-        Tile tile = GameController.getInstance().getGame().getMainGameMap().getTileByXY(position[0], position[1]);
+        Tile tile = worker.getPosition();
         Civilization civilization = GameController.getInstance().getCivilization();
-        civilization.addWork(new Work(tile, worker, "Build Improvement", Improvement.getAllImprovements().get(improvement)));
+        tile.setImprovement(null);
+        if (civilization.getWorkByTile(tile) != null)
+            civilization.getWorks().remove(civilization.getWorkByTile(tile));
+
+        if (improvement.equals("rail"))
+            civilization.addWork(new Work(tile, worker, "build rail", 3));
+        else if (improvement.equals("road"))
+            civilization.addWork(new Work(tile, worker, "build road", 3));
+        else {
+            if (improvement.equals("Farm") || improvement.equals("Mine")) {
+                if (tile.getFeature().equals(Feature.Forests))
+                    civilization.addWork(new Work(tile, worker, "build improvement", improvement, 10));
+                else if (tile.getFeature().equals(Feature.Jungle))
+                    civilization.addWork(new Work(tile, worker, "build improvement", improvement, 13));
+                else if (tile.getFeature().equals(Feature.Marsh))
+                    civilization.addWork(new Work(tile, worker, "build improvement", improvement, 12));
+                else
+                    civilization.addWork(new Work(tile, worker, "build improvement", improvement, 6));
+            } else
+                civilization.addWork(new Work(tile, worker, "build improvement", improvement, 6));
+        }
+    }
+
+    public ArrayList<String> getPossibleImprovements(Tile tile) {
+        ArrayList<String> improvements;
+        if (tile.getFeature() != null) improvements = Improvement.getImprovementsByFeature(tile.getFeature());
+        else improvements = Improvement.getImprovementsByTerrain(tile.getTerrain());
+
+        improvements.removeIf(improvement -> !GameController.getInstance().getCivilization().
+                getCivilizationResearchedTechnologies().containsValue(Improvement.getAllImprovements().
+                        get(improvement).getRequiredTechnology()));
+
+        improvements.add("road");
+        improvements.add("rail");
+
+        return improvements;
     }
 
     public String foundCity(Settler settler, String name) {
@@ -367,7 +401,7 @@ public class CivilizationController {
             selectedNonCombatUnit.makeUnitAwake();
             Work work = GameController.getInstance().getCivilization().getWorkByTile(tile);
             if (work == null)
-                new Work(tile, (Worker) selectedNonCombatUnit, "repair", 3);
+                GameController.getInstance().getCivilization().addWork(new Work(tile, (Worker) selectedNonCombatUnit, "repair", 3));
             else
                 work.changeWork((Worker) selectedNonCombatUnit, 3, "repair");
             return "ok";
