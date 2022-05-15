@@ -231,50 +231,54 @@ public class GameMenu extends Menu {
         if (selectedNonCombatUnit != null) unit = selectedNonCombatUnit;
         else if (selectedCombatUnit != null) unit = selectedCombatUnit;
 
-        if (x == null || y == null || processor.getNumberOfFields() != 2) {
+        if (x == null || y == null || processor.getNumberOfFields() != 2)
             invalidCommand();
-            return;
-        }
+        else if (!unit.getPosition().equals(unit.getDestination()))
+            System.out.println("Unit is in a multiple-turn movement");
+        else {
 
+            int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
+            String response = CivilizationController.getInstance().moveUnit(unit, position);
 
-        int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
-        String response = CivilizationController.getInstance().moveUnit(unit, position);
-
-        if (response.equals("invalid destination"))
-            System.out.println("Destination is not valid");
-        else if (response.equals("fog of war"))
-            System.out.println("Destination is in fog of war");
-        else if (response.equals("already at the same tile"))
-            System.out.println("We already are at the tile you want to move to");
-        else if (response.equals("destination occupied"))
-            System.out.println("There is already a unit in the tile you want to move to");
-        else if (response.equals("no valid path"))
-            System.out.println("There is no path to the tile you want to move to");
-        else if (response.equals("success")) {
-            unit.makeUnitAwake();
-            System.out.println("Unit moved to destination successfully");
-            selectedCombatUnit = null;
-            selectedNonCombatUnit = null;
+            if (response.equals("invalid destination"))
+                System.out.println("Destination is not valid");
+            else if (response.equals("fog of war"))
+                System.out.println("Destination is in fog of war");
+            else if (response.equals("already at the same tile"))
+                System.out.println("We already are at the tile you want to move to");
+            else if (response.equals("destination occupied"))
+                System.out.println("There is already a unit in the tile you want to move to");
+            else if (response.equals("no valid path"))
+                System.out.println("There is no path to the tile you want to move to");
+            else if (response.equals("success")) {
+                unit.makeUnitAwake();
+                System.out.println("Unit moved to destination successfully");
+                selectedCombatUnit = null;
+                selectedNonCombatUnit = null;
+            }
         }
     }
 
     private static void sleepCommand() {
-        if (selectedNonCombatUnit != null) selectedNonCombatUnit.setSleep(true);
-        else {
-            selectedCombatUnit.makeUnitAwake();
-            selectedCombatUnit.setSleep(true);
-        }
+        Unit unit;
+        if (selectedNonCombatUnit != null) unit = selectedNonCombatUnit;
+        else unit = selectedCombatUnit;
+
+        unit.makeUnitAwake();
+        unit.setSleep(true);
+        unit.setDestination(unit.getPosition());
         selectedCombatUnit = null;
         selectedNonCombatUnit = null;
         System.out.println("Unit is sleep");
     }
 
     private static void alertCommand() {
-        if (selectedCombatUnit == null)
+        if (selectedCombatUnit == null) {
             System.out.println("Selected unit is not a military unit");
-        else {
+        } else {
             selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit.setAlert(true);
+            selectedCombatUnit.setDestination(selectedCombatUnit.getPosition());
             selectedCombatUnit = null;
             System.out.println("Unit is alert");
         }
@@ -286,6 +290,7 @@ public class GameMenu extends Menu {
         else {
             selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit.setFortify(true);
+            selectedCombatUnit.setDestination(selectedCombatUnit.getPosition());
             selectedCombatUnit = null;
             System.out.println("Unit is fortified");
         }
@@ -297,6 +302,7 @@ public class GameMenu extends Menu {
         else {
             selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit.setFortifyUntilHealed(true);
+            selectedCombatUnit.setDestination(selectedCombatUnit.getPosition());
             selectedCombatUnit = null;
             System.out.println("Unit is healed");
         }
@@ -310,6 +316,9 @@ public class GameMenu extends Menu {
             case "no city":
                 System.out.println("There is no city in this tile");
                 break;
+            case "in  movement":
+                System.out.println("Unit is in a multiple-turn movement");
+                break;
             case "ok":
                 selectedCombatUnit = null;
                 System.out.println("City is garrisoned");
@@ -320,6 +329,8 @@ public class GameMenu extends Menu {
     private static void setupCommand() {
         if (!(selectedCombatUnit instanceof Archer) || !((Archer) selectedCombatUnit).isSiegeTool)
             System.out.println("Selected unit is not a siege tool unit");
+        else if (!selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
+            System.out.println("Unit is in a multiple-turn movement");
         else {
             selectedCombatUnit.makeUnitAwake();
             ((Archer) selectedCombatUnit).setSetup(true);
@@ -331,6 +342,8 @@ public class GameMenu extends Menu {
     private static void attackCommand(Processor processor) {
         if (selectedCombatUnit == null)
             System.out.println("Selected unit is not a military unit");
+        else if (!selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
+            System.out.println("Unit is in a multiple-turn movement");
         else {
             selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit = null;
@@ -359,6 +372,8 @@ public class GameMenu extends Menu {
         if (processor.getSubSection() != null && processor.getSubSection().equals("city")) {
             if (!(selectedNonCombatUnit instanceof Settler))
                 System.out.println("Selected unit is not a settler");
+            else if (!selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
+                System.out.println("Unit is in a multiple-turn movement");
             else {
                 switch (CivilizationController.getInstance().foundCity((Settler) selectedNonCombatUnit, name)) {
                     case "too close":
@@ -400,6 +415,8 @@ public class GameMenu extends Menu {
     private static void pillageCommand() {
         if (selectedCombatUnit == null)
             System.out.println("Selected unit is not a military unit");
+        else if (!selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
+            System.out.println("Unit is in a multiple-turn movement");
         else if (selectedCombatUnit.getPosition().getImprovementName() == null)
             System.out.println("There is no improvement in this tile");
         else {
@@ -425,6 +442,9 @@ public class GameMenu extends Menu {
             switch (CivilizationController.getInstance().removeFeature(selectedNonCombatUnit, processor.getSubSection())) {
                 case "not worker":
                     System.out.println("Selected unit is not a worker");
+                    break;
+                case "in movement":
+                    System.out.println("Unit is in a multiple-turn movement");
                     break;
                 case "irremovable feature":
                     System.out.println("This tiles feature cannot get removed");

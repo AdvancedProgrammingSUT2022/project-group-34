@@ -273,6 +273,8 @@ public class CivilizationController {
             return "not military";
         else if ((city = unit.getPosition().getCity()) == null)
             return "no city";
+        else if (!unit.getPosition().equals(unit.getDestination()))
+            return "in movement";
         unit.makeUnitAwake();
         unit.setGarrisonCity(city);
         city.setGarrison(true);
@@ -323,6 +325,8 @@ public class CivilizationController {
         Tile tile;
         if (!(selectedNonCombatUnit instanceof Worker))
             return "not worker";
+        else if (!selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
+            return "in movement";
         else if ((tile = selectedNonCombatUnit.getPosition()).getFeature() != Feature.Forests ||
                 tile.getFeature() != Feature.Jungle || tile.getFeature() != Feature.Marsh)
             return "irremovable feature";
