@@ -15,8 +15,7 @@ public abstract class Unit {
     public static int healthConstant;
 
     private String name;
-    private int movementSpeed;
-    private int promotion;
+    private int movement;
     private int cost;
     private int motionPoint;
     protected boolean isSleep;
@@ -30,17 +29,23 @@ public abstract class Unit {
 
     private Civilization civilization;
 
-    public Unit(String name, Tile position, Civilization civilization) {
-        this.name = name;
+    public Unit(UnitEnum unitEnum, Tile position, Civilization civilization) {
+
+        this.name           = unitEnum.name;
+        this.movement       = unitEnum.movement;
+        this.cost           = unitEnum.cost;
+        this.destination    = null;
+        this.isMoving       = false;
+
         this.position = position;
-        this.civilization = null;
+        this.unitActionList = new ArrayList<>(unitActionList);
+        //TODO
+        this.unitActionList.add("");
+        this.unitActionList.add("a");
+        this.unitActionList.add("b");
+        this.unitActionList.add("c");
 
-        this.movementSpeed       = Integer.parseInt(unitDataSheet.get(name).get("movementSpeed"));
-        this.promotion           = Integer.parseInt(unitDataSheet.get(name).get("promotion"));
-        this.cost                = Integer.parseInt(unitDataSheet.get(name).get("cost"));
-        this.motionPoint         = Integer.parseInt(unitDataSheet.get(name).get("motionPoint"));
-
-        this.destination = null;
+        this.civilization = civilization;
     }
 
     public static HashMap<String, ArrayList<String>> getDataBaseRequiredTechnology() {
@@ -72,20 +77,12 @@ public abstract class Unit {
         this.name = name;
     }
 
-    public int getMovementSpeed() {
-        return movementSpeed;
+    public int getMovement() {
+        return movement;
     }
 
-    public void setMovementSpeed(int movementSpeed) {
-        this.movementSpeed = movementSpeed;
-    }
-
-    public int getPromotion() {
-        return promotion;
-    }
-
-    public void setPromotion(int promotion) {
-        this.promotion = promotion;
+    public void setMovement(int movement) {
+        this.movement = movement;
     }
 
     public int getCost() {

@@ -1,5 +1,6 @@
 package views;
 
+import controllers.CheatController;
 import controllers.CivilizationController;
 import controllers.GameController;
 import models.City;
@@ -9,7 +10,7 @@ import models.Technology;
 import models.map.CivilizationMap;
 import models.map.GameMap;
 import models.tile.Feature;
-import models.tile.Improvement;
+import models.tile.Terrain;
 import models.tile.Tile;
 import models.tile.VisibleTile;
 import models.unit.*;
@@ -19,6 +20,8 @@ import java.util.*;
 public class GameMenu extends Menu {
     private final static int VIEW_MAP_WIDTH = 9;
     private final static int VIEW_MAP_HEIGHT = 7;
+
+    private final static String NON_NEGATIVE_NUMBER_REGEX = "^+?\\d+$";
 
     private final static String ANSI_RESET = "\u001B[0m";
 
@@ -66,6 +69,7 @@ public class GameMenu extends Menu {
             else if (processor.getCategory().equals("unit")) handleUnitCategoryCommand(processor);
             else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
             else if (processor.getCategory().equals("info")) handleInfoCategoryCommand(processor);
+            else if (processor.getCategory().equals("cheat")) handleCheatCategoryCommand(processor);
             else invalidCommand();
         }
     }
@@ -888,7 +892,63 @@ public class GameMenu extends Menu {
     }
 
     private static void handleCheatCategoryCommand(Processor processor) {
-        // TODO: 4/21/2022
+        if (processor.getSection().equals("increase")) increaseCheatCommand(processor.get("amount"), processor.getSubSection());
+        else if (processor.getSection().equals("teleport")) teleportCheatCommand(processor.get("x"), processor.get("y"));
+        else if (processor.getSection().equals("finish")) finishCheatCommand(processor.getSubSection());
+        else if (processor.getSection().equals("reveal")) revealCheatCommand(processor.get("x"), processor.get("y"));
+        else invalidCommand();
+
+    }
+
+    private static void increaseCheatCommand(String amountField, String subSection) {
+        if (amountField == null) {
+            System.out.printf("field 'amount' required\n");
+        }
+        else if (!amountField.matches(NON_NEGATIVE_NUMBER_REGEX)) {
+            System.out.printf("amount must be a valid non-negative integer\n");
+            return;
+        }
+        int amount = Integer.parseInt(amountField);
+        if (subSection.equals("gold")) {
+            CheatController.getInstance().increaseGold(amount);
+            System.out.printf("Done");
+        }
+        else if (subSection.equals("beaker")) {
+            CheatController.getInstance().increaseBeaker(amount);
+            System.out.printf("Done");
+        }
+        else invalidCommand();
+    }
+
+    private static void teleportCheatCommand(String xField, String yField) {
+        Unit selectedUnit = selectedCombatUnit;
+        if (selectedUnit == null) selectedUnit = selectedNonCombatUnit;
+        if (selectedUnit == null) {
+            System.out.printf("no unit selected\n");
+            return;
+        }
+        if (xField == null || yField == null) System.out.printf("fields 'x' and 'y' required\n");
+        else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("x, y must be valid non-negative integers");
+        else {
+            int x = Integer.parseInt(xField);
+            int y = Integer.parseInt(yField);
+            System.out.printf("%s\n", CheatController.getInstance().teleport(selectedUnit, x, y));
+        }
+    }
+
+    private static void finishCheatCommand(String subSection) {
+        if (!subSection.equals("research")) invalidCommand();
+        else System.out.printf(CheatController.getInstance().finishResearch());
+    }
+
+    private static void revealCheatCommand(String xField, String yField) {
+        if (xField == null || yField == null) System.out.printf("fields 'x' and 'y' required\n");
+        else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("x, y must be valid non-negative integers");
+        else {
+            int x = Integer.parseInt(xField);
+            int y = Integer.parseInt(yField);
+            System.out.printf("%s\n", CheatController.getInstance().reveal(x, y));
+        }
     }
 
 
@@ -956,156 +1016,211 @@ public class GameMenu extends Menu {
                     }
                 }
 
-                for (int k = leftBound + 3; k < leftBound + 13; k++) {
-                    output[upperBound][k].replace(0, 1, "_");
-                }
-                output[upperBound + 1][leftBound + 2].replace(0, 1, "/");
-                output[upperBound + 2][leftBound + 1].replace(0, 1, "/");
-                output[upperBound + 3][leftBound + 0].replace(0, 1, "/");
-                output[upperBound + 4][leftBound + 0].replace(0, 1, "\\");
-                output[upperBound + 5][leftBound + 1].replace(0, 1, "\\");
-                output[upperBound + 6][leftBound + 2].replace(0, 1, "\\");
+                // TODO : handle improvements, resources;
 
-                output[upperBound + 1][leftBound + 13].replace(0, 1, "\\");
-                output[upperBound + 2][leftBound + 14].replace(0, 1, "\\");
-                output[upperBound + 3][leftBound + 15].replace(0, 1, "\\");
-                output[upperBound + 4][leftBound + 15].replace(0, 1, "/");
-                output[upperBound + 5][leftBound + 14].replace(0, 1, "/");
-                output[upperBound + 6][leftBound + 13].replace(0, 1, "/");
-                for (int k = leftBound + 3; k < leftBound + 13; k++) {
-                    output[upperBound + 6][k].replace(0, 1, "_");
-                }
-
-                // TODO : handle rivers
-
-                // TODO : Handle improvements, resources, fog of war, revealed; then print;
-
-                int[] position = {x, y};
-
-                if (CivilizationController.getInstance().isPositionValid(position)) {
-                    if (tile != null) {
-                        if (!civilization.isInFog(tile)) {
-                            if (tile.getCivilization() != null) {
-                                int index = GameController.getInstance().getIndex(civilization);
-                                output[upperBound + 2][leftBound + 8].replace(0, 1, String.valueOf((char) ('A' + index)));
-                                String colorCode = ANSI_COLOR[index % 7 + 1];
-                                output[upperBound + 2][leftBound + 8].insert(0, colorCode);
-                                output[upperBound + 2][leftBound + 8].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
-                            }
-
-                            String terrainName = tile.getTerrain().name.toString();
-                            output[upperBound + 1][leftBound + 5].replace(0, 1, String.valueOf(terrainName.charAt(0)));
-                            String colorCode = ANSI_WHITE;
-                            if (terrainName.equals("Desert")) colorCode = ANSI_YELLOW;
-                            else if (terrainName.equals("Grasslands")) colorCode = ANSI_GREEN;
-                            else if (terrainName.equals("Ocean")) colorCode = ANSI_BLUE;
-                            output[upperBound + 1][leftBound + 5].insert(0, colorCode);
-                            output[upperBound + 1][leftBound + 5].insert(output[upperBound + 1][leftBound + 5].length(), ANSI_RESET);
-
-                            if (tile.getFeature() != null) {
-                                String featureName = tile.getFeature().name.toString();
-                                output[upperBound + 1][leftBound + 7].replace(0, 1, String.valueOf(terrainName.charAt(0)));
-                                output[upperBound + 1][leftBound + 8].replace(0, 1, String.valueOf(terrainName.charAt(1)));
-                                colorCode = ANSI_WHITE;
-                                if (terrainName.equals("FloodPlane")) colorCode = ANSI_GREEN;
-                                else if (terrainName.equals("Forests")) colorCode = ANSI_GREEN;
-                                else if (terrainName.equals("Jungle")) colorCode = ANSI_GREEN;
-                                else if (terrainName.equals("Marsh")) colorCode = ANSI_YELLOW;
-                                else if (terrainName.equals("Oasis")) colorCode = ANSI_YELLOW;
-                                output[upperBound + 1][leftBound + 7].insert(0, colorCode);
-                                output[upperBound + 1][leftBound + 8].insert(0, colorCode);
-                                output[upperBound + 1][leftBound + 7].insert(output[upperBound + 1][leftBound + 7].length(), ANSI_RESET);
-                                output[upperBound + 1][leftBound + 8].insert(output[upperBound + 1][leftBound + 8].length(), ANSI_RESET);
-                            }
-
-                            if (civilization.isTransparent(tile)) {
-                                if (tile.getCombatUnit() != null) {
-                                    Unit unit = tile.getCombatUnit();
-                                    int index = GameController.getInstance().getIndex(unit.getCivilization());
-                                    output[upperBound + 4][leftBound + 8].replace(0, 1, String.valueOf(unit.getName().charAt(0)));
-                                    output[upperBound + 4][leftBound + 9].replace(0, 1, String.valueOf(unit.getName().charAt(1)));
-                                    output[upperBound + 4][leftBound + 10].replace(0, 1, String.valueOf(unit.getName().charAt(2)));
-                                    colorCode = ANSI_COLOR[index % 7 + 1];
-                                    output[upperBound + 4][leftBound + 8].insert(0, colorCode);
-                                    output[upperBound + 4][leftBound + 9].insert(0, colorCode);
-                                    output[upperBound + 4][leftBound + 10].insert(0, colorCode);
-                                    output[upperBound + 4][leftBound + 8].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
-                                    output[upperBound + 4][leftBound + 9].insert(output[upperBound + 2][leftBound + 9].length(), ANSI_RESET);
-                                    output[upperBound + 4][leftBound + 10].insert(output[upperBound + 2][leftBound + 9].length(), ANSI_RESET);
-                                }
-                                if (tile.getNonCombatUnit() != null) {
-                                    Unit unit = tile.getNonCombatUnit();
-                                    int index = GameController.getInstance().getIndex(unit.getCivilization());
-                                    if (unit instanceof Settler)
-                                        output[upperBound + 4][leftBound + 6].replace(0, 1, "S");
-                                    else output[upperBound + 4][leftBound + 6].replace(0, 1, "W");
-                                    colorCode = ANSI_COLOR[index % 7 + 1];
-                                    output[upperBound + 4][leftBound + 6].insert(0, colorCode);
-                                    output[upperBound + 4][leftBound + 6].insert(output[upperBound + 2][leftBound + 8].length(), ANSI_RESET);
-                                }
-                            }
-                        } else {
-                            output[upperBound + 2][leftBound + 6].replace(0, 1, "F");
-                            output[upperBound + 2][leftBound + 7].replace(0, 1, "O");
-                            output[upperBound + 2][leftBound + 8].replace(0, 1, "G");
-                            String colorCode = ANSI_PURPLE;
-                            Random random = new Random(upperBound + leftBound + x + y);
-                            for (int k = leftBound + 3; k <= leftBound + 12; k++) {
-                                if (output[upperBound + 1][k].charAt(0) != ' ') continue;
-                                output[upperBound + 1][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
-                            }
-                            for (int k = leftBound + 2; k <= leftBound + 13; k++) {
-                                if (output[upperBound + 2][k].charAt(0) != ' ') continue;
-                                output[upperBound + 2][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
-                            }
-                            for (int k = leftBound + 1; k <= leftBound + 14; k++) {
-                                if (output[upperBound + 3][k].charAt(0) != ' ') continue;
-                                output[upperBound + 3][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
-                            }
-                            for (int k = leftBound + 1; k <= leftBound + 14; k++) {
-                                if (output[upperBound + 4][k].charAt(0) != ' ') continue;
-                                output[upperBound + 4][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
-                            }
-                            for (int k = leftBound + 2; k <= leftBound + 13; k++) {
-                                if (output[upperBound + 5][k].charAt(0) != ' ') continue;
-                                output[upperBound + 5][k] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
-                            }
-                        }
-                    } else {
-                        String backgroundCode = ANSI_RED_BACKGROUND;
-                        for (int k = leftBound + 3; k <= leftBound + 12; k++) {
-                            output[upperBound + 1][k].insert(0, backgroundCode);
-                            output[upperBound + 1][k].insert(output[upperBound + 1][k].length(), ANSI_RESET);
-                        }
-                        for (int k = leftBound + 2; k <= leftBound + 13; k++) {
-                            output[upperBound + 2][k].insert(0, backgroundCode);
-                            output[upperBound + 2][k].insert(output[upperBound + 2][k].length(), ANSI_RESET);
-                        }
-                        for (int k = leftBound + 1; k <= leftBound + 14; k++) {
-                            output[upperBound + 3][k].insert(0, backgroundCode);
-                            output[upperBound + 3][k].insert(output[upperBound + 3][k].length(), ANSI_RESET);
-                        }
-                        for (int k = leftBound + 1; k <= leftBound + 14; k++) {
-                            output[upperBound + 4][k].insert(0, backgroundCode);
-                            output[upperBound + 4][k].insert(output[upperBound + 4][k].length(), ANSI_RESET);
-                        }
-                        for (int k = leftBound + 2; k <= leftBound + 13; k++) {
-                            output[upperBound + 5][k].insert(0, backgroundCode);
-                            output[upperBound + 5][k].insert(output[upperBound + 5][k].length(), ANSI_RESET);
-                        }
-                    }
-
-                    output[upperBound + 3][leftBound + 5].replace(0, 1, String.valueOf(x / 10));
-                    output[upperBound + 3][leftBound + 6].replace(0, 1, String.valueOf(x % 10));
-                    output[upperBound + 3][leftBound + 7].replace(0, 1, ",");
-                    output[upperBound + 3][leftBound + 8].replace(0, 1, String.valueOf(y / 10));
-                    output[upperBound + 3][leftBound + 9].replace(0, 1, String.valueOf(y % 10));
-                }
-
-
+                putTile(civilization, tile, visibleTile, output, x, y, upperBound, leftBound);
             }
+        }
+
+        printMap(output);
+    }
+
+    private static void putColor(String colorCode, StringBuilder[][] output, int x, int y, int count) {
+        output[x][y].insert(0, colorCode);
+        output[x][y + count - 1].append(ANSI_RESET);
+    }
+
+    private static void putColor(String colorCode, StringBuilder[][] output, int x, int y) {
+        putColor(colorCode, output, x, y, 1);
+    }
+
+    private static void putColorIfUncolored(String colorCode, StringBuilder[][] output, int x, int y, int count) {
+        for (int i = y; i < y + count; i++) {
+            if (output[x][i].length() == 1) putColor(colorCode, output, x, i);
+        }
+    }
+
+    private static void fullWithRandomChars(String colorCode, StringBuilder[][] output, int x, int y, int count) {
+        Random random = new Random(2 * x + y * y * y);
+        for (int i = y; i < y + count; i++) {
+            if (output[x][i].charAt(0) != ' ') continue;
+            output[x][i] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
+        }
+    }
+
+    private static void putString(String str, StringBuilder[][] output, int x, int y) {
+        for (int i = 0; i < str.length(); i++) {
+            output[x][y + i] = new StringBuilder(str.charAt(i));
+        }
+    }
+
+    private static void putRevealed(StringBuilder[][] output, int upperBound, int leftBound) {
+        String colorCode = ANSI_GREEN_BACKGROUND;
+        putColorIfUncolored(colorCode, output, upperBound + 1, leftBound + 3, 10);
+        putColorIfUncolored(colorCode, output, upperBound + 2, leftBound + 2, 12);
+        putColorIfUncolored(colorCode, output, upperBound + 3, leftBound + 1, 14);
+        putColorIfUncolored(colorCode, output, upperBound + 4, leftBound + 1, 14);
+        putColorIfUncolored(colorCode, output, upperBound + 5, leftBound + 2, 12);
+    }
+
+    private static void putFogOfWar(StringBuilder[][] output, int upperBound, int leftBound) {
+        putString("FOG", output, upperBound + 2, leftBound + 6);
+        String colorCode = ANSI_PURPLE;
+        fullWithRandomChars(colorCode, output, upperBound + 1, leftBound + 3, 10);
+        fullWithRandomChars(colorCode, output, upperBound + 2, leftBound + 2, 12);
+        fullWithRandomChars(colorCode, output, upperBound + 3, leftBound + 1, 14);
+        fullWithRandomChars(colorCode, output, upperBound + 4, leftBound + 1, 14);
+        fullWithRandomChars(colorCode, output, upperBound + 5, leftBound + 2, 12);
+    }
+
+    private static void putNullTile(StringBuilder[][] output, int upperBound, int leftBound) {
+        String backgroundCode = ANSI_RED_BACKGROUND;
+        putColor(backgroundCode, output, upperBound + 1, leftBound + 3, 10);
+        putColor(backgroundCode, output, upperBound + 2, leftBound + 2, 12);
+        putColor(backgroundCode, output, upperBound + 3, leftBound + 1, 14);
+        putColor(backgroundCode, output, upperBound + 4, leftBound + 1, 14);
+        putColor(backgroundCode, output, upperBound + 5, leftBound + 2, 12);
+    }
+
+    private static void putTile(Civilization civilization, Tile tile, VisibleTile visibleTile, StringBuilder[][] output, int x, int y, int upperBound, int leftBound) {
+        putTileBorders(civilization, tile, output, upperBound, leftBound, x, y);
+        
+        if (tile != null) {
+            putString(x + "," + y, output, upperBound + 3, leftBound + 5);
+
+            if (!civilization.isInFog(tile)) {
+                putCivilization(visibleTile.getCivilization(), output, upperBound, leftBound);
+                putTerrain(visibleTile.getTerrain(), output, upperBound, leftBound);
+                putFeature(visibleTile.getFeature(), output, upperBound, leftBound);
+
+                if (civilization.isTransparent(tile)) {
+                    putUnit(tile.getCombatUnit(), output, upperBound, leftBound);
+                    putUnit(tile.getNonCombatUnit(), output, upperBound, leftBound);
+                }
+                else putRevealed(output, upperBound, leftBound);
+            }
+            else putFogOfWar(output, upperBound, leftBound);
+        }
+        else putNullTile(output, upperBound, leftBound);
+    }
+
+    private static void putTileBorders(Civilization civilization, Tile tile, StringBuilder[][] output, int upperBound, int leftBound, int x, int y) {
+        putString("__________", output, upperBound, leftBound + 3);
+        putString("/          \\", output, upperBound + 1, leftBound + 2);
+        putString("/            \\", output, upperBound + 2, leftBound + 1);
+        putString("/              \\", output, upperBound + 3, leftBound + 0);
+        putString("\\              /", output, upperBound + 4, leftBound + 0);
+        putString("\\            /", output, upperBound + 5, leftBound + 1);
+        putString("\\__________/", output, upperBound + 6, leftBound + 2);
+
+        if (!civilization.isInFog(tile)) putRivers(tile, output, upperBound, leftBound, x, y);
+    }
+
+    private static void putRivers(Tile tile, StringBuilder[][] output, int upperBound, int leftBound, int x, int y) {
+        Tile otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y});
+        if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 0);
+        otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x + 1, y});
+        if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 3);
+        if (y % 2 == 0) {
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y - 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 5);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y - 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 4);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y + 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 1);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y + 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 2);
+        }
+        else {
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y - 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 5);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x + 1, y - 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 4);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y + 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 1);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x + 1, y + 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 2);
+        }
+    }
+
+    private static void putRiver(StringBuilder[][] output, int upperBound, int leftBound, int whichBorderFromUpperClockwise) {
+        int whichBorder = whichBorderFromUpperClockwise;
+        if (whichBorder == 0) putColor(ANSI_BLUE_BACKGROUND, output, upperBound, leftBound + 3, 10);
+        else if (whichBorder == 1) {
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 1, leftBound + 12);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 2, leftBound + 13);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 3, leftBound + 14);
+        }
+        else if (whichBorder == 2) {
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 6, leftBound + 12);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 5, leftBound + 13);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 4, leftBound + 14);
+        }
+        else if (whichBorder == 3) putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 6, leftBound + 2, 12);
+        else if (whichBorder == 4) {
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 6, leftBound + 2);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 5, leftBound + 1);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 4, leftBound + 0);
+        }
+        else if (whichBorder == 5) {
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 1, leftBound + 2);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 2, leftBound + 1);
+            putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 3, leftBound + 0);
+        }
+    }
+
+    private static void putCivilization(Civilization civilization, StringBuilder[][] output, int upperBound, int leftBound) {
+        if (civilization == null) return;
+        int index = GameController.getInstance().getIndex(civilization);
+        putString(String.valueOf((char)('A' + index)), output, upperBound + 2, leftBound + 8);
+        String colorCode = ANSI_COLOR[index % 7 + 1];
+        putColor(colorCode, output, upperBound + 2, leftBound + 8);
+    }
+
+    private static void putTerrain(Terrain terrain, StringBuilder[][] output, int upperBound, int leftBound) {
+        String terrainName = terrain.name.toString();
+        putString(terrainName.substring(0, 1), output, upperBound + 1, leftBound + 5);
+        String colorCode = ANSI_WHITE;
+        if (terrainName.equals("Desert")) colorCode = ANSI_YELLOW;
+        else if (terrainName.equals("Grasslands")) colorCode = ANSI_GREEN;
+        else if (terrainName.equals("Ocean")) colorCode = ANSI_BLUE;
+        putColor(colorCode, output, upperBound + 1, leftBound + 5);
+    }
+
+    private static void putFeature(Feature feature, StringBuilder[][] output, int upperBound, int leftBound) {
+        if (feature == null) return;
+        String featureName = feature.name.toString();
+        putString(featureName.substring(0, 2), output, upperBound + 1, leftBound + 7);
+        String colorCode = ANSI_WHITE;
+        if (featureName.equals("FloodPlane")) colorCode = ANSI_GREEN;
+        else if (featureName.equals("Forests")) colorCode = ANSI_GREEN;
+        else if (featureName.equals("Jungle")) colorCode = ANSI_GREEN;
+        else if (featureName.equals("Marsh")) colorCode = ANSI_YELLOW;
+        else if (featureName.equals("Oasis")) colorCode = ANSI_YELLOW;
+        putColor(colorCode, output, upperBound + 1, leftBound + 7, 2);
+    }
+
+    private static void putUnit(Unit unit, StringBuilder[][] output, int upperBound, int leftBound) {
+        if (unit == null) return;
+        int index = GameController.getInstance().getIndex(unit.getCivilization());
+        String shownName;
+        if (unit instanceof Settler) shownName = "S";
+        else if (unit instanceof Worker) shownName = "W";
+        else shownName = unit.getName().substring(0, 3);
+        putString(shownName, output, upperBound + 4, upperBound + 6);
+        String colorCode = ANSI_COLOR[index % 7 + 1];
+        putColor(colorCode, output, upperBound + 4, leftBound + 6, shownName.length());
+    }
+
+    private static void printMap(StringBuilder[][] output) {
+        for (int i = 0; i < output.length; i++) {
+            for (int j = 0; j < output[i].length; j++) {
+                System.out.printf("%s", output[i][j].toString());
+            }
+            System.out.println();
         }
     }
 }
+
 
 

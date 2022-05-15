@@ -156,6 +156,9 @@ public class Tile extends AbstractTile {
     }
 
     public int getMovingCost() {
+        int movingCost = this.movingCost;
+        if (hasRoad) movingCost -= movingCost/2;
+        if (hasRail) movingCost -= movingCost/3;
         return movingCost;
     }
 

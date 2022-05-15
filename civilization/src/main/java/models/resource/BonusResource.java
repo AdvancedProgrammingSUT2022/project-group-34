@@ -1,34 +1,41 @@
 package models.resource;
 
+import models.tile.Improvement;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BonusResource extends Resource{
 
-    private int foodBonus;
-    private static ArrayList<BonusResource> allBonusResource = new ArrayList<>();
+    private final int foodBonus;
+    private static final HashMap<String,BonusResource> allBonusResource = new HashMap<>();
 
-    public BonusResource(String requiredImprovement, String name, int foodBonus) {
-        super(requiredImprovement, name, true, false);
+    public BonusResource(String name, Improvement requiredImprovement, int foodBonus) {
+        super(name, requiredImprovement, false);
         this.foodBonus = foodBonus;
     }
 
     public static void createAllInstance(){
-        allBonusResource.add(new BonusResource("farming"    ,"Banana"   ,1));
-        allBonusResource.add(new BonusResource("Pasture"    ,"Cow"      ,1));
-        allBonusResource.add(new BonusResource("camp"   ,"Gazelle"  ,1));
-        allBonusResource.add(new BonusResource("Pasture"    ,"Sheep"    ,2));
-        allBonusResource.add(new BonusResource("Farm"       ,"Wheat"    ,1));
+        ArrayList <Resource> arrayList = new ArrayList<>();
+        arrayList.add(ResourceEnum.Banana.getResource());
+        arrayList.add(ResourceEnum.Cow.getResource());
+        arrayList.add(ResourceEnum.Gazelle.getResource());
+        arrayList.add(ResourceEnum.Sheep.getResource());
+        arrayList.add(ResourceEnum.Wheat.getResource());
+        for (Resource resource : arrayList) {
+            allBonusResource.put(resource.getName(),(BonusResource) resource);
+        }
     }
 
-    public static ArrayList<BonusResource> getAllBonusResource(){
-        if (allBonusResource.size() == 0)
+    public static HashMap<String,BonusResource> getAllBonusResource(){
+        if (allBonusResource.isEmpty())
             createAllInstance();
-        return new ArrayList<>(allBonusResource);
+        return allBonusResource;
     }
 
     @Override
     public Resource cloneResource(){
-        BonusResource bonusResource = new BonusResource(getRequiredImprovement(),getName(), foodBonus);
+        BonusResource bonusResource = new BonusResource(getName(), getRequiredImprovement(), foodBonus);
         return bonusResource;
     }
     @Override
