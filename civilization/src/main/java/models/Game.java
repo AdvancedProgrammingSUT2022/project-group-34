@@ -4,6 +4,7 @@ import models.map.GameMap;
 import models.resource.Resource;
 import models.unit.Unit;
 import models.unit.Settler;
+import models.unit.UnitEnum;
 import models.tile.Tile;
 
 import java.util.Collections;
@@ -97,7 +98,7 @@ public class Game {
         Collections.shuffle(candidateTiles);
         ArrayList<Settler> answer = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            answer.add(new Settler("Initial settler", candidateTiles.get(i)));
+            answer.add(new Settler(UnitEnum.Settler, candidateTiles.get(i)));
         }
         return answer;
     }

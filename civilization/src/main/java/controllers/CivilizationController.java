@@ -14,6 +14,7 @@ import models.map.CivilizationMap;
 import models.map.GameMap;
 import models.tile.AbstractTile;
 import models.tile.Improvement;
+import models.tile.Terrain;
 
 import models.tile.VisibleTile;
 import models.unit.*;
@@ -156,10 +157,12 @@ public class CivilizationController {
     }
 
     private void moveToAdjacent(Unit unit, Tile tile) {
+        Tile originTile = unit.getPosition();
         forcedMove(unit, tile);
         int newMotionPoint = 0;
         int motionCost = calculateMotionCost(unit.getPosition(), tile);
         newMotionPoint = Math.max(0, unit.getMotionPoint() - motionCost);
+        if (isRiverBetween(originTile, tile)) newMotionPoint = 0;
         unit.setMotionPoint(newMotionPoint);
     }
 
@@ -219,7 +222,6 @@ public class CivilizationController {
         while (unit.getMotionPoint() > 0 && !path.isEmpty()) {
             Tile tile = path.pop();
             if (tile == unit.getPosition()) continue;
-            //TODO handle river
             moveToAdjacent(unit, tile);
         }
     }
@@ -253,13 +255,12 @@ public class CivilizationController {
         ans.add(tile);
         for (Tile adjacentTile : tile.getAdjacentTiles()) {
             ans.add(adjacentTile);
-            if (!adjacentTile.isBlock() || tile.isBlock()) {
+            if (!adjacentTile.isBlock() || tile.isBlock() || tile.getTerrain() == Terrain.Hills) {
                 for (Tile visibleTile : adjacentTile.getAdjacentTiles()) {
                     ans.add(visibleTile);
                 }
             }
         }
-        //TODO handle hills
         return new ArrayList<>(ans);
     }
 
@@ -267,6 +268,11 @@ public class CivilizationController {
         for (Unit unit : GameController.getInstance().getCivilization().getUnits()) {
             continueMoveForOneTurn(unit);
         }
+    }
+
+    public boolean isRiverBetween(Tile tile1, Tile tile2) {
+        if (tile1 == null || tile2 == null) return false;
+        return tile1.getIsRiver().get(tile1.getAdjacentTiles().indexOf(tile2));
     }
 
     public ArrayList<AbstractTile> getVisibleTiles(Unit unit) {
