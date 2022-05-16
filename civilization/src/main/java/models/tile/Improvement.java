@@ -66,6 +66,7 @@ public class Improvement{
 
 
     public static int setImprovementProperties(Tile tile, Improvement improvement) {
+        if (improvement == null) return 0;
         tile.foodRate       += improvement.foodRate;
         tile.goldRate       += improvement.goldRate;
         tile.productionRate += improvement.productionRate;
