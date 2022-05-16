@@ -27,7 +27,7 @@ public class StrategicResource extends Resource{
             allStrategicResource.put(resource.getName(), (StrategicResource) resource);
     }
 
-    public static HashMap<String,StrategicResource> getAllLuxuryResource(){
+    public static HashMap<String,StrategicResource> getAllStrategicResource(){
         if (allStrategicResource.isEmpty())
             createAllInstance();
         return allStrategicResource;
