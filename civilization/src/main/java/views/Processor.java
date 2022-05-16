@@ -84,6 +84,10 @@ public class Processor {
         return fields.size();
     }
 
+    public boolean contains(String fieldName) {
+        return fields.containsKey(fieldName);
+    }
+
 
     private String getCompleteForm(char c) {
         // This is not static because maybe in future there will be need to return complete form in terms of category.
