@@ -70,6 +70,7 @@ public class GameMenu extends Menu {
             else if (processor.getCategory().equals("cheat")) handleCheatCategoryCommand(processor);
             else if (processor.getCategory().equals("end")) handleEndCategoryCommand(processor);
             else invalidCommand();
+            showMap();
         }
     }
 
@@ -1306,7 +1307,6 @@ public class GameMenu extends Menu {
     }
 
     private static void showMap() {
-        // TODO
         Civilization civilization = GameController.getInstance().getCivilization();
         System.out.printf("%s : ", civilization.getCivilizationName());
         System.out.printf("Turn %d\n", civilization.getTurn());
