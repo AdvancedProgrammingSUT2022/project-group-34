@@ -277,6 +277,7 @@ public class Civilization {
     }
 
     public boolean isInFog(Tile tile) {
+        if (tile == null) return true;
         return personalMap.getTileByXY(tile.getX(), tile.getY()).isInFog();
     }
 
