@@ -39,7 +39,7 @@ public enum ImprovementEnum {
 
     Plantation  ("Plantation"   ,0,0,0,false,TechnologyEnum.Calendar
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert}
-            , new Feature[]{Feature.Forests,Feature.Marsh,Feature.FloodPlane,Feature.Jungle}
+            , new Feature[]{Feature.Forests,Feature.Marsh,Feature.FloodPlain,Feature.Jungle}
             , new ResourceName[]{ResourceName.Banana,ResourceName.Silk,ResourceName.Sugar,ResourceName.Cotton,ResourceName.Dyes,ResourceName.Incense}),
 
     Quarry      ("Quarry"       ,0,0,0,false,TechnologyEnum.Masonry

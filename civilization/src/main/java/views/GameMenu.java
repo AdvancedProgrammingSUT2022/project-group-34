@@ -1304,7 +1304,7 @@ public class GameMenu extends Menu {
                      \            /      A     \            /
         6             \__________/    xx, yy    \__________/
                       /          \ R R s Bal    /          \
-                     /            \            /            \
+                     /            \     Fa     /            \
         9           /              \__________/              \
                     \              /          \              /
                      \            /            \            /
@@ -1334,7 +1334,7 @@ public class GameMenu extends Menu {
                     }
                 }
 
-                // TODO : handle improvements, resources;
+                // TODO : handle resources;
 
                 putTile(civilization, tile, visibleTile, output, x, y, upperBound, leftBound);
             }
@@ -1416,6 +1416,7 @@ public class GameMenu extends Menu {
                     putUnit(tile.getNonCombatUnit(), output, upperBound, leftBound);
                     if (tile.hasRoad()) putRoad(output, upperBound, leftBound);
                     if (tile.hasRail()) putRail(output, upperBound, leftBound);
+                    putImprovement(tile.getImprovementName(), output, upperBound, leftBound);
                 } else putRevealed(output, upperBound, leftBound);
             } else putFogOfWar(output, upperBound, leftBound);
         } else putNullTile(output, upperBound, leftBound);
@@ -1536,13 +1537,19 @@ public class GameMenu extends Menu {
     }
 
     private static void putRoad(StringBuilder[][] output, int upperBound, int leftBound) {
-        putString("R", output, upperBound + 5, leftBound + 2);
-        putColor(ANSI_GREEN, output, upperBound + 5, leftBound + 2);
+        putString("R", output, upperBound + 4, leftBound + 2);
+        putColor(ANSI_GREEN, output, upperBound + 4, leftBound + 2);
     }
 
     private static void putRail(StringBuilder[][] output, int upperBound, int leftBound) {
-        putString("R", output, upperBound + 5, leftBound + 4);
-        putColor(ANSI_YELLOW, output, upperBound + 5, leftBound + 4);
+        putString("R", output, upperBound + 4, leftBound + 4);
+        putColor(ANSI_YELLOW, output, upperBound + 4, leftBound + 4);
+    }
+
+    private static void putImprovement(Improvement improvement, StringBuilder[][] output, int upperBound, int leftBound) {
+        if (improvement == null) return;
+        putString(improvement.getName().substring(0, 2), output, upperBound + 5, leftBound + 7);
+        putColor(ANSI_CYAN, output, upperBound + 5, leftBound + 7, 2);
     }
 
     private static void printMap(StringBuilder[][] output) {
