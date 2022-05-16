@@ -20,7 +20,7 @@ public class Tile extends AbstractTile {
     private boolean hasRoad = false;
     private boolean hasRail = false;
     private boolean isLooted = false;
-
+    private City city;
     private NonCombatUnit NonCombatUnit = null;
     private CombatUnit combatUnit = null;
 
@@ -196,5 +196,10 @@ public class Tile extends AbstractTile {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    @Override
+    public City getCity() {
+        return city;
     }
 }
