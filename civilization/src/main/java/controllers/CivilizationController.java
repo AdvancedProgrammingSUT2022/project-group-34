@@ -470,11 +470,9 @@ public class CivilizationController {
 
     public void updateCivilization(Civilization civilization) {
 
-        CivilizationMap civilizationMap = civilization.getPersonalMap();
-        civilizationMap.removeTransparentTiles();
-        ArrayList<AbstractTile> visibleMapArray = getAllVisibleTiles(civilization);
-        civilizationMap.addTransparentTiles(visibleMapArray);
-
+        GameMap mainGameMap = GameController.getInstance().getGame().getMainGameMap();
+        CivilizationController.getInstance().updateTransparentTiles(civilization);
+        CivilizationController.getInstance().updatePersonalMap(civilization, mainGameMap);
 
         updateNumberOfResources(civilization);
 
@@ -492,12 +490,12 @@ public class CivilizationController {
 
     }
 
-    private ArrayList<AbstractTile> getAllVisibleTiles(Civilization civilization) {
+/*    private ArrayList<AbstractTile> getAllVisibleTiles(Civilization civilization) {
         Set<AbstractTile> visibleMap = new HashSet<>();
         for (City city : civilization.getCities()) {
             visibleMap.addAll(city.getTerritory());
         }
-        GameMap mainGameMap = GameController.getInstance().getGame().getMainGameMap();
+
         for (Unit unit : civilization.getUnits()) {
             visibleMap.addAll(mainGameMap.getAdjacentTiles(unit.getPosition()));
         }
@@ -507,7 +505,7 @@ public class CivilizationController {
             visibleMapArray.add((AbstractTile) o);
         }
         return visibleMapArray;
-    }
+    }*/
 
     private void updateNumberOfResources(Civilization civilization) {
 
