@@ -20,6 +20,7 @@ public class City {
     private Unit unitUnderProduct;
     private int  unitUnderProductTern;
     private boolean isGarrison;
+    private int hitPoint;
 
     private ArrayList<Tile> territory = new ArrayList<>();
     private ArrayList<Citizen> citizens = new ArrayList<>();
@@ -226,5 +227,13 @@ public class City {
 
     public void setTillNewCitizen(int tillNewCitizen) {
         this.tillNewCitizen = tillNewCitizen;
+    }
+
+    public int getHitPoint() {
+        return hitPoint;
+    }
+
+    public void setHitPoint(int hitPoint) {
+        this.hitPoint = hitPoint;
     }
 }
