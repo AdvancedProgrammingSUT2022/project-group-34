@@ -67,7 +67,7 @@ public class Resource {
         return requiredImprovement;
     }
 
-    public boolean isEqualsRequiredImprovement(String requiredImprovement) {
+    public boolean isEqualsRequiredImprovement(Improvement requiredImprovement) {
         return this.requiredImprovement.equals(requiredImprovement);
     }
 
