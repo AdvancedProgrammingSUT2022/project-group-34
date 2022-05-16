@@ -1,7 +1,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 public class Technology {
@@ -15,7 +14,7 @@ public class Technology {
     private boolean isResearching;
     private boolean isResearchable;
     private boolean isResearched;
-    private ArrayList<String> prerequisiteTechnologies;
+    private ArrayList<TechnologyEnum> prerequisiteTechnologies;
 
 
     Technology(TechnologyEnum technologyEnum) {
@@ -110,21 +109,19 @@ public class Technology {
 
 
 
-    public ArrayList<String> getPrerequisiteTechnologies() {
-        return prerequisiteTechnologies;
-    }
-
     public void research(){
         if (isResearchable())
             setResearching(true);
     }
 
-    public void updateTechnology(HashMap<String,Technology> technologyHashMap, int tern){
+    public int updateTechnology(HashMap<TechnologyEnum,Technology> technologyHashMap, int tern){
 
         if (!isResearchable) {
-            prerequisiteTechnologies.removeIf(prerequisiteTechnology -> technologyHashMap.get(prerequisiteTechnology).isResearched);
-            if (prerequisiteTechnologies.isEmpty())
+            prerequisiteTechnologies.removeIf(technologyHashMap::containsKey);
+            if (prerequisiteTechnologies.isEmpty()){
                 isResearchable = true;
+                return 1;
+            }
         }
 
         if (isResearching) {
@@ -133,11 +130,14 @@ public class Technology {
         if (remainingTerm == 0) {
             isResearched = true;
             isResearching = false;
+            return 1;
         }
+
+        return 0;
     }
 
-    public void updateTechnology(HashMap<String,Technology> technologyHashMap){
-        updateTechnology(technologyHashMap,1);
+    public int updateTechnology(HashMap<TechnologyEnum,Technology> technologyHashMap){
+        return updateTechnology(technologyHashMap,1);
     }
 
     public int getCost() {

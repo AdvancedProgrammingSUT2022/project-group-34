@@ -201,7 +201,16 @@ public enum TechnologyEnum {
         return isResearched;
     }
 
-    public ArrayList<String> getPrerequisiteTechnologies() {
-        return prerequisiteTechnologies;
+    public ArrayList<TechnologyEnum> getPrerequisiteTechnologies() {
+        ArrayList<TechnologyEnum> technologyEnums = new ArrayList<>();
+        for (String technologyName : prerequisiteTechnologies) {
+            for (TechnologyEnum technologyEnum : values()) {
+                if (technologyEnum.name.equals(technologyName)){
+                    technologyEnums.add(technologyEnum);
+                    break;
+                }
+            }
+        }
+        return technologyEnums;
     }
 }

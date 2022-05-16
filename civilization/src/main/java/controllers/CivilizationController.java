@@ -5,9 +5,9 @@ package controllers;
 import models.City;
 import models.Civilization;
 import models.Technology;
+import models.TechnologyEnum;
 import models.map.CivilizationMap;
 import models.map.GameMap;
-import models.resource.Resource;
 import models.tile.*;
 import models.unit.*;
 
@@ -480,6 +480,16 @@ public class CivilizationController {
                 work.doWork();
             }
         }
+
+        /*HashMap<TechnologyEnum,Technology> civilizationNotResearchedTechnologies = civilization.getCivilizationNotResearchedTechnologies()
+        civilizationNotResearchedTechnologies.forEach((technologyEnum, technology) ->{
+            if (technology.updateTechnology(civilization.getCivilizationResearchedTechnologies()) == 1){
+                civilizationNotResearchedTechnologies.remove(technologyEnum);
+                ;
+            }
+
+        });*/
+
 
         continueMoves(civilization);
 
