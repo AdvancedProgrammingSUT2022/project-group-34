@@ -69,5 +69,6 @@ public class GameController {
         civilizationIndex++;
         civilizationIndex %= game.getCivilizations().size();
         civilization = game.getCivilizations().get(civilizationIndex);
+        civilization.setTurn(civilization.getTurn() + 1);
     }
 }

@@ -25,7 +25,8 @@ public class ProfileMenu extends Menu {
     //Handles commands that start with "profile change"
     private static void handleChangeCategoryCommand(Processor processor) {
         if (processor.get("nickname") != null) changeNickname(processor);
-        else if (processor.get("current") != null) changePassword(processor);
+        else if (processor.contains("password")) changePassword(processor);
+        else if (processor.contains("username")) System.out.println("you can't change username");
         else invalidCommand();
     }
 

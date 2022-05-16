@@ -59,6 +59,7 @@ public class GameMenu extends Menu {
         Processor processor;
 
         while (getCurrentMenu().equals("game")) {
+            showMap();
             processor = new Processor(getInput());
 
             if (!processor.isValid() || processor.getCategory() == null) invalidCommand();
@@ -70,7 +71,6 @@ public class GameMenu extends Menu {
             else if (processor.getCategory().equals("cheat")) handleCheatCategoryCommand(processor);
             else if (processor.getCategory().equals("end")) handleEndCategoryCommand(processor);
             else invalidCommand();
-            showMap();
         }
     }
 
