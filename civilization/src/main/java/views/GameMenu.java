@@ -66,6 +66,7 @@ public class GameMenu extends Menu {
             else if (processor.getCategory().equals("unit")) handleUnitCategoryCommand(processor);
             else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
             else if (processor.getCategory().equals("info")) handleInfoCategoryCommand(processor);
+            else if (processor.getCategory().equals("city")) handleCityCategoryCommand(processor);
             else if (processor.getCategory().equals("cheat")) handleCheatCategoryCommand(processor);
             else invalidCommand();
         }
@@ -180,7 +181,9 @@ public class GameMenu extends Menu {
     8.unit garrison
     9.unit cancel
     10.unit setup
-    11.unit attack
+    11.unit attack city --x <x> --y <y>
+    unit attack combat --x <x> --y <y>
+    unit attack noncombat --x <x> --y <y>
     12.unit delete
     13.unit build
     14.unit remove <jungle/forest/marsh>
@@ -346,15 +349,35 @@ public class GameMenu extends Menu {
     }
 
     private static void attackCommand(Processor processor) {
+        String x = processor.get("x");
+        String y = processor.get("y");
+        if (processor.getSubSection() == null ||
+                (!processor.getSubSection().equals("city") && !processor.getSubSection().equals("combat") && !processor.getSubSection().equals("noncombat")) ||
+                processor.getNumberOfFields() != 2 ||
+                x == null || y == null)
+            invalidCommand();
         if (selectedCombatUnit == null)
             System.out.println("Selected unit is not a military unit");
+        else if (!CivilizationController.getInstance().isPositionValid(new int[]{Integer.parseInt(x), Integer.parseInt(y)}))
+            System.out.println("Invalid coordinates!");
         else if (!selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
             System.out.println("Unit is in a multiple-turn movement");
         else {
+            int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
+            if (processor.getSubSection().equals("city")){
+
+            }
             selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit = null;
             // TODO: 5/15/2022
         }
+    }
+
+    private static void attackCity(int[] position){
+        Tile tile = CivilizationController.getInstance().getTileByPosition(position);
+        if (tile.getCity()==null)
+            System.out.println("There is no city in that place");
+        if (selectedCombatUnit)
     }
 
     private static void cancelCommand() {
@@ -1552,14 +1575,17 @@ public class GameMenu extends Menu {
         if (resource == null) return;
         String name = resource.getName();
 
-        if (resource instanceof StrategicResource && civilization.hasResearched(((StrategicResource)resource).getRequiredTechnology())) {
+        if (resource instanceof StrategicResource && civilization.hasResearched(((StrategicResource) resource).getRequiredTechnology())) {
             putString("????", output, upperBound + 5, leftBound + 4);
         } else putString(name.substring(0, Math.min(4, name.length())), output, upperBound + 5, leftBound + 4);
 
-        if (resource instanceof BonusResource) putColor(ANSI_CYAN, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
-        else if (resource instanceof LuxuryResource) putColor(ANSI_GREEN, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
-        else if (resource instanceof StrategicResource){
-            if (civilization.hasResearched(((StrategicResource)resource).getRequiredTechnology())) putColor(ANSI_PURPLE, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
+        if (resource instanceof BonusResource)
+            putColor(ANSI_CYAN, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
+        else if (resource instanceof LuxuryResource)
+            putColor(ANSI_GREEN, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
+        else if (resource instanceof StrategicResource) {
+            if (civilization.hasResearched(((StrategicResource) resource).getRequiredTechnology()))
+                putColor(ANSI_PURPLE, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
             else putColor(ANSI_RED, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
         }
     }
