@@ -85,6 +85,10 @@ public class City {
         this.unitUnderProduct = unitUnderProduct;
     }
 
+    public void setUnitUnderProductTern(int unitUnderProductTern) {
+        this.unitUnderProductTern = unitUnderProductTern;
+    }
+
     public int getUnitUnderProductTern() {
         return unitUnderProductTern;
     }

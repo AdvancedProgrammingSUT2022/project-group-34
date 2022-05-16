@@ -387,7 +387,6 @@ public class CivilizationController {
         return "ok";
     }
 
-
     public String removeFeature(NonCombatUnit selectedNonCombatUnit, String type) {
         Tile tile;
         if (!(selectedNonCombatUnit instanceof Worker))
@@ -441,9 +440,6 @@ public class CivilizationController {
     }
 
 
-    public void cityFortify(City city) {
-        //TODO
-    }
 
     public void purchaseTile(City city, Tile tile) {
         city.addTerritory(tile);
@@ -456,6 +452,23 @@ public class CivilizationController {
         // TODO: check if resources are enough
         city.setUnitUnderProduct(unit);
     }
+
+    public ArrayList<Unit> getProducibleUnits(){
+        ArrayList<Unit> units = new ArrayList<>();
+        for (String key : GameController.getInstance().getCivilization().getProducibleUnits().keySet())
+            units.add(GameController.getInstance().getCivilization().getProducibleUnits().get(key));
+
+        units.removeIf(unit -> !GameController.getInstance().getCivilization().getCivilizationResources().
+                containsValue(UnitEnum.valueOf(unit.getName()).getRequiredResource().getResource()));
+
+        return units;
+    }
+
+    public void cityFortify(City city) {
+        //TODO
+    }
+
+
 
     public void updateCivilizationAttributes() {
         //TODO

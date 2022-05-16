@@ -10,7 +10,7 @@ public enum ResourceName {
 
     Coal    ("Coal"),
     Horses  ("Horse"),
-    Iron    ("Iron"),
+        Iron    ("Iron"),
 
     Cotton  ("Cotton"),
     Dyes("Dye"),

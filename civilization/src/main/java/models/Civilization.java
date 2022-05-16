@@ -6,6 +6,7 @@ import models.resource.Resource;
 import models.tile.AbstractTile;
 import models.tile.Tile;
 import models.unit.Unit;
+import models.unit.UnitEnum;
 import models.unit.Work;
 
 import java.util.ArrayList;
@@ -36,8 +37,8 @@ public class Civilization {
     private final HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
     private final HashMap<String, Integer> numberOfEachExchangedResource = new HashMap<>();
 
-    private HashMap<String, Technology> civilizationResearchedTechnologies;
-    private HashMap<String, Technology> civilizationNotResearchedTechnologies;
+    private HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies;
+    private HashMap<TechnologyEnum, Technology> civilizationNotResearchedTechnologies;
     private HashMap<String, Unit> producibleUnits;
 
     private int numberOfBeakers;
@@ -47,6 +48,10 @@ public class Civilization {
     private int happiness;
     private final int happiness0;
     private final int happinessPerLuxuryResource = 4;
+
+    private final int unitMaintenanceCost = 2;
+    private final int roadMaintenanceCost = 1;
+    private final int railMaintenanceCost = 1;
 
     private int turn = 0;
 
@@ -154,19 +159,19 @@ public class Civilization {
         this.civilizationResources = civilizationResources;
     }
 
-    public HashMap<String, Technology> getCivilizationResearchedTechnologies() {
+    public HashMap<TechnologyEnum, Technology> getCivilizationResearchedTechnologies() {
         return civilizationResearchedTechnologies;
     }
 
-    public void setCivilizationResearchedTechnologies(HashMap<String, Technology> civilizationResearchedTechnologies) {
+    public void setCivilizationResearchedTechnologies(HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies) {
         this.civilizationResearchedTechnologies = civilizationResearchedTechnologies;
     }
 
-    public HashMap<String, Technology> getCivilizationNotResearchedTechnologies() {
+    public HashMap<TechnologyEnum, Technology> getCivilizationNotResearchedTechnologies() {
         return civilizationNotResearchedTechnologies;
     }
 
-    public void setCivilizationNotResearchedTechnologies(HashMap<String, Technology> civilizationNotResearchedTechnologies) {
+    public void setCivilizationNotResearchedTechnologies(HashMap<TechnologyEnum, Technology> civilizationNotResearchedTechnologies) {
         this.civilizationNotResearchedTechnologies = civilizationNotResearchedTechnologies;
     }
 
@@ -208,11 +213,10 @@ public class Civilization {
         }
 
         for (AbstractTile tile : getTerritory()) {
-            int roadMaintenanceCost = 1;
-            if (((Tile)tile).HasRoad())
+
+            if (((Tile)tile).hasRoad())
                 goldRate -= roadMaintenanceCost;
-            int railMaintenanceCost = 1;
-            if (((Tile)tile).HasRail())
+            if (((Tile)tile).hasRail())
                 goldRate -= railMaintenanceCost;
         }
 

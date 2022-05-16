@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Technology {
 
 
-    public static final HashMap<String,Technology> allTechnologies = new HashMap<>();
+    public static final HashMap<TechnologyEnum,Technology> allTechnologies = new HashMap<>();
 
     private String name;
     private int remainingTerm;
@@ -34,15 +34,15 @@ public class Technology {
 
     public static void createAllInstances(){
         for (TechnologyEnum technologyEnum : TechnologyEnum.values())
-            allTechnologies.put(technologyEnum.getName(),new Technology(technologyEnum));
+            allTechnologies.put(technologyEnum,new Technology(technologyEnum));
     }
 
-    public static HashMap<String, Technology> getAllTechnologiesCopy() {
+    public static HashMap<TechnologyEnum, Technology> getAllTechnologiesCopy() {
 
         if (allTechnologies == null)
             createAllInstances();
 
-        HashMap<String,Technology> allTechnologiesCopy = new HashMap<>();
+        HashMap<TechnologyEnum,Technology> allTechnologiesCopy = new HashMap<>();
         assert allTechnologies != null;
         allTechnologies.forEach((key, technology) -> allTechnologiesCopy.put(key,technology.cloneTechnology()));
         return allTechnologiesCopy;
