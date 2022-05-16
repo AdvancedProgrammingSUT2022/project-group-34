@@ -48,6 +48,8 @@ public class GameController {
             CivilizationController.getInstance().updateTransparentTiles(civilization);
             CivilizationController.getInstance().updatePersonalMap(civilization, mainGameMap);
         }
+        this.civilization = game.getCivilizations().get(0);
+        this.civilizationIndex = 0;
     }
 
 
@@ -60,7 +62,12 @@ public class GameController {
         // TODO: 4/25/2022
     }
 
-    public void endTurn() {
-        // TODO: 4/25/2022
+    public void startTurn() {
+        for (Civilization civilization : game.getCivilizations()) {
+            CivilizationController.getInstance().updateCivilization(civilization);
+        }
+        civilizationIndex++;
+        civilizationIndex %= game.getCivilizations().size();
+        civilization = game.getCivilizations().get(civilizationIndex);
     }
 }

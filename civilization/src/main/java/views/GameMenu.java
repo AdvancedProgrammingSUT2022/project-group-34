@@ -68,6 +68,7 @@ public class GameMenu extends Menu {
             else if (processor.getCategory().equals("info")) handleInfoCategoryCommand(processor);
             else if (processor.getCategory().equals("city")) handleCityCategoryCommand(processor);
             else if (processor.getCategory().equals("cheat")) handleCheatCategoryCommand(processor);
+            else if (processor.getCategory().equals("end")) handleEndCategoryCommand(processor);
             else invalidCommand();
         }
     }
@@ -380,7 +381,7 @@ public class GameMenu extends Menu {
         if (selectedCombatUnit.getCombatType().equals("Archery") ||
                 selectedCombatUnit.getCombatType().equals("Siege") ||
                 selectedCombatUnit.getName().equals("ChariotArcher")) {
-            int distance = CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition()).get(tile);
+            int distance = CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile);
 
             if (selectedCombatUnit.getCombatType().equals("Siege")&&!((Archer)selectedCombatUnit).isSetup)
                 System.out.println("Siege unit should be set up first");
@@ -1608,7 +1609,10 @@ public class GameMenu extends Menu {
             System.out.println();
         }
     }
+
+    private static void handleEndCategoryCommand(Processor processor) {
+        if (processor.getSection() == null) invalidCommand();
+        else if (processor.getSection().equals("turn")) GameController.getInstance().startTurn();
+        else invalidCommand();
+    }
 }
-
-
-

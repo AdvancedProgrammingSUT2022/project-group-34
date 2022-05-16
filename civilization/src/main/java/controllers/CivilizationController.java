@@ -80,7 +80,8 @@ public class CivilizationController {
         return ans;
     }
 
-    public HashMap<Tile, Integer> doBFSAndReturnDistances(Tile originTile) {
+
+    public HashMap<Tile, Integer> doBFSAndReturnDistances(Tile originTile, boolean canMoveOnUnmovable) {
         HashMap<Tile, Integer> distance = new HashMap<>();
         HashMap<Tile, Boolean> mark = new HashMap<>();
         distance.put(originTile, 0);
@@ -93,7 +94,7 @@ public class CivilizationController {
             mark.put(currentVertex, true);
             ArrayList<Tile> adjacentVertices = currentVertex.getAdjacentTiles();
             for (Tile adjacentVertex : adjacentVertices) {
-                if (adjacentVertex.isUnmovable() || mark.get(adjacentVertex)) continue;
+                if ((adjacentVertex.isUnmovable() && !canMoveOnUnmovable) || mark.get(adjacentVertex)) continue;
                 int newDistance = distance.get(currentVertex) + 1;
                 if (distance.get(adjacentVertex) == null || distance.get(adjacentVertex) > newDistance) {
                     distance.put(adjacentVertex, newDistance);
@@ -184,7 +185,7 @@ public class CivilizationController {
 
     private boolean continueMoveForOneTurn(Unit unit) {
         if (unit.getDestination() == null) return false;
-        HashMap<Tile, Integer> distancesFromDestination = doBFSAndReturnDistances(unit.getDestination());
+        HashMap<Tile, Integer> distancesFromDestination = doBFSAndReturnDistances(unit.getDestination(), false);
         Tile temporaryDestination = unit.getPosition();
         HashMap<Tile, Integer> distancesFromOriginByMP = (HashMap<Tile, Integer>) doDijkstra(unit.getPosition(), unit.getDestination(), unit.getMotionPoint(), false);
         for (Tile tile : distancesFromOriginByMP.keySet()) {
@@ -255,8 +256,8 @@ public class CivilizationController {
         return new ArrayList<>(ans);
     }
 
-    private void continueMoves() {
-        for (Unit unit : GameController.getInstance().getCivilization().getUnits()) {
+    private void continueMoves(Civilization civilization) {
+        for (Unit unit : civilization.getUnits()) {
             continueMoveForOneTurn(unit);
         }
     }
@@ -465,34 +466,33 @@ public class CivilizationController {
 
     public void updateCivilization(Civilization civilization) {
 
-        CivilizationMap civilizationMap = civilization.getPersonalMap();
-        civilizationMap.removeTransparentTiles();
-        ArrayList<AbstractTile> visibleMapArray = getAllVisibleTiles(civilization);
-        civilizationMap.addTransparentTiles(visibleMapArray);
-
-
         updateNumberOfResources(civilization);
 
         civilization.setHappiness();
         civilization.updateGold();
 
-        for (City city : civilization.getCities())
+        for (City city : civilization.getCities()) {
             updateCity(city);
+        }
 
-        for (Work work : civilization.getWorks())
+        for (Work work : civilization.getWorks()) {
             if (work.update()) {
                 work.doWork();
             }
+        }
 
+        continueMoves(civilization);
 
+        CivilizationController.getInstance().updateTransparentTiles(civilization);
+        CivilizationController.getInstance().updatePersonalMap(civilization, GameController.getInstance().getGame().getMainGameMap());
     }
 
-    private ArrayList<AbstractTile> getAllVisibleTiles(Civilization civilization) {
+/*    private ArrayList<AbstractTile> getAllVisibleTiles(Civilization civilization) {
         Set<AbstractTile> visibleMap = new HashSet<>();
         for (City city : civilization.getCities()) {
             visibleMap.addAll(city.getTerritory());
         }
-        GameMap mainGameMap = GameController.getInstance().getGame().getMainGameMap();
+
         for (Unit unit : civilization.getUnits()) {
             visibleMap.addAll(mainGameMap.getAdjacentTiles(unit.getPosition()));
         }
@@ -502,7 +502,7 @@ public class CivilizationController {
             visibleMapArray.add((AbstractTile) o);
         }
         return visibleMapArray;
-    }
+    }*/
 
     private void updateNumberOfResources(Civilization civilization) {
 
