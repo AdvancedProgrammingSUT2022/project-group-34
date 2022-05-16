@@ -6,12 +6,10 @@ import controllers.GameController;
 import models.*;
 import models.map.CivilizationMap;
 import models.map.GameMap;
-import models.tile.Feature;
-import models.tile.Terrain;
-import models.tile.Tile;
-import models.tile.VisibleTile;
+import models.tile.*;
 import models.unit.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class GameMenu extends Menu {
@@ -555,12 +553,75 @@ public class GameMenu extends Menu {
     private static void researchInfoMenu() {
         Technology technology = GameController.getInstance().getCivilization().getStudyingTechnology();
 
-        StringBuilder output = new StringBuilder("Current Research Project: ").append(technology.getName()).append("\n");
-        output.append("Remaining terms: ").append(technology.getRemainingTerm()).append("\n");
-        output.append("Features unlocked: ").append("\n");
-        // TODO: technologies, improvements, units, resources
+        System.out.println("Current Research Project: "+technology.getName());
+        System.out.println("Remaining Terms: "+technology.getRemainingTerm());
 
-        System.out.println(output);
+        futureTechnologies(technology);
+        futureImprovements(technology);
+        futureUnits(technology);
+        futureResources(technology);
+    }
+
+    private static void futureTechnologies(Technology technology) {
+        ArrayList<String> technologies = new ArrayList<>();
+        for (TechnologyEnum value : TechnologyEnum.values())
+            if (value.getPrerequisiteTechnologies().contains(technology.getName()))
+                technologies.add(technology.getName());
+
+        if (technologies.size() == 0)
+            System.out.println("No new technology");
+        else {
+            System.out.println("New Technologies:");
+            for (String tech : technologies)
+                System.out.println(tech);
+        }
+    }
+
+    private static void futureImprovements(Technology technology) {
+        ArrayList<String> improvements = new ArrayList<>();
+        for (Improvement value : Improvement.values())
+            if (value.getRequiredTechnology().equals(technology))
+                improvements.add(technology.getName());
+
+        if (improvements.size() == 0)
+            System.out.println("No new improvement");
+        else {
+            System.out.println("New Improvements:");
+            for (String improvement : improvements)
+                System.out.println(improvement);
+        }
+    }
+
+    private static void futureUnits(Technology technology) {
+        ArrayList<String> units = new ArrayList<>();
+        for (UnitEnum value : UnitEnum.values())
+            if (value.getRequiredTechnology().getName().equals(technology.getName()))
+                units.add(technology.getName());
+
+        if (units.size() == 0)
+            System.out.println("No new unit");
+        else {
+            System.out.println("New Units:");
+            for (String unit : units)
+                System.out.println(unit);
+        }
+    }
+
+    private static void futureResources(Technology technology) {
+        String resourceName=null;
+        if (technology.getName().equals(TechnologyEnum.ScientificTheory.getName()))
+            resourceName = "Coal";
+        else if (technology.getName().equals(TechnologyEnum.AnimalHusbandry.getName()))
+            resourceName = "Horse";
+        else if (technology.getName().equals(TechnologyEnum.IronWorking.getName()))
+            resourceName = "Iron";
+
+        if (resourceName==null)
+            System.out.println("No new resource");
+        else {
+            System.out.println("New resources:");
+            System.out.println(resourceName);
+        }
     }
 
 
@@ -1105,7 +1166,6 @@ public class GameMenu extends Menu {
             } else invalidCommand();
         }
     }
-
 
 
     private static void handleMapCategoryCommand(Processor processor) {
