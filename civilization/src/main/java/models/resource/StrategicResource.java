@@ -1,7 +1,7 @@
 package models.resource;
 
 import models.TechnologyEnum;
-import models.tile.Improvement;
+import models.tile.ImprovementEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ public class StrategicResource extends Resource{
     private final TechnologyEnum requiredTechnology;
     private final int productionBonus;
 
-    public StrategicResource(String name, Improvement requiredImprovement, int productionBonus, TechnologyEnum requiredTechnology) {
+    public StrategicResource(String name, ImprovementEnum requiredImprovement, int productionBonus, TechnologyEnum requiredTechnology) {
         super(name, requiredImprovement, true);
         this.productionBonus = productionBonus;
         this.requiredTechnology = requiredTechnology;

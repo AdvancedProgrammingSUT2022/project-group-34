@@ -1,6 +1,6 @@
 package models.resource;
 
-import models.tile.Improvement;
+import models.tile.ImprovementEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,10 +12,10 @@ public class Resource {
     public static HashMap<String,Resource> allResources = new HashMap<>();
 
     private final String name;
-    private final Improvement requiredImprovement;
+    private final ImprovementEnum requiredImprovement;
     private final boolean isExchangeable;
 
-    public Resource(String name, Improvement requiredImprovement, boolean isExchangeable) {
+    public Resource(String name, ImprovementEnum requiredImprovement, boolean isExchangeable) {
 
         this.requiredImprovement = requiredImprovement;
         this.name = name;
@@ -64,12 +64,8 @@ public class Resource {
         return name;
     }
 
-    public Improvement getRequiredImprovement() {
+    public ImprovementEnum getRequiredImprovement() {
         return requiredImprovement;
-    }
-
-    public boolean isEqualsRequiredImprovement(Improvement requiredImprovement) {
-        return this.requiredImprovement.equals(requiredImprovement);
     }
 
     public boolean deleteResearchedTechnology(String Improvement) {

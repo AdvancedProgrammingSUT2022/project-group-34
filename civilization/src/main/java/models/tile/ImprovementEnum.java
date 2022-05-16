@@ -1,6 +1,5 @@
 package models.tile;
 
-import models.Technology;
 import models.TechnologyEnum;
 import models.resource.Resource;
 
@@ -63,7 +62,7 @@ public enum ImprovementEnum {
     public final int goldRate;
     public final int productionRate;
     public final boolean isUsable;
-    public final Technology requiredTechnology;
+    public final TechnologyEnum requiredTechnology;
     public final ArrayList<Terrain> suitableTerrainForThisImprovement = new ArrayList<>();
     public final ArrayList<Feature> suitableFeatureForThisImprovement = new ArrayList<>();
     public final ArrayList<Resource> allResourcesThatNeedThisImprovement = new ArrayList<>();
@@ -78,7 +77,7 @@ public enum ImprovementEnum {
         this.goldRate = goldRate;
         this.productionRate = productionRate;
         this.isUsable = isUsable;
-        this.requiredTechnology = Technology.getAllTechnologiesCopy().get(requiredTechnology);
+        this.requiredTechnology = requiredTechnology;
 
         this.suitableTerrainForThisImprovement.addAll(Arrays.asList(suitableTerrainForThisImprovement));
 

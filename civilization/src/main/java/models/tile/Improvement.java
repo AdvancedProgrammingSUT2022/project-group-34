@@ -1,9 +1,9 @@
 package models.tile;
 
 import models.Technology;
+import models.TechnologyEnum;
 import models.resource.Resource;
 import models.resource.StrategicResource;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public class Improvement{
     private final int goldRate;
     private final int productionRate;
     private final boolean isUsable;
-    private final Technology requiredTechnology;
+    private final TechnologyEnum requiredTechnology;
     private final ArrayList<Terrain> suitableTerrainForThisImprovement = new ArrayList<>();
     private final ArrayList<Feature> suitableFeatureForThisImprovement = new ArrayList<>();
     private final ArrayList<Resource> allResourcesThatNeedThisImprovement = new ArrayList<>();
@@ -29,15 +29,14 @@ public class Improvement{
         this.goldRate = improvementEnum.goldRate;
         this.productionRate = improvementEnum.productionRate;
         this.isUsable = improvementEnum.isUsable;
-        this.requiredTechnology = Technology.getAllTechnologiesCopy().get(improvementEnum.requiredTechnology);
+        this.requiredTechnology = improvementEnum.requiredTechnology;
 
         this.suitableTerrainForThisImprovement.addAll(improvementEnum.suitableTerrainForThisImprovement);
 
         this.suitableFeatureForThisImprovement.addAll(improvementEnum.suitableFeatureForThisImprovement);
 
         HashMap<String,Resource> allResourcesCopy = Resource.getAllResourcesCopy();
-        for (Resource resource : improvementEnum.allResourcesThatNeedThisImprovement)
-            this.allResourcesThatNeedThisImprovement.add(resource);
+        this.allResourcesThatNeedThisImprovement.addAll(improvementEnum.allResourcesThatNeedThisImprovement);
 
     }
 
@@ -97,7 +96,7 @@ public class Improvement{
     }
 
     public Technology getRequiredTechnology() {
-        return requiredTechnology;
+        return Technology.allTechnologies.get(requiredTechnology);
     }
 
     public String getName() {

@@ -1,6 +1,6 @@
 package models.resource;
 
-import models.tile.Improvement;
+import models.tile.ImprovementEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ public class LuxuryResource extends Resource{
     private final int goldBonus;
     private static final HashMap<String,LuxuryResource> allLuxuryResource = new HashMap<>();
 
-    public LuxuryResource(String name, Improvement requiredImprovement, int goldBonus) {
+    public LuxuryResource(String name, ImprovementEnum requiredImprovement, int goldBonus) {
         super(name, requiredImprovement, true);
         this.goldBonus = goldBonus;
     }
@@ -19,8 +19,7 @@ public class LuxuryResource extends Resource{
 
     @Override
     public Resource cloneResource(){
-        LuxuryResource luxuryResource = new LuxuryResource(getName(), getRequiredImprovement(), goldBonus);
-        return luxuryResource;
+        return new LuxuryResource(getName(), getRequiredImprovement(), goldBonus);
     }
     @Override
     public int getGoldBonus() {
