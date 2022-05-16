@@ -9,6 +9,7 @@ import models.map.CivilizationMap;
 import models.map.GameMap;
 import models.tile.*;
 import models.unit.*;
+import models.resource.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -65,8 +66,11 @@ public class GameMenu extends Menu {
             else if (processor.getCategory().equals("unit")) handleUnitCategoryCommand(processor);
             else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
             else if (processor.getCategory().equals("info")) handleInfoCategoryCommand(processor);
+            else if (processor.getCategory().equals("city")) handleCityCategoryCommand(processor);
             else if (processor.getCategory().equals("cheat")) handleCheatCategoryCommand(processor);
+            else if (processor.getCategory().equals("end")) handleEndCategoryCommand(processor);
             else invalidCommand();
+            showMap();
         }
     }
 
@@ -179,7 +183,9 @@ public class GameMenu extends Menu {
     8.unit garrison
     9.unit cancel
     10.unit setup
-    11.unit attack
+    11.unit attack city --x <x> --y <y>
+    unit attack combat --x <x> --y <y>
+    unit attack noncombat --x <x> --y <y>
     12.unit delete
     13.unit build
     14.unit remove <jungle/forest/marsh>
@@ -345,14 +351,43 @@ public class GameMenu extends Menu {
     }
 
     private static void attackCommand(Processor processor) {
+        String x = processor.get("x");
+        String y = processor.get("y");
+        if (processor.getSubSection() == null ||
+                (!processor.getSubSection().equals("city") && !processor.getSubSection().equals("combat") && !processor.getSubSection().equals("noncombat")) ||
+                processor.getNumberOfFields() != 2 ||
+                x == null || y == null)
+            invalidCommand();
         if (selectedCombatUnit == null)
             System.out.println("Selected unit is not a military unit");
+        else if (!CivilizationController.getInstance().isPositionValid(new int[]{Integer.parseInt(x), Integer.parseInt(y)}))
+            System.out.println("Invalid coordinates!");
         else if (!selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
             System.out.println("Unit is in a multiple-turn movement");
         else {
+            int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
+            if (processor.getSubSection().equals("city")) {
+
+            }
             selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit = null;
             // TODO: 5/15/2022
+        }
+    }
+
+    private static void attackCity(int[] position) {
+        Tile tile = CivilizationController.getInstance().getTileByPosition(position);
+        if (tile.getCity() == null)
+            System.out.println("There is no city in that place");
+        if (selectedCombatUnit.getCombatType().equals("Archery") ||
+                selectedCombatUnit.getCombatType().equals("Siege") ||
+                selectedCombatUnit.getName().equals("ChariotArcher")) {
+            int distance = CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile);
+
+            if (selectedCombatUnit.getCombatType().equals("Siege")&&!((Archer)selectedCombatUnit).isSetup)
+                System.out.println("Siege unit should be set up first");
+            if (distance>selectedCombatUnit.getRange())
+                System.out.println("City is out of range");
         }
     }
 
@@ -580,8 +615,8 @@ public class GameMenu extends Menu {
 
     private static void futureImprovements(Technology technology) {
         ArrayList<String> improvements = new ArrayList<>();
-        for (Improvement value : Improvement.values())
-            if (value.getRequiredTechnology().equals(technology))
+        for (ImprovementEnum value : ImprovementEnum.values())
+            if (value.requiredTechnology.equals(technology))
                 improvements.add(technology.getName());
 
         if (improvements.size() == 0)
@@ -968,7 +1003,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("buy"))
             buyTile(processor);
         else if (processor.getSection().equals("construction"))
-            ;// TODO: 5/16/2022
+            constructionMenu();
         else
             invalidCommand();
     }
@@ -1171,6 +1206,7 @@ public class GameMenu extends Menu {
         }
     }
 
+
     private static void constructionMenu() {
         ArrayList<Unit> units = CivilizationController.getInstance().getProducibleUnits();
 
@@ -1183,19 +1219,15 @@ public class GameMenu extends Menu {
         String choice;
         while (true) {
             choice = getInput();
-            if (choice.equals("exit"))
-                return;
+            if (choice.equals("exit")) return;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
-                if (number < 1 || number > units.size())
-                    System.out.println("Invalid number");
+                if (number < 1 || number > units.size()) System.out.println("Invalid number");
                 else {
                     selectedCity.setUnitUnderProduct(units.get(number - 1));
                     selectedCity.setUnitUnderProductTern((int) Math.ceil((float) units.get(number - 1).getCost() / selectedCity.getProductionRate()));
-
                 }
-            } else
-                invalidCommand();
+            } else invalidCommand();
         }
     }
 
@@ -1275,7 +1307,6 @@ public class GameMenu extends Menu {
     }
 
     private static void showMap() {
-        // TODO
         Civilization civilization = GameController.getInstance().getCivilization();
         System.out.printf("%s : ", civilization.getCivilizationName());
         System.out.printf("Turn %d\n", civilization.getTurn());
@@ -1304,7 +1335,7 @@ public class GameMenu extends Menu {
                      \            /      A     \            /
         6             \__________/    xx, yy    \__________/
                       /          \ R R s Bal    /          \
-                     /            \     Fa     /            \
+                     /            \  ???? Fa   /            \
         9           /              \__________/              \
                     \              /          \              /
                      \            /            \            /
@@ -1333,8 +1364,6 @@ public class GameMenu extends Menu {
                         upperBound = 6 * (i + VIEW_MAP_HEIGHT) + 3;
                     }
                 }
-
-                // TODO : handle resources;
 
                 putTile(civilization, tile, visibleTile, output, x, y, upperBound, leftBound);
             }
@@ -1417,6 +1446,7 @@ public class GameMenu extends Menu {
                     if (tile.hasRoad()) putRoad(output, upperBound, leftBound);
                     if (tile.hasRail()) putRail(output, upperBound, leftBound);
                     putImprovement(tile.getImprovementName(), output, upperBound, leftBound);
+                    putResource(civilization, tile.getResource(), output, upperBound, leftBound);
                 } else putRevealed(output, upperBound, leftBound);
             } else putFogOfWar(output, upperBound, leftBound);
         } else putNullTile(output, upperBound, leftBound);
@@ -1548,8 +1578,27 @@ public class GameMenu extends Menu {
 
     private static void putImprovement(Improvement improvement, StringBuilder[][] output, int upperBound, int leftBound) {
         if (improvement == null) return;
-        putString(improvement.getName().substring(0, 2), output, upperBound + 5, leftBound + 7);
-        putColor(ANSI_CYAN, output, upperBound + 5, leftBound + 7, 2);
+        putString(improvement.getName().substring(0, 2), output, upperBound + 5, leftBound + 9);
+        putColor(ANSI_CYAN, output, upperBound + 5, leftBound + 9, 2);
+    }
+
+    private static void putResource(Civilization civilization, Resource resource, StringBuilder[][] output, int upperBound, int leftBound) {
+        if (resource == null) return;
+        String name = resource.getName();
+
+        if (resource instanceof StrategicResource && civilization.hasResearched(((StrategicResource) resource).getRequiredTechnology())) {
+            putString("????", output, upperBound + 5, leftBound + 4);
+        } else putString(name.substring(0, Math.min(4, name.length())), output, upperBound + 5, leftBound + 4);
+
+        if (resource instanceof BonusResource)
+            putColor(ANSI_CYAN, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
+        else if (resource instanceof LuxuryResource)
+            putColor(ANSI_GREEN, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
+        else if (resource instanceof StrategicResource) {
+            if (civilization.hasResearched(((StrategicResource) resource).getRequiredTechnology()))
+                putColor(ANSI_PURPLE, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
+            else putColor(ANSI_RED, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
+        }
     }
 
     private static void printMap(StringBuilder[][] output) {
@@ -1560,7 +1609,10 @@ public class GameMenu extends Menu {
             System.out.println();
         }
     }
+
+    private static void handleEndCategoryCommand(Processor processor) {
+        if (processor.getSection() == null) invalidCommand();
+        else if (processor.getSection().equals("turn")) GameController.getInstance().startTurn();
+        else invalidCommand();
+    }
 }
-
-
-

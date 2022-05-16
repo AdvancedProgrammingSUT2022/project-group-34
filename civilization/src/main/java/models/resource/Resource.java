@@ -34,15 +34,16 @@ public class Resource {
 
     public static HashMap<String, Resource> getAllResourcesCopy() {
 
-        StrategicResource.allStrategicResource.forEach((name,resource)->{
+
+        StrategicResource.getAllStrategicResource().forEach((name,resource)->{
             Resource resourceCopy = resource.cloneResource();
             allResources.put(name,resourceCopy);
         });
-        BonusResource.allBonusResource.forEach((name,resource)->{
+        BonusResource.getAllBonusResource().forEach((name,resource)->{
             Resource resourceCopy = resource.cloneResource();
             allResources.put(name,resourceCopy);
         });
-        LuxuryResource.allResources.forEach((name,resource)->{
+        LuxuryResource.getAllLuxuryResource().forEach((name,resource)->{
             Resource resourceCopy = resource.cloneResource();
             allResources.put(name,resourceCopy);
         });

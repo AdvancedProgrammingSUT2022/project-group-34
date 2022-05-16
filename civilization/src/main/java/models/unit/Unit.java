@@ -38,7 +38,7 @@ public abstract class Unit {
         this.isMoving       = false;
 
         this.position = position;
-        this.unitActionList = new ArrayList<>(unitActionList);
+        this.unitActionList = new ArrayList<>();
         //TODO
         this.unitActionList.add("");
         this.unitActionList.add("a");

@@ -311,6 +311,12 @@ public class Civilization {
         return null;
     }
 
+
+    public boolean hasResearched(TechnologyEnum technology) {
+        return civilizationResearchedTechnologies.containsKey(technology);
+    }
+
+
     public void addResource(Resource resource) {
         if (numberOfEachResource.containsKey(resource))
             numberOfEachResource.replace(resource,numberOfEachResource.get(resource)+1);
