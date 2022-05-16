@@ -21,7 +21,7 @@ public class City {
     private int  unitUnderProductTern;
     private boolean isGarrison;
 
-    private ArrayList<Tile> territory;
+    private ArrayList<Tile> territory = new ArrayList<>();
     private ArrayList<Citizen> citizens = new ArrayList<>();
     private ArrayList<Improvement> improvements = new ArrayList<>();
 

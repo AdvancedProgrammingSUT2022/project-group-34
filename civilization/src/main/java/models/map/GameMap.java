@@ -61,7 +61,11 @@ public class GameMap extends Map {
 
         ArrayList<Tile> tiles = new ArrayList<>();
 
-        for (int i = 0; i < 6; i++) tiles.add(getAdjacentTileByNumber(tile, i));
+        for (int i = 0; i < 6; i++) {
+            Tile tile1 = getAdjacentTileByNumber(tile, i);
+            if (tile1 != null)
+                tiles.add(tile1);
+        }
 
         tiles.removeAll(Collections.singleton(null));
         return tiles;

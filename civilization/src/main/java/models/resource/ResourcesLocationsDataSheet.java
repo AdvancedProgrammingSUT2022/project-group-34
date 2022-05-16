@@ -31,8 +31,8 @@ public enum ResourcesLocationsDataSheet {
     Sugar   (ResourceEnum.Sugar , new Terrain[]{}                                                                                ,new Feature[]{Feature.FloodPlain,Feature.Marsh})
     
     ;
-    public ArrayList<Terrain> TerrainsCanContainResource;
-    public ArrayList<Feature> FeaturesCanContainResource;
+    public ArrayList<Terrain> TerrainsCanContainResource = new ArrayList<>();
+    public ArrayList<Feature> FeaturesCanContainResource = new ArrayList<>();
     public ResourceEnum resourceEnum;
 
     ResourcesLocationsDataSheet(ResourceEnum resourceEnum,Terrain[] terrainsCanContainResource, Feature[] featuresCanContainResource) {

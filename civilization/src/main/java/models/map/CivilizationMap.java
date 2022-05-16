@@ -2,14 +2,13 @@
 package models.map;
 
 import models.tile.AbstractTile;
-import models.tile.Tile;
 import models.tile.VisibleTile;
 
 import java.util.ArrayList;
 
 public class CivilizationMap extends Map {
-    private ArrayList<ArrayList<VisibleTile>> map; //TODO at the first of each turn, update civilization map.
-    private ArrayList<VisibleTile> transparentTiles; //TODO at the start of each turn, determine this ArrayList.
+    private ArrayList<ArrayList<VisibleTile>> map  = new ArrayList<>(); //TODO at the first of each turn, update civilization map.
+    private ArrayList<VisibleTile> transparentTiles = new ArrayList<>(); //TODO at the start of each turn, determine this ArrayList.
 
     public CivilizationMap(int mapWidth, int mapHeight, GameMap mainMap) {
         super(mapWidth, mapHeight);
