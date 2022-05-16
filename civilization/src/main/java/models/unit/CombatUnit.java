@@ -2,7 +2,7 @@ package models.unit;
 
 import models.City;
 import models.TechnologyEnum;
-import models.resource.ResourceEnum;
+import models.resource.ResourceData;
 import models.tile.Tile;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class CombatUnit extends Unit{
     protected City garrisonCity;
     protected boolean isVisible;
     protected TechnologyEnum requiredTechnology;
-    protected ResourceEnum requiredResource;
+    protected ResourceData requiredResource;
     private City GarrisonCity;
 
 

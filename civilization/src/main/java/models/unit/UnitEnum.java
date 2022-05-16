@@ -1,28 +1,28 @@
 package models.unit;
 
 import models.TechnologyEnum;
-import models.resource.ResourceEnum;
+import models.resource.ResourceData;
 
 public enum UnitEnum {
 
     Archer          ("Archer"   ,70, "Archery"  ,4 ,6 ,2,2,null , TechnologyEnum.Archery    ,false),
-    ChariotArcher   ("ChariotArcher",70, "Mounted",3,6,2,4,ResourceEnum.Horses, TechnologyEnum.TheWheel     ,false),
+    ChariotArcher   ("ChariotArcher",70, "Mounted",3,6,2,4, ResourceData.Horses, TechnologyEnum.TheWheel     ,false),
     Scout           ("Scout"    ,70, "Recon"    ,4 ,0 ,0,2,null , null      ,false),
     Settler         ("Settler"  ,70, "Civilian" ,0 ,0 ,0,2,null , null      ,false),
     Spearman        ("Spearman" ,70, "Melee"    ,7 ,0 ,0,2,null , TechnologyEnum.BronzeWorking,false),
     Warrior         ("Warrior"  ,70, "Melee"    ,6 ,0 ,0,2,null , null      ,false),
     Worker          ("Worker"   ,70, "Civilian" ,0 ,0 ,0,2,null , null      ,false),
-    Catapult        ("Catapult" ,70, "Siege"    ,4 ,14,2,2,ResourceEnum.Iron    , TechnologyEnum.Mathematics,false),
-    Horseman        ("Horseman" ,70, "Mounted"  ,12,0 ,0,4,ResourceEnum.Horses  , TechnologyEnum.HorsebackRiding,false),
-    Swordsman       ("Swordsman",70, "Melee"    ,11,0 ,0,2,ResourceEnum.Iron    , TechnologyEnum.IronWorking,false),
+    Catapult        ("Catapult" ,70, "Siege"    ,4 ,14,2,2, ResourceData.Iron    , TechnologyEnum.Mathematics,false),
+    Horseman        ("Horseman" ,70, "Mounted"  ,12,0 ,0,4, ResourceData.Horses  , TechnologyEnum.HorsebackRiding,false),
+    Swordsman       ("Swordsman",70, "Melee"    ,11,0 ,0,2, ResourceData.Iron    , TechnologyEnum.IronWorking,false),
     Crossbowman     ("Crossbowman",70, "Archery",6 ,12,2,2,null , TechnologyEnum.Machinery  ,false),
-    Knight          ("Knight"   ,70, "Mounted"  ,18,0 ,0,3,ResourceEnum.Horses  , TechnologyEnum.Chivalry   ,false),
-    Longswordsman   ("Longswordsman",70, "Melee",18,0 ,0,3,ResourceEnum.Iron    , TechnologyEnum.Steel      ,false),
+    Knight          ("Knight"   ,70, "Mounted"  ,18,0 ,0,3, ResourceData.Horses  , TechnologyEnum.Chivalry   ,false),
+    Longswordsman   ("Longswordsman",70, "Melee",18,0 ,0,3, ResourceData.Iron    , TechnologyEnum.Steel      ,false),
     Pikeman         ("Pikeman"  ,70, "Melee"    ,10,0 ,0,2,null , TechnologyEnum.CivilService,false),
-    Trebuchet       ("Trebuchet",70, "Siege"    ,6 ,20,0,2,ResourceEnum.Iron    , TechnologyEnum.Physics    ,false),
+    Trebuchet       ("Trebuchet",70, "Siege"    ,6 ,20,0,2, ResourceData.Iron    , TechnologyEnum.Physics    ,false),
     Canon           ("Canon"    ,70, "Siege"    ,10,26,2,2,null, TechnologyEnum.Chemistry   ,false),
-    Cavalry         ("Cavalry"  ,70, "Mounted"  ,25,0 ,2,3,ResourceEnum.Horses, TechnologyEnum.MilitaryScience,false),
-    Lancer          ("Lancer"   ,70, "Mounted"  ,22,0 ,0,4,ResourceEnum.Horses, TechnologyEnum.Metallurgy   ,false),
+    Cavalry         ("Cavalry"  ,70, "Mounted"  ,25,0 ,2,3, ResourceData.Horses, TechnologyEnum.MilitaryScience,false),
+    Lancer          ("Lancer"   ,70, "Mounted"  ,22,0 ,0,4, ResourceData.Horses, TechnologyEnum.Metallurgy   ,false),
     Musketman       ("Musketman",70, "Gunpowder",16,0 ,0,2,null, TechnologyEnum.Gunpowder   ,false),
     Rifleman        ("Rifleman" ,70, "Gunpowder",25,0 ,0,2,null, TechnologyEnum.Rifling     ,false),
     AntiTankGun     ("AntiTankGun",70, "Gunpowder",32,0,0,2,null, TechnologyEnum.ReplaceableParts,false),
@@ -41,10 +41,10 @@ public enum UnitEnum {
     int range;
     int movement;
     TechnologyEnum requiredTechnology;
-    ResourceEnum requiredResource;
+    ResourceData requiredResource;
     boolean isSiegeTool;
 
-    UnitEnum(String name, int cost, String combatType, int combatStrength, int rangedCombatStrength, int range, int movement, ResourceEnum requiredResource, TechnologyEnum requiredTechnology, boolean isSiegeTool) {
+    UnitEnum(String name, int cost, String combatType, int combatStrength, int rangedCombatStrength, int range, int movement, ResourceData requiredResource, TechnologyEnum requiredTechnology, boolean isSiegeTool) {
         this.name = name;
         this.cost = cost;
         this.combatType = combatType;

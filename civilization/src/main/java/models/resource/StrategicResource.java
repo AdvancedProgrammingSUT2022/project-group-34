@@ -20,9 +20,9 @@ public class StrategicResource extends Resource{
 
     public static void createAllInstance(){
         ArrayList<Resource> arrayList = new ArrayList<>();
-        arrayList.add(ResourceEnum.Coal.getResource());
-        arrayList.add(ResourceEnum.Horses.getResource());
-        arrayList.add(ResourceEnum.Iron.getResource());
+        arrayList.add(ResourceData.Coal.getResource());
+        arrayList.add(ResourceData.Horses.getResource());
+        arrayList.add(ResourceData.Iron.getResource());
         for (Resource resource : arrayList)
             allStrategicResource.put(resource.getName(), (StrategicResource) resource);
     }
