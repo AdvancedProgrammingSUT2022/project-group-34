@@ -17,11 +17,11 @@ public class BonusResource extends Resource{
 
     public static void createAllInstance(){
         ArrayList <Resource> arrayList = new ArrayList<>();
-        arrayList.add(ResourceEnum.Banana.getResource());
-        arrayList.add(ResourceEnum.Cow.getResource());
-        arrayList.add(ResourceEnum.Gazelle.getResource());
-        arrayList.add(ResourceEnum.Sheep.getResource());
-        arrayList.add(ResourceEnum.Wheat.getResource());
+        arrayList.add(ResourceData.Banana.getResource());
+        arrayList.add(ResourceData.Cow.getResource());
+        arrayList.add(ResourceData.Gazelle.getResource());
+        arrayList.add(ResourceData.Sheep.getResource());
+        arrayList.add(ResourceData.Wheat.getResource());
         for (Resource resource : arrayList) {
             allBonusResource.put(resource.getName(),(BonusResource) resource);
         }

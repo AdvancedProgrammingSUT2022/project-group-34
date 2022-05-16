@@ -3,7 +3,7 @@ package models.resource;
 import models.TechnologyEnum;
 import models.tile.Improvement;
 
-public enum ResourceEnum {
+public enum ResourceData {
 
     Banana  (new BonusResource("Banana" ,Improvement.Plantation ,1)),
     Cow     (new BonusResource("Cow"    ,Improvement.Pasture    ,1)),
@@ -30,7 +30,7 @@ public enum ResourceEnum {
 
     Resource resource;
 
-    ResourceEnum(Resource resource) {
+    ResourceData(Resource resource) {
         this.resource = resource;
     }
 

@@ -30,17 +30,17 @@ public class LuxuryResource extends Resource{
     public static void createAllInstance(){
 
         ArrayList<Resource> arrayList = new ArrayList<>();
-        arrayList.add(ResourceEnum.Cotton.getResource());
-        arrayList.add(ResourceEnum.Dye.getResource());
-        arrayList.add(ResourceEnum.Fur.getResource());
-        arrayList.add(ResourceEnum.Gemstones.getResource());
-        arrayList.add(ResourceEnum.Gold.getResource());
-        arrayList.add(ResourceEnum.Eat.getResource());
-        arrayList.add(ResourceEnum.Ivory.getResource());
-        arrayList.add(ResourceEnum.Marble.getResource());
-        arrayList.add(ResourceEnum.Silk.getResource());
-        arrayList.add(ResourceEnum.Silver.getResource());
-        arrayList.add(ResourceEnum.Sugar.getResource());
+        arrayList.add(ResourceData.Cotton.getResource());
+        arrayList.add(ResourceData.Dye.getResource());
+        arrayList.add(ResourceData.Fur.getResource());
+        arrayList.add(ResourceData.Gemstones.getResource());
+        arrayList.add(ResourceData.Gold.getResource());
+        arrayList.add(ResourceData.Eat.getResource());
+        arrayList.add(ResourceData.Ivory.getResource());
+        arrayList.add(ResourceData.Marble.getResource());
+        arrayList.add(ResourceData.Silk.getResource());
+        arrayList.add(ResourceData.Silver.getResource());
+        arrayList.add(ResourceData.Sugar.getResource());
         for (Resource resource : arrayList)
             allLuxuryResource.put(resource.getName(), (LuxuryResource) resource);
 
