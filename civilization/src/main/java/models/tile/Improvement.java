@@ -36,7 +36,9 @@ public class Improvement{
         this.suitableFeatureForThisImprovement.addAll(improvementEnum.suitableFeatureForThisImprovement);
 
         HashMap<String,Resource> allResourcesCopy = Resource.getAllResourcesCopy();
-        this.allResourcesThatNeedThisImprovement.addAll(improvementEnum.allResourcesThatNeedThisImprovement);
+        for (String resourceName : improvementEnum.allResourcesThatNeedThisImprovement) {
+            this.allResourcesThatNeedThisImprovement.add(allResourcesCopy.get(resourceName));
+        }
 
     }
 

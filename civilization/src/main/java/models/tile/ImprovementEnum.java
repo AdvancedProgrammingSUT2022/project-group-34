@@ -1,11 +1,9 @@
 package models.tile;
 
 import models.TechnologyEnum;
-import models.resource.Resource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public enum ImprovementEnum {
 
@@ -65,7 +63,7 @@ public enum ImprovementEnum {
     public final TechnologyEnum requiredTechnology;
     public final ArrayList<Terrain> suitableTerrainForThisImprovement = new ArrayList<>();
     public final ArrayList<Feature> suitableFeatureForThisImprovement = new ArrayList<>();
-    public final ArrayList<Resource> allResourcesThatNeedThisImprovement = new ArrayList<>();
+    public final ArrayList<String> allResourcesThatNeedThisImprovement = new ArrayList<>();
 
     ImprovementEnum(String name, int foodRate, int goldRate, int productionRate, boolean isUsable, TechnologyEnum requiredTechnology,
                 Terrain[] suitableTerrainForThisImprovement,
@@ -83,9 +81,8 @@ public enum ImprovementEnum {
 
         this.suitableFeatureForThisImprovement.addAll(Arrays.asList(suitableFeatureForThisImprovement));
 
-        HashMap<String,Resource> allResourcesCopy = Resource.getAllResourcesCopy();
         for (String resourceName : allResourcesThatNeedThisTechnology)
-            this.allResourcesThatNeedThisImprovement.add(allResourcesCopy.get(resourceName));
+            this.allResourcesThatNeedThisImprovement.add(resourceName);
 
     }
 
