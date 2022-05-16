@@ -968,7 +968,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("buy"))
             buyTile(processor);
         else if (processor.getSection().equals("construction"))
-            ;// TODO: 5/16/2022
+            constructionMenu();
         else
             invalidCommand();
     }
@@ -1171,6 +1171,7 @@ public class GameMenu extends Menu {
         }
     }
 
+
     private static void constructionMenu() {
         ArrayList<Unit> units = CivilizationController.getInstance().getProducibleUnits();
 
@@ -1183,19 +1184,15 @@ public class GameMenu extends Menu {
         String choice;
         while (true) {
             choice = getInput();
-            if (choice.equals("exit"))
-                return;
+            if (choice.equals("exit")) return;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
-                if (number < 1 || number > units.size())
-                    System.out.println("Invalid number");
+                if (number < 1 || number > units.size()) System.out.println("Invalid number");
                 else {
                     selectedCity.setUnitUnderProduct(units.get(number - 1));
                     selectedCity.setUnitUnderProductTern((int) Math.ceil((float) units.get(number - 1).getCost() / selectedCity.getProductionRate()));
-
                 }
-            } else
-                invalidCommand();
+            } else invalidCommand();
         }
     }
 

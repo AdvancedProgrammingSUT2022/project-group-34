@@ -446,12 +446,6 @@ public class CivilizationController {
         civilization.setGold(civilization.getGold()-50);
     }
 
-    public void chooseCityProduction(City city, String unitType) {
-        Unit unit = GameController.getInstance().getCivilization().getProducibleUnits().get(unitType);
-        // TODO: check if resources are enough
-        city.setUnitUnderProduct(unit);
-    }
-
     public ArrayList<Unit> getProducibleUnits(){
         ArrayList<Unit> units = new ArrayList<>();
         for (String key : GameController.getInstance().getCivilization().getProducibleUnits().keySet())
