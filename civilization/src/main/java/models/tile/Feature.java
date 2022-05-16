@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public enum Feature{
 
-    FloodPlane  ("FloodPlane"   ,2 ,0 ,0 ,-33,+1),
+    FloodPlain  ("FloodPlain"   ,2 ,0 ,0 ,-33,+1),
     Forests     ("Forests"       ,1 ,1 ,0 ,+25,+2),
     Jungle      ("Jungle"       ,1 ,-1,0 ,+25,+2),
     Ice         ("Ice"          ,0 ,0 ,0 ,+0 ,-1),

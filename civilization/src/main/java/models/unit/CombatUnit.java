@@ -8,7 +8,7 @@ import models.tile.Tile;
 
 import java.util.HashMap;
 
-public class CombatUnit extends Unit{
+public class CombatUnit extends Unit {
 
     public static HashMap<String, HashMap<String, String>> combatUnitDataSheet = new HashMap<>();
     public static int hitPointConstant;

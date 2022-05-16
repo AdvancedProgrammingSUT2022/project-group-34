@@ -99,11 +99,11 @@ public class Tile extends AbstractTile {
         this.isBlock = block;
     }
 
-    public boolean HasRoad() {
+    public boolean hasRoad() {
         return hasRoad;
     }
 
-    public boolean HasRail() {
+    public boolean hasRail() {
         return hasRail;
     }
 

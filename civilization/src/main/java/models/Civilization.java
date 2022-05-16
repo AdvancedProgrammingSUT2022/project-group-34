@@ -6,6 +6,7 @@ import models.resource.Resource;
 import models.tile.AbstractTile;
 import models.tile.Tile;
 import models.unit.Unit;
+import models.unit.UnitEnum;
 import models.unit.Work;
 
 import java.util.ArrayList;
@@ -211,9 +212,9 @@ public class Civilization {
         }
 
         for (AbstractTile tile : getTerritory()) {
-            if (((Tile)tile).HasRoad())
+            if (((Tile)tile).hasRoad())
                 goldRate -= roadMaintenanceCost;
-            if (((Tile)tile).HasRail())
+            if (((Tile)tile).hasRail())
                 goldRate -= railMaintenanceCost;
         }
 
