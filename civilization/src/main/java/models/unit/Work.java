@@ -3,6 +3,7 @@ package models.unit;
 import models.City;
 import models.tile.Feature;
 import models.tile.Improvement;
+import models.tile.ImprovementEnum;
 import models.tile.Tile;
 
 public class Work {
@@ -79,7 +80,9 @@ public class Work {
                 break;
             case "build improvement":
                 if ((tile.getFeature().equals(Feature.Forests)|| tile.getFeature().equals(Feature.Jungle)|| tile.getFeature().equals(Feature.Marsh))&&
-                        (improvement.equals(Improvement.Farm)|| improvement.equals(Improvement.Mine)))
+                        (improvement.getName().equals(ImprovementEnum.Farm.name)
+                        || improvement.getName().equals(ImprovementEnum.Mine.name))
+                        )
                     tile.deleteFeature();
                 tile.setImprovement(improvement);
                 tile.getCity().addImprovement(improvement);
