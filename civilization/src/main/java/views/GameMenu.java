@@ -887,12 +887,13 @@ public class GameMenu extends Menu {
     2.city output
     3.city lock citizens
     4.city remove citizens
+    5.city buy tile
      */
     private static void handleCityCategoryCommand(Processor processor) {
-        if (processor.getSection() == null)
-            invalidCommand();
-        else if (selectedCity == null)
+        if (selectedCity == null)
             System.out.println("Please select a city first");
+        else if (processor.getSection() == null)
+            invalidCommand();
         else if (processor.getSection().equals("screen"))
             cityScreen();
         else if (processor.getSection().equals("output"))
@@ -900,7 +901,9 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("lock"))
             unemployedCitizenSection(processor);
         else if (processor.getSection().equals("remove"))
-            ;// TODO: 5/16/2022  
+            removeCitizensFromWork(processor);
+        else if (processor.getSection().equals("buy"))
+            buyTile(processor);
         else
             invalidCommand();
     }
@@ -978,7 +981,7 @@ public class GameMenu extends Menu {
         else {
             ArrayList<Citizen> citizens = new ArrayList<>(selectedCity.getCitizens());
 
-            citizens.removeIf(citizen -> !citizen.isWorking());
+            citizens.removeIf(Citizen::isWorking);
 
             if (citizens.size() == 0) System.out.println("There is not unemployed citizen in this city");
             else lockCitizensToTiles(citizens);
@@ -1017,6 +1020,92 @@ public class GameMenu extends Menu {
             } else invalidCommand();
         }
     }
+
+
+    private static void removeCitizensFromWork(Processor processor) {
+        if (processor.getSubSection() == null || !processor.getSubSection().equals("citizens"))
+            invalidCommand();
+        else {
+            ArrayList<Citizen> citizens = new ArrayList<>(selectedCity.getCitizens());
+
+            citizens.removeIf(citizen -> !citizen.isWorking());
+
+            if (citizens.size() == 0) System.out.println("There is no employed citizens in this city");
+            else getCitizenToRemove(citizens);
+        }
+    }
+
+    private static void getCitizenToRemove(ArrayList<Citizen> citizens) {
+        System.out.println("There is " + citizens.size() + " employed citizens in this city");
+        for (int i = 1; i <= citizens.size(); i++)
+            System.out.println(i + ".(" + citizens.get(i - 1).getWorkPosition().getX() +
+                    ", " + citizens.get(i - 1).getWorkPosition().getY() + ")");
+        System.out.println("If you want to remove a citizen from a tile, please type its index");
+        System.out.println("If you want to exit this menu, please type \"exit\"");
+
+        String choice;
+        while (true) {
+            choice = getInput();
+
+            if (choice.equals("exit")) return;
+            else if (choice.matches("\\d+")) {
+                int number = Integer.parseInt(choice);
+                if (number < 1 || number > citizens.size())
+                    System.out.println("Invalid number");
+                else {
+                    citizens.get(number - 1).setWorking(false);
+                    System.out.println("Selected citizen get removed from work");
+                    return;
+                }
+            } else invalidCommand();
+        }
+    }
+
+
+    private static void buyTile(Processor processor) {
+        if (processor.getSubSection() == null || !processor.getSubSection().equals("tile"))
+            invalidCommand();
+        else if (GameController.getInstance().getCivilization().getGold() < 50)
+            System.out.println("You don't have enough money to buy a tile");
+        else {
+            ArrayList<Tile> purchasableTiles = new ArrayList<>();
+
+            for (Tile tile : selectedCity.getTerritory()) {
+                ArrayList<Tile> adjacentTiles = tile.getAdjacentTiles();
+                for (Tile adjacentTile : adjacentTiles)
+                    if (adjacentTile.getCity() == null) purchasableTiles.add(adjacentTile);
+            }
+            if (purchasableTiles.size() == 0) System.out.println("There is not tile to buy");
+            else chooseTileToBuy(purchasableTiles);
+        }
+    }
+
+    private static void chooseTileToBuy(ArrayList<Tile> purchasableTiles) {
+        System.out.println("Purchasable tiles:");
+        for (int i = 1; i <= purchasableTiles.size(); i++)
+            System.out.println(i + ".(" + purchasableTiles.get(i - 1).getX() + ", " + purchasableTiles.get(i - 1).getY() + ")");
+
+        System.out.println("If you want to buy a tile, please type its index");
+        System.out.println("If you want to exit this menu, please type \"exit\"");
+
+        String choice;
+        while (true) {
+            choice = getInput();
+
+            if (choice.equals("exit")) return;
+            else if (choice.matches("\\d+")) {
+                int number = Integer.parseInt(choice);
+                if (number < 1 || number > purchasableTiles.size())
+                    System.out.println("Invalid number");
+                else {
+                    CivilizationController.getInstance().purchaseTile(selectedCity, purchasableTiles.get(number - 1));
+                    System.out.println("The selected tile is added to your territory");
+                    return;
+                }
+            } else invalidCommand();
+        }
+    }
+
 
 
     private static void handleMapCategoryCommand(Processor processor) {
