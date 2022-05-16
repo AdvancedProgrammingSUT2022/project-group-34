@@ -3,10 +3,8 @@
 package controllers;
 
 import models.Civilization;
-import models.TechnologyEnum;
-import models.unit.Unit;
 import models.tile.Tile;
-import models.Technology;
+import models.unit.Unit;
 
 public class CheatController {
     private static CheatController instance = null;
