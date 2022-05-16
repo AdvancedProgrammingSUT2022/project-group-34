@@ -56,4 +56,12 @@ public enum UnitEnum {
         this.requiredResource = requiredResource;
         this.isSiegeTool = isSiegeTool;
     }
+
+    public TechnologyEnum getRequiredTechnology() {
+        return requiredTechnology;
+    }
+
+    public ResourceData getRequiredResource() {
+        return requiredResource;
+    }
 }

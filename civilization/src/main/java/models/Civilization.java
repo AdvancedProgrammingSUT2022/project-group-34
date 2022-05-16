@@ -6,6 +6,7 @@ import models.resource.Resource;
 import models.tile.AbstractTile;
 import models.tile.Tile;
 import models.unit.Unit;
+import models.unit.UnitEnum;
 import models.unit.Work;
 
 import java.util.ArrayList;
