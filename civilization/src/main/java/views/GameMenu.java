@@ -69,6 +69,7 @@ public class GameMenu extends Menu {
             else if (processor.getCategory().equals("info")) handleInfoCategoryCommand(processor);
             else if (processor.getCategory().equals("city")) handleCityCategoryCommand(processor);
             else if (processor.getCategory().equals("cheat")) handleCheatCategoryCommand(processor);
+            else if (processor.getCategory().equals("map")) handleMapCategoryCommand(processor);
             else if (processor.getCategory().equals("end")) handleEndCategoryCommand(processor);
             else invalidCommand();
         }
@@ -1292,11 +1293,6 @@ public class GameMenu extends Menu {
             invalidCommand();
     }
 
-
-    private static void handleMapCategoryCommand(Processor processor) {
-        // TODO: 4/21/2022
-    }
-
     private static void handleTurnCategory(Processor processor) {
         // TODO: 4/21/2022
     }
@@ -1676,5 +1672,55 @@ public class GameMenu extends Menu {
         if (processor.getSection() == null) invalidCommand();
         else if (processor.getSection().equals("turn")) GameController.getInstance().startTurn();
         else invalidCommand();
+    }
+
+    private static void handleMapCategoryCommand(Processor processor) {
+        if (processor.getSection() == null)
+            invalidCommand();
+        else if (processor.getSection().equals("show")) {
+            if (processor.getSubSection().equals("position")) {
+                String xField = processor.get("x");
+                String yField = processor.get("y");
+                if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) {
+                    System.out.printf("x and y must be non-negative\n");
+                    return;
+                }
+                int x = Integer.parseInt(xField);
+                int y = Integer.parseInt(yField);
+                if (x >= GameController.getInstance().getGame().getMainGameMap().getMapHeight()) {
+                    System.out.printf("x out of bounds\n");
+                    return;
+                }
+                if (y >= GameController.getInstance().getGame().getMainGameMap().getMapWidth()) {
+                    System.out.printf("y out of bounds\n");
+                    return;
+                }
+                mapX = x;
+                mapY = y;
+            }
+            else invalidCommand();
+        }
+        else if (processor.getSection().equals("move")) {
+            if (processor.getSubSection().equals("right")) {
+                if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX)) mapY += Integer.parseInt(processor.get("c"));
+                else mapY++;
+            }
+            if (processor.getSubSection().equals("left")) {
+                if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX)) mapY -= Integer.parseInt(processor.get("c"));
+                else mapY--;
+                mapY = Math.max(0, mapY);
+            }
+            if (processor.getSubSection().equals("up")) {
+                if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX)) mapX -= Integer.parseInt(processor.get("c"));
+                else mapX--;
+                mapX = Math.max(0, mapX);
+            }
+            if (processor.getSubSection().equals("down")) {
+                if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX)) mapX += Integer.parseInt(processor.get("c"));
+                else mapX++;
+            }
+        }
+        else
+            invalidCommand();
     }
 }
