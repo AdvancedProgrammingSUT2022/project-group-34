@@ -641,9 +641,9 @@ public class GameMenu extends Menu {
         else if (choice.equals("exit"))
             return;
         else {
-            selectedCombatUnit=null;
-            selectedNonCombatUnit=null;
-            selectedCity = civilization.getCities().get(Integer.parseInt(choice)-1);
+            selectedCombatUnit = null;
+            selectedNonCombatUnit = null;
+            selectedCity = civilization.getCities().get(Integer.parseInt(choice) - 1);
             cityScreen();
         }
     }
@@ -831,9 +831,9 @@ public class GameMenu extends Menu {
         if (choice.equals("exit"))
             return;
         else {
-            selectedCombatUnit=null;
-            selectedNonCombatUnit=null;
-            selectedCity = civilization.getCities().get(Integer.parseInt(choice)-1);
+            selectedCombatUnit = null;
+            selectedNonCombatUnit = null;
+            selectedCity = civilization.getCities().get(Integer.parseInt(choice) - 1);
             cityScreen();
         }
     }
@@ -885,6 +885,7 @@ public class GameMenu extends Menu {
     /*Handles commands that start with "city":
     1.city screen
     2.city output
+    3.city lock citizens
      */
     private static void handleCityCategoryCommand(Processor processor) {
         if (processor.getSection() == null)
@@ -895,8 +896,8 @@ public class GameMenu extends Menu {
             cityScreen();
         else if (processor.getSection().equals("output"))
             cityOutput();
-        else if (processor.getSection().equals(""))
-            ;// TODO: 5/16/2022  
+        else if (processor.getSection().equals("lock"))
+            unemployedCitizenSection(processor);
         else
             invalidCommand();
     }
@@ -926,8 +927,8 @@ public class GameMenu extends Menu {
 
         City city = navigateBetweenCities();
 
-        if (city != null){
-            selectedCity=city;
+        if (city != null) {
+            selectedCity = city;
             cityScreen();
         }
     }
@@ -954,17 +955,61 @@ public class GameMenu extends Menu {
         }
 
         if (choice.equals("exit")) return null;
-        else return cities.get(Integer.parseInt(choice)-1);
+        else return cities.get(Integer.parseInt(choice) - 1);
     }
 
 
-    private static void cityOutput(){
-        System.out.println(selectedCity.getName()+"'s output:");
-        System.out.println("Production Rate:"+selectedCity.getProductionRate());
-        System.out.println("Science Rate:"+selectedCity.getScienceRate());
-        System.out.println("Gold Rate:"+selectedCity.getGoldRate());
-        System.out.println("Food Rate:"+selectedCity.getFoodRate());
-        System.out.println("Turns till new citizens:"+selectedCity.getTillNewCitizen());
+    private static void cityOutput() {
+        System.out.println(selectedCity.getName() + "'s output:");
+        System.out.println("Production Rate:" + selectedCity.getProductionRate());
+        System.out.println("Science Rate:" + selectedCity.getScienceRate());
+        System.out.println("Gold Rate:" + selectedCity.getGoldRate());
+        System.out.println("Food Rate:" + selectedCity.getFoodRate());
+        System.out.println("Turns till new citizens:" + selectedCity.getTillNewCitizen());
+    }
+
+    private static void unemployedCitizenSection(Processor processor) {
+        if (processor.getSubSection() == null || !processor.getSubSection().equals("citizens"))
+            invalidCommand();
+        else {
+            ArrayList<Citizen> citizens = new ArrayList<>(selectedCity.getCitizens());
+
+            citizens.removeIf(citizen -> !citizen.isWorking());
+
+            if (citizens.size() == 0) System.out.println("There is not unemployed citizen in this city");
+            else lockCitizensToTiles(citizens);
+        }
+    }
+
+    private static void lockCitizensToTiles(ArrayList<Citizen> citizens) {
+        System.out.println("There is " + citizens.size() + " unemployed citizens in this city");
+        System.out.println("If you want to lock a citizen to a tile, please type tiles coordinates like \"x y\"");
+        System.out.println("If you want to exit this menu, please type \"exit\"");
+
+        String choice;
+        while (true) {
+            choice = getInput();
+
+            if (choice.equals("exit")) return;
+            else if (choice.matches("\\d+ \\d+")) {
+                int[] position = {Integer.parseInt(choice.split(" ")[0]), Integer.parseInt(choice.split(" ")[1])};
+                if (!CivilizationController.getInstance().isPositionValid(position))
+                    System.out.println("Invalid coordinates");
+                else {
+                    citizens.get(0).setWorking(true);
+                    citizens.get(0).setWorkPosition(CivilizationController.getInstance().getTileByPosition(position));
+                    citizens.remove(citizens.get(0));
+                    System.out.println("A citizen has been locked to tile (" + position[0] + ", " + position[1] + ")");
+                    if (citizens.size() == 0) {
+                        System.out.println("There is not any other unemployed citizen in this city");
+                        return;
+                    }
+                    System.out.println("There is " + citizens.size() + " unemployed citizens in this city");
+                    System.out.println("If you want to lock a citizen to a tile, please type tiles coordinates like \"x y\"");
+                    System.out.println("If you want to exit this menu, please type \"exit\"");
+                }
+            } else invalidCommand();
+        }
     }
 
 
