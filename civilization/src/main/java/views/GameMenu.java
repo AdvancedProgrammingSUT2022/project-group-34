@@ -3,10 +3,7 @@ package views;
 import controllers.CheatController;
 import controllers.CivilizationController;
 import controllers.GameController;
-import models.City;
-import models.Civilization;
-import models.Notification;
-import models.Technology;
+import models.*;
 import models.map.CivilizationMap;
 import models.map.GameMap;
 import models.tile.Feature;
@@ -644,7 +641,10 @@ public class GameMenu extends Menu {
         else if (choice.equals("exit"))
             return;
         else {
-            // TODO: Enter city screen
+            selectedCombatUnit=null;
+            selectedNonCombatUnit=null;
+            selectedCity = civilization.getCities().get(Integer.parseInt(choice)-1);
+            cityScreen();
         }
     }
 
@@ -831,7 +831,10 @@ public class GameMenu extends Menu {
         if (choice.equals("exit"))
             return;
         else {
-            // TODO: Enter city screen
+            selectedCombatUnit=null;
+            selectedNonCombatUnit=null;
+            selectedCity = civilization.getCities().get(Integer.parseInt(choice)-1);
+            cityScreen();
         }
     }
 
@@ -879,9 +882,91 @@ public class GameMenu extends Menu {
     }
 
 
+    /*Handles commands that start with "city":
+    1.city screen
+    2.city output
+     */
     private static void handleCityCategoryCommand(Processor processor) {
-        // TODO: 4/21/2022
+        if (processor.getSection() == null)
+            invalidCommand();
+        else if (selectedCity == null)
+            System.out.println("Please select a city first");
+        else if (processor.getSection().equals("screen"))
+            cityScreen();
+        else if (processor.getSection().equals("output"))
+            cityOutput();
+        else if (processor.getSection().equals(""))
+            ;// TODO: 5/16/2022  
+        else
+            invalidCommand();
     }
+
+    private static void cityScreen() {
+        System.out.print(selectedCity.getName());
+        if (GameController.getInstance().getCivilization().getCurrentCapital().equals(selectedCity))
+            System.out.format("(Capital)| Strength:%d\n", selectedCity.getStrength());
+        else
+            System.out.format("|Strength:%d\n", selectedCity.getStrength());
+
+        System.out.format("Food:%d| Production Rate:%d| Science Rate:%d| Gold Rate:%d\n",
+                selectedCity.getFood(), selectedCity.getProductionRate(), selectedCity.getScienceRate(), selectedCity.getGoldRate());
+        System.out.format("Population:%d| Turn's until new citizen:%d\n", selectedCity.getCitizens().size(), selectedCity.getTillNewCitizen());
+        System.out.println("Turn's until new production:" + selectedCity.getUnitUnderProductTern());
+        System.out.println("List of City's citizens:");
+        for (int i = 1; i <= selectedCity.getCitizens().size(); i++) {
+            Citizen citizen;
+            if ((citizen = selectedCity.getCitizens().get(i - 1)).isWorking())
+                System.out.println(i + ".(" + citizen.getWorkPosition().getX() + ", " + citizen.getWorkPosition().getY() + ")");
+            else
+                System.out.println("Idle");
+        }
+
+        for (Tile tile : selectedCity.getTerritory())
+            System.out.print("(" + tile.getX() + ", " + tile.getY() + ") ");
+
+        City city = navigateBetweenCities();
+
+        if (city != null){
+            selectedCity=city;
+            cityScreen();
+        }
+    }
+
+    private static City navigateBetweenCities() {
+        ArrayList<City> cities = new ArrayList<>(GameController.getInstance().getCivilization().getCities());
+        cities.remove(selectedCity);
+
+        System.out.println("-------------------------------------------------------------");
+        System.out.println("If you want to enter a city's screen, please type its index");
+        System.out.println("If you want to exit this screen, please type \"exit\"");
+        for (int i = 1; i <= cities.size(); i++)
+            System.out.println(i + "." + cities.get(i - 1));
+
+        String choice;
+        while (true) {
+            choice = getInput();
+            if (choice.equals("exit")) break;
+            else if (choice.matches("\\d+")) {
+                int number = Integer.parseInt(choice);
+                if (number < 1 || number > cities.size()) System.out.println("Invalid number");
+                else break;
+            } else invalidCommand();
+        }
+
+        if (choice.equals("exit")) return null;
+        else return cities.get(Integer.parseInt(choice)-1);
+    }
+
+
+    private static void cityOutput(){
+        System.out.println(selectedCity.getName()+"'s output:");
+        System.out.println("Production Rate:"+selectedCity.getProductionRate());
+        System.out.println("Science Rate:"+selectedCity.getScienceRate());
+        System.out.println("Gold Rate:"+selectedCity.getGoldRate());
+        System.out.println("Food Rate:"+selectedCity.getFoodRate());
+        System.out.println("Turns till new citizens:"+selectedCity.getTillNewCitizen());
+    }
+
 
     private static void handleMapCategoryCommand(Processor processor) {
         // TODO: 4/21/2022
@@ -892,8 +977,10 @@ public class GameMenu extends Menu {
     }
 
     private static void handleCheatCategoryCommand(Processor processor) {
-        if (processor.getSection().equals("increase")) increaseCheatCommand(processor.get("amount"), processor.getSubSection());
-        else if (processor.getSection().equals("teleport")) teleportCheatCommand(processor.get("x"), processor.get("y"));
+        if (processor.getSection().equals("increase"))
+            increaseCheatCommand(processor.get("amount"), processor.getSubSection());
+        else if (processor.getSection().equals("teleport"))
+            teleportCheatCommand(processor.get("x"), processor.get("y"));
         else if (processor.getSection().equals("finish")) finishCheatCommand(processor.getSubSection());
         else if (processor.getSection().equals("reveal")) revealCheatCommand(processor.get("x"), processor.get("y"));
         else invalidCommand();
@@ -903,8 +990,7 @@ public class GameMenu extends Menu {
     private static void increaseCheatCommand(String amountField, String subSection) {
         if (amountField == null) {
             System.out.printf("field 'amount' required\n");
-        }
-        else if (!amountField.matches(NON_NEGATIVE_NUMBER_REGEX)) {
+        } else if (!amountField.matches(NON_NEGATIVE_NUMBER_REGEX)) {
             System.out.printf("amount must be a valid non-negative integer\n");
             return;
         }
@@ -912,12 +998,10 @@ public class GameMenu extends Menu {
         if (subSection.equals("gold")) {
             CheatController.getInstance().increaseGold(amount);
             System.out.printf("Done");
-        }
-        else if (subSection.equals("beaker")) {
+        } else if (subSection.equals("beaker")) {
             CheatController.getInstance().increaseBeaker(amount);
             System.out.printf("Done");
-        }
-        else invalidCommand();
+        } else invalidCommand();
     }
 
     private static void teleportCheatCommand(String xField, String yField) {
@@ -928,7 +1012,8 @@ public class GameMenu extends Menu {
             return;
         }
         if (xField == null || yField == null) System.out.printf("fields 'x' and 'y' required\n");
-        else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("x, y must be valid non-negative integers");
+        else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX))
+            System.out.printf("x, y must be valid non-negative integers");
         else {
             int x = Integer.parseInt(xField);
             int y = Integer.parseInt(yField);
@@ -943,7 +1028,8 @@ public class GameMenu extends Menu {
 
     private static void revealCheatCommand(String xField, String yField) {
         if (xField == null || yField == null) System.out.printf("fields 'x' and 'y' required\n");
-        else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) System.out.printf("x, y must be valid non-negative integers");
+        else if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX))
+            System.out.printf("x, y must be valid non-negative integers");
         else {
             int x = Integer.parseInt(xField);
             int y = Integer.parseInt(yField);
@@ -1084,7 +1170,7 @@ public class GameMenu extends Menu {
 
     private static void putTile(Civilization civilization, Tile tile, VisibleTile visibleTile, StringBuilder[][] output, int x, int y, int upperBound, int leftBound) {
         putTileBorders(civilization, tile, output, upperBound, leftBound, x, y);
-        
+
         if (tile != null) {
             putString(x + "," + y, output, upperBound + 3, leftBound + 5);
 
@@ -1096,12 +1182,9 @@ public class GameMenu extends Menu {
                 if (civilization.isTransparent(tile)) {
                     putUnit(tile.getCombatUnit(), output, upperBound, leftBound);
                     putUnit(tile.getNonCombatUnit(), output, upperBound, leftBound);
-                }
-                else putRevealed(output, upperBound, leftBound);
-            }
-            else putFogOfWar(output, upperBound, leftBound);
-        }
-        else putNullTile(output, upperBound, leftBound);
+                } else putRevealed(output, upperBound, leftBound);
+            } else putFogOfWar(output, upperBound, leftBound);
+        } else putNullTile(output, upperBound, leftBound);
     }
 
     private static void putTileBorders(Civilization civilization, Tile tile, StringBuilder[][] output, int upperBound, int leftBound, int x, int y) {
@@ -1118,28 +1201,37 @@ public class GameMenu extends Menu {
 
     private static void putRivers(Tile tile, StringBuilder[][] output, int upperBound, int leftBound, int x, int y) {
         Tile otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y});
-        if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 0);
+        if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+            putRiver(output, upperBound, leftBound, 0);
         otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x + 1, y});
-        if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 3);
+        if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+            putRiver(output, upperBound, leftBound, 3);
         if (y % 2 == 0) {
             otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y - 1});
-            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 5);
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(output, upperBound, leftBound, 5);
             otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y - 1});
-            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 4);
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(output, upperBound, leftBound, 4);
             otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y + 1});
-            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 1);
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(output, upperBound, leftBound, 1);
             otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y + 1});
-            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 2);
-        }
-        else {
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(output, upperBound, leftBound, 2);
+        } else {
             otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y - 1});
-            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 5);
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(output, upperBound, leftBound, 5);
             otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x + 1, y - 1});
-            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 4);
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(output, upperBound, leftBound, 4);
             otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y + 1});
-            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 1);
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(output, upperBound, leftBound, 1);
             otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x + 1, y + 1});
-            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile)) putRiver(output, upperBound, leftBound, 2);
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(output, upperBound, leftBound, 2);
         }
     }
 
@@ -1150,19 +1242,16 @@ public class GameMenu extends Menu {
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 1, leftBound + 12);
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 2, leftBound + 13);
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 3, leftBound + 14);
-        }
-        else if (whichBorder == 2) {
+        } else if (whichBorder == 2) {
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 6, leftBound + 12);
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 5, leftBound + 13);
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 4, leftBound + 14);
-        }
-        else if (whichBorder == 3) putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 6, leftBound + 2, 12);
+        } else if (whichBorder == 3) putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 6, leftBound + 2, 12);
         else if (whichBorder == 4) {
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 6, leftBound + 2);
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 5, leftBound + 1);
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 4, leftBound + 0);
-        }
-        else if (whichBorder == 5) {
+        } else if (whichBorder == 5) {
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 1, leftBound + 2);
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 2, leftBound + 1);
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 3, leftBound + 0);
@@ -1172,7 +1261,7 @@ public class GameMenu extends Menu {
     private static void putCivilization(Civilization civilization, StringBuilder[][] output, int upperBound, int leftBound) {
         if (civilization == null) return;
         int index = GameController.getInstance().getIndex(civilization);
-        putString(String.valueOf((char)('A' + index)), output, upperBound + 2, leftBound + 8);
+        putString(String.valueOf((char) ('A' + index)), output, upperBound + 2, leftBound + 8);
         String colorCode = ANSI_COLOR[index % 7 + 1];
         putColor(colorCode, output, upperBound + 2, leftBound + 8);
     }
