@@ -99,7 +99,7 @@ public class Game {
         Collections.shuffle(candidateTiles);
         ArrayList<Settler> answer = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            answer.add(new Settler(UnitEnum.Settler, candidateTiles.get(i)));
+            answer.add(new Settler(UnitEnum.Settler, candidateTiles.get(i), null));
         }
         return answer;
     }

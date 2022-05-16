@@ -212,9 +212,9 @@ public class Civilization {
         }
 
         for (AbstractTile tile : getTerritory()) {
-            if (((Tile)tile).HasRoad())
+            if (((Tile)tile).hasRoad())
                 goldRate -= roadMaintenanceCost;
-            if (((Tile)tile).HasRail())
+            if (((Tile)tile).hasRail())
                 goldRate -= railMaintenanceCost;
         }
 

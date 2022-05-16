@@ -1303,7 +1303,7 @@ public class GameMenu extends Menu {
                     \              /  D Ma    \              /
                      \            /      A     \            /
         6             \__________/    xx, yy    \__________/
-                      /          \     s Bal    /          \
+                      /          \ R R s Bal    /          \
                      /            \            /            \
         9           /              \__________/              \
                     \              /          \              /
@@ -1414,6 +1414,8 @@ public class GameMenu extends Menu {
                 if (civilization.isTransparent(tile)) {
                     putUnit(tile.getCombatUnit(), output, upperBound, leftBound);
                     putUnit(tile.getNonCombatUnit(), output, upperBound, leftBound);
+                    if (tile.hasRoad()) putRoad(output, upperBound, leftBound);
+                    if (tile.hasRail()) putRail(output, upperBound, leftBound);
                 } else putRevealed(output, upperBound, leftBound);
             } else putFogOfWar(output, upperBound, leftBound);
         } else putNullTile(output, upperBound, leftBound);
@@ -1531,6 +1533,16 @@ public class GameMenu extends Menu {
         putString(shownName, output, upperBound + 4, upperBound + 6);
         String colorCode = ANSI_COLOR[index % 7 + 1];
         putColor(colorCode, output, upperBound + 4, leftBound + 6, shownName.length());
+    }
+
+    private static void putRoad(StringBuilder[][] output, int upperBound, int leftBound) {
+        putString("R", output, upperBound + 5, leftBound + 2);
+        putColor(ANSI_GREEN, output, upperBound + 5, leftBound + 2);
+    }
+
+    private static void putRail(StringBuilder[][] output, int upperBound, int leftBound) {
+        putString("R", output, upperBound + 5, leftBound + 4);
+        putColor(ANSI_YELLOW, output, upperBound + 5, leftBound + 4);
     }
 
     private static void printMap(StringBuilder[][] output) {

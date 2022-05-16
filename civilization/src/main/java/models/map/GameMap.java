@@ -112,7 +112,7 @@ public class GameMap extends Map {
         this.mapHeight = mapHeight;
     }
 
-    public GameMap generateMap(){
+    public void generateMap(){
         Random random = new Random(System.currentTimeMillis());
         for (int i = 0 ; i < mapHeight; i++){
             map.add(new ArrayList<>());
@@ -129,12 +129,12 @@ public class GameMap extends Map {
             }
         }
 
-        for (int i = 0 ; i < mapHeight ; i++)
+        for (int i = 0 ; i < mapHeight ; i++) {
             for (int j = 0; j < mapWidth; j++) {
                 Tile tile = map.get(i).get(j);
                 tile.setAdjacentTiles(getAdjacentTiles(tile));
             }
-
+        }
     }
 
     private Terrain generateTerrain(int x, int y, Random random) {
