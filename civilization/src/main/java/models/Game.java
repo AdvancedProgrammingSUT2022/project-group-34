@@ -24,7 +24,8 @@ public class Game {
     private int tern;
 
     public Game(ArrayList<User> users) {
-        mainGameMap = GameMap.load();
+        mainGameMap = new GameMap(50, 50);
+        mainGameMap.generateMap();
         ArrayList<Settler> settlers = makeRandomSettlers(mainGameMap, users.size());
         for (int i = 0; i < users.size(); i++) {
             Settler settler = settlers.get(i);

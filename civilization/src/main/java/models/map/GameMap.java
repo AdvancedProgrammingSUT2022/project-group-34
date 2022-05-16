@@ -9,14 +9,19 @@ import models.tile.VisibleTile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Random;
 
-public class GameMap extends Map{
+public class GameMap extends Map {
 
-    private ArrayList<ArrayList<Tile>> map;
+    private ArrayList<ArrayList<Tile>> map = new ArrayList<>();
 
     public GameMap() {
         super();
         // TODO
+    }
+
+    public GameMap(int mapWidth, int mapHeight) {
+        super(mapWidth, mapHeight);
     }
 
     static public GameMap load() {
@@ -27,10 +32,6 @@ public class GameMap extends Map{
         // map height
         // map width
         // a JSon array for each argument of Tile constructor
-    }
-
-    public GameMap(int mapWidth, int mapHeight) {
-        super(mapWidth, mapHeight);
     }
 
     public Tile getTileByXY(int x, int y){
@@ -95,11 +96,6 @@ public class GameMap extends Map{
         return tile.getIsRiver();
     }
 
-
-    public void GenerateGameMap(){
-
-    }
-
     public int getMapWidth() {
         return mapWidth;
     }
@@ -116,21 +112,13 @@ public class GameMap extends Map{
         this.mapHeight = mapHeight;
     }
 
-    public void createRandomMap(){
-
-        HashMap<String,Terrain> allTerrains = Terrain.getAllTerrains();
-        HashMap<String,Feature> allFeatures = Feature.getAllFeatures();
-        Terrain terrain;
-        Feature feature;
-        Tile tile;
-
-        map = new ArrayList<>();
-        for (int i = 0 ; i < mapHeight ; i++){
+    public GameMap generateMap(){
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0 ; i < mapHeight; i++){
             map.add(new ArrayList<>());
             for (int j = 0; j < mapWidth; j++) {
-
-                terrain = allTerrains.get("Plain");
-                feature = allFeatures.get("");
+                Terrain terrain = generateTerrain(i, j, random);
+                Feature feature = generateFeature(i, j, terrain, random);
                 tile = new Tile( terrain, feature , i , j, city);
 
                 map.get(i).add(tile);
@@ -149,5 +137,29 @@ public class GameMap extends Map{
                 tile1.setAdjacentTiles(getAdjacentTiles(tile1));
             }
 
+    }
+
+    private Terrain generateTerrain(int x, int y, Random random) {
+        if (x <= 2 || y <= 2 || x + 3 >= mapHeight || y + 3 >= mapWidth) return Terrain.Oceana;
+        int desertProbability = Math.min(x, mapHeight - x) * 2;
+        int snowProbability = (55 - desertProbability) / 2;
+        int tundraProbability = 55 - desertProbability - snowProbability;
+        int grasslandsProbability = 20;
+        int hillsProbability = 10;
+        int mountainProbability = 5;
+        int plainProbability = 20;
+        int randomNumber = random.nextInt(100);
+        if (randomNumber < desertProbability) return Terrain.Desert;
+        randomNumber -= desertProbability;
+        if (randomNumber < snowProbability) return Terrain.Snow;
+        randomNumber -= snowProbability;
+        if (randomNumber < tundraProbability) return Terrain.Tundra;
+        randomNumber -= tundraProbability;
+        if (randomNumber < grasslandsProbability) return Terrain.Grasslands;
+        randomNumber -= grasslandsProbability;
+        if (randomNumber < hillsProbability) return Terrain.Hills;
+        randomNumber -= hillsProbability;
+        if (randomNumber < mountainProbability) return Terrain.Mountain;
+        return Terrain.Plains;
     }
 }

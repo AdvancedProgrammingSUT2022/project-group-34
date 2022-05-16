@@ -6,7 +6,7 @@ import models.tile.Tile;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Archer extends CombatUnit{
+public class Archer extends CombatUnit {
 
     public static HashMap<String, HashMap<String, String>> archerDataSheet = new HashMap<>();
 
