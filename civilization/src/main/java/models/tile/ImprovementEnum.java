@@ -3,7 +3,7 @@ package models.tile;
 import models.Technology;
 import models.TechnologyEnum;
 import models.resource.Resource;
-import models.resource.ResourceName;
+import models.resource.ResourceEnum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,47 +15,47 @@ public enum ImprovementEnum {
     Camp        ("Camp"         ,0,0,0,false, TechnologyEnum.Trapping
             , new Terrain[]{Terrain.Tundra,Terrain.Plains,Terrain.Desert}
             , new Feature[]{Feature.Forests}
-            , new ResourceName[]{ResourceName.Ivory,ResourceName.Furs,ResourceName.Deer}),
+            , new ResourceEnum[]{ResourceEnum.Ivory, ResourceEnum.Furs, ResourceEnum.Deer}),
 
     Farm        ("Farm"         ,1,0,0,false,TechnologyEnum.Agriculture
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert}
             , new Feature[]{}
-            , new ResourceName[]{ResourceName.Wheat}),
+            , new ResourceEnum[]{ResourceEnum.Wheat}),
 
     LumberMill  ("LumberMill"   ,0,0,1,false,TechnologyEnum.Engineering
             , new Terrain[]{}
             , new Feature[]{Feature.Forests}
-            , new ResourceName[]{}),
+            , new ResourceEnum[]{}),
 
     Mine        ("Mine"         ,0,0,1,false,TechnologyEnum.Mining
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills,Terrain.Snow}
             , new Feature[]{Feature.Jungle,Feature.Forests,Feature.Marsh}
-            , new ResourceName[]{ResourceName.Iron,ResourceName.Coal,ResourceName.Gems,ResourceName.Gold,ResourceName.Silver}),
+            , new ResourceEnum[]{ResourceEnum.Iron, ResourceEnum.Coal, ResourceEnum.Gems, ResourceEnum.Gold, ResourceEnum.Silver}),
 
     Pasture     ("Pasture"      ,0,0,0,false,TechnologyEnum.AnimalHusbandry
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills}
             , new Feature[]{}
-            , new ResourceName[]{ResourceName.Horses,ResourceName.Cattle,ResourceName.Sheep}),
+            , new ResourceEnum[]{ResourceEnum.Horses, ResourceEnum.Cattle, ResourceEnum.Sheep}),
 
     Plantation  ("Plantation"   ,0,0,0,false,TechnologyEnum.Calendar
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert}
             , new Feature[]{Feature.Forests,Feature.Marsh,Feature.FloodPlain,Feature.Jungle}
-            , new ResourceName[]{ResourceName.Banana,ResourceName.Silk,ResourceName.Sugar,ResourceName.Cotton,ResourceName.Dyes,ResourceName.Incense}),
+            , new ResourceEnum[]{ResourceEnum.Banana, ResourceEnum.Silk, ResourceEnum.Sugar, ResourceEnum.Cotton, ResourceEnum.Dyes, ResourceEnum.Incense}),
 
     Quarry      ("Quarry"       ,0,0,0,false,TechnologyEnum.Masonry
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills}
             , new Feature[]{}
-            , new ResourceName[]{ResourceName.Marble}),
+            , new ResourceEnum[]{ResourceEnum.Marble}),
 
     TradingPost ("TradingPost"  ,0,1,0,false,TechnologyEnum.Trapping
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra}
             , new Feature[]{}
-            , new ResourceName[]{}),
+            , new ResourceEnum[]{}),
 
     Manufactory ("Manufactory"  ,0,0,3,true , TechnologyEnum.Engineering
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Snow}
             , new Feature[]{}
-            , new ResourceName[]{}),
+            , new ResourceEnum[]{}),
     ;
 
 
@@ -74,7 +74,7 @@ public enum ImprovementEnum {
     ImprovementEnum(String name, int foodRate, int goldRate, int productionRate, boolean isUsable, TechnologyEnum requiredTechnology,
                 Terrain[] suitableTerrainForThisImprovement,
                 Feature[] suitableFeatureForThisImprovement,
-                ResourceName[] allResourcesThatNeedThisTechnology) {
+                ResourceEnum[] allResourcesThatNeedThisTechnology) {
 
         this.name = name;
         this.foodRate = foodRate;
@@ -88,7 +88,7 @@ public enum ImprovementEnum {
         this.suitableFeatureForThisImprovement.addAll(Arrays.asList(suitableFeatureForThisImprovement));
 
         HashMap<String,Resource> allResourcesCopy = Resource.getAllResourcesCopy();
-        for (ResourceName resourceName : allResourcesThatNeedThisTechnology)
+        for (ResourceEnum resourceName : allResourcesThatNeedThisTechnology)
             this.allResourcesThatNeedThisImprovement.add(allResourcesCopy.get(resourceName.name));
 
     }

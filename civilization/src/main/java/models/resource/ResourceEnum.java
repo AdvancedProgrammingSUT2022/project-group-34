@@ -3,31 +3,32 @@ package models.resource;
 public enum ResourceEnum {
 
     Banana  ("Banana"),
-    Cow     ("Cow"  ),
-    Gazelle ("Gazelle"),
+    Cattle  ("Cattle"),
+    Deer    ("Deer"),
     Sheep   ("Sheep"),
     Wheat   ("Wheat"),
 
-    Coal    ("Coal" ),
+    Coal    ("Coal"),
     Horses  ("Horse"),
-    Iron    ("Iron" ),
+        Iron    ("Iron"),
 
     Cotton  ("Cotton"),
-    Dye     ("Dye"  ),
-    Fur     ("Fur"  ),
-    Gemstones("Gemstones"),
-    Gold    ("Gold" ),
-    Eat     ("Eat"  ),
+    Dyes("Dyes"),
+    Furs("Fur"),
+    Gems("Gemstones"),
+    Gold    ("Gold"),
+    Incense("Eat"),
     Ivory   ("Ivory"),
     Marble  ("Marble"),
-    Silk    ("Silk" ),
+    Silk    ("Silk"),
     Silver  ("Silver"),
     Sugar   ("Sugar"),
     ;
 
-    public String name;
+    public final String name;
 
     ResourceEnum(String name) {
         this.name = name;
     }
+
 }
