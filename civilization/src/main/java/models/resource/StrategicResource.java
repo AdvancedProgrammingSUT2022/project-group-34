@@ -44,10 +44,6 @@ public class StrategicResource extends Resource{
         return productionBonus;
     }
 
-    public boolean isVisible() {
-        return requiredTechnology == null;
-    }
-
     public TechnologyEnum getRequiredTechnology() {
         return requiredTechnology;
     }

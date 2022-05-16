@@ -4,6 +4,7 @@ import models.Technology;
 import models.TechnologyEnum;
 import models.resource.Resource;
 import models.resource.ResourceName;
+import models.resource.StrategicResource;
 
 
 import java.util.ArrayList;
@@ -68,10 +69,13 @@ public class Improvement{
         tile.foodRate       += improvement.foodRate;
         tile.goldRate       += improvement.goldRate;
         tile.productionRate += improvement.productionRate;
-
-        if (improvement.allResourcesThatNeedThisImprovement.contains(tile.getResource()))
-            if (tile.getResource().isVisible())
+        Resource resource = tile.getResource();
+        if (improvement.allResourcesThatNeedThisImprovement.contains(resource)) {
+            if (!(resource instanceof StrategicResource))
                 return 1;
+            if (tile.civilization.getCivilizationResearchedTechnologies().containsKey(((StrategicResource)resource).getRequiredTechnology()))
+                return 1;
+        }
 
         return 0;
     }

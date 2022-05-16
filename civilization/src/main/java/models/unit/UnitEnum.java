@@ -33,16 +33,16 @@ public enum UnitEnum {
     ;
 
 
-    String name;
-    int cost;
-    String combatType;
-    int combatStrength;
-    int rangedCombatStrength;
-    int range;
-    int movement;
-    TechnologyEnum requiredTechnology;
-    ResourceData requiredResource;
-    boolean isSiegeTool;
+    final String name;
+    final int cost;
+    final String combatType;
+    final int combatStrength;
+    final int rangedCombatStrength;
+    final int range;
+    final int movement;
+    final TechnologyEnum requiredTechnology;
+    final ResourceData requiredResource;
+    final boolean isSiegeTool;
 
     UnitEnum(String name, int cost, String combatType, int combatStrength, int rangedCombatStrength, int range, int movement, ResourceData requiredResource, TechnologyEnum requiredTechnology, boolean isSiegeTool) {
         this.name = name;
