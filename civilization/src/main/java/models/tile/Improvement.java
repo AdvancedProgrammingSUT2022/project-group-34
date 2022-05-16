@@ -2,9 +2,11 @@ package models.tile;
 
 import models.Technology;
 import models.resource.Resource;
+import models.resource.ResourceName;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public enum Improvement{
@@ -13,66 +15,66 @@ public enum Improvement{
     Camp        ("Camp"         ,0,0,0,false,"Trapping"
             , new Terrain[]{Terrain.Tundra,Terrain.Plains,Terrain.Desert}
             , new Feature[]{Feature.Forests}
-            , new String[]{"Ivory","Furs","Deer"}),
+            , new ResourceName[]{ResourceName.Ivory,ResourceName.Furs,ResourceName.Deer}),
 
     Farm        ("Farm"         ,1,0,0,false,"Agriculture"
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert}
             , new Feature[]{}
-            , new String[]{"Wheat"}),
+            , new ResourceName[]{ResourceName.Wheat}),
 
     LumberMill  ("LumberMill"   ,0,0,1,false,"Engineering"
             , new Terrain[]{}
             , new Feature[]{Feature.Forests}
-            , new String[]{}),
+            , new ResourceName[]{}),
 
     Mine        ("Mine"         ,0,0,1,false,"Mining"
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills,Terrain.Snow}
             , new Feature[]{Feature.Jungle,Feature.Forests,Feature.Marsh}
-            , new String[]{"Iron","Coal","Gems","Gold","Silver"}),
+            , new ResourceName[]{ResourceName.Iron,ResourceName.Coal,ResourceName.Gems,ResourceName.Gold,ResourceName.Silver}),
 
     Pasture     ("Pasture"      ,0,0,0,false,"AnimalHusbandry"
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills}
             , new Feature[]{}
-            , new String[]{"Horses","Cattle","Sheep"}),
+            , new ResourceName[]{ResourceName.Horses,ResourceName.Cattle,ResourceName.Sheep}),
 
     Plantation  ("Plantation"   ,0,0,0,false,"Calendar"
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert}
             , new Feature[]{Feature.Forests,Feature.Marsh,Feature.FloodPlane,Feature.Jungle}
-            , new String[]{"Bananas","Silk","Sugar","Cotton","Dyes","Incense"}),
+            , new ResourceName[]{ResourceName.Banana,ResourceName.Silk,ResourceName.Sugar,ResourceName.Cotton,ResourceName.Dyes,ResourceName.Incense}),
 
     Quarry      ("Quarry"       ,0,0,0,false,"Masonry"
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills}
             , new Feature[]{}
-            , new String[]{"Marble"}),
+            , new ResourceName[]{ResourceName.Marble}),
 
     TradingPost ("TradingPost"  ,0,1,0,false,"Trapping"
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra}
             , new Feature[]{}
-            , new String[]{}),
+            , new ResourceName[]{}),
 
     Manufactory ("Manufactory"  ,0,0,3,true ,null
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Snow}
             , new Feature[]{}
-            , new String[]{}),
+            , new ResourceName[]{}),
     ;
 
 
-    private String name;
-    private int foodRate;
-    private int goldRate;
-    private int productionRate;
-    private boolean isUsable;
-    private Technology requiredTechnology = null;
-    private ArrayList<Terrain> suitableTerrainForThisImprovement;
-    private ArrayList<Feature> suitableFeatureForThisImprovement;
-    private ArrayList<Resource> allResourcesThatNeedThisTechnology;
+    private final String name;
+    private final int foodRate;
+    private final int goldRate;
+    private final int productionRate;
+    private final boolean isUsable;
+    private final Technology requiredTechnology;
+    private final ArrayList<Terrain> suitableTerrainForThisImprovement = new ArrayList<>();
+    private final ArrayList<Feature> suitableFeatureForThisImprovement = new ArrayList<>();
+    private final ArrayList<Resource> allResourcesThatNeedThisImprovement = new ArrayList<>();
 
-    public static HashMap<String, Improvement> allImprovements = new HashMap<>();
+    public static final HashMap<String, Improvement> allImprovements = new HashMap<>();
 
     Improvement(String name, int foodRate, int goldRate, int productionRate, boolean isUsable, String requiredTechnology,
                 Terrain[] suitableTerrainForThisImprovement,
                 Feature[] suitableFeatureForThisImprovement,
-                String[] allResourcesThatNeedThisTechnology) {
+                ResourceName[] allResourcesThatNeedThisTechnology) {
 
         this.name = name;
         this.foodRate = foodRate;
@@ -81,15 +83,13 @@ public enum Improvement{
         this.isUsable = isUsable;
         this.requiredTechnology = Technology.getAllTechnologiesCopy().get(requiredTechnology);
 
-        for (Terrain terrain : suitableTerrainForThisImprovement)
-            this.suitableTerrainForThisImprovement.add(Terrain.getAllTerrains().get(terrain));
+        this.suitableTerrainForThisImprovement.addAll(Arrays.asList(suitableTerrainForThisImprovement));
 
-        for (Feature feature : suitableFeatureForThisImprovement)
-            this.suitableFeatureForThisImprovement.add(Feature.getAllFeatures().get(feature));
+        this.suitableFeatureForThisImprovement.addAll(Arrays.asList(suitableFeatureForThisImprovement));
 
         HashMap<String,Resource> allResourcesCopy = Resource.getAllResourcesCopy();
-        for (String resourceName : allResourcesThatNeedThisTechnology)
-            this.allResourcesThatNeedThisTechnology.add(allResourcesCopy.get(resourceName));
+        for (ResourceName resourceName : allResourcesThatNeedThisTechnology)
+            this.allResourcesThatNeedThisImprovement.add(allResourcesCopy.get(resourceName.name));
 
     }
 
@@ -118,7 +118,7 @@ public enum Improvement{
         tile.goldRate       += improvement.goldRate;
         tile.productionRate += improvement.productionRate;
 
-        if (improvement.allResourcesThatNeedThisTechnology.contains(tile.getResource()))
+        if (improvement.allResourcesThatNeedThisImprovement.contains(tile.getResource()))
             if (tile.getResource().isVisible())
                 return 1;
 
@@ -149,5 +149,9 @@ public enum Improvement{
 
     public String getName() {
         return name;
+    }
+
+    public boolean isUsable() {
+        return isUsable;
     }
 }
