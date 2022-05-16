@@ -13,10 +13,10 @@ import java.util.HashMap;
 
 public class Civilization {
 
-    private static int decreasedHappinessDueToTheFoundingOfTheCity = 4;
+    private static final int decreasedHappinessDueToTheFoundingOfTheCity = 4;
 
 
-    private User player;
+    private final User player;
 
     private String civilizationName;
 
@@ -25,7 +25,7 @@ public class Civilization {
     private ArrayList<City> cities;
     private ArrayList<Tile> workingTiles;
     private ArrayList<Unit> units;
-    private ArrayList<Work> works;
+    private final ArrayList<Work> works;
 
     private City mainCapital;
     private City currentCapital;
@@ -33,8 +33,8 @@ public class Civilization {
     private ArrayList<Notification> notifications;
 
     private HashMap<String, Resource> civilizationResources;
-    private HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
-    private HashMap<String, Integer> numberOfEachExchangedResource = new HashMap<>();
+    private final HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
+    private final HashMap<String, Integer> numberOfEachExchangedResource = new HashMap<>();
 
     private HashMap<String, Technology> civilizationResearchedTechnologies;
     private HashMap<String, Technology> civilizationNotResearchedTechnologies;
@@ -44,13 +44,9 @@ public class Civilization {
     private Technology studyingTechnology;
 
     private int gold;
-    private int goldRate;
     private int happiness;
-    private int happiness0;
-    private int happinessPerLuxuryResource = 4;
-    private int unitMaintenanceCost = 2;
-    private int roadMaintenanceCost = 1;
-    private int railMaintenanceCost = 1;
+    private final int happiness0;
+    private final int happinessPerLuxuryResource = 4;
 
     private int turn = 0;
 
@@ -200,25 +196,28 @@ public class Civilization {
 
     public void updateGold() {
 
-        this.goldRate = 0;
+        int goldRate = 0;
         for (City city : cities)
             for (Citizen citizen : city.getCitizens())
                 if (citizen.isWorking())
                     goldRate += citizen.getWorkPosition().getGoldRate();
 
         for (Unit unit : units) {
+            int unitMaintenanceCost = 2;
             goldRate -= unitMaintenanceCost;
         }
 
         for (AbstractTile tile : getTerritory()) {
+            int roadMaintenanceCost = 1;
             if (((Tile)tile).HasRoad())
                 goldRate -= roadMaintenanceCost;
+            int railMaintenanceCost = 1;
             if (((Tile)tile).HasRail())
                 goldRate -= railMaintenanceCost;
         }
 
 
-        this.gold += this.goldRate;
+        this.gold += goldRate;
     }
 
     public int getHappiness() {
@@ -307,5 +306,24 @@ public class Civilization {
             if (work.getTile().equals(tile)) return work;
 
         return null;
+    }
+
+    public void addResource(Resource resource) {
+        if (numberOfEachResource.containsKey(resource))
+            numberOfEachResource.replace(resource,numberOfEachResource.get(resource)+1);
+        else
+            numberOfEachResource.put(resource,1);
+    }
+
+    public void resetResource() {
+        numberOfEachResource.clear();
+    }
+
+    public HashMap<Resource, Integer> getNumberOfEachResource() {
+        return numberOfEachResource;
+    }
+
+    public HashMap<String, Integer> getNumberOfEachExchangedResource() {
+        return numberOfEachExchangedResource;
     }
 }

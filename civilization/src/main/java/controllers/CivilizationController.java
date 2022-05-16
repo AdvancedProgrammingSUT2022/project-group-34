@@ -12,6 +12,7 @@ import models.Civilization;
 import models.Game;
 import models.map.CivilizationMap;
 import models.map.GameMap;
+import models.resource.Resource;
 import models.tile.*;
 import models.tile.AbstractTile;
 import models.tile.Improvement;
@@ -465,12 +466,30 @@ public class CivilizationController {
     }
 
     public void updateCivilization(Civilization civilization) {
+
+        updateNumberOfResources(civilization);
+
+        civilization.setHappiness();
+        civilization.updateGold();
+
         for (City city : civilization.getCities())
             updateCity(city);
 
         for (Work work : civilization.getWorks())
-            if (work.update())
+            if (work.update()) {
                 work.doWork();
+            }
+
+
+    }
+
+    private void updateNumberOfResources(Civilization civilization) {
+
+        civilization.resetResource();
+        for (City city : civilization.getCities())
+            for (Tile tile : city.getTerritory())
+                if (tile.isUsableResource())
+                    civilization.addResource(tile.getResource());
 
 
     }

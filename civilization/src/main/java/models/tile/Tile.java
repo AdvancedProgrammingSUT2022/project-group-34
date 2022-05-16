@@ -12,6 +12,7 @@ public class Tile extends AbstractTile {
 
     private Improvement improvement = null;
     private Resource resource = null;
+    boolean isUsableResource = false;
 
     int foodRate;
     int goldRate;
@@ -44,11 +45,14 @@ public class Tile extends AbstractTile {
         Terrain.setTerrainProperties(this, this.terrain);
         Feature.setFeatureProperties(this, this.feature);
         int flag = Improvement.setImprovementProperties(this, this.improvement);
+        isUsableResource = false;
         if (flag == 1) {
             foodRate += this.resource.getFoodBonus();
             goldRate += this.resource.getGoldBonus();
             productionRate += this.resource.getProductionBonus();
+            isUsableResource = true;
         }
+
     }
 
 
@@ -201,5 +205,9 @@ public class Tile extends AbstractTile {
     @Override
     public City getCity() {
         return city;
+    }
+
+    public boolean isUsableResource() {
+        return isUsableResource;
     }
 }
