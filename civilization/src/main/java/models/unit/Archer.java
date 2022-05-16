@@ -15,9 +15,9 @@ public class Archer extends CombatUnit{
     public boolean isSetup;
     public ArrayList<String> unitActionList = new ArrayList<>();
 
-    public Archer(UnitEnum unitEnum, Tile position) {
+    public Archer(UnitEnum unitEnum, Tile position, Civilization civilization) {
 
-        super(unitEnum, position);
+        super(unitEnum, position, civilization);
         this.RangedCombatStrength = unitEnum.rangedCombatStrength;
         this.isSiegeTool = unitEnum.isSiegeTool;
         this.isSetup = false;

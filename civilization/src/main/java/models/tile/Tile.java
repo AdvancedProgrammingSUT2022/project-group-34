@@ -8,7 +8,7 @@ import models.unit.CombatUnit;
 
 import java.util.ArrayList;
 
-public class Tile extends AbstractTile{
+public class Tile extends AbstractTile {
 
     private Improvement improvement = null;
     private Resource resource = null;
@@ -29,7 +29,7 @@ public class Tile extends AbstractTile{
         setTileProperties();
     }
 
-    private void setInit(){
+    private void setInit() {
         foodRate = 0;
         goldRate = 0;
         productionRate = 0;
@@ -38,12 +38,12 @@ public class Tile extends AbstractTile{
         isBlock = false;
     }
 
-    public void setTileProperties(){
+    public void setTileProperties() {
 
         setInit();
-        Terrain     .setTerrainProperties(this,this.terrain);
-        Feature     .setFeatureProperties(this,this.feature);
-        int flag = Improvement .setImprovementProperties(this,this.improvement);
+        Terrain.setTerrainProperties(this, this.terrain);
+        Feature.setFeatureProperties(this, this.feature);
+        int flag = Improvement.setImprovementProperties(this, this.improvement);
         if (flag == 1) {
             foodRate += this.resource.getFoodBonus();
             goldRate += this.resource.getGoldBonus();
@@ -53,8 +53,7 @@ public class Tile extends AbstractTile{
 
 
     public void deleteFeature() {
-        if (feature.name.equals("Jungle"))
-            this.terrain = Terrain.Plains;
+        this.terrain = Terrain.Plains;
         this.feature = null;
         setTileProperties();
     }
@@ -82,7 +81,6 @@ public class Tile extends AbstractTile{
     public void setResources(Resource resource) {
         this.resource = resource;
     }
-
 
 
     public void setHasRoad(boolean hasRoad) {
@@ -141,7 +139,7 @@ public class Tile extends AbstractTile{
     }
 
     public void addRiver(int index) {
-        this.isRiver.set(index,true);
+        this.isRiver.set(index, true);
     }
 
 
@@ -158,10 +156,13 @@ public class Tile extends AbstractTile{
     }
 
     public int getMovingCost() {
+        int movingCost = this.movingCost;
+        if (hasRoad) movingCost -= movingCost/2;
+        if (hasRail) movingCost -= movingCost/3;
         return movingCost;
     }
 
-    public boolean isUnmovable(){
+    public boolean isUnmovable() {
         return (movingCost == -1);
     }
 

@@ -3,6 +3,7 @@ package models;
 import models.map.CivilizationMap;
 import models.resource.LuxuryResource;
 import models.resource.Resource;
+import models.tile.AbstractTile;
 import models.tile.Tile;
 import models.unit.Unit;
 import models.unit.Work;
@@ -22,10 +23,9 @@ public class Civilization {
     private CivilizationMap personalMap;
 
     private ArrayList<City> cities;
-    private ArrayList<Tile> territory;
     private ArrayList<Tile> workingTiles;
     private ArrayList<Unit> units;
-    private ArrayList<Work> works ;
+    private ArrayList<Work> works;
 
     private City mainCapital;
     private City currentCapital;
@@ -54,16 +54,15 @@ public class Civilization {
 
     private int turn = 0;
 
-    public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Tile> territory, ArrayList<Unit> units, City mainCapital, int numberOfBeakers, int gold, int happiness, int happiness0) {
+    public Civilization(User player, String civilizationName, ArrayList<City> cities, ArrayList<Unit> units, City mainCapital, int numberOfBeakers, int gold, int happiness, int happiness0) {
         this.player = player;
         this.civilizationName = civilizationName;
         this.cities = cities;
-        this.territory = territory;
         this.units = units;
         this.mainCapital = mainCapital;
         this.works = new ArrayList<>();
         this.civilizationResources = Resource.getAllResourcesCopy();
-        this.civilizationResearchedTechnologies    = Technology.getAllTechnologiesCopy();
+        this.civilizationResearchedTechnologies = Technology.getAllTechnologiesCopy();
         this.civilizationNotResearchedTechnologies = new HashMap<>();
 
         this.numberOfBeakers = numberOfBeakers;
@@ -97,7 +96,7 @@ public class Civilization {
     public void addCities(City city) {
         cities.add(city);
         this.happiness -= decreasedHappinessDueToTheFoundingOfTheCity;
-        if (cities.size()==1) setMainCapital(city);
+        if (cities.size() == 1) setMainCapital(city);
         this.getTerritory().addAll(city.getTerritory());
     }
 
@@ -105,12 +104,10 @@ public class Civilization {
         this.cities = cities;
     }
 
-    public ArrayList<Tile> getTerritory() {
+    public ArrayList<AbstractTile> getTerritory() {
+        ArrayList<AbstractTile> territory = new ArrayList<>();
+        for (City city : cities) territory.addAll(city.getTerritory());
         return territory;
-    }
-
-    public void setTerritory(ArrayList<Tile> territory) {
-        this.territory = territory;
     }
 
     public ArrayList<Tile> getWorkingTiles() {
@@ -213,10 +210,10 @@ public class Civilization {
             goldRate -= unitMaintenanceCost;
         }
 
-        for (Tile tile : territory) {
-            if (tile.HasRoad())
+        for (AbstractTile tile : getTerritory()) {
+            if (((Tile)tile).HasRoad())
                 goldRate -= roadMaintenanceCost;
-            if (tile.HasRail())
+            if (((Tile)tile).HasRail())
                 goldRate -= railMaintenanceCost;
         }
 
@@ -228,7 +225,7 @@ public class Civilization {
         return happiness;
     }
 
-    public boolean isUnHappy(){
+    public boolean isUnHappy() {
         return happiness < 0;
     }
 
@@ -266,8 +263,7 @@ public class Civilization {
     }
 
 
-
-    public City getCityByName(String name){
+    public City getCityByName(String name) {
         for (City city : cities) {
             if (city.getName().equals(name)) return city;
         }
@@ -294,7 +290,22 @@ public class Civilization {
         this.cities.add(city);
     }
 
-    public void removeUnit(Unit unit){
+    public void removeUnit(Unit unit) {
         units.remove(unit);
+    }
+
+    public int getPopulation() {
+        int population = 0;
+        for (City city : cities)
+            population += city.getCitizens().size();
+
+        return population;
+    }
+
+    public Work getWorkByTile(Tile tile) {
+        for (Work work : works)
+            if (work.getTile().equals(tile)) return work;
+
+        return null;
     }
 }

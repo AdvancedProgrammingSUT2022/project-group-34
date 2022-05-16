@@ -4,6 +4,7 @@ import models.map.GameMap;
 import models.resource.Resource;
 import models.unit.Unit;
 import models.unit.Settler;
+import models.unit.UnitEnum;
 import models.tile.Tile;
 
 import java.util.Collections;
@@ -30,7 +31,7 @@ public class Game {
             ArrayList<City> cityList = new ArrayList<>();
             ArrayList<Unit> unitList = new ArrayList<>();
             unitList.add(settler);
-            Civilization civilization = new Civilization(users.get(i), users.get(i).getNickname(), cityList, new ArrayList<>(), unitList, null, 0, 0, 0, 0);
+            Civilization civilization = new Civilization(users.get(i), users.get(i).getNickname(), cityList, unitList, null, 0, 0, 0, 0);
             civilizations.add(civilization);
             settler.setCivilization(civilization);
         }
@@ -97,7 +98,7 @@ public class Game {
         Collections.shuffle(candidateTiles);
         ArrayList<Settler> answer = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            answer.add(new Settler("Initial settler", candidateTiles.get(i)));
+            answer.add(new Settler(UnitEnum.Settler, candidateTiles.get(i)));
         }
         return answer;
     }

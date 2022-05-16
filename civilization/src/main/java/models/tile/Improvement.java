@@ -124,4 +124,30 @@ public enum Improvement{
 
         return 0;
     }
+
+    public static ArrayList<String> getImprovementsByFeature(Feature feature){
+        ArrayList<String> improvements= new ArrayList<>();
+        for (Improvement improvement : Improvement.values())
+            if (improvement.suitableFeatureForThisImprovement.contains(feature))
+                improvements.add(improvement.getName());
+
+        return improvements;
+    }
+
+    public static ArrayList<String> getImprovementsByTerrain(Terrain terrain){
+        ArrayList<String> improvements = new ArrayList<>();
+        for (Improvement improvement : Improvement.values())
+            if (improvement.suitableTerrainForThisImprovement.contains(terrain))
+                improvements.add(improvement.getName());
+
+        return improvements;
+    }
+
+    public Technology getRequiredTechnology() {
+        return requiredTechnology;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

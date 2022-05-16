@@ -25,12 +25,12 @@ public class City {
     private ArrayList<Citizen> citizens = new ArrayList<>();
     private ArrayList<Improvement> improvements = new ArrayList<>();
 
+    private int tillNewCitizen;
     private int foodRate;
     private int food;
     private int productionRate;
     private int production;
     private int scienceRate;
-    private int goldRate;
 
     public City(String name, Civilization owner, Tile position , ArrayList<Tile> territory) {
         this.name = name;
@@ -87,6 +87,10 @@ public class City {
 
     public int getUnitUnderProductTern() {
         return unitUnderProductTern;
+    }
+
+    public int getFoodRate() {
+        return foodRate;
     }
 
     public boolean isGarrison() {
@@ -205,10 +209,18 @@ public class City {
     }
 
     public int getGoldRate() {
+        int goldRate=0;
+        for (Citizen citizen : citizens)
+            if (citizen.isWorking()) goldRate += citizen.getWorkPosition().getGoldRate();
+
         return goldRate;
     }
 
-    public void setGoldRate(int goldRate) {
-        this.goldRate = goldRate;
+    public int getTillNewCitizen() {
+        return tillNewCitizen;
+    }
+
+    public void setTillNewCitizen(int tillNewCitizen) {
+        this.tillNewCitizen = tillNewCitizen;
     }
 }

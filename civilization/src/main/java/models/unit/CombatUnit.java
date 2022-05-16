@@ -1,6 +1,7 @@
 package models.unit;
 
 import models.City;
+import models.Civilization;
 import models.TechnologyEnum;
 import models.resource.ResourceData;
 import models.tile.Tile;
@@ -16,6 +17,7 @@ public class CombatUnit extends Unit{
     protected int range;
     protected int combatStrength;
     protected int hitPoint;
+
     protected boolean isSleep;
     protected boolean isAlert;
     protected boolean isFortify;
@@ -27,8 +29,8 @@ public class CombatUnit extends Unit{
     private City GarrisonCity;
 
 
-    public CombatUnit(UnitEnum unitEnum, Tile position) {
-        super(unitEnum, position);
+    public CombatUnit(UnitEnum unitEnum, Tile position, Civilization civilization) {
+        super(unitEnum, position, civilization);
 
         this.requiredTechnology = unitEnum.requiredTechnology;
         this.requiredResource = unitEnum.requiredResource;
@@ -40,8 +42,7 @@ public class CombatUnit extends Unit{
         this.isFortify = false;
         this.isFortifyUntilHealed= false;
         this.garrisonCity = null;
-
-}
+    }
 
     public static HashMap<String, HashMap<String, String>> getCombatUnitDataSheet() {
         return combatUnitDataSheet;
@@ -58,7 +59,6 @@ public class CombatUnit extends Unit{
     public static void setHitPointConstant(int hitPointConstant) {
         CombatUnit.hitPointConstant = hitPointConstant;
     }
-
 
     public void setRange(int range) {
         this.range = range;
@@ -89,7 +89,7 @@ public class CombatUnit extends Unit{
     }
 
     public boolean isGarrison() {
-        return GarrisonCity != null;
+        return garrisonCity != null;
     }
 
     public boolean isFortify() {
@@ -109,11 +109,11 @@ public class CombatUnit extends Unit{
     }
 
     public City getGarrisonCity() {
-        return GarrisonCity;
+        return garrisonCity;
     }
 
     public void setGarrisonCity(City garrisonCity) {
-        GarrisonCity = garrisonCity;
+        this.garrisonCity = garrisonCity;
     }
 
     @Override
@@ -124,5 +124,4 @@ public class CombatUnit extends Unit{
         setFortifyUntilHealed(false);
         setGarrisonCity(null);
     }
-
 }

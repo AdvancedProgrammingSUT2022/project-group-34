@@ -10,14 +10,15 @@ import java.util.Stack;
 
 import models.Civilization;
 import models.Game;
+import models.map.CivilizationMap;
 import models.map.GameMap;
+import models.tile.*;
 import models.tile.AbstractTile;
 import models.tile.Improvement;
+import models.tile.Terrain;
 
-import models.tile.VisibleTile;
 import models.unit.*;
 import models.City;
-import models.tile.Tile;
 import models.Technology;
 
 public class CivilizationController {
@@ -51,19 +52,19 @@ public class CivilizationController {
 
     public CombatUnit getCombatUnitByPosition(int[] position) {
         Tile tile = getTileByPosition(position);
-        if (tile==null) return null;
+        if (tile == null) return null;
         else return tile.getCombatUnit();
     }
 
     public NonCombatUnit getNonCombatUnitByPosition(int[] position) {
         Tile tile = getTileByPosition(position);
-        if (tile==null) return null;
+        if (tile == null) return null;
         else return tile.getNonCombatUnit();
     }
 
     public City getCityByPosition(int[] position) {
         Tile tile = getTileByPosition(position);
-        if (tile==null) return null;
+        if (tile == null) return null;
         else return tile.getCity();
     }
 
@@ -73,8 +74,8 @@ public class CivilizationController {
     }
 
     public boolean isPositionValid(int[] position) {
-        //TODO
-        return false;
+        Tile tile = getTileByPosition(position);
+        return tile != null;
     }
 
     private Stack<Tile> extractPathFromParentsHashMap(HashMap<Tile, Tile> previousInShortestPath, Tile destinationTile) {
@@ -155,6 +156,16 @@ public class CivilizationController {
     }
 
     private void moveToAdjacent(Unit unit, Tile tile) {
+        Tile originTile = unit.getPosition();
+        forcedMove(unit, tile);
+        int newMotionPoint = 0;
+        int motionCost = calculateMotionCost(unit.getPosition(), tile);
+        newMotionPoint = Math.max(0, unit.getMotionPoint() - motionCost);
+        if (isRiverBetween(originTile, tile)) newMotionPoint = 0;
+        unit.setMotionPoint(newMotionPoint);
+    }
+
+    public void forcedMove(Unit unit, Tile tile) {
         Tile currentTile = unit.getPosition();
         if ((unit instanceof CombatUnit) && currentTile.getCombatUnit().equals(unit))
             currentTile.setCombatUnit((CombatUnit) null);
@@ -164,7 +175,7 @@ public class CivilizationController {
         if (unit instanceof CombatUnit && tile.getCombatUnit() == null) tile.setCombatUnit((CombatUnit) unit);
         else if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() == null)
             tile.setNonCombatUnit((NonCombatUnit) unit);
-        //TODO exit from fog of war
+        reveal(getVisibleTiles(unit));
     }
 
     private boolean isPathValid(Stack<Tile> path, Tile originTile, Tile destinationTile, Unit unit) {
@@ -210,11 +221,6 @@ public class CivilizationController {
         while (unit.getMotionPoint() > 0 && !path.isEmpty()) {
             Tile tile = path.pop();
             if (tile == unit.getPosition()) continue;
-            int newMotionPoint = 0;
-            int motionCost = calculateMotionCost(unit.getPosition(), tile);
-            newMotionPoint = Math.max(0, unit.getMotionPoint() - motionCost);
-            //TODO handle river
-            unit.setMotionPoint(newMotionPoint);
             moveToAdjacent(unit, tile);
         }
     }
@@ -231,7 +237,7 @@ public class CivilizationController {
         return "success";
     }
 
-    private String isMoveValid(Unit unit, int[] destination) {
+    public String isMoveValid(Unit unit, int[] destination) {
         Tile destinationTile = getTileByPosition(destination);
         if (!isPositionValid(destination)) return "invalid destination";
         else if (GameController.getInstance().getCivilization().isInFog(destinationTile)) return "fog of war";
@@ -239,21 +245,21 @@ public class CivilizationController {
         else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) return "destination occupied";
         else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit() != null)
             return "destination occupied";
+        else if (destinationTile.isUnmovable()) return "destination unmovable";
         return "true";
     }
 
-    public ArrayList<Tile> getVisibleTiles(Tile tile) {
+    public ArrayList<AbstractTile> getVisibleTiles(Tile tile) {
         HashSet<Tile> ans = new HashSet<>();
         ans.add(tile);
         for (Tile adjacentTile : tile.getAdjacentTiles()) {
             ans.add(adjacentTile);
-            if (!adjacentTile.isBlock() || tile.isBlock()) {
+            if (!adjacentTile.isBlock() || tile.isBlock() || tile.getTerrain() == Terrain.Hills) {
                 for (Tile visibleTile : adjacentTile.getAdjacentTiles()) {
                     ans.add(visibleTile);
                 }
             }
         }
-        //TODO handle hills
         return new ArrayList<>(ans);
     }
 
@@ -263,12 +269,33 @@ public class CivilizationController {
         }
     }
 
-    public ArrayList<Tile> getVisibleTiles(Unit unit) {
+    public boolean isRiverBetween(Tile tile1, Tile tile2) {
+        if (tile1 == null || tile2 == null) return false;
+        return tile1.getIsRiver().get(tile1.getAdjacentTiles().indexOf(tile2));
+    }
+
+    public ArrayList<AbstractTile> getVisibleTiles(Unit unit) {
         return getVisibleTiles(unit.getPosition());
     }
 
-    //TODO: exit from fog of war
+    public void reveal(int x, int y) {
+        Tile tile = getTileByPosition(new int[]{x, y});
+        reveal(tile);
+    }
 
+    public void reveal(ArrayList<AbstractTile> tiles) {
+        for (AbstractTile tile : tiles) {
+            reveal(tile);
+        }
+    }
+
+    public void reveal(AbstractTile tile) {
+        CivilizationMap map = GameController.getInstance().getCivilization().getPersonalMap();
+        map.setTileByXY(tile.getX(), tile.getY(), new VisibleTile(tile, false));
+        ArrayList<AbstractTile> tileList = new ArrayList<>();
+        tileList.add(tile);
+        map.addTransparentTiles(tileList);
+    }
 
 
     public String garrisonCity(CombatUnit unit) {
@@ -277,6 +304,8 @@ public class CivilizationController {
             return "not military";
         else if ((city = unit.getPosition().getCity()) == null)
             return "no city";
+        else if (!unit.getPosition().equals(unit.getDestination()))
+            return "in movement";
         unit.makeUnitAwake();
         unit.setGarrisonCity(city);
         city.setGarrison(true);
@@ -289,11 +318,46 @@ public class CivilizationController {
         civilization.removeUnit(unit);
     }
 
+
     public void build(Worker worker, String improvement) {
-        int[] position = {worker.getPosition().getX(), worker.getPosition().getX()};
-        Tile tile = GameController.getInstance().getGame().getMainGameMap().getTileByXY(position[0], position[1]);
+        Tile tile = worker.getPosition();
         Civilization civilization = GameController.getInstance().getCivilization();
-        civilization.addWork(new Work(tile.getCity(), tile, worker, "Build Improvement", Improvement.getAllImprovements().get(improvement)));
+        tile.setImprovement(null);
+        if (civilization.getWorkByTile(tile) != null)
+            civilization.getWorks().remove(civilization.getWorkByTile(tile));
+
+        if (improvement.equals("rail"))
+            civilization.addWork(new Work(tile, worker, "build rail", 3));
+        else if (improvement.equals("road"))
+            civilization.addWork(new Work(tile, worker, "build road", 3));
+        else {
+            if (improvement.equals("Farm") || improvement.equals("Mine")) {
+                if (tile.getFeature().equals(Feature.Forests))
+                    civilization.addWork(new Work(tile, worker, "build improvement", improvement, 10));
+                else if (tile.getFeature().equals(Feature.Jungle))
+                    civilization.addWork(new Work(tile, worker, "build improvement", improvement, 13));
+                else if (tile.getFeature().equals(Feature.Marsh))
+                    civilization.addWork(new Work(tile, worker, "build improvement", improvement, 12));
+                else
+                    civilization.addWork(new Work(tile, worker, "build improvement", improvement, 6));
+            } else
+                civilization.addWork(new Work(tile, worker, "build improvement", improvement, 6));
+        }
+    }
+
+    public ArrayList<String> getPossibleImprovements(Tile tile) {
+        ArrayList<String> improvements;
+        if (tile.getFeature() != null) improvements = Improvement.getImprovementsByFeature(tile.getFeature());
+        else improvements = Improvement.getImprovementsByTerrain(tile.getTerrain());
+
+        improvements.removeIf(improvement -> !GameController.getInstance().getCivilization().
+                getCivilizationResearchedTechnologies().containsValue(Improvement.getAllImprovements().
+                        get(improvement).getRequiredTechnology()));
+
+        improvements.add("road");
+        improvements.add("rail");
+
+        return improvements;
     }
 
     public String foundCity(Settler settler, String name) {
@@ -323,8 +387,56 @@ public class CivilizationController {
     }
 
 
-    public void repair(int[] position) {
-        //TODO
+    public String removeFeature(NonCombatUnit selectedNonCombatUnit, String type) {
+        Tile tile;
+        if (!(selectedNonCombatUnit instanceof Worker))
+            return "not worker";
+        else if (!selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
+            return "in movement";
+        else if ((tile = selectedNonCombatUnit.getPosition()).getFeature() != Feature.Forests ||
+                tile.getFeature() != Feature.Jungle || tile.getFeature() != Feature.Marsh)
+            return "irremovable feature";
+        else {
+            selectedNonCombatUnit.makeUnitAwake();
+            tile.setImprovement(null);
+            Work work = GameController.getInstance().getCivilization().getWorkByTile(tile);
+            if (work == null) {
+                if (type.equals("jungle"))
+                    work = new Work(selectedNonCombatUnit.getPosition(), (Worker) selectedNonCombatUnit, "remove feature", 7);
+                else if (type.equals("forest"))
+                    work = new Work(selectedNonCombatUnit.getPosition(), (Worker) selectedNonCombatUnit, "remove feature", 4);
+                else
+                    work = new Work(selectedNonCombatUnit.getPosition(), (Worker) selectedNonCombatUnit, "remove feature", 6);
+                GameController.getInstance().getCivilization().addWork(work);
+            } else {
+                if (type.equals("jungle"))
+                    work.changeWork((Worker) selectedNonCombatUnit, 7, "remove feature");
+                else if (type.equals("forest"))
+                    work.changeWork((Worker) selectedNonCombatUnit, 4, "remove feature");
+                else
+                    work.changeWork((Worker) selectedNonCombatUnit, 6, "remove feature");
+            }
+            return "ok";
+        }
+    }
+
+    public String repair(NonCombatUnit selectedNonCombatUnit) {
+        Tile tile;
+        if (!(selectedNonCombatUnit instanceof Worker))
+            return "not worker";
+        else if (!selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
+            return "in movement";
+        else if ((tile = selectedNonCombatUnit.getPosition()).getImprovementName() == null)
+            return "no improvement";
+        else {
+            selectedNonCombatUnit.makeUnitAwake();
+            Work work = GameController.getInstance().getCivilization().getWorkByTile(tile);
+            if (work == null)
+                GameController.getInstance().getCivilization().addWork(new Work(tile, (Worker) selectedNonCombatUnit, "repair", 3));
+            else
+                work.changeWork((Worker) selectedNonCombatUnit, 3, "repair");
+            return "ok";
+        }
     }
 
 
@@ -332,8 +444,10 @@ public class CivilizationController {
         //TODO
     }
 
-    public void purchaseTile(City city, int[] position) {
-        //TODO
+    public void purchaseTile(City city, Tile tile) {
+        city.addTerritory(tile);
+        Civilization civilization = GameController.getInstance().getCivilization();
+        civilization.setGold(civilization.getGold()-50);
     }
 
     public void chooseCityProduction(City city, String unitType) {
@@ -378,15 +492,21 @@ public class CivilizationController {
             visibleTiles.addAll(CivilizationController.getInstance().getVisibleTiles(unit));
             civilization.getPersonalMap().addTransparentTiles(visibleTiles);
         }
-
-        //TODO: add Cities, Territory, etc. :)
+        civilization.getPersonalMap().addTransparentTiles(civilization.getTerritory());
+        for (AbstractTile territoryTile : civilization.getTerritory()) {
+            for (AbstractTile adjacentTile : territoryTile.getAdjacentTiles()) {
+                ArrayList<AbstractTile> tiles = new ArrayList<>();
+                tiles.add(adjacentTile);
+                if (adjacentTile != null) civilization.getPersonalMap().addTransparentTiles(tiles);
+            }
+        }
     }
 
     public void updatePersonalMap(Civilization civilization, GameMap mainMap) {
         for (int i = 0; i < civilization.getPersonalMap().getMapHeight(); i++) {
             for (int j = 0; j < civilization.getPersonalMap().getMapWidth(); j++) {
                 Tile tile = mainMap.getTileByXY(i, j);
-                if (tile == null) civilization.getPersonalMap().setTileByXY(i, j,null);
+                if (tile == null) civilization.getPersonalMap().setTileByXY(i, j, null);
                 else if (civilization.getPersonalMap().isTransparent(civilization.getPersonalMap().getTileByXY(i, j))) {
                     civilization.getPersonalMap().setTileByXY(i, j, new VisibleTile(tile, false));
                 }
