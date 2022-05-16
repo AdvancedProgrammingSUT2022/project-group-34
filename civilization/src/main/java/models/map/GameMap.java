@@ -191,7 +191,8 @@ public class GameMap extends Map {
         for (int i = 0; i < 6; i++) {
             if (random.nextInt(100) > 10) continue;
             tile.addRiver(i);
-            getAdjacentTileByNumber(tile,i).addRiver((3 + i) % 6);
+            Tile adjacentTile = getAdjacentTileByNumber(tile, i);
+            if (adjacentTile != null) adjacentTile.addRiver((3 + i) % 6);
             answer = true;
         }
         return answer;
