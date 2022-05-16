@@ -80,7 +80,7 @@ public class CivilizationController {
         return ans;
     }
 
-    private HashMap<Tile, Integer> doBFSAndReturnDistances(Tile originTile) {
+    private HashMap<Tile, Integer> doBFSAndReturnDistances(Tile originTile, boolean canMoveOnUnmovable) {
         HashMap<Tile, Integer> distance = new HashMap<>();
         HashMap<Tile, Boolean> mark = new HashMap<>();
         distance.put(originTile, 0);
@@ -93,7 +93,7 @@ public class CivilizationController {
             mark.put(currentVertex, true);
             ArrayList<Tile> adjacentVertices = currentVertex.getAdjacentTiles();
             for (Tile adjacentVertex : adjacentVertices) {
-                if (adjacentVertex.isUnmovable() || mark.get(adjacentVertex)) continue;
+                if ((adjacentVertex.isUnmovable() && !canMoveOnUnmovable) || mark.get(adjacentVertex)) continue;
                 int newDistance = distance.get(currentVertex) + 1;
                 if (distance.get(adjacentVertex) == null || distance.get(adjacentVertex) > newDistance) {
                     distance.put(adjacentVertex, newDistance);
@@ -184,7 +184,7 @@ public class CivilizationController {
 
     private boolean continueMoveForOneTurn(Unit unit) {
         if (unit.getDestination() == null) return false;
-        HashMap<Tile, Integer> distancesFromDestination = doBFSAndReturnDistances(unit.getDestination());
+        HashMap<Tile, Integer> distancesFromDestination = doBFSAndReturnDistances(unit.getDestination(), false);
         Tile temporaryDestination = unit.getPosition();
         HashMap<Tile, Integer> distancesFromOriginByMP = (HashMap<Tile, Integer>) doDijkstra(unit.getPosition(), unit.getDestination(), unit.getMotionPoint(), false);
         for (Tile tile : distancesFromOriginByMP.keySet()) {
