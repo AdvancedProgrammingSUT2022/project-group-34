@@ -3,9 +3,10 @@
 package controllers;
 
 import models.Civilization;
+import models.TechnologyEnum;
 import models.unit.Unit;
 import models.tile.Tile;
-import models.tile.VisibleTile;
+import models.Technology;
 
 public class CheatController {
     private static CheatController instance = null;
