@@ -67,6 +67,7 @@ public class GameMenu extends Menu {
             else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
             else if (processor.getCategory().equals("info")) handleInfoCategoryCommand(processor);
             else if (processor.getCategory().equals("cheat")) handleCheatCategoryCommand(processor);
+            else if (processor.getCategory().equals("end")) handleEndCategoryCommand(processor);
             else invalidCommand();
         }
     }
@@ -1573,7 +1574,10 @@ public class GameMenu extends Menu {
             System.out.println();
         }
     }
+
+    private static void handleEndCategoryCommand(Processor processor) {
+        if (processor.getSection() == null) invalidCommand();
+        else if (processor.getSection().equals("turn")) GameController.getInstance().startTurn();
+        else invalidCommand();
+    }
 }
-
-
-

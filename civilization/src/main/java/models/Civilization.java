@@ -333,6 +333,6 @@ public class Civilization {
     }
 
     public HashMap<Resource, Integer> getNumberOfEachExchangedResource() {
-        return numberOfEachExchangedResource
+        return numberOfEachExchangedResource;
     }
 }

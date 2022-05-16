@@ -254,8 +254,8 @@ public class CivilizationController {
         return new ArrayList<>(ans);
     }
 
-    private void continueMoves() {
-        for (Unit unit : GameController.getInstance().getCivilization().getUnits()) {
+    private void continueMoves(Civilization civilization) {
+        for (Unit unit : civilization.getUnits()) {
             continueMoveForOneTurn(unit);
         }
     }
@@ -464,43 +464,25 @@ public class CivilizationController {
 
     public void updateCivilization(Civilization civilization) {
 
-        CivilizationMap civilizationMap = civilization.getPersonalMap();
-        civilizationMap.removeTransparentTiles();
-        ArrayList<AbstractTile> visibleMapArray = getAllVisibleTiles(civilization);
-        civilizationMap.addTransparentTiles(visibleMapArray);
-
-
         updateNumberOfResources(civilization);
 
         civilization.setHappiness();
         civilization.updateGold();
 
-        for (City city : civilization.getCities())
+        for (City city : civilization.getCities()) {
             updateCity(city);
+        }
 
-        for (Work work : civilization.getWorks())
+        for (Work work : civilization.getWorks()) {
             if (work.update()) {
                 work.doWork();
             }
-
-
-    }
-
-    private ArrayList<AbstractTile> getAllVisibleTiles(Civilization civilization) {
-        Set<AbstractTile> visibleMap = new HashSet<>();
-        for (City city : civilization.getCities()) {
-            visibleMap.addAll(city.getTerritory());
-        }
-        GameMap mainGameMap = GameController.getInstance().getGame().getMainGameMap();
-        for (Unit unit : civilization.getUnits()) {
-            visibleMap.addAll(mainGameMap.getAdjacentTiles(unit.getPosition()));
         }
 
-        ArrayList<AbstractTile> visibleMapArray = new ArrayList<>();
-        for (Object o : visibleMap.toArray()) {
-            visibleMapArray.add((AbstractTile) o);
-        }
-        return visibleMapArray;
+        continueMoves(civilization);
+
+        CivilizationController.getInstance().updateTransparentTiles(civilization);
+        CivilizationController.getInstance().updatePersonalMap(civilization, GameController.getInstance().getGame().getMainGameMap());
     }
 
     private void updateNumberOfResources(Civilization civilization) {
