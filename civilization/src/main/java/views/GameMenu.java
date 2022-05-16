@@ -1282,14 +1282,30 @@ public class GameMenu extends Menu {
     }
 
 
-    private static void attckUnits(Processor processor){
+    private static void attackUnits(Processor processor) {
         String x = processor.get("x");
         String y = processor.get("y");
         if (processor.getSubSection() == null ||
-                (!processor.getSubSection().equals("city") && !processor.getSubSection().equals("combat") && !processor.getSubSection().equals("noncombat")) ||
+                (!processor.getSubSection().equals("combat") && !processor.getSubSection().equals("noncombat")) ||
                 processor.getNumberOfFields() != 2 ||
                 x == null || y == null)
             invalidCommand();
+        else if (!CivilizationController.getInstance().isPositionValid(new int[]{Integer.parseInt(x), Integer.parseInt(y)}))
+            System.out.println("Invalid coordinates!");
+        else {
+            int[] unitPosition = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
+            Tile tile = CivilizationController.getInstance().getTileByPosition(unitPosition);
+
+            if (processor.getSection().equals("combat")) {
+                if (tile.getCombatUnit() == null) System.out.println("There is no combat unit in that place");
+            } else if (processor.getSection().equals("noncombat")) {
+                if (tile.getNonCombatUnit() == null) System.out.println("There is no noncombat unit in that place");
+            }else {
+                if (CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile) > 2)
+                    System.out.println("Unit is not in city's range");
+
+            }
+        }
     }
 
 
