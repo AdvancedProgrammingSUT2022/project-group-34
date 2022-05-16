@@ -5,8 +5,9 @@ import models.tile.Tile;
 
 public class Worker extends NonCombatUnit{
 
-    public boolean isWorking;
-    public int ternWork;
+    public boolean isWorking = false;
+    public int ternWork = 0;
+
 
     public Worker(UnitEnum unitEnum, Tile position, Civilization civilization) {
         super(unitEnum, position, civilization);

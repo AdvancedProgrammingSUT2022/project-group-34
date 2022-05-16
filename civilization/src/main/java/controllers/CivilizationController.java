@@ -444,8 +444,10 @@ public class CivilizationController {
         //TODO
     }
 
-    public void purchaseTile(City city, int[] position) {
-        //TODO
+    public void purchaseTile(City city, Tile tile) {
+        city.addTerritory(tile);
+        Civilization civilization = GameController.getInstance().getCivilization();
+        civilization.setGold(civilization.getGold()-50);
     }
 
     public void chooseCityProduction(City city, String unitType) {

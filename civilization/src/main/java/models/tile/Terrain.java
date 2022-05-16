@@ -17,15 +17,15 @@ public enum Terrain{
 
     public static HashMap<String, Terrain> allTerrains = new HashMap<>();
 
-    public final Object name;
-    public final int foodRate;
-    public final int goldRate;
-    public final int productionRate;
-    public final int movingCost;
-    public final int impactOnWar;
-    public final boolean isBlocked;
+    private final String name;
+    private final int foodRate;
+    private final int goldRate;
+    private final int productionRate;
+    private final int movingCost;
+    private final int impactOnWar;
+    private final boolean isBlocked;
 
-    Terrain(Object name, int foodRate, int goldRate, int productionRate, int movingCost, int impactOnWar, boolean isBlocked) {
+    Terrain(String name, int foodRate, int goldRate, int productionRate, int movingCost, int impactOnWar, boolean isBlocked) {
         this.name = name;
         this.foodRate = foodRate;
         this.goldRate = goldRate;
@@ -63,5 +63,9 @@ public enum Terrain{
         tile.impactOnWar    += terrain.impactOnWar;
         tile.movingCost     += terrain.movingCost;
         tile.isBlock |= terrain.isBlocked;
+    }
+
+    public String getName() {
+        return name;
     }
 }

@@ -2,9 +2,9 @@ package models;
 
 public class Notification {
 
-    private String message;
+    private final String message;
     private int tern;
-    private String type;
+    private final String type;
 
     public Notification(String message, String type) {
         this.message = message;

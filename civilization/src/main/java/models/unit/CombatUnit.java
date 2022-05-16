@@ -1,10 +1,7 @@
 package models.unit;
 
 import models.City;
-<<<<<<< HEAD
 import models.Civilization;
-=======
->>>>>>> bab60cdcb7713cdd55cd0e36c931fd758a1ddc3d
 import models.TechnologyEnum;
 import models.resource.ResourceData;
 import models.tile.Tile;
