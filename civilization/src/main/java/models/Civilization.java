@@ -13,10 +13,10 @@ import java.util.HashMap;
 
 public class Civilization {
 
-    private static int decreasedHappinessDueToTheFoundingOfTheCity = 4;
+    private static final int decreasedHappinessDueToTheFoundingOfTheCity = 4;
 
 
-    private User player;
+    private final User player;
 
     private String civilizationName;
 
@@ -25,7 +25,7 @@ public class Civilization {
     private ArrayList<City> cities;
     private ArrayList<Tile> workingTiles;
     private ArrayList<Unit> units;
-    private ArrayList<Work> works;
+    private final ArrayList<Work> works;
 
     private City mainCapital;
     private City currentCapital;
@@ -33,11 +33,11 @@ public class Civilization {
     private ArrayList<Notification> notifications;
 
     private HashMap<String, Resource> civilizationResources;
-    private HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
-    private HashMap<String, Integer> numberOfEachExchangedResource = new HashMap<>();
+    private final HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
+    private final HashMap<String, Integer> numberOfEachExchangedResource = new HashMap<>();
 
-    private HashMap<String, Technology> civilizationResearchedTechnologies;
-    private HashMap<String, Technology> civilizationNotResearchedTechnologies;
+    private HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies;
+    private HashMap<TechnologyEnum, Technology> civilizationNotResearchedTechnologies;
     private HashMap<String, Unit> producibleUnits;
 
     private int numberOfBeakers;
@@ -46,11 +46,11 @@ public class Civilization {
     private int gold;
     private int goldRate;
     private int happiness;
-    private int happiness0;
-    private int happinessPerLuxuryResource = 4;
-    private int unitMaintenanceCost = 2;
-    private int roadMaintenanceCost = 1;
-    private int railMaintenanceCost = 1;
+    private final int happiness0;
+    private final int happinessPerLuxuryResource = 4;
+    private final int unitMaintenanceCost = 2;
+    private final int roadMaintenanceCost = 1;
+    private final int railMaintenanceCost = 1;
 
     private int turn = 0;
 
@@ -158,19 +158,19 @@ public class Civilization {
         this.civilizationResources = civilizationResources;
     }
 
-    public HashMap<String, Technology> getCivilizationResearchedTechnologies() {
+    public HashMap<TechnologyEnum, Technology> getCivilizationResearchedTechnologies() {
         return civilizationResearchedTechnologies;
     }
 
-    public void setCivilizationResearchedTechnologies(HashMap<String, Technology> civilizationResearchedTechnologies) {
+    public void setCivilizationResearchedTechnologies(HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies) {
         this.civilizationResearchedTechnologies = civilizationResearchedTechnologies;
     }
 
-    public HashMap<String, Technology> getCivilizationNotResearchedTechnologies() {
+    public HashMap<TechnologyEnum, Technology> getCivilizationNotResearchedTechnologies() {
         return civilizationNotResearchedTechnologies;
     }
 
-    public void setCivilizationNotResearchedTechnologies(HashMap<String, Technology> civilizationNotResearchedTechnologies) {
+    public void setCivilizationNotResearchedTechnologies(HashMap<TechnologyEnum, Technology> civilizationNotResearchedTechnologies) {
         this.civilizationNotResearchedTechnologies = civilizationNotResearchedTechnologies;
     }
 

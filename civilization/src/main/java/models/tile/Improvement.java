@@ -1,6 +1,7 @@
 package models.tile;
 
 import models.Technology;
+import models.TechnologyEnum;
 import models.resource.Resource;
 import models.resource.ResourceName;
 
@@ -8,56 +9,9 @@ import models.resource.ResourceName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
-public enum Improvement{
-
-
-    Camp        ("Camp"         ,0,0,0,false,"Trapping"
-            , new Terrain[]{Terrain.Tundra,Terrain.Plains,Terrain.Desert}
-            , new Feature[]{Feature.Forests}
-            , new ResourceName[]{ResourceName.Ivory,ResourceName.Furs,ResourceName.Deer}),
-
-    Farm        ("Farm"         ,1,0,0,false,"Agriculture"
-            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert}
-            , new Feature[]{}
-            , new ResourceName[]{ResourceName.Wheat}),
-
-    LumberMill  ("LumberMill"   ,0,0,1,false,"Engineering"
-            , new Terrain[]{}
-            , new Feature[]{Feature.Forests}
-            , new ResourceName[]{}),
-
-    Mine        ("Mine"         ,0,0,1,false,"Mining"
-            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills,Terrain.Snow}
-            , new Feature[]{Feature.Jungle,Feature.Forests,Feature.Marsh}
-            , new ResourceName[]{ResourceName.Iron,ResourceName.Coal,ResourceName.Gems,ResourceName.Gold,ResourceName.Silver}),
-
-    Pasture     ("Pasture"      ,0,0,0,false,"AnimalHusbandry"
-            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills}
-            , new Feature[]{}
-            , new ResourceName[]{ResourceName.Horses,ResourceName.Cattle,ResourceName.Sheep}),
-
-    Plantation  ("Plantation"   ,0,0,0,false,"Calendar"
-            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert}
-            , new Feature[]{Feature.Forests,Feature.Marsh,Feature.FloodPlane,Feature.Jungle}
-            , new ResourceName[]{ResourceName.Banana,ResourceName.Silk,ResourceName.Sugar,ResourceName.Cotton,ResourceName.Dyes,ResourceName.Incense}),
-
-    Quarry      ("Quarry"       ,0,0,0,false,"Masonry"
-            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills}
-            , new Feature[]{}
-            , new ResourceName[]{ResourceName.Marble}),
-
-    TradingPost ("TradingPost"  ,0,1,0,false,"Trapping"
-            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra}
-            , new Feature[]{}
-            , new ResourceName[]{}),
-
-    Manufactory ("Manufactory"  ,0,0,3,true ,null
-            , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Snow}
-            , new Feature[]{}
-            , new ResourceName[]{}),
-    ;
-
+public class Improvement{
 
     private final String name;
     private final int foodRate;
@@ -69,44 +23,41 @@ public enum Improvement{
     private final ArrayList<Feature> suitableFeatureForThisImprovement = new ArrayList<>();
     private final ArrayList<Resource> allResourcesThatNeedThisImprovement = new ArrayList<>();
 
-    public static final HashMap<String, Improvement> allImprovements = new HashMap<>();
+    public static final HashMap<ImprovementEnum, Improvement> allImprovements = new HashMap<>();
 
-    Improvement(String name, int foodRate, int goldRate, int productionRate, boolean isUsable, String requiredTechnology,
-                Terrain[] suitableTerrainForThisImprovement,
-                Feature[] suitableFeatureForThisImprovement,
-                ResourceName[] allResourcesThatNeedThisTechnology) {
+    Improvement(ImprovementEnum improvementEnum) {
 
-        this.name = name;
-        this.foodRate = foodRate;
-        this.goldRate = goldRate;
-        this.productionRate = productionRate;
-        this.isUsable = isUsable;
-        this.requiredTechnology = Technology.getAllTechnologiesCopy().get(requiredTechnology);
+        this.name = improvementEnum.name;
+        this.foodRate = improvementEnum.foodRate;
+        this.goldRate = improvementEnum.goldRate;
+        this.productionRate = improvementEnum.productionRate;
+        this.isUsable = improvementEnum.isUsable;
+        this.requiredTechnology = Technology.getAllTechnologiesCopy().get(improvementEnum.requiredTechnology);
 
-        this.suitableTerrainForThisImprovement.addAll(Arrays.asList(suitableTerrainForThisImprovement));
+        this.suitableTerrainForThisImprovement.addAll(improvementEnum.suitableTerrainForThisImprovement);
 
-        this.suitableFeatureForThisImprovement.addAll(Arrays.asList(suitableFeatureForThisImprovement));
+        this.suitableFeatureForThisImprovement.addAll(improvementEnum.suitableFeatureForThisImprovement);
 
         HashMap<String,Resource> allResourcesCopy = Resource.getAllResourcesCopy();
-        for (ResourceName resourceName : allResourcesThatNeedThisTechnology)
-            this.allResourcesThatNeedThisImprovement.add(allResourcesCopy.get(resourceName.name));
+        for (Resource resource : improvementEnum.allResourcesThatNeedThisImprovement)
+            this.allResourcesThatNeedThisImprovement.add(resource);
 
     }
 
     public static void createAllInstances() {
-        allImprovements.put(Improvement.Camp.name       ,Improvement.Camp);
-        allImprovements.put(Improvement.Farm.name       ,Improvement.Farm);
-        allImprovements.put(Improvement.LumberMill.name ,Improvement.LumberMill);
-        allImprovements.put(Improvement.Mine.name       ,Improvement.Mine);
-        allImprovements.put(Improvement.Pasture.name    ,Improvement.Pasture);
-        allImprovements.put(Improvement.Plantation.name ,Improvement.Plantation);
-        allImprovements.put(Improvement.Quarry.name     ,Improvement.Quarry);
-        allImprovements.put(Improvement.TradingPost.name,Improvement.TradingPost);
-        allImprovements.put(Improvement.Manufactory.name,Improvement.Manufactory);
+        allImprovements.put(ImprovementEnum.Camp       , new Improvement(ImprovementEnum.Camp));
+        allImprovements.put(ImprovementEnum.Farm       , new Improvement(ImprovementEnum.Farm));
+        allImprovements.put(ImprovementEnum.LumberMill , new Improvement(ImprovementEnum.LumberMill));
+        allImprovements.put(ImprovementEnum.Mine       , new Improvement(ImprovementEnum.Mine));
+        allImprovements.put(ImprovementEnum.Pasture    , new Improvement(ImprovementEnum.Pasture));
+        allImprovements.put(ImprovementEnum.Plantation , new Improvement(ImprovementEnum.Plantation));
+        allImprovements.put(ImprovementEnum.Quarry     , new Improvement(ImprovementEnum.Quarry));
+        allImprovements.put(ImprovementEnum.TradingPost, new Improvement(ImprovementEnum.TradingPost));
+        allImprovements.put(ImprovementEnum.Manufactory, new Improvement(ImprovementEnum.Manufactory));
     }
 
 
-    public static HashMap<String, Improvement> getAllImprovements() {
+    public static HashMap<ImprovementEnum, Improvement> getAllImprovements() {
         if (allImprovements.isEmpty())
             createAllInstances();
         return new HashMap<>(allImprovements);
@@ -127,18 +78,18 @@ public enum Improvement{
 
     public static ArrayList<String> getImprovementsByFeature(Feature feature){
         ArrayList<String> improvements= new ArrayList<>();
-        for (Improvement improvement : Improvement.values())
-            if (improvement.suitableFeatureForThisImprovement.contains(feature))
-                improvements.add(improvement.getName());
+        for (ImprovementEnum improvementEnum : ImprovementEnum.values())
+            if (allImprovements.get(improvementEnum).suitableFeatureForThisImprovement.contains(feature))
+                improvements.add(improvementEnum.name);
 
         return improvements;
     }
 
     public static ArrayList<String> getImprovementsByTerrain(Terrain terrain){
         ArrayList<String> improvements = new ArrayList<>();
-        for (Improvement improvement : Improvement.values())
-            if (improvement.suitableTerrainForThisImprovement.contains(terrain))
-                improvements.add(improvement.getName());
+        for (ImprovementEnum improvementEnum : ImprovementEnum.values())
+            if (allImprovements.get(improvementEnum).suitableTerrainForThisImprovement.contains(terrain))
+                improvements.add(improvementEnum.name);
 
         return improvements;
     }
