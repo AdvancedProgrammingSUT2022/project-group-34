@@ -1031,6 +1031,8 @@ public class GameMenu extends Menu {
     4.city remove citizens
     5.city buy tile
     6.city construction
+    7.city attack combat --x <x> --y <y>
+    city attack noncombat --x <x> --y <y>
      */
     private static void handleCityCategoryCommand(Processor processor) {
         if (selectedCity == null)
@@ -1049,6 +1051,8 @@ public class GameMenu extends Menu {
             buyTile(processor);
         else if (processor.getSection().equals("construction"))
             constructionMenu();
+        else if (processor.getSection().equals("attack"))
+            ;// TODO: 5/16/2022
         else
             invalidCommand();
     }
@@ -1274,6 +1278,17 @@ public class GameMenu extends Menu {
                 }
             } else invalidCommand();
         }
+    }
+
+
+    private static void attckUnits(Processor processor){
+        String x = processor.get("x");
+        String y = processor.get("y");
+        if (processor.getSubSection() == null ||
+                (!processor.getSubSection().equals("city") && !processor.getSubSection().equals("combat") && !processor.getSubSection().equals("noncombat")) ||
+                processor.getNumberOfFields() != 2 ||
+                x == null || y == null)
+            invalidCommand();
     }
 
 
