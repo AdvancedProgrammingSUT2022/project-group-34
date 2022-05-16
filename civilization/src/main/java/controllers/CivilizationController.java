@@ -264,6 +264,7 @@ public class CivilizationController {
 
     public boolean isRiverBetween(Tile tile1, Tile tile2) {
         if (tile1 == null || tile2 == null) return false;
+        if (tile1.getAdjacentTiles().indexOf(tile2) == -1) return false;
         return tile1.getIsRiver().get(tile1.getAdjacentTiles().indexOf(tile2));
     }
 

@@ -67,7 +67,6 @@ public class GameMap extends Map {
                 tiles.add(tile1);
         }
 
-        tiles.removeAll(Collections.singleton(null));
         return tiles;
     }
 
