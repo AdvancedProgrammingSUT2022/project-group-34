@@ -15,8 +15,7 @@ public class ProfileMenu extends Menu {
             processor = new Processor(getInput());
 
             if (!processor.isValid() || processor.getCategory() == null) invalidCommand();
-            else if (processor.getSection() != null && processor.getSection().equals("change"))
-                handleChangeCategoryCommand(processor);
+            else if (processor.getCategory().equals("change")) handleChangeCategoryCommand(processor);
             else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
             else invalidCommand();
         }
