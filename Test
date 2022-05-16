@@ -1,0 +1,8 @@
+user register -u seyyed -p Seyyed1382 --nickname pass
+user register -u ahn -p Ahn1381 --nickname ahn
+user login -p Seyyed1382 -u seyyed
+menu enter profile
+change --nickname seyyed
+Menu exit
+play game --player1 ahn
+
