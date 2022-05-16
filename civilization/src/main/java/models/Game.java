@@ -13,10 +13,10 @@ import java.util.HashMap;
 
 public class Game {
 
-    private HashMap<String, Resource> gameResources;
-    private HashMap<String, Technology> gameTechnologies;
+    private HashMap<String, Resource> gameResources = new HashMap<>();
+    private HashMap<String, Technology> gameTechnologies = new HashMap<>();
 
-    private ArrayList<Civilization> civilizations;
+    private ArrayList<Civilization> civilizations = new ArrayList<>();
     private ArrayList<User> users;
 
     private GameMap mainGameMap;
