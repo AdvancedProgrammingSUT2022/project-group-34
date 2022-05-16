@@ -12,6 +12,7 @@ import models.Civilization;
 import models.Game;
 import models.map.CivilizationMap;
 import models.map.GameMap;
+import models.resource.Resource;
 import models.tile.*;
 import models.tile.AbstractTile;
 import models.tile.Improvement;
@@ -435,6 +436,20 @@ public class CivilizationController {
             else
                 work.changeWork((Worker) selectedNonCombatUnit, 3, "repair");
             return "ok";
+        }
+    }
+
+    public void pillage(CombatUnit selectedCombatUnit){
+        selectedCombatUnit.makeUnitAwake();
+        selectedCombatUnit.getPosition().setLooted(true);
+        Resource resource;
+        if ((resource=selectedCombatUnit.getPosition().getResource())!=null){
+            HashMap<Resource, Integer> resourceAmounts = GameController.getInstance().getCivilization().getNumberOfEachResource();
+            resourceAmounts.replace(resource, resourceAmounts.get(resource)-1);
+            if (resourceAmounts.get(resource)==0){
+                resourceAmounts.remove(resource);
+                GameController.getInstance().getCivilization().getCivilizationResources().remove(resource.getName());
+            }
         }
     }
 

@@ -426,8 +426,7 @@ public class GameMenu extends Menu {
         else if (selectedCombatUnit.getPosition().getImprovementName() == null)
             System.out.println("There is no improvement in this tile");
         else {
-            selectedCombatUnit.makeUnitAwake();
-            selectedCombatUnit.getPosition().setLooted(true);
+            CivilizationController.getInstance().pillage(selectedCombatUnit);
             selectedCombatUnit = null;
             System.out.println("Tile is pillaged");
         }
