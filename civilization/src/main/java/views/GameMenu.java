@@ -1314,8 +1314,8 @@ public class GameMenu extends Menu {
         CivilizationMap personalMap = civilization.getPersonalMap();
         GameMap map = GameController.getInstance().getGame().getMainGameMap();
 
-        int arrayHeight = VIEW_MAP_HEIGHT * 10;
-        int arrayWidth = VIEW_MAP_WIDTH * 20;
+        int arrayHeight = VIEW_MAP_HEIGHT * 20;
+        int arrayWidth = VIEW_MAP_WIDTH * 30;
 
         StringBuilder output[][] = new StringBuilder[arrayHeight][arrayWidth];
 
@@ -1390,7 +1390,7 @@ public class GameMenu extends Menu {
     private static void fullWithRandomChars(String colorCode, StringBuilder[][] output, int x, int y, int count) {
         Random random = new Random(2 * x + y * y * y);
         for (int i = y; i < y + count; i++) {
-            if (output[x][i].charAt(0) != ' ') continue;
+            if (output[x][i].length() == 0 || output[x][i].charAt(0) != ' ') continue;
             output[x][i] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
         }
     }
@@ -1604,6 +1604,7 @@ public class GameMenu extends Menu {
     private static void printMap(StringBuilder[][] output) {
         for (int i = 0; i < output.length; i++) {
             for (int j = 0; j < output[i].length; j++) {
+                if (output[i][j].length() == 0) continue;
                 System.out.printf("%s", output[i][j].toString());
             }
             System.out.println();
