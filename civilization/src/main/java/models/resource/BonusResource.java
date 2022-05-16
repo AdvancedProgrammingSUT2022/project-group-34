@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class BonusResource extends Resource{
 
     private final int foodBonus;
-    private static final HashMap<String,BonusResource> allBonusResource = new HashMap<>();
+    public static final HashMap<String,BonusResource> allBonusResource = new HashMap<>();
 
     public BonusResource(String name, Improvement requiredImprovement, int foodBonus) {
         super(name, requiredImprovement, false);

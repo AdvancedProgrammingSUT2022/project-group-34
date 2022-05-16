@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class StrategicResource extends Resource{
 
-    private static final HashMap<String,StrategicResource> allStrategicResource = new HashMap<>();
+    public static final HashMap<String,StrategicResource> allStrategicResource = new HashMap<>();
     private final TechnologyEnum requiredTechnology;
     private final int productionBonus;
 

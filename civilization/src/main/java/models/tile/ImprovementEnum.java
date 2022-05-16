@@ -69,8 +69,6 @@ public enum ImprovementEnum {
     public final ArrayList<Feature> suitableFeatureForThisImprovement = new ArrayList<>();
     public final ArrayList<Resource> allResourcesThatNeedThisImprovement = new ArrayList<>();
 
-    public static final HashMap<String, Improvement> allImprovements = new HashMap<>();
-
     ImprovementEnum(String name, int foodRate, int goldRate, int productionRate, boolean isUsable, TechnologyEnum requiredTechnology,
                 Terrain[] suitableTerrainForThisImprovement,
                 Feature[] suitableFeatureForThisImprovement,

@@ -9,7 +9,7 @@ public class Resource {
 
     public static ArrayList<HashMap<String,String>> dataSheet;
     public static HashMap<String, ArrayList<String>> dataSheetLocationsOfResources;
-    public static HashMap<String,Resource> allResources;
+    public static HashMap<String,Resource> allResources = new HashMap<>();
 
     private final String name;
     private final Improvement requiredImprovement;
@@ -34,11 +34,11 @@ public class Resource {
 
     public static HashMap<String, Resource> getAllResourcesCopy() {
 
-        StrategicResource.allResources.forEach((name,resource)->{
+        StrategicResource.allStrategicResource.forEach((name,resource)->{
             Resource resourceCopy = resource.cloneResource();
             allResources.put(name,resourceCopy);
         });
-        BonusResource.allResources.forEach((name,resource)->{
+        BonusResource.allBonusResource.forEach((name,resource)->{
             Resource resourceCopy = resource.cloneResource();
             allResources.put(name,resourceCopy);
         });
