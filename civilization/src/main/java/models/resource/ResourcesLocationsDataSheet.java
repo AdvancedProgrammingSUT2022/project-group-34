@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum ResourcesLocationsDataSheet {
-    Banana  (ResourceEnum.Banana,new Terrain[]{}                                                                                 ,new Feature[]{Feature.Jungle}),
+    Banana  (ResourceEnum.Banana, new Terrain[]{}                                                                                ,new Feature[]{Feature.Jungle}),
     Cattle  (ResourceEnum.Cattle, new Terrain[]{Terrain.Grasslands}                                                              ,new Feature[]{}),
     Deer    (ResourceEnum.Deer  , new Terrain[]{Terrain.Hills,Terrain.Tundra}                                                    ,new Feature[]{Feature.Jungle}),
     Sheep   (ResourceEnum.Sheep , new Terrain[]{Terrain.Grasslands,Terrain.Hills,Terrain.Desert,Terrain.Plains}                  ,new Feature[]{}),

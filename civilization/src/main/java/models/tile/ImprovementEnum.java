@@ -3,7 +3,6 @@ package models.tile;
 import models.Technology;
 import models.TechnologyEnum;
 import models.resource.Resource;
-import models.resource.ResourceEnum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,47 +14,47 @@ public enum ImprovementEnum {
     Camp        ("Camp"         ,0,0,0,false, TechnologyEnum.Trapping
             , new Terrain[]{Terrain.Tundra,Terrain.Plains,Terrain.Desert}
             , new Feature[]{Feature.Forests}
-            , new ResourceEnum[]{ResourceEnum.Ivory, ResourceEnum.Furs, ResourceEnum.Deer}),
+            , new String[]{"Ivory", "Furs", "Deer"}),
 
     Farm        ("Farm"         ,1,0,0,false,TechnologyEnum.Agriculture
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert}
             , new Feature[]{}
-            , new ResourceEnum[]{ResourceEnum.Wheat}),
+            , new String[]{"Wheat"}),
 
     LumberMill  ("LumberMill"   ,0,0,1,false,TechnologyEnum.Engineering
             , new Terrain[]{}
             , new Feature[]{Feature.Forests}
-            , new ResourceEnum[]{}),
+            , new String[]{}),
 
     Mine        ("Mine"         ,0,0,1,false,TechnologyEnum.Mining
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills,Terrain.Snow}
             , new Feature[]{Feature.Jungle,Feature.Forests,Feature.Marsh}
-            , new ResourceEnum[]{ResourceEnum.Iron, ResourceEnum.Coal, ResourceEnum.Gems, ResourceEnum.Gold, ResourceEnum.Silver}),
+            , new String[]{"Iron", "Coal", "Gems", "Gold", "Silver"}),
 
     Pasture     ("Pasture"      ,0,0,0,false,TechnologyEnum.AnimalHusbandry
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills}
             , new Feature[]{}
-            , new ResourceEnum[]{ResourceEnum.Horses, ResourceEnum.Cattle, ResourceEnum.Sheep}),
+            , new String[]{"Horses", "Cattle", "Sheep"}),
 
     Plantation  ("Plantation"   ,0,0,0,false,TechnologyEnum.Calendar
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert}
             , new Feature[]{Feature.Forests,Feature.Marsh,Feature.FloodPlain,Feature.Jungle}
-            , new ResourceEnum[]{ResourceEnum.Banana, ResourceEnum.Silk, ResourceEnum.Sugar, ResourceEnum.Cotton, ResourceEnum.Dyes, ResourceEnum.Incense}),
+            , new String[]{"Banana", "Silk", "Sugar", "Cotton", "Dyes", "Incense"}),
 
     Quarry      ("Quarry"       ,0,0,0,false,TechnologyEnum.Masonry
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Hills}
             , new Feature[]{}
-            , new ResourceEnum[]{ResourceEnum.Marble}),
+            , new String[]{"Marble"}),
 
     TradingPost ("TradingPost"  ,0,1,0,false,TechnologyEnum.Trapping
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra}
             , new Feature[]{}
-            , new ResourceEnum[]{}),
+            , new String[]{}),
 
     Manufactory ("Manufactory"  ,0,0,3,true , TechnologyEnum.Engineering
             , new Terrain[]{Terrain.Grasslands,Terrain.Plains,Terrain.Desert,Terrain.Tundra,Terrain.Snow}
             , new Feature[]{}
-            , new ResourceEnum[]{}),
+            , new String[]{}),
     ;
 
 
@@ -72,7 +71,7 @@ public enum ImprovementEnum {
     ImprovementEnum(String name, int foodRate, int goldRate, int productionRate, boolean isUsable, TechnologyEnum requiredTechnology,
                 Terrain[] suitableTerrainForThisImprovement,
                 Feature[] suitableFeatureForThisImprovement,
-                ResourceEnum[] allResourcesThatNeedThisTechnology) {
+                String[] allResourcesThatNeedThisTechnology) {
 
         this.name = name;
         this.foodRate = foodRate;
@@ -86,8 +85,8 @@ public enum ImprovementEnum {
         this.suitableFeatureForThisImprovement.addAll(Arrays.asList(suitableFeatureForThisImprovement));
 
         HashMap<String,Resource> allResourcesCopy = Resource.getAllResourcesCopy();
-        for (ResourceEnum resourceName : allResourcesThatNeedThisTechnology)
-            this.allResourcesThatNeedThisImprovement.add(allResourcesCopy.get(resourceName.name));
+        for (String resourceName : allResourcesThatNeedThisTechnology)
+            this.allResourcesThatNeedThisImprovement.add(allResourcesCopy.get(resourceName));
 
     }
 

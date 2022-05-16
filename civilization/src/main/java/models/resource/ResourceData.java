@@ -36,6 +36,6 @@ public enum ResourceData {
     }
 
     public Resource getResource() {
-        return resource;
+        return this.resource;
     }
 }
