@@ -297,7 +297,7 @@ public class CivilizationController {
             return "not military";
         else if ((city = unit.getPosition().getCity()) == null)
             return "no city";
-        else if (!unit.getPosition().equals(unit.getDestination()))
+        else if (unit.getDestination() != null && !unit.getPosition().equals(unit.getDestination()))
             return "in movement";
         unit.makeUnitAwake();
         unit.setGarrisonCity(city);
@@ -374,6 +374,8 @@ public class CivilizationController {
         territory.add(position);
         City city = new City(name, civilization, position, territory);
         civilization.addCities(city);
+        civilization.setMainCapital(city);
+        civilization.setCurrentCapital(city);
         position.setCity(city);
         civilization.removeUnit(settler);
         return "ok";
@@ -383,7 +385,7 @@ public class CivilizationController {
         Tile tile;
         if (!(selectedNonCombatUnit instanceof Worker))
             return "not worker";
-        else if (!selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
+        else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
             return "in movement";
         else if ((tile = selectedNonCombatUnit.getPosition()).getFeature() != Feature.Forests ||
                 tile.getFeature() != Feature.Jungle || tile.getFeature() != Feature.Marsh)
@@ -416,7 +418,7 @@ public class CivilizationController {
         Tile tile;
         if (!(selectedNonCombatUnit instanceof Worker))
             return "not worker";
-        else if (!selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
+        else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
             return "in movement";
         else if ((tile = selectedNonCombatUnit.getPosition()).getImprovementName() == null)
             return "no improvement";

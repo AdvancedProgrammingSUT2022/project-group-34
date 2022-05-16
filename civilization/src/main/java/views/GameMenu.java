@@ -245,7 +245,7 @@ public class GameMenu extends Menu {
 
         if (x == null || y == null || processor.getNumberOfFields() != 2)
             invalidCommand();
-        else if (!unit.getPosition().equals(unit.getDestination()))
+        else if (unit.getDestination() != null && !unit.getPosition().equals(unit.getDestination()))
             System.out.println("Unit is in a multiple-turn movement");
         else {
 
@@ -341,7 +341,7 @@ public class GameMenu extends Menu {
     private static void setupCommand() {
         if (!(selectedCombatUnit instanceof Archer) || !((Archer) selectedCombatUnit).isSiegeTool)
             System.out.println("Selected unit is not a siege tool unit");
-        else if (!selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
+        else if (selectedCombatUnit.getDestination() != null && !selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
             System.out.println("Unit is in a multiple-turn movement");
         else {
             selectedCombatUnit.makeUnitAwake();
@@ -363,7 +363,7 @@ public class GameMenu extends Menu {
             System.out.println("Selected unit is not a military unit");
         else if (!CivilizationController.getInstance().isPositionValid(new int[]{Integer.parseInt(x), Integer.parseInt(y)}))
             System.out.println("Invalid coordinates!");
-        else if (!selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
+        else if (selectedCombatUnit.getDestination() != null && !selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
             System.out.println("Unit is in a multiple-turn movement");
         else {
             int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
@@ -442,7 +442,7 @@ public class GameMenu extends Menu {
         Unit unit = selectedCombatUnit;
         if (unit == null) unit = selectedNonCombatUnit;
 
-        if (unit.getDestination() == unit.getPosition())
+        if (unit.getDestination() != null && unit.getDestination().equals(unit.getPosition()))
             System.out.println("Unit is not in a multiple-turn movement");
         else {
             unit.setDestination(unit.getPosition());
@@ -459,7 +459,7 @@ public class GameMenu extends Menu {
         if (processor.getSubSection() != null && processor.getSubSection().equals("city")) {
             if (!(selectedNonCombatUnit instanceof Settler))
                 System.out.println("Selected unit is not a settler");
-            else if (!selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
+            else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
                 System.out.println("Unit is in a multiple-turn movement");
             else {
                 switch (CivilizationController.getInstance().foundCity((Settler) selectedNonCombatUnit, name)) {
@@ -502,7 +502,7 @@ public class GameMenu extends Menu {
     private static void pillageCommand() {
         if (selectedCombatUnit == null)
             System.out.println("Selected unit is not a military unit");
-        else if (!selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
+        else if (selectedCombatUnit.getDestination() != null && !selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
             System.out.println("Unit is in a multiple-turn movement");
         else if (selectedCombatUnit.getPosition().getImprovementName() == null)
             System.out.println("There is no improvement in this tile");
@@ -517,7 +517,7 @@ public class GameMenu extends Menu {
     private static void buildCommand() {
         if (!(selectedNonCombatUnit instanceof Worker))
             System.out.println("Selected unit is not a worker");
-        else if (!selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
+        else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
             System.out.println("Unit is in a multiple-turn movement");
         else {
             Tile tile = selectedNonCombatUnit.getPosition();
@@ -770,7 +770,10 @@ public class GameMenu extends Menu {
             if (civilization.getCurrentCapital().equals(city)) output.append("(Capital)");
             output.append("|(").append(city.getPosition().getX()).append(", ").append(city.getPosition().getY()).append(")");
             output.append("|Number of Citizens:").append(city.getCitizens().size());
-            output.append("|City Production:").append(city.getUnitUnderProduct().getName()).append("\n");
+            if (city.getUnitUnderProduct() != null)
+                output.append("|City Production:").append(city.getUnitUnderProduct().getName()).append("\n");
+            else
+                output.append("|City Production:").append("\n");
         }
 
         output.append("If you want to select a city, please type its index.\n");
@@ -995,8 +998,12 @@ public class GameMenu extends Menu {
             output.append("|Production Rate:").append(city.getProductionRate());
             output.append("|Science Rate:").append(city.getScienceRate());
             output.append("|Gold Rate:").append(city.getGoldRate());
-            output.append("|City Production:").append(city.getUnitUnderProduct().getName());
-            output.append("(").append(city.getUnitUnderProductTern()).append("\n");
+            if (city.getUnitUnderProduct()!=null) {
+                output.append("|City Production:").append(city.getUnitUnderProduct().getName());
+                output.append("(").append(city.getUnitUnderProductTern()).append("\n");
+            }
+            else
+                output.append("|City Production:").append("\n");
         }
     }
 
@@ -1079,8 +1086,10 @@ public class GameMenu extends Menu {
                 System.out.println("Idle");
         }
 
+        System.out.println("City's territory:");
         for (Tile tile : selectedCity.getTerritory())
             System.out.print("(" + tile.getX() + ", " + tile.getY() + ") ");
+        System.out.println();
 
         City city = navigateBetweenCities();
 
@@ -1301,7 +1310,7 @@ public class GameMenu extends Menu {
                 if (tile.getCombatUnit() == null) System.out.println("There is no combat unit in that place");
             } else if (processor.getSection().equals("noncombat")) {
                 if (tile.getNonCombatUnit() == null) System.out.println("There is no noncombat unit in that place");
-            }else {
+            } else {
                 if (CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile) > 2)
                     System.out.println("Unit is not in city's range");
 
@@ -1713,30 +1722,31 @@ public class GameMenu extends Menu {
                 }
                 mapX = x;
                 mapY = y;
-            }
-            else invalidCommand();
-        }
-        else if (processor.getSection().equals("move")) {
+            } else invalidCommand();
+        } else if (processor.getSection().equals("move")) {
             if (processor.getSubSection().equals("right")) {
-                if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX)) mapY += Integer.parseInt(processor.get("c"));
+                if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX))
+                    mapY += Integer.parseInt(processor.get("c"));
                 else mapY++;
             }
             if (processor.getSubSection().equals("left")) {
-                if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX)) mapY -= Integer.parseInt(processor.get("c"));
+                if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX))
+                    mapY -= Integer.parseInt(processor.get("c"));
                 else mapY--;
                 mapY = Math.max(0, mapY);
             }
             if (processor.getSubSection().equals("up")) {
-                if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX)) mapX -= Integer.parseInt(processor.get("c"));
+                if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX))
+                    mapX -= Integer.parseInt(processor.get("c"));
                 else mapX--;
                 mapX = Math.max(0, mapX);
             }
             if (processor.getSubSection().equals("down")) {
-                if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX)) mapX += Integer.parseInt(processor.get("c"));
+                if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX))
+                    mapX += Integer.parseInt(processor.get("c"));
                 else mapX++;
             }
-        }
-        else
+        } else
             invalidCommand();
     }
 }
