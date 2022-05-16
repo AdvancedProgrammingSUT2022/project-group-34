@@ -8,8 +8,8 @@ public class Worker extends NonCombatUnit{
     public boolean isWorking;
     public int ternWork;
 
-    public Worker(String name, Tile position, Civilization civilization) {
-        super(name, position, civilization);
+    public Worker(UnitEnum unitEnum, Tile position) {
+        super(unitEnum, position);
     }
 
     public boolean isWorking() {

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Tile extends AbstractTile{
 
     private Improvement improvement = null;
-    private Resource resource;
+    private Resource resource = null;
 
     int foodRate;
     int goldRate;
