@@ -1458,7 +1458,7 @@ public class GameMenu extends Menu {
 
     private static void putString(String str, StringBuilder[][] output, int x, int y) {
         for (int i = 0; i < str.length(); i++) {
-            output[x][y + i] = new StringBuilder(str.charAt(i));
+            output[x][y + i] = new StringBuilder(str.substring(i, i + 1));
         }
     }
 
