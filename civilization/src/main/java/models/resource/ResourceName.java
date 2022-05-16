@@ -1,13 +1,10 @@
 package models.resource;
 
-import models.TechnologyEnum;
-import models.tile.Improvement;
-
 public enum ResourceName {
 
     Banana  ("Banana"),
-    Cow     ("Cow"),
-    Gazelle ("Gazelle"),
+    Cattle("Cow"),
+    Deer("Gazelle"),
     Sheep   ("Sheep"),
     Wheat   ("Wheat"),
 
@@ -16,11 +13,11 @@ public enum ResourceName {
     Iron    ("Iron"),
 
     Cotton  ("Cotton"),
-    Dye     ("Dye"),
-    Fur     ("Fur"),
-    Gemstones("Gemstones"),
+    Dyes("Dye"),
+    Furs("Fur"),
+    Gems("Gemstones"),
     Gold    ("Gold"),
-    Eat     ("Eat"),
+    Incense("Eat"),
     Ivory   ("Ivory"),
     Marble  ("Marble"),
     Silk    ("Silk"),
