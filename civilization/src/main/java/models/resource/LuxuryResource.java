@@ -31,7 +31,7 @@ public class LuxuryResource extends Resource{
 
         ArrayList<Resource> arrayList = new ArrayList<>();
         arrayList.add(ResourceData.Cotton.getResource());
-        arrayList.add(ResourceData.Dye.getResource());
+        arrayList.add(ResourceData.Dyes.getResource());
         arrayList.add(ResourceData.Fur.getResource());
         arrayList.add(ResourceData.Gemstones.getResource());
         arrayList.add(ResourceData.Gold.getResource());
