@@ -1,5 +1,6 @@
 package views;
 
+import com.sun.source.tree.IfTree;
 import controllers.CheatController;
 import controllers.CivilizationController;
 import controllers.GameController;
@@ -553,8 +554,8 @@ public class GameMenu extends Menu {
     private static void researchInfoMenu() {
         Technology technology = GameController.getInstance().getCivilization().getStudyingTechnology();
 
-        System.out.println("Current Research Project: "+technology.getName());
-        System.out.println("Remaining Terms: "+technology.getRemainingTerm());
+        System.out.println("Current Research Project: " + technology.getName());
+        System.out.println("Remaining Terms: " + technology.getRemainingTerm());
 
         futureTechnologies(technology);
         futureImprovements(technology);
@@ -608,7 +609,7 @@ public class GameMenu extends Menu {
     }
 
     private static void futureResources(Technology technology) {
-        String resourceName=null;
+        String resourceName = null;
         if (technology.getName().equals(TechnologyEnum.ScientificTheory.getName()))
             resourceName = "Coal";
         else if (technology.getName().equals(TechnologyEnum.AnimalHusbandry.getName()))
@@ -616,7 +617,7 @@ public class GameMenu extends Menu {
         else if (technology.getName().equals(TechnologyEnum.IronWorking.getName()))
             resourceName = "Iron";
 
-        if (resourceName==null)
+        if (resourceName == null)
             System.out.println("No new resource");
         else {
             System.out.println("New resources:");
@@ -949,6 +950,7 @@ public class GameMenu extends Menu {
     3.city lock citizens
     4.city remove citizens
     5.city buy tile
+    6.city construction
      */
     private static void handleCityCategoryCommand(Processor processor) {
         if (selectedCity == null)
@@ -965,6 +967,8 @@ public class GameMenu extends Menu {
             removeCitizensFromWork(processor);
         else if (processor.getSection().equals("buy"))
             buyTile(processor);
+        else if (processor.getSection().equals("construction"))
+            ;// TODO: 5/16/2022
         else
             invalidCommand();
     }
@@ -1164,6 +1168,34 @@ public class GameMenu extends Menu {
                     return;
                 }
             } else invalidCommand();
+        }
+    }
+
+    private static void constructionMenu() {
+        ArrayList<Unit> units = CivilizationController.getInstance().getProducibleUnits();
+
+        System.out.println("List of producible units:");
+        for (int i = 1; i <= units.size(); i++)
+            System.out.println(i + "." + units.get(i - 1) + "|" + (int) Math.ceil((float) units.get(i - 1).getCost() / selectedCity.getProductionRate()));
+        System.out.println("If you want to choose/change a production, please type its index");
+        System.out.println("If you want to exit the menu, please type \"exit\"");
+
+        String choice;
+        while (true) {
+            choice = getInput();
+            if (choice.equals("exit"))
+                return;
+            else if (choice.matches("\\d+")) {
+                int number = Integer.parseInt(choice);
+                if (number < 1 || number > units.size())
+                    System.out.println("Invalid number");
+                else {
+                    selectedCity.setUnitUnderProduct(units.get(number - 1));
+                    selectedCity.setUnitUnderProductTern((int) Math.ceil((float) units.get(number - 1).getCost() / selectedCity.getProductionRate()));
+
+                }
+            } else
+                invalidCommand();
         }
     }
 

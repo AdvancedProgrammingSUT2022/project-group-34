@@ -60,4 +60,8 @@ public enum UnitEnum {
     public TechnologyEnum getRequiredTechnology() {
         return requiredTechnology;
     }
+
+    public ResourceData getRequiredResource() {
+        return requiredResource;
+    }
 }
