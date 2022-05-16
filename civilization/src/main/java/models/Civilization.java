@@ -309,4 +309,8 @@ public class Civilization {
 
         return null;
     }
+
+    public boolean hasResearched(TechnologyEnum technology) {
+        return civilizationResearchedTechnologies.containsKey(technology);
+    }
 }
