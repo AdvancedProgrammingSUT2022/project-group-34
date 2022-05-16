@@ -1,18 +1,22 @@
 package views;
 
-import com.sun.source.tree.IfTree;
 import controllers.CheatController;
 import controllers.CivilizationController;
 import controllers.GameController;
 import models.*;
 import models.map.CivilizationMap;
 import models.map.GameMap;
+import models.resource.BonusResource;
+import models.resource.LuxuryResource;
+import models.resource.Resource;
+import models.resource.StrategicResource;
 import models.tile.*;
 import models.unit.*;
-import models.resource.*;
 
-import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+import java.util.Scanner;
 
 public class GameMenu extends Menu {
     private final static int VIEW_MAP_WIDTH = 9;
@@ -1375,8 +1379,8 @@ public class GameMenu extends Menu {
         CivilizationMap personalMap = civilization.getPersonalMap();
         GameMap map = GameController.getInstance().getGame().getMainGameMap();
 
-        int arrayHeight = VIEW_MAP_HEIGHT * 10;
-        int arrayWidth = VIEW_MAP_WIDTH * 20;
+        int arrayHeight = VIEW_MAP_HEIGHT * 20;
+        int arrayWidth = VIEW_MAP_WIDTH * 30;
 
         StringBuilder output[][] = new StringBuilder[arrayHeight][arrayWidth];
 
@@ -1451,7 +1455,7 @@ public class GameMenu extends Menu {
     private static void fullWithRandomChars(String colorCode, StringBuilder[][] output, int x, int y, int count) {
         Random random = new Random(2 * x + y * y * y);
         for (int i = y; i < y + count; i++) {
-            if (output[x][i].charAt(0) != ' ') continue;
+            if (output[x][i].length() == 0 || output[x][i].charAt(0) != ' ') continue;
             output[x][i] = new StringBuilder(colorCode + CHARACTER_SEED[random.nextInt(CHARACTER_SEED.length)] + ANSI_RESET);
         }
     }
@@ -1665,6 +1669,7 @@ public class GameMenu extends Menu {
     private static void printMap(StringBuilder[][] output) {
         for (int i = 0; i < output.length; i++) {
             for (int j = 0; j < output[i].length; j++) {
+                if (output[i][j].length() == 0) continue;
                 System.out.printf("%s", output[i][j].toString());
             }
             System.out.println();
