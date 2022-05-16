@@ -2,25 +2,15 @@
 
 package controllers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Stack;
-
+import models.City;
 import models.Civilization;
-import models.Game;
+import models.Technology;
 import models.map.CivilizationMap;
 import models.map.GameMap;
-import models.resource.Resource;
 import models.tile.*;
-import models.tile.AbstractTile;
-import models.tile.Improvement;
-import models.tile.Terrain;
-
 import models.unit.*;
-import models.City;
-import models.Technology;
+
+import java.util.*;
 
 public class CivilizationController {
     private final static int INF = 100000;
@@ -480,6 +470,12 @@ public class CivilizationController {
 
     public void updateCivilization(Civilization civilization) {
 
+        CivilizationMap civilizationMap = civilization.getPersonalMap();
+        civilizationMap.removeTransparentTiles();
+        ArrayList<AbstractTile> visibleMapArray = getAllVisibleTiles(civilization);
+        civilizationMap.addTransparentTiles(visibleMapArray);
+
+
         updateNumberOfResources(civilization);
 
         civilization.setHappiness();
@@ -496,6 +492,23 @@ public class CivilizationController {
 
     }
 
+    private ArrayList<AbstractTile> getAllVisibleTiles(Civilization civilization) {
+        Set<AbstractTile> visibleMap = new HashSet<>();
+        for (City city : civilization.getCities()) {
+            visibleMap.addAll(city.getTerritory());
+        }
+        GameMap mainGameMap = GameController.getInstance().getGame().getMainGameMap();
+        for (Unit unit : civilization.getUnits()) {
+            visibleMap.addAll(mainGameMap.getAdjacentTiles(unit.getPosition()));
+        }
+
+        ArrayList<AbstractTile> visibleMapArray = new ArrayList<>();
+        for (Object o : visibleMap.toArray()) {
+            visibleMapArray.add((AbstractTile) o);
+        }
+        return visibleMapArray;
+    }
+
     private void updateNumberOfResources(Civilization civilization) {
 
         civilization.resetResource();
@@ -508,7 +521,9 @@ public class CivilizationController {
     }
 
     public void updateCity(City city) {
+
         Civilization civilization = city.getCivilization();
+
         city.updateFood(civilization.isUnHappy());
         city.updateProduction();
         city.updateCitizen();

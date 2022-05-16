@@ -6,7 +6,6 @@ import models.resource.Resource;
 import models.tile.AbstractTile;
 import models.tile.Tile;
 import models.unit.Unit;
-import models.unit.UnitEnum;
 import models.unit.Work;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class Civilization {
 
     private HashMap<String, Resource> civilizationResources;
     private final HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
-    private final HashMap<String, Integer> numberOfEachExchangedResource = new HashMap<>();
+    private final HashMap<Resource, Integer> numberOfEachExchangedResource = new HashMap<>();
 
     private HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies;
     private HashMap<TechnologyEnum, Technology> civilizationNotResearchedTechnologies;
@@ -207,10 +206,9 @@ public class Civilization {
                 if (citizen.isWorking())
                     goldRate += citizen.getWorkPosition().getGoldRate();
 
-        for (Unit unit : units) {
-            int unitMaintenanceCost = 2;
+        for (Unit unit : units)
             goldRate -= unitMaintenanceCost;
-        }
+
 
         for (AbstractTile tile : getTerritory()) {
 
@@ -238,15 +236,16 @@ public class Civilization {
         for (City city : cities)
             m += city.getCitizens().size();
 
-        this.happiness = happiness0 - (n + n * n / 8) - (m + m * m / 8);
+        this.happiness = happiness0 - (n) - (m + m * m / 8);
 
-        numberOfEachResource.forEach((key, value) -> {
+        numberOfEachResource.forEach((resource, value) -> {
 
-            if (key instanceof LuxuryResource)
-                if (value - numberOfEachExchangedResource.get(key) != 0) {
+            if (resource instanceof LuxuryResource)
+                if (value - numberOfEachExchangedResource.get(resource) >= 0)
                     happiness += happinessPerLuxuryResource;
-                }
+
         });
+
     }
 
     public HashMap<String, Unit> getProducibleUnits() {
@@ -327,7 +326,7 @@ public class Civilization {
         return numberOfEachResource;
     }
 
-    public HashMap<String, Integer> getNumberOfEachExchangedResource() {
+    public HashMap<Resource, Integer> getNumberOfEachExchangedResource() {
         return numberOfEachExchangedResource;
     }
 }
