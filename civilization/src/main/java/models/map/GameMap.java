@@ -118,23 +118,21 @@ public class GameMap extends Map {
             map.add(new ArrayList<>());
             for (int j = 0; j < mapWidth; j++) {
                 Terrain terrain = generateTerrain(i, j, random);
-                Feature feature = generateFeature(i, j, terrain, random);
-                tile = new Tile( terrain, feature , i , j, city);
+                Tile tile = new Tile(terrain, null, i, j, null, null);
 
                 map.get(i).add(tile);
 
-                if (i % 50 == 0 && j % 23 == 0){
-                    tile.addRiver(j%6);
-                    getAdjacentTileByNumber(tile,j%6).addRiver((3 + j%6) % 6);
-                }
+                boolean hasRiver = generateRivers(tile, random);
+
+                Feature feature = generateFeature(i, j, terrain, hasRiver, random);
+                tile.setFeature(feature);
             }
         }
 
-        Tile tile1;
         for (int i = 0 ; i < mapHeight ; i++)
             for (int j = 0; j < mapWidth; j++) {
-                tile1 = map.get(i).get(j);
-                tile1.setAdjacentTiles(getAdjacentTiles(tile1));
+                Tile tile = map.get(i).get(j);
+                tile.setAdjacentTiles(getAdjacentTiles(tile));
             }
 
     }
@@ -161,5 +159,33 @@ public class GameMap extends Map {
         randomNumber -= hillsProbability;
         if (randomNumber < mountainProbability) return Terrain.Mountain;
         return Terrain.Plains;
+    }
+
+    private Feature generateFeature(int x, int y, Terrain terrain, boolean hasRiver, Random random) {
+        //TODO
+        int randomNumber = random.nextInt(100);
+        if (terrain.equals(Terrain.Desert)) {
+        }
+        if (terrain.equals(Terrain.Grasslands)) {
+        }
+        if (terrain.equals(Terrain.Hills)) {
+        }
+        if (terrain.equals(Terrain.Plains)) {
+        }
+        if (terrain.equals(Terrain.Tundra)) {
+        }
+        return null;
+    }
+
+    private boolean generateRivers(Tile tile, Random random) {
+        if (tile.getTerrain().equals(Terrain.Oceana)) return false;
+        boolean answer = false;
+        for (int i = 0; i < 6; i++) {
+            if (random.nextInt(100) > 10) continue;
+            tile.addRiver(i);
+            getAdjacentTileByNumber(tile,i).addRiver((3 + i) % 6);
+            answer = true;
+        }
+        return answer;
     }
 }
