@@ -886,6 +886,7 @@ public class GameMenu extends Menu {
     1.city screen
     2.city output
     3.city lock citizens
+    4.city remove citizens
      */
     private static void handleCityCategoryCommand(Processor processor) {
         if (processor.getSection() == null)
@@ -898,6 +899,8 @@ public class GameMenu extends Menu {
             cityOutput();
         else if (processor.getSection().equals("lock"))
             unemployedCitizenSection(processor);
+        else if (processor.getSection().equals("remove"))
+            ;// TODO: 5/16/2022  
         else
             invalidCommand();
     }
@@ -968,6 +971,7 @@ public class GameMenu extends Menu {
         System.out.println("Turns till new citizens:" + selectedCity.getTillNewCitizen());
     }
 
+
     private static void unemployedCitizenSection(Processor processor) {
         if (processor.getSubSection() == null || !processor.getSubSection().equals("citizens"))
             invalidCommand();
@@ -995,6 +999,8 @@ public class GameMenu extends Menu {
                 int[] position = {Integer.parseInt(choice.split(" ")[0]), Integer.parseInt(choice.split(" ")[1])};
                 if (!CivilizationController.getInstance().isPositionValid(position))
                     System.out.println("Invalid coordinates");
+                else if (!selectedCity.getTerritory().contains(CivilizationController.getInstance().getTileByPosition(position)))
+                    System.out.println("This tile is not in this city");
                 else {
                     citizens.get(0).setWorking(true);
                     citizens.get(0).setWorkPosition(CivilizationController.getInstance().getTileByPosition(position));
