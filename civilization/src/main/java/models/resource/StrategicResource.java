@@ -48,4 +48,8 @@ public class StrategicResource extends Resource{
         return requiredTechnology == null;
     }
 
+    public TechnologyEnum getRequiredTechnology() {
+        return requiredTechnology;
+    }
+
 }

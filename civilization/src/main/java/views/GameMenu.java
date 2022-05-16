@@ -9,6 +9,7 @@ import models.map.CivilizationMap;
 import models.map.GameMap;
 import models.tile.*;
 import models.unit.*;
+import models.resource.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -1304,7 +1305,7 @@ public class GameMenu extends Menu {
                      \            /      A     \            /
         6             \__________/    xx, yy    \__________/
                       /          \ R R s Bal    /          \
-                     /            \     Fa     /            \
+                     /            \  ???? Fa   /            \
         9           /              \__________/              \
                     \              /          \              /
                      \            /            \            /
@@ -1333,8 +1334,6 @@ public class GameMenu extends Menu {
                         upperBound = 6 * (i + VIEW_MAP_HEIGHT) + 3;
                     }
                 }
-
-                // TODO : handle resources;
 
                 putTile(civilization, tile, visibleTile, output, x, y, upperBound, leftBound);
             }
@@ -1417,6 +1416,7 @@ public class GameMenu extends Menu {
                     if (tile.hasRoad()) putRoad(output, upperBound, leftBound);
                     if (tile.hasRail()) putRail(output, upperBound, leftBound);
                     putImprovement(tile.getImprovementName(), output, upperBound, leftBound);
+                    putResource(civilization, tile.getResource(), output, upperBound, leftBound);
                 } else putRevealed(output, upperBound, leftBound);
             } else putFogOfWar(output, upperBound, leftBound);
         } else putNullTile(output, upperBound, leftBound);
@@ -1548,8 +1548,24 @@ public class GameMenu extends Menu {
 
     private static void putImprovement(Improvement improvement, StringBuilder[][] output, int upperBound, int leftBound) {
         if (improvement == null) return;
-        putString(improvement.getName().substring(0, 2), output, upperBound + 5, leftBound + 7);
-        putColor(ANSI_CYAN, output, upperBound + 5, leftBound + 7, 2);
+        putString(improvement.getName().substring(0, 2), output, upperBound + 5, leftBound + 9);
+        putColor(ANSI_CYAN, output, upperBound + 5, leftBound + 9, 2);
+    }
+
+    private static void putResource(Civilization civilization, Resource resource, StringBuilder[][] output, int upperBound, int leftBound) {
+        if (resource == null) return;
+        String name = resource.getName();
+
+        if (resource instanceof StrategicResource && civilization.hasResearched(((StrategicResource)resource).getRequiredTechnology())) {
+            putString("????", output, upperBound + 5, leftBound + 4);
+        } else putString(name.substring(0, Math.min(4, name.length())), output, upperBound + 5, leftBound + 4);
+
+        if (resource instanceof BonusResource) putColor(ANSI_CYAN, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
+        else if (resource instanceof LuxuryResource) putColor(ANSI_GREEN, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
+        else if (resource instanceof StrategicResource){
+            if (civilization.hasResearched(((StrategicResource)resource).getRequiredTechnology())) putColor(ANSI_PURPLE, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
+            else putColor(ANSI_RED, output, upperBound + 5, leftBound + 4, Math.min(4, name.length()));
+        }
     }
 
     private static void printMap(StringBuilder[][] output) {
