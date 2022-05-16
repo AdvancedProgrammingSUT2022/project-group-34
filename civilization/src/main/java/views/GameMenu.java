@@ -50,8 +50,8 @@ public class GameMenu extends Menu {
     private static CombatUnit selectedCombatUnit = null;
     private static NonCombatUnit selectedNonCombatUnit = null;
     private static City selectedCity = null;
-    private static int mapX = -1;
-    private static int mapY = -1;
+    private static int mapX = 0;
+    private static int mapY = 0;
 
 
     //Processes commands related with main menu
@@ -1375,7 +1375,7 @@ public class GameMenu extends Menu {
         CivilizationMap personalMap = civilization.getPersonalMap();
         GameMap map = GameController.getInstance().getGame().getMainGameMap();
 
-        int arrayHeight = VIEW_MAP_HEIGHT * 20;
+        int arrayHeight = VIEW_MAP_HEIGHT * 6 + 2;
         int arrayWidth = VIEW_MAP_WIDTH * 30;
 
         StringBuilder output[][] = new StringBuilder[arrayHeight][arrayWidth];
@@ -1403,10 +1403,10 @@ public class GameMenu extends Menu {
         12            \__________/              \__________/
         */
 
-        for (int i = -VIEW_MAP_HEIGHT / 2; i <= VIEW_MAP_HEIGHT; i++) {
-            for (int j = -VIEW_MAP_WIDTH / 2; j <= VIEW_MAP_WIDTH; j++) {
-                if (j % 2 == 1) {
-                    if (mapY % 2 == 1 && i == -VIEW_MAP_HEIGHT / 2) continue;
+        for (int i = -(VIEW_MAP_HEIGHT / 2); i <= VIEW_MAP_HEIGHT / 2; i++) {
+            for (int j = -(VIEW_MAP_WIDTH / 2); j <= VIEW_MAP_WIDTH / 2; j++) {
+                if (j % 2 == 1 || j % 2 == -1) {
+                    if (mapY % 2 == 1 && i == -(VIEW_MAP_HEIGHT / 2)) continue;
                     else if (mapY % 2 == 0 && i == VIEW_MAP_HEIGHT / 2) continue;
                 }
                 int x = mapX + i;
@@ -1415,14 +1415,14 @@ public class GameMenu extends Menu {
                 Tile tile = map.getTileByXY(x, y);
 
                 int upperBound;
-                int leftBound = 13 * (j + VIEW_MAP_WIDTH);
+                int leftBound = 13 * (j + VIEW_MAP_WIDTH / 2);
                 if (j % 2 == 0) {
-                    upperBound = 6 * (i + VIEW_MAP_HEIGHT);
+                    upperBound = 6 * (i + VIEW_MAP_HEIGHT / 2);
                 } else {
                     if (mapY % 2 == 1) {
-                        upperBound = 6 * (i + VIEW_MAP_HEIGHT) - 3;
+                        upperBound = 6 * (i + VIEW_MAP_HEIGHT / 2) - 3;
                     } else {
-                        upperBound = 6 * (i + VIEW_MAP_HEIGHT) + 3;
+                        upperBound = 6 * (i + VIEW_MAP_HEIGHT / 2) + 3;
                     }
                 }
 
