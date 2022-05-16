@@ -1314,8 +1314,8 @@ public class GameMenu extends Menu {
         for (int i = -VIEW_MAP_HEIGHT / 2; i <= VIEW_MAP_HEIGHT; i++) {
             for (int j = -VIEW_MAP_WIDTH / 2; j <= VIEW_MAP_WIDTH; j++) {
                 if (j % 2 == 1) {
-                    if (mapY % 2 == 1 && i == -VIEW_MAP_HEIGHT) continue;
-                    else if (mapY % 2 == 0 && i == VIEW_MAP_HEIGHT) continue;
+                    if (mapY % 2 == 1 && i == -VIEW_MAP_HEIGHT / 2) continue;
+                    else if (mapY % 2 == 0 && i == VIEW_MAP_HEIGHT / 2) continue;
                 }
                 int x = mapX + i;
                 int y = mapY + j;
