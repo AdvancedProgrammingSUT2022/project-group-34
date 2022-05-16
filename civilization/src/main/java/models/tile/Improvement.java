@@ -1,16 +1,12 @@
 package models.tile;
 
 import models.Technology;
-import models.TechnologyEnum;
 import models.resource.Resource;
-import models.resource.ResourceName;
 import models.resource.StrategicResource;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class Improvement{
 
@@ -67,6 +63,7 @@ public class Improvement{
 
     public static int setImprovementProperties(Tile tile, Improvement improvement) {
         if (improvement == null) return 0;
+        
         tile.foodRate       += improvement.foodRate;
         tile.goldRate       += improvement.goldRate;
         tile.productionRate += improvement.productionRate;

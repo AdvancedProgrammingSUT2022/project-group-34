@@ -1,14 +1,14 @@
 package models.map;
 
-import models.Civilization;
+import models.resource.Resource;
+import models.resource.ResourceEnum;
+import models.resource.ResourcesLocationsDataSheet;
 import models.tile.Feature;
 import models.tile.Terrain;
 import models.tile.Tile;
-import models.tile.VisibleTile;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Random;
 
 public class GameMap extends Map {
@@ -196,5 +196,11 @@ public class GameMap extends Map {
             answer = true;
         }
         return answer;
+    }
+
+    public static void getRandomResource(Tile tile,int n){
+        ArrayList<ResourceEnum> resourceEnums;
+        resourceEnums = ResourcesLocationsDataSheet.whichResourcesInThisTile(tile);
+        tile.setResource(Resource.allResources.get(resourceEnums.get(n%resourceEnums.size()).name));
     }
 }

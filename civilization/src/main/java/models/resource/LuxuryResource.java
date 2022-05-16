@@ -31,11 +31,11 @@ public class LuxuryResource extends Resource{
 
         ArrayList<Resource> arrayList = new ArrayList<>();
         arrayList.add(ResourceData.Cotton.getResource());
-        arrayList.add(ResourceData.Dye.getResource());
-        arrayList.add(ResourceData.Fur.getResource());
-        arrayList.add(ResourceData.Gemstones.getResource());
+        arrayList.add(ResourceData.Dyes.getResource());
+        arrayList.add(ResourceData.Furs.getResource());
+        arrayList.add(ResourceData.Gems.getResource());
         arrayList.add(ResourceData.Gold.getResource());
-        arrayList.add(ResourceData.Eat.getResource());
+        arrayList.add(ResourceData.Incense.getResource());
         arrayList.add(ResourceData.Ivory.getResource());
         arrayList.add(ResourceData.Marble.getResource());
         arrayList.add(ResourceData.Silk.getResource());

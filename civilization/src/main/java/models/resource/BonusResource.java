@@ -18,8 +18,8 @@ public class BonusResource extends Resource{
     public static void createAllInstance(){
         ArrayList <Resource> arrayList = new ArrayList<>();
         arrayList.add(ResourceData.Banana.getResource());
-        arrayList.add(ResourceData.Cow.getResource());
-        arrayList.add(ResourceData.Gazelle.getResource());
+        arrayList.add(ResourceData.Cattle.getResource());
+        arrayList.add(ResourceData.Deer.getResource());
         arrayList.add(ResourceData.Sheep.getResource());
         arrayList.add(ResourceData.Wheat.getResource());
         for (Resource resource : arrayList) {

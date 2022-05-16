@@ -82,7 +82,7 @@ public class Tile extends AbstractTile {
         return resource;
     }
 
-    public void setResources(Resource resource) {
+    public void setResource(Resource resource) {
         this.resource = resource;
     }
 
