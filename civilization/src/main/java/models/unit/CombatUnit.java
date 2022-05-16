@@ -64,6 +64,10 @@ public class CombatUnit extends Unit {
         this.range = range;
     }
 
+    public int getRange() {
+        return range;
+    }
+
     public int getCombatStrength() {
         return combatStrength;
     }
@@ -106,6 +110,10 @@ public class CombatUnit extends Unit {
 
     public void setFortifyUntilHealed(boolean fortifyUntilHealed) {
         isFortifyUntilHealed = fortifyUntilHealed;
+    }
+
+    public String getCombatType() {
+        return combatType;
     }
 
     public City getGarrisonCity() {

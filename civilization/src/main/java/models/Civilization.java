@@ -6,7 +6,6 @@ import models.resource.Resource;
 import models.tile.AbstractTile;
 import models.tile.Tile;
 import models.unit.Unit;
-import models.unit.UnitEnum;
 import models.unit.Work;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class Civilization {
 
     private HashMap<String, Resource> civilizationResources;
     private final HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
-    private final HashMap<String, Integer> numberOfEachExchangedResource = new HashMap<>();
+    private final HashMap<Resource, Integer> numberOfEachExchangedResource = new HashMap<>();
 
     private HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies;
     private HashMap<TechnologyEnum, Technology> civilizationNotResearchedTechnologies;
@@ -45,10 +44,10 @@ public class Civilization {
     private Technology studyingTechnology;
 
     private int gold;
-    private int goldRate;
     private int happiness;
     private final int happiness0;
     private final int happinessPerLuxuryResource = 4;
+
     private final int unitMaintenanceCost = 2;
     private final int roadMaintenanceCost = 1;
     private final int railMaintenanceCost = 1;
@@ -201,17 +200,18 @@ public class Civilization {
 
     public void updateGold() {
 
-        this.goldRate = 0;
+        int goldRate = 0;
         for (City city : cities)
             for (Citizen citizen : city.getCitizens())
                 if (citizen.isWorking())
                     goldRate += citizen.getWorkPosition().getGoldRate();
 
-        for (Unit unit : units) {
+        for (Unit unit : units)
             goldRate -= unitMaintenanceCost;
-        }
+
 
         for (AbstractTile tile : getTerritory()) {
+
             if (((Tile)tile).hasRoad())
                 goldRate -= roadMaintenanceCost;
             if (((Tile)tile).hasRail())
@@ -219,7 +219,7 @@ public class Civilization {
         }
 
 
-        this.gold += this.goldRate;
+        this.gold += goldRate;
     }
 
     public int getHappiness() {
@@ -236,15 +236,16 @@ public class Civilization {
         for (City city : cities)
             m += city.getCitizens().size();
 
-        this.happiness = happiness0 - (n + n * n / 8) - (m + m * m / 8);
+        this.happiness = happiness0 - (n) - (m + m * m / 8);
 
-        numberOfEachResource.forEach((key, value) -> {
+        numberOfEachResource.forEach((resource, value) -> {
 
-            if (key instanceof LuxuryResource)
-                if (value - numberOfEachExchangedResource.get(key) != 0) {
+            if (resource instanceof LuxuryResource)
+                if (value - numberOfEachExchangedResource.get(resource) >= 0)
                     happiness += happinessPerLuxuryResource;
-                }
+
         });
+
     }
 
     public HashMap<String, Unit> getProducibleUnits() {
@@ -308,5 +309,30 @@ public class Civilization {
             if (work.getTile().equals(tile)) return work;
 
         return null;
+    }
+
+
+    public boolean hasResearched(TechnologyEnum technology) {
+        return civilizationResearchedTechnologies.containsKey(technology);
+    }
+
+
+    public void addResource(Resource resource) {
+        if (numberOfEachResource.containsKey(resource))
+            numberOfEachResource.replace(resource,numberOfEachResource.get(resource)+1);
+        else
+            numberOfEachResource.put(resource,1);
+    }
+
+    public void resetResource() {
+        numberOfEachResource.clear();
+    }
+
+    public HashMap<Resource, Integer> getNumberOfEachResource() {
+        return numberOfEachResource;
+    }
+
+    public HashMap<Resource, Integer> getNumberOfEachExchangedResource() {
+        return numberOfEachExchangedResource;
     }
 }

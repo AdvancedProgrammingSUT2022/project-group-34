@@ -2,24 +2,16 @@
 
 package controllers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Stack;
-
+import models.City;
 import models.Civilization;
-import models.Game;
+import models.Technology;
 import models.map.CivilizationMap;
 import models.map.GameMap;
+import models.resource.Resource;
 import models.tile.*;
-import models.tile.AbstractTile;
-import models.tile.Improvement;
-import models.tile.Terrain;
-
 import models.unit.*;
-import models.City;
-import models.Technology;
+
+import java.util.*;
 
 public class CivilizationController {
     private final static int INF = 100000;
@@ -88,7 +80,8 @@ public class CivilizationController {
         return ans;
     }
 
-    private HashMap<Tile, Integer> doBFSAndReturnDistances(Tile originTile) {
+
+    public HashMap<Tile, Integer> doBFSAndReturnDistances(Tile originTile, boolean canMoveOnUnmovable) {
         HashMap<Tile, Integer> distance = new HashMap<>();
         HashMap<Tile, Boolean> mark = new HashMap<>();
         distance.put(originTile, 0);
@@ -101,7 +94,7 @@ public class CivilizationController {
             mark.put(currentVertex, true);
             ArrayList<Tile> adjacentVertices = currentVertex.getAdjacentTiles();
             for (Tile adjacentVertex : adjacentVertices) {
-                if (adjacentVertex.isUnmovable() || mark.get(adjacentVertex)) continue;
+                if ((adjacentVertex.isUnmovable() && !canMoveOnUnmovable) || mark.get(adjacentVertex)) continue;
                 int newDistance = distance.get(currentVertex) + 1;
                 if (distance.get(adjacentVertex) == null || distance.get(adjacentVertex) > newDistance) {
                     distance.put(adjacentVertex, newDistance);
@@ -192,7 +185,7 @@ public class CivilizationController {
 
     private boolean continueMoveForOneTurn(Unit unit) {
         if (unit.getDestination() == null) return false;
-        HashMap<Tile, Integer> distancesFromDestination = doBFSAndReturnDistances(unit.getDestination());
+        HashMap<Tile, Integer> distancesFromDestination = doBFSAndReturnDistances(unit.getDestination(), false);
         Tile temporaryDestination = unit.getPosition();
         HashMap<Tile, Integer> distancesFromOriginByMP = (HashMap<Tile, Integer>) doDijkstra(unit.getPosition(), unit.getDestination(), unit.getMotionPoint(), false);
         for (Tile tile : distancesFromOriginByMP.keySet()) {
@@ -263,8 +256,8 @@ public class CivilizationController {
         return new ArrayList<>(ans);
     }
 
-    private void continueMoves() {
-        for (Unit unit : GameController.getInstance().getCivilization().getUnits()) {
+    private void continueMoves(Civilization civilization) {
+        for (Unit unit : civilization.getUnits()) {
             continueMoveForOneTurn(unit);
         }
     }
@@ -446,12 +439,6 @@ public class CivilizationController {
         civilization.setGold(civilization.getGold()-50);
     }
 
-    public void chooseCityProduction(City city, String unitType) {
-        Unit unit = GameController.getInstance().getCivilization().getProducibleUnits().get(unitType);
-        // TODO: check if resources are enough
-        city.setUnitUnderProduct(unit);
-    }
-
     public ArrayList<Unit> getProducibleUnits(){
         ArrayList<Unit> units = new ArrayList<>();
         for (String key : GameController.getInstance().getCivilization().getProducibleUnits().keySet())
@@ -478,18 +465,60 @@ public class CivilizationController {
     }
 
     public void updateCivilization(Civilization civilization) {
-        for (City city : civilization.getCities())
-            updateCity(city);
 
-        for (Work work : civilization.getWorks())
-            if (work.update())
+        updateNumberOfResources(civilization);
+
+        civilization.setHappiness();
+        civilization.updateGold();
+
+        for (City city : civilization.getCities()) {
+            updateCity(city);
+        }
+
+        for (Work work : civilization.getWorks()) {
+            if (work.update()) {
                 work.doWork();
+            }
+        }
+
+        continueMoves(civilization);
+
+        CivilizationController.getInstance().updateTransparentTiles(civilization);
+        CivilizationController.getInstance().updatePersonalMap(civilization, GameController.getInstance().getGame().getMainGameMap());
+    }
+
+/*    private ArrayList<AbstractTile> getAllVisibleTiles(Civilization civilization) {
+        Set<AbstractTile> visibleMap = new HashSet<>();
+        for (City city : civilization.getCities()) {
+            visibleMap.addAll(city.getTerritory());
+        }
+
+        for (Unit unit : civilization.getUnits()) {
+            visibleMap.addAll(mainGameMap.getAdjacentTiles(unit.getPosition()));
+        }
+
+        ArrayList<AbstractTile> visibleMapArray = new ArrayList<>();
+        for (Object o : visibleMap.toArray()) {
+            visibleMapArray.add((AbstractTile) o);
+        }
+        return visibleMapArray;
+    }*/
+
+    private void updateNumberOfResources(Civilization civilization) {
+
+        civilization.resetResource();
+        for (City city : civilization.getCities())
+            for (Tile tile : city.getTerritory())
+                if (tile.isUsableResource())
+                    civilization.addResource(tile.getResource());
 
 
     }
 
     public void updateCity(City city) {
+
         Civilization civilization = city.getCivilization();
+
         city.updateFood(civilization.isUnHappy());
         city.updateProduction();
         city.updateCitizen();
