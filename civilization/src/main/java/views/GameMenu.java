@@ -366,11 +366,13 @@ public class GameMenu extends Menu {
         else {
             int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
             if (processor.getSubSection().equals("city")) {
-
+                selectedCombatUnit.makeUnitAwake();
+                attackCity(position);
+            } else {
+                // TODO: Not phase1
+                System.out.println("Not this phase!");
             }
-            selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit = null;
-            // TODO: 5/15/2022
         }
     }
 
@@ -378,15 +380,59 @@ public class GameMenu extends Menu {
         Tile tile = CivilizationController.getInstance().getTileByPosition(position);
         if (tile.getCity() == null)
             System.out.println("There is no city in that place");
-        if (selectedCombatUnit.getCombatType().equals("Archery") ||
+        else if (selectedCombatUnit.getCombatType().equals("Archery") ||
                 selectedCombatUnit.getCombatType().equals("Siege") ||
                 selectedCombatUnit.getName().equals("ChariotArcher")) {
             int distance = CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile);
 
-            if (selectedCombatUnit.getCombatType().equals("Siege")&&!((Archer)selectedCombatUnit).isSetup)
+            if (selectedCombatUnit.getCombatType().equals("Siege") && !((Archer) selectedCombatUnit).isSetup)
                 System.out.println("Siege unit should be set up first");
-            if (distance>selectedCombatUnit.getRange())
+            else if (distance > selectedCombatUnit.getRange())
                 System.out.println("City is out of range");
+            else {
+                City city = tile.getCity();
+                int cityHealth = city.getHitPoint();
+                if (city.isGarrison()) cityHealth += cityHealth / 4;
+                // TODO: city terrain
+
+                float hitPointAffect = (float) (10 - selectedCombatUnit.getHitPoint()) / 20;
+                int unitStrength = selectedCombatUnit.getCombatStrength() - (int) (selectedCombatUnit.getCombatStrength() * hitPointAffect);
+
+                cityHealth -= unitStrength;
+                city.setHitPoint(Math.max(cityHealth, 1));
+                System.out.println("City HP:" + city.getHitPoint());
+            }
+        } else {
+            int distance = CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile);
+
+            if (!selectedCombatUnit.getPosition().getAdjacentTiles().contains(tile))
+                System.out.println("Unit is far from the city to attack");
+            else {
+                City city = tile.getCity();
+                int cityHealth = city.getHitPoint();
+                if (city.isGarrison()) cityHealth += cityHealth / 4;
+                // TODO: city terrain
+
+                float hitPointAffect = (float) (10 - selectedCombatUnit.getHitPoint()) / 20;
+                int unitStrength = selectedCombatUnit.getCombatStrength() - (int) (selectedCombatUnit.getCombatStrength() * hitPointAffect);
+
+                int unitHealth = selectedCombatUnit.getHitPoint() - city.getStrength();
+
+                if (unitHealth == 0) {
+                    System.out.println("Your unit get destroyed");
+                } else {
+                    selectedCombatUnit.setHitPoint(unitHealth);
+                    System.out.println("Unit HP:" + unitHealth);
+                }
+
+                cityHealth -= unitStrength;
+                if (cityHealth == 0 && unitHealth != 0)
+                    ;// TODO: destroy, ...
+                else {
+                    city.setHitPoint(cityHealth);
+                    System.out.println("City HP:" + cityHealth);
+                }
+            }
         }
     }
 
