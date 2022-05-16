@@ -364,7 +364,7 @@ public class GameMenu extends Menu {
             System.out.println("Unit is in a multiple-turn movement");
         else {
             int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
-            if (processor.getSubSection().equals("city")){
+            if (processor.getSubSection().equals("city")) {
 
             }
             selectedCombatUnit.makeUnitAwake();
@@ -373,11 +373,20 @@ public class GameMenu extends Menu {
         }
     }
 
-    private static void attackCity(int[] position){
+    private static void attackCity(int[] position) {
         Tile tile = CivilizationController.getInstance().getTileByPosition(position);
-        if (tile.getCity()==null)
+        if (tile.getCity() == null)
             System.out.println("There is no city in that place");
-        if (selectedCombatUnit)
+        if (selectedCombatUnit.getCombatType().equals("Archery") ||
+                selectedCombatUnit.getCombatType().equals("Siege") ||
+                selectedCombatUnit.getName().equals("ChariotArcher")) {
+            int distance = CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition()).get(tile);
+
+            if (selectedCombatUnit.getCombatType().equals("Siege")&&!((Archer)selectedCombatUnit).isSetup)
+                System.out.println("Siege unit should be set up first");
+            if (distance>selectedCombatUnit.getRange())
+                System.out.println("City is out of range");
+        }
     }
 
     private static void cancelCommand() {
@@ -449,7 +458,8 @@ public class GameMenu extends Menu {
         else if (selectedCombatUnit.getPosition().getImprovementName() == null)
             System.out.println("There is no improvement in this tile");
         else {
-            CivilizationController.getInstance().pillage(selectedCombatUnit);
+            selectedCombatUnit.makeUnitAwake();
+            selectedCombatUnit.getPosition().setLooted(true);
             selectedCombatUnit = null;
             System.out.println("Tile is pillaged");
         }

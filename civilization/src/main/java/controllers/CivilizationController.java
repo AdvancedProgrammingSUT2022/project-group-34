@@ -80,7 +80,7 @@ public class CivilizationController {
         return ans;
     }
 
-    private HashMap<Tile, Integer> doBFSAndReturnDistances(Tile originTile) {
+    public HashMap<Tile, Integer> doBFSAndReturnDistances(Tile originTile) {
         HashMap<Tile, Integer> distance = new HashMap<>();
         HashMap<Tile, Boolean> mark = new HashMap<>();
         distance.put(originTile, 0);
@@ -427,20 +427,6 @@ public class CivilizationController {
             else
                 work.changeWork((Worker) selectedNonCombatUnit, 3, "repair");
             return "ok";
-        }
-    }
-
-    public void pillage(CombatUnit selectedCombatUnit){
-        selectedCombatUnit.makeUnitAwake();
-        selectedCombatUnit.getPosition().setLooted(true);
-        Resource resource;
-        if ((resource=selectedCombatUnit.getPosition().getResource())!=null){
-            HashMap<Resource, Integer> resourceAmounts = GameController.getInstance().getCivilization().getNumberOfEachResource();
-            resourceAmounts.replace(resource, resourceAmounts.get(resource)-1);
-            if (resourceAmounts.get(resource)==0){
-                resourceAmounts.remove(resource);
-                GameController.getInstance().getCivilization().getCivilizationResources().remove(resource.getName());
-            }
         }
     }
 
