@@ -158,10 +158,6 @@ public class Civilization {
         this.civilizationResources = civilizationResources;
     }
 
-    public HashMap<Resource, Integer> getNumberOfEachResource() {
-        return numberOfEachResource;
-    }
-
     public HashMap<TechnologyEnum, Technology> getCivilizationResearchedTechnologies() {
         return civilizationResearchedTechnologies;
     }

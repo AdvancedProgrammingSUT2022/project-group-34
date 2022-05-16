@@ -500,6 +500,23 @@ public class CivilizationController {
         CivilizationController.getInstance().updatePersonalMap(civilization, GameController.getInstance().getGame().getMainGameMap());
     }
 
+/*    private ArrayList<AbstractTile> getAllVisibleTiles(Civilization civilization) {
+        Set<AbstractTile> visibleMap = new HashSet<>();
+        for (City city : civilization.getCities()) {
+            visibleMap.addAll(city.getTerritory());
+        }
+
+        for (Unit unit : civilization.getUnits()) {
+            visibleMap.addAll(mainGameMap.getAdjacentTiles(unit.getPosition()));
+        }
+
+        ArrayList<AbstractTile> visibleMapArray = new ArrayList<>();
+        for (Object o : visibleMap.toArray()) {
+            visibleMapArray.add((AbstractTile) o);
+        }
+        return visibleMapArray;
+    }*/
+
     private void updateNumberOfResources(Civilization civilization) {
 
         civilization.resetResource();
