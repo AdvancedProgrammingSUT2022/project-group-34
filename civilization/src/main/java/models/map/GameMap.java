@@ -162,17 +162,25 @@ public class GameMap extends Map {
     }
 
     private Feature generateFeature(int x, int y, Terrain terrain, boolean hasRiver, Random random) {
-        //TODO
         int randomNumber = random.nextInt(100);
         if (terrain.equals(Terrain.Desert)) {
+            if (randomNumber < 20) return Feature.Oasis;
+            if (hasRiver && randomNumber < 70) return Feature.FloodPlain;
         }
-        if (terrain.equals(Terrain.Grasslands)) {
+        else if (terrain.equals(Terrain.Grasslands)) {
+            if (randomNumber < 30) return Feature.Forests;
+            if (randomNumber < 50) return Feature.Marsh;
         }
-        if (terrain.equals(Terrain.Hills)) {
+        else if (terrain.equals(Terrain.Hills)) {
+            if (randomNumber < 30) return Feature.Forests;
+            if (randomNumber < 50) return Feature.Jungle;
         }
-        if (terrain.equals(Terrain.Plains)) {
+        else if (terrain.equals(Terrain.Plains)) {
+            if (randomNumber < 30) return Feature.Forests;
+            if (randomNumber < 50) return Feature.Jungle;
         }
-        if (terrain.equals(Terrain.Tundra)) {
+        else if (terrain.equals(Terrain.Tundra)) {
+            if (randomNumber < 30) return Feature.Forests;
         }
         return null;
     }
