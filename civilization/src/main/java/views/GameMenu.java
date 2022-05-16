@@ -581,8 +581,8 @@ public class GameMenu extends Menu {
 
     private static void futureImprovements(Technology technology) {
         ArrayList<String> improvements = new ArrayList<>();
-        for (Improvement value : Improvement.values())
-            if (value.getRequiredTechnology().equals(technology))
+        for (ImprovementEnum value : ImprovementEnum.values())
+            if (value.requiredTechnology.equals(technology))
                 improvements.add(technology.getName());
 
         if (improvements.size() == 0)
