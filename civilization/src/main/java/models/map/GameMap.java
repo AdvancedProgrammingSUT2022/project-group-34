@@ -65,7 +65,7 @@ public class GameMap extends Map {
             Tile tile1 = getAdjacentTileByNumber(tile, i);
             tiles.add(tile1);
         }
-        System.out.println(tiles);
+
         tiles.removeAll(Collections.singleton(null));
         return tiles;
     }
