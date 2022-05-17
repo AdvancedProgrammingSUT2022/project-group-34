@@ -5,6 +5,7 @@ package controllers;
 import models.City;
 import models.Civilization;
 import models.Technology;
+import models.TechnologyEnum;
 import models.map.CivilizationMap;
 import models.map.GameMap;
 import models.tile.*;
@@ -263,7 +264,8 @@ public class CivilizationController {
 
     public boolean isRiverBetween(Tile tile1, Tile tile2) {
         if (tile1 == null || tile2 == null) return false;
-        return tile1.getIsRiver().get(tile1.getAdjacentTiles().indexOf(tile2));
+        Integer n = tile1.getAdjacentTiles().indexOf(tile2);
+        return tile1.getIsRiver().get(n);
     }
 
     public ArrayList<AbstractTile> getVisibleTiles(Unit unit) {
@@ -477,17 +479,15 @@ public class CivilizationController {
         for (Work work : civilization.getWorks()) {
             if (work.update()) {
                 work.doWork();
+                //TODO : Notification
             }
         }
 
-        /*HashMap<TechnologyEnum,Technology> civilizationNotResearchedTechnologies = civilization.getCivilizationNotResearchedTechnologies()
-        civilizationNotResearchedTechnologies.forEach((technologyEnum, technology) ->{
-            if (technology.updateTechnology(civilization.getCivilizationResearchedTechnologies()) == 1){
-                civilizationNotResearchedTechnologies.remove(technologyEnum);
-                ;
-            }
-
-        });*/
+        Technology technology = civilization.getStudyingTechnology();
+        if (technology.updateTechnology(civilization.getCivilizationResearchedTechnologies()) == 1) {
+            civilization.getCivilizationResearchedTechnologies().put(TechnologyEnum.getTechnologyEnumByName(technology.getName()),technology);
+            //TODO : Notification
+        }
 
 
         continueMoves(civilization);

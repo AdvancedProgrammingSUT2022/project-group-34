@@ -213,4 +213,12 @@ public enum TechnologyEnum {
         }
         return technologyEnums;
     }
+
+    public static TechnologyEnum getTechnologyEnumByName(String name){
+        for (TechnologyEnum technologyEnum : values()) {
+            if (technologyEnum.name.equals(name))
+                return technologyEnum;
+        }
+        return null;
+    }
 }
