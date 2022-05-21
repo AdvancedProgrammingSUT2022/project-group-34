@@ -44,7 +44,7 @@ public class GameMap extends Map {
         int[] xy = cubeToXY(q,r,s);
         int x = xy[0];
         int y = xy[1];
-        System.out.print(" " + x + "*" + y + " ");
+        //System.out.print(" " + x + "*" + y + " ");
         if(x < 0 || this.mapHeight <= x || y < 0 || this.mapWidth <= y)
             return null;
 
@@ -73,13 +73,13 @@ public class GameMap extends Map {
     public Tile getAdjacentTileByNumber(Tile tile, int number){
         int x = tile.getX();
         int y = tile.getY();
-        System.out.print(" " + x + "*" + y + " -> ");
+        //System.out.print(" " + x + "*" + y + " -> ");
         int[] qrs = XYToCube(x,y);
         int q = qrs[0];
         int r = qrs[1];
         int s = qrs[2];
         int[] xy = cubeToXY(q,r,s);
-        System.out.print(" " + xy[0] + "*" + xy[1] + " -> ");
+        //System.out.print(" " + xy[0] + "*" + xy[1] + " -> ");
 
         switch (number){
             case 0:
@@ -95,7 +95,7 @@ public class GameMap extends Map {
             case 5:
                 return getTileByCube(q+1,r-1,s+0);
         }
-        System.out.println();
+        //System.out.println();
         return null;
     }
 
