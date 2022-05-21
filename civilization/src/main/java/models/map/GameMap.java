@@ -73,12 +73,14 @@ public class GameMap extends Map {
     public Tile getAdjacentTileByNumber(Tile tile, int number){
         int x = tile.getX();
         int y = tile.getY();
+        //TODO : remove this
         System.out.print(" " + x + "*" + y + " -> ");
         int[] qrs = XYToCube(x,y);
         int q = qrs[0];
         int r = qrs[1];
         int s = qrs[2];
         int[] xy = cubeToXY(q,r,s);
+        //TODO : remove this
         System.out.print(" " + xy[0] + "*" + xy[1] + " -> ");
 
         switch (number){

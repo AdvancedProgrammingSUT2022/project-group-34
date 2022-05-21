@@ -1551,6 +1551,7 @@ public class GameMenu extends Menu {
     }
 
     private static void putRivers(Tile tile, StringBuilder[][] output, int upperBound, int leftBound, int x, int y) {
+        //TODO : bad coordinations for rivers
         Tile otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y});
         if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
             putRiver(output, upperBound, leftBound, 0);
@@ -1590,10 +1591,12 @@ public class GameMenu extends Menu {
         int whichBorder = whichBorderFromUpperClockwise;
         if (whichBorder == 0) putColor(ANSI_BLUE_BACKGROUND, output, upperBound, leftBound + 3, 10);
         else if (whichBorder == 1) {
+            //TODO : leftBound + 1
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 1, leftBound + 12);
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 2, leftBound + 13);
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 3, leftBound + 14);
         } else if (whichBorder == 2) {
+            //TODO : leftBound + 1
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 6, leftBound + 12);
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 5, leftBound + 13);
             putColor(ANSI_BLUE_BACKGROUND, output, upperBound + 4, leftBound + 14);
@@ -1707,6 +1710,7 @@ public class GameMenu extends Menu {
         if (processor.getSection() == null)
             invalidCommand();
         else if (processor.getSection().equals("show")) {
+            // TODO : subsection may be null.
             if (processor.getSubSection().equals("position")) {
                 String xField = processor.get("x");
                 String yField = processor.get("y");
