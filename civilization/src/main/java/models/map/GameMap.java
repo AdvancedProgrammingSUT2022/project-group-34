@@ -73,23 +73,16 @@ public class GameMap extends Map {
     public Tile getAdjacentTileByNumber(Tile tile, int number){
         int x = tile.getX();
         int y = tile.getY();
-<<<<<<< HEAD
-        //System.out.print(" " + x + "*" + y + " -> ");
-=======
+
         //TODO : remove this
-        System.out.print(" " + x + "*" + y + " -> ");
->>>>>>> 4dc663753b4e749872667c79aa68944eecf8b9f8
+        //System.out.print(" " + x + "*" + y + " -> ");
         int[] qrs = XYToCube(x,y);
         int q = qrs[0];
         int r = qrs[1];
         int s = qrs[2];
         int[] xy = cubeToXY(q,r,s);
-<<<<<<< HEAD
-        //System.out.print(" " + xy[0] + "*" + xy[1] + " -> ");
-=======
         //TODO : remove this
-        System.out.print(" " + xy[0] + "*" + xy[1] + " -> ");
->>>>>>> 4dc663753b4e749872667c79aa68944eecf8b9f8
+        //System.out.print(" " + xy[0] + "*" + xy[1] + " -> ");
 
         switch (number){
             case 0:
