@@ -13,10 +13,7 @@ import models.resource.StrategicResource;
 import models.tile.*;
 import models.unit.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class GameMenu extends Menu {
     private final static int VIEW_MAP_WIDTH = 9;
@@ -1340,15 +1337,16 @@ public class GameMenu extends Menu {
     private static void increaseCheatCommand(String amountField, String subSection) {
         if (amountField == null) {
             System.out.printf("field 'amount' required\n");
+            return;
         } else if (!amountField.matches(NON_NEGATIVE_NUMBER_REGEX)) {
             System.out.printf("amount must be a valid non-negative integer\n");
             return;
         }
         int amount = Integer.parseInt(amountField);
-        if (subSection.equals("gold")) {
+        if (Objects.equals(subSection, "gold")) {
             CheatController.getInstance().increaseGold(amount);
             System.out.printf("Done");
-        } else if (subSection.equals("beaker")) {
+        } else if (Objects.equals(subSection, "beaker")) {
             CheatController.getInstance().increaseBeaker(amount);
             System.out.printf("Done");
         } else invalidCommand();

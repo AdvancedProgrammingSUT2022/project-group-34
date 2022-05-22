@@ -162,7 +162,7 @@ public class CivilizationController {
         Tile currentTile = unit.getPosition();
         if ((unit instanceof CombatUnit) && currentTile.getCombatUnit().equals(unit))
             currentTile.setCombatUnit((CombatUnit) null);
-        else if ((unit instanceof NonCombatUnit) && currentTile.getNonCombatUnit().equals(unit))
+        else if ((unit instanceof NonCombatUnit) && Objects.equals(currentTile.getNonCombatUnit(), unit))
             currentTile.setNonCombatUnit((NonCombatUnit) null);
         unit.setPosition(tile);
         if (unit instanceof CombatUnit && tile.getCombatUnit() == null) tile.setCombatUnit((CombatUnit) unit);
