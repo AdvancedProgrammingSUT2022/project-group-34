@@ -7,3 +7,5 @@ Menu exit
 play game --player1 ahn
 
 INFO UNITS
+1
+cheat teleport --x 12 --y 13
