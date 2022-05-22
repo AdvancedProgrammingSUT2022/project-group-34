@@ -43,7 +43,10 @@ public class CivilizationMap extends Map {
     }
 
     public boolean isTransparent(VisibleTile tile) {
-        return transparentTiles.contains(tile);
+        for (VisibleTile transparentTile : transparentTiles) {
+            if (transparentTile.getX() == tile.getX() && transparentTile.getY() == tile.getY()) return true;
+        }
+        return false;
     }
 
     public void removeTransparentTiles() {
