@@ -156,7 +156,7 @@ public class GameMap extends Map {
     }
 
     private Terrain generateTerrain(int x, int y, Random random) {
-        if (x <= 2 || y <= 2 || x + 3 >= mapHeight || y + 3 >= mapWidth) return Terrain.Oceana;
+        if (x <= 2 || y <= 2 || x + 3 >= mapHeight || y + 3 >= mapWidth) return Terrain.Ocean;
         int desertProbability = Math.min(x, mapHeight - x) * 2;
         int snowProbability = (55 - desertProbability) / 2;
         int tundraProbability = 55 - desertProbability - snowProbability;
@@ -204,7 +204,7 @@ public class GameMap extends Map {
     }
 
     private boolean generateRivers(Tile tile, Random random) {
-        if (tile.getTerrain().equals(Terrain.Oceana)) return false;
+        if (tile.getTerrain().equals(Terrain.Ocean)) return false;
         boolean answer = false;
         for (int i = 0; i < 6; i++) {
             if (random.nextInt(100) > 10) continue;

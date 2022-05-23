@@ -8,7 +8,7 @@ public enum Terrain{
     Grasslands   ("Grasslands",2,0,0,-33,+1,false),
     Hills       ("Hills"    ,0,2,0,+25,+2,true ),
     Mountain    ("Mountain" ,0,0,0,+0 ,-1,true ),
-    Oceana      ("Ocean"    ,0,0,0,+0 ,-1,false),
+    Ocean       ("Ocean"    ,0,0,0,+0 ,-1,true),
     Plains      ("Plains"    ,1,1,0,-33,+1,false),
     Snow        ("Snow"     ,0,0,0,-33,+1,false),
     Tundra      ("Tundra"   ,1,0,0,-33,+1,false),
@@ -41,7 +41,7 @@ public enum Terrain{
         allTerrains.put("Grasslands",Terrain.Grasslands);
         allTerrains.put("Hills"     ,Terrain.Hills);
         allTerrains.put("Mountain"  ,Terrain.Mountain);
-        allTerrains.put("Oceana"    ,Terrain.Oceana);
+        allTerrains.put("Oceana"    ,Terrain.Ocean);
         allTerrains.put("Plains"    ,Terrain.Plains);
         allTerrains.put("Snow"      ,Terrain.Snow);
         allTerrains.put("Tundra"    ,Terrain.Tundra);
