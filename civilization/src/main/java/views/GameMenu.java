@@ -457,7 +457,7 @@ public class GameMenu extends Menu {
 
         if (name == null || processor.getNumberOfFields() != 1)
             invalidCommand();
-        if (processor.getSubSection() != null && processor.getSubSection().equals("city")) {
+        else if (processor.getSubSection() != null && processor.getSubSection().equals("city")) {
             if (!(selectedNonCombatUnit instanceof Settler))
                 System.out.println("Selected unit is not a settler");
             else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
@@ -1236,6 +1236,9 @@ public class GameMenu extends Menu {
                 for (Tile adjacentTile : adjacentTiles)
                     if (adjacentTile.getCity() == null) purchasableTiles.add(adjacentTile);
             }
+            Set<Tile> set = new HashSet<>(purchasableTiles);
+            purchasableTiles.clear();
+            purchasableTiles.addAll(set);
             if (purchasableTiles.size() == 0) System.out.println("There is not tile to buy");
             else chooseTileToBuy(purchasableTiles);
         }

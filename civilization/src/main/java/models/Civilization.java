@@ -71,13 +71,19 @@ public class Civilization {
         this.civilizationResearchedTechnologies = Technology.getAllTechnologiesCopy();
         this.civilizationNotResearchedTechnologies = new HashMap<>();
 
+        this.notifications = new ArrayList<>();
+
         this.numberOfBeakers = numberOfBeakers;
         this.studyingTechnology = null;
 
-        this.gold = gold;
-        this.happiness0 = happiness0;
+//        this.gold = gold;
+//        this.happiness0 = happiness0;
         this.happiness = happiness;
+
         this.civilizationNotUsableUnits.addAll(Arrays.asList(UnitEnum.values()));
+        this.numberOfBeakers = 100;
+        this.happiness0 = 10;
+        this.gold = 400;
     }
 
     public String getCivilizationName() {
