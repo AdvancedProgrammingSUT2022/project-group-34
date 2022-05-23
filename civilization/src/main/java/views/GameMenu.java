@@ -457,7 +457,7 @@ public class GameMenu extends Menu {
 
         if (name == null || processor.getNumberOfFields() != 1)
             invalidCommand();
-        if (processor.getSubSection() != null && processor.getSubSection().equals("city")) {
+        else if (processor.getSubSection() != null && processor.getSubSection().equals("city")) {
             if (!(selectedNonCombatUnit instanceof Settler))
                 System.out.println("Selected unit is not a settler");
             else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))

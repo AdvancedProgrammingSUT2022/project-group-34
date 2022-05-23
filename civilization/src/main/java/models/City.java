@@ -22,7 +22,7 @@ public class City {
     private boolean isGarrison;
     private int hitPoint;
 
-    private ArrayList<Tile> territory = new ArrayList<>();
+    private ArrayList<Tile> territory;
     private ArrayList<Citizen> citizens = new ArrayList<>();
     private ArrayList<Improvement> improvements = new ArrayList<>();
 
@@ -38,6 +38,12 @@ public class City {
         this.civilization = owner;
         this.position = position;
         this.territory = territory;
+        this.strength = territory.size()*5;
+        this.hitPoint= 20;
+        this.citizens.add(new Citizen(null));
+        this.tillNewCitizen = (int) Math.pow(2, citizens.size());
+        this.food = 50;
+        this.production = 100;
     }
 
     public City(String name, Tile position , ArrayList<Tile> territory) {
