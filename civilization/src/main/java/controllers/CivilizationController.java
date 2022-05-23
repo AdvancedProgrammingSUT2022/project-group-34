@@ -35,6 +35,21 @@ public class CivilizationController {
 
     }
 
+    public static int researchResearch(Civilization civilization,String name) {
+        TechnologyEnum technologyEnum = TechnologyEnum.getTechnologyEnumByName(name);
+        if (technologyEnum == null) return -1;
+        Technology technology = civilization.getCivilizationNotResearchedTechnologies().get(technologyEnum);
+        if (technology == null) return -2;
+        civilization.getCivilizationNotResearchedTechnologies() .remove(technologyEnum);
+        civilization.getCivilizationResearchedTechnologies()    .put(technologyEnum,technology);
+
+        technology.setResearching(false);
+        technology.setResearched (true );
+
+        return 0;
+    }
+
+
     public String selectUnit(int[] position, String unitType) {
         if (!isPositionValid(position))
             return "invalid position";

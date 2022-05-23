@@ -219,7 +219,7 @@ public class GameMap extends Map {
     public static Resource setTileRandomResource(Tile tile,int n){
         ArrayList<ResourceEnum> resourceEnums;
         resourceEnums = ResourcesLocationsDataSheet.whichResourcesInThisTile(tile);
-        Resource resource = Resource.allResources.get(resourceEnums.get(n%resourceEnums.size()).name);
+        Resource resource = Resource.allResources.get(resourceEnums.get(n%resourceEnums.size()));
         tile.setResource(resource);
         return resource;
     }

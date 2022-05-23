@@ -1331,6 +1331,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("teleport"))
             teleportCheatCommand(processor.get("x"), processor.get("y"));
         else if (processor.getSection().equals("finish")) finishCheatCommand(processor.getSubSection());
+        else if (processor.getSection().equals("research")) researchCheatCommand(processor.getSubSection(),processor.get("name"));
         else if (processor.getSection().equals("reveal")) revealCheatCommand(processor.get("x"), processor.get("y"));
         else invalidCommand();
 
@@ -1374,6 +1375,11 @@ public class GameMenu extends Menu {
     private static void finishCheatCommand(String subSection) {
         if (!subSection.equals("research")) invalidCommand();
         else System.out.printf(CheatController.getInstance().finishResearch());
+    }
+
+    private static void researchCheatCommand(String subSection, String name) {
+        if (!subSection.equals("research")) invalidCommand();
+        else System.out.printf(CheatController.getInstance().researchResearch(name));
     }
 
     private static void revealCheatCommand(String xField, String yField) {
