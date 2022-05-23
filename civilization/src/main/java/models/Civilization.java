@@ -317,7 +317,6 @@ public class Civilization {
         return civilizationResearchedTechnologies.containsKey(technology);
     }
 
-
     public void addResource(Resource resource) {
         if (numberOfEachResource.containsKey(resource))
             numberOfEachResource.replace(resource,numberOfEachResource.get(resource)+1);

@@ -41,7 +41,8 @@ public class CheatController {
     }
 
     public String finishResearch() {
-        //TODO
+        Civilization civilization = GameController.getInstance().getCivilization();
+        CivilizationController.finishResearch(civilization);
         return "TODO";
     }
 }

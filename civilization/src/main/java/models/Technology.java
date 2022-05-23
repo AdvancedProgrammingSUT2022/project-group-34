@@ -127,7 +127,7 @@ public class Technology {
         if (isResearching) {
             this.remainingTerm -= tern;
         }
-        if (remainingTerm == 0) {
+        if (!isResearched && remainingTerm == 0) {
             isResearched = true;
             isResearching = false;
             return 1;

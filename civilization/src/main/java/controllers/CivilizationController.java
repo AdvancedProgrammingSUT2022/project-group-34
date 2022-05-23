@@ -15,6 +15,7 @@ import java.util.*;
 
 public class CivilizationController {
     private final static int INF = 100000;
+
     private static CivilizationController instance = null;
 
     private CivilizationController() {
@@ -23,6 +24,15 @@ public class CivilizationController {
     public static CivilizationController getInstance() {
         if (instance == null) instance = new CivilizationController();
         return instance;
+    }
+
+    public static void finishResearch(Civilization civilization) {
+        Technology technology = civilization.getStudyingTechnology();
+        technology.setResearching(false);
+        technology.setResearched (true );
+        civilization.getCivilizationResearchedTechnologies().put(TechnologyEnum.getTechnologyEnumByName(technology.getName()),technology);
+        civilization.setStudyingTechnology(null);
+
     }
 
     public String selectUnit(int[] position, String unitType) {
