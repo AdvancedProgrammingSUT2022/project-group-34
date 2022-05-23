@@ -386,6 +386,8 @@ public class CivilizationController {
         ArrayList<Tile> territory = new ArrayList<>(adjacentTiles);
         territory.add(position);
         City city = new City(name, civilization, position, territory);
+        for (Tile tile : territory)
+            tile.setCity(city);
         civilization.addCities(city);
         civilization.setMainCapital(city);
         civilization.setCurrentCapital(city);
@@ -450,6 +452,7 @@ public class CivilizationController {
 
     public void purchaseTile(City city, Tile tile) {
         city.addTerritory(tile);
+        tile.setCity(city);
         Civilization civilization = GameController.getInstance().getCivilization();
         civilization.setGold(civilization.getGold()-50);
     }
