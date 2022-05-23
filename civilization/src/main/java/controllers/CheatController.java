@@ -29,6 +29,7 @@ public class CheatController {
         if (check.equals("invalid destination") || check.equals("destination occupied")) return check;
         Tile destination = CivilizationController.getInstance().getTileByPosition(new int[]{x, y});
         reveal(x, y);
+        //System.out.println(unit.getPosition().getNonCombatUnit());
         CivilizationController.getInstance().forcedMove(unit, destination);
         return "done";
     }

@@ -727,9 +727,9 @@ public class GameMenu extends Menu {
         System.out.println(output);
 
         String choice = getUnitsPanelChoice(civilization);
-        if (choice.equals("military"))
+        if (Objects.equals(choice, "military"))
             militaryInfoMenu();
-        else if (choice.equals("exit"))
+        else if (Objects.equals(choice, "exit"))
             return;
         else {
             selectedCombatUnit = null;
@@ -747,8 +747,8 @@ public class GameMenu extends Menu {
         while (true) {
             choice = getInput();
 
-            if (choice.equals("military")) return choice;
-            else if (choice.equals("exit")) return choice;
+            if (Objects.equals(choice, "military")) return choice;
+            else if (Objects.equals(choice, "exit")) return choice;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
 
@@ -768,7 +768,7 @@ public class GameMenu extends Menu {
             City city = civilization.getCities().get(i - 1);
 
             output.append(i).append(".Name:").append(city.getName());
-            if (civilization.getCurrentCapital().equals(city)) output.append("(Capital)");
+            if (Objects.equals(civilization.getCurrentCapital(), city)) output.append("(Capital)");
             output.append("|(").append(city.getPosition().getX()).append(", ").append(city.getPosition().getY()).append(")");
             output.append("|Number of Citizens:").append(city.getCitizens().size());
             if (city.getUnitUnderProduct() != null)
@@ -784,9 +784,9 @@ public class GameMenu extends Menu {
         System.out.println(output);
 
         String choice = getCitiesPanelChoice(civilization);
-        if (choice.equals("economic"))
+        if (Objects.equals(choice, "economic"))
             economicInfoMenu();
-        else if (choice.equals("exit"))
+        else if (Objects.equals(choice, "exit"))
             return;
         else {
             selectedCombatUnit = null;
@@ -801,8 +801,8 @@ public class GameMenu extends Menu {
         while (true) {
             choice = getInput();
 
-            if (choice.equals("economic")) return choice;
-            else if (choice.equals("exit")) return choice;
+            if (Objects.equals(choice, "economic")) return choice;
+            else if (Objects.equals(choice, "exit")) return choice;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
 
@@ -976,7 +976,7 @@ public class GameMenu extends Menu {
 
         String choice = getEconomicMenuChoice(civilization);
 
-        if (choice.equals("exit"))
+        if (Objects.equals(choice, "exit"))
             return;
         else {
             selectedCombatUnit = null;
@@ -991,7 +991,7 @@ public class GameMenu extends Menu {
             City city = civilization.getCities().get(i - 1);
 
             output.append(i).append(".Name:").append(city.getName());
-            if (civilization.getCurrentCapital().equals(city)) output.append("(Capital)");
+            if (Objects.equals(civilization.getCurrentCapital(), city)) output.append("(Capital)");
             output.append("|(").append(city.getPosition().getX()).append(", ").append(city.getPosition().getY()).append(")");
             output.append("|Number of Citizens:").append(city.getCitizens().size());
             output.append("|City Strength:").append(city.getStrength());
@@ -1013,7 +1013,7 @@ public class GameMenu extends Menu {
 
         while (true) {
             choice = getInput();
-            if (choice.equals("exit")) return choice;
+            if (Objects.equals(choice, "exit")) return choice;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
 
@@ -1069,7 +1069,7 @@ public class GameMenu extends Menu {
 
     private static void cityScreen() {
         System.out.print(selectedCity.getName());
-        if (GameController.getInstance().getCivilization().getCurrentCapital().equals(selectedCity))
+        if (Objects.equals(GameController.getInstance().getCivilization().getCurrentCapital(), selectedCity))
             System.out.format("(Capital)| Strength:%d\n", selectedCity.getStrength());
         else
             System.out.format("|Strength:%d\n", selectedCity.getStrength());
@@ -1113,7 +1113,7 @@ public class GameMenu extends Menu {
         String choice;
         while (true) {
             choice = getInput();
-            if (choice.equals("exit")) break;
+            if (Objects.equals(choice, "exit")) break;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
                 if (number < 1 || number > cities.size()) System.out.println("Invalid number");
@@ -1121,7 +1121,7 @@ public class GameMenu extends Menu {
             } else invalidCommand();
         }
 
-        if (choice.equals("exit")) return null;
+        if (Objects.equals(choice, "exit")) return null;
         else return cities.get(Integer.parseInt(choice) - 1);
     }
 
@@ -1158,7 +1158,7 @@ public class GameMenu extends Menu {
         while (true) {
             choice = getInput();
 
-            if (choice.equals("exit")) return;
+            if (Objects.equals(choice, "exit")) return;
             else if (choice.matches("\\d+ \\d+")) {
                 int[] position = {Integer.parseInt(choice.split(" ")[0]), Integer.parseInt(choice.split(" ")[1])};
                 if (!CivilizationController.getInstance().isPositionValid(position))
@@ -1208,7 +1208,7 @@ public class GameMenu extends Menu {
         while (true) {
             choice = getInput();
 
-            if (choice.equals("exit")) return;
+            if (Objects.equals(choice, "exit")) return;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
                 if (number < 1 || number > citizens.size())
@@ -1253,7 +1253,7 @@ public class GameMenu extends Menu {
         while (true) {
             choice = getInput();
 
-            if (choice.equals("exit")) return;
+            if (Objects.equals(choice, "exit")) return;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
                 if (number < 1 || number > purchasableTiles.size())
@@ -1280,7 +1280,7 @@ public class GameMenu extends Menu {
         String choice;
         while (true) {
             choice = getInput();
-            if (choice.equals("exit")) return;
+            if (Objects.equals(choice, "exit")) return;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
                 if (number < 1 || number > units.size()) System.out.println("Invalid number");
@@ -1307,7 +1307,8 @@ public class GameMenu extends Menu {
             int[] unitPosition = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
             Tile tile = CivilizationController.getInstance().getTileByPosition(unitPosition);
 
-            if (processor.getSection().equals("combat")) {
+            if (processor.getSection() == null) {}
+            else if (processor.getSection().equals("combat")) {
                 if (tile.getCombatUnit() == null) System.out.println("There is no combat unit in that place");
             } else if (processor.getSection().equals("noncombat")) {
                 if (tile.getNonCombatUnit() == null) System.out.println("There is no noncombat unit in that place");
@@ -1324,7 +1325,8 @@ public class GameMenu extends Menu {
     }
 
     private static void handleCheatCategoryCommand(Processor processor) {
-        if (processor.getSection().equals("increase"))
+        if  (processor.getSection() == null) invalidCommand();
+        else if (processor.getSection().equals("increase"))
             increaseCheatCommand(processor.get("amount"), processor.getSubSection());
         else if (processor.getSection().equals("teleport"))
             teleportCheatCommand(processor.get("x"), processor.get("y"));

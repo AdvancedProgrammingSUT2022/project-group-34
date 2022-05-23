@@ -99,7 +99,9 @@ public class Game {
         Collections.shuffle(candidateTiles);
         ArrayList<Settler> answer = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            answer.add(new Settler(UnitEnum.Settler, candidateTiles.get(i), null));
+            Settler settler = new Settler(UnitEnum.Settler, candidateTiles.get(i), null);
+            answer.add(settler);
+            candidateTiles.get(i).setNonCombatUnit(settler);
         }
         return answer;
     }
