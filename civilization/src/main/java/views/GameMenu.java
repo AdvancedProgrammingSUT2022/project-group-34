@@ -1650,7 +1650,7 @@ public class GameMenu extends Menu {
         if (unit instanceof Settler) shownName = "S";
         else if (unit instanceof Worker) shownName = "W";
         else shownName = unit.getName().substring(0, 3);
-        putString(shownName, output, upperBound + 4, upperBound + 6);
+        putString(shownName, output, upperBound + 4, leftBound + 6);
         String colorCode = ANSI_COLOR[index % 7 + 1];
         putColor(colorCode, output, upperBound + 4, leftBound + 6, shownName.length());
     }
