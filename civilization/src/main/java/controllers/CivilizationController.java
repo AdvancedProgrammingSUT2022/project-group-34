@@ -171,9 +171,9 @@ public class CivilizationController {
     public void forcedMove(Unit unit, Tile tile) {
         Tile currentTile = unit.getPosition();
         if ((unit instanceof CombatUnit) && currentTile.getCombatUnit().equals(unit))
-            currentTile.setCombatUnit((CombatUnit) null);
+            currentTile.setCombatUnit(null);
         else if ((unit instanceof NonCombatUnit) && Objects.equals(currentTile.getNonCombatUnit(), unit))
-            currentTile.setNonCombatUnit((NonCombatUnit) null);
+            currentTile.setNonCombatUnit(null);
         unit.setPosition(tile);
         if (unit instanceof CombatUnit && tile.getCombatUnit() == null) tile.setCombatUnit((CombatUnit) unit);
         else if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() == null)
@@ -185,8 +185,7 @@ public class CivilizationController {
         if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile)
             return false;
         else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) return false;
-        else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit() != null) return false;
-        return true;
+        else return !(unit instanceof NonCombatUnit) || destinationTile.getNonCombatUnit() == null;
     }
 
     private void cancelMove(Unit unit) {
@@ -275,7 +274,7 @@ public class CivilizationController {
     public boolean isRiverBetween(Tile tile1, Tile tile2) {
         if (tile1 == null || tile2 == null) return false;
 
-        if (tile1.getAdjacentTiles().indexOf(tile2) == -1) return false;
+        if (!tile1.getAdjacentTiles().contains(tile2)) return false;
         return tile1.getIsRiver().get(tile1.getAdjacentTiles().indexOf(tile2));
 
     }
@@ -352,18 +351,22 @@ public class CivilizationController {
     }
 
     public ArrayList<String> getPossibleImprovements(Tile tile) {
-        ArrayList<String> improvements;
+        ArrayList<ImprovementEnum> improvements;
         if (tile.getFeature() != null) improvements = Improvement.getImprovementsByFeature(tile.getFeature());
         else improvements = Improvement.getImprovementsByTerrain(tile.getTerrain());
 
         improvements.removeIf(improvement -> !GameController.getInstance().getCivilization().
-                getCivilizationResearchedTechnologies().containsValue(Improvement.getAllImprovements().
-                        get(improvement).getRequiredTechnology()));
+                getCivilizationResearchedTechnologies().containsValue(
+                        Improvement.getAllImprovements().get(improvement).getRequiredTechnology()));
 
-        improvements.add("road");
-        improvements.add("rail");
+        ArrayList<String> improvementsString = new ArrayList<>();
+        for (ImprovementEnum improvement : improvements) {
+            improvementsString.add(improvement.name);
+        }
+        improvementsString.add("road");
+        improvementsString.add("rail");
 
-        return improvements;
+        return improvementsString;
     }
 
     public String foundCity(Settler settler, String name) {
@@ -454,15 +457,14 @@ public class CivilizationController {
         civilization.setGold(civilization.getGold()-50);
     }
 
-    public ArrayList<Unit> getProducibleUnits(){
-        ArrayList<Unit> units = new ArrayList<>();
-        for (String key : GameController.getInstance().getCivilization().getProducibleUnits().keySet())
-            units.add(GameController.getInstance().getCivilization().getProducibleUnits().get(key));
+    public ArrayList<UnitEnum> getProducibleUnits(){
+        ArrayList<UnitEnum> unitEnums = new ArrayList<>();
+        Civilization civilization = GameController.getInstance().getCivilization();
 
-        units.removeIf(unit -> !GameController.getInstance().getCivilization().getCivilizationResources().
-                containsValue(UnitEnum.valueOf(unit.getName()).getRequiredResource().getResource()));
+        unitEnums.addAll(civilization.getProducibleUnitEnums());
+        unitEnums.removeIf(unitEnum -> !civilization.getCivilizationUsableUnits().contains(unitEnum));
 
-        return units;
+        return unitEnums;
     }
 
     public void cityFortify(City city) {

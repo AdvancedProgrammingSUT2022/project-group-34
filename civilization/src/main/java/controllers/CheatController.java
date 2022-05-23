@@ -45,4 +45,10 @@ public class CheatController {
         CivilizationController.finishResearch(civilization);
         return "TODO";
     }
+
+    public String Research() {
+        Civilization civilization = GameController.getInstance().getCivilization();
+        CivilizationController.finishResearch(civilization);
+        return "TODO";
+    }
 }

@@ -6,9 +6,12 @@ import models.resource.Resource;
 import models.tile.AbstractTile;
 import models.tile.Tile;
 import models.unit.Unit;
+import models.unit.UnitEnum;
 import models.unit.Work;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Civilization {
@@ -36,9 +39,12 @@ public class Civilization {
     private final HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
     private final HashMap<Resource, Integer> numberOfEachExchangedResource = new HashMap<>();
 
+    private ArrayList<UnitEnum> civilizationNotUsableUnits  = new ArrayList<>();
+    private ArrayList<UnitEnum> civilizationUsableUnits     = new ArrayList<>();
+
+
     private HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies;
     private HashMap<TechnologyEnum, Technology> civilizationNotResearchedTechnologies;
-    private HashMap<String, Unit> producibleUnits;
 
     private int numberOfBeakers;
     private Technology studyingTechnology;
@@ -61,7 +67,7 @@ public class Civilization {
         this.units = units;
         this.mainCapital = mainCapital;
         this.works = new ArrayList<>();
-        this.civilizationResources = Resource.getAllResourcesCopy();
+        this.civilizationResources = Resource.getAllResourcesCopyString();
         this.civilizationResearchedTechnologies = Technology.getAllTechnologiesCopy();
         this.civilizationNotResearchedTechnologies = new HashMap<>();
 
@@ -71,6 +77,7 @@ public class Civilization {
         this.gold = gold;
         this.happiness0 = happiness0;
         this.happiness = happiness;
+        this.civilizationNotUsableUnits.addAll(Arrays.asList(UnitEnum.values()));
     }
 
     public String getCivilizationName() {
@@ -150,7 +157,7 @@ public class Civilization {
         this.notifications = notifications;
     }
 
-    public HashMap<String, Resource> getCivilizationResources() {
+    public AbstractMap<String, Resource> getCivilizationResources() {
         return civilizationResources;
     }
 
@@ -248,12 +255,11 @@ public class Civilization {
 
     }
 
-    public HashMap<String, Unit> getProducibleUnits() {
-        return producibleUnits;
+    public ArrayList<UnitEnum> getProducibleUnitEnums() {
+        return civilizationUsableUnits;
     }
 
     public void setProducibleUnits(HashMap<String, Unit> producibleUnits) {
-        this.producibleUnits = producibleUnits;
     }
 
     public int getTurn() {
@@ -334,5 +340,13 @@ public class Civilization {
 
     public HashMap<Resource, Integer> getNumberOfEachExchangedResource() {
         return numberOfEachExchangedResource;
+    }
+
+    public ArrayList<UnitEnum> getCivilizationNotUsableUnits() {
+        return civilizationNotUsableUnits;
+    }
+
+    public ArrayList<UnitEnum> getCivilizationUsableUnits() {
+        return civilizationUsableUnits;
     }
 }

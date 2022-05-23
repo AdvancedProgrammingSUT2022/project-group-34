@@ -64,4 +64,8 @@ public enum UnitEnum {
     public ResourceData getRequiredResource() {
         return requiredResource;
     }
+
+    public int getCost() {
+        return cost;
+    }
 }

@@ -28,7 +28,6 @@ public class CombatUnit extends Unit {
     protected ResourceData requiredResource;
     private City GarrisonCity;
 
-
     public CombatUnit(UnitEnum unitEnum, Tile position, Civilization civilization) {
         super(unitEnum, position, civilization);
 
@@ -49,7 +48,7 @@ public class CombatUnit extends Unit {
     }
 
     public static void loadDataSheet() {
-        CombatUnit.combatUnitDataSheet = null; // todo Read from file
+
     }
 
     public static int getHitPointConstant() {

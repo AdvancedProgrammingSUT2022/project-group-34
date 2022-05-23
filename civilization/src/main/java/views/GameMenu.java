@@ -1269,11 +1269,11 @@ public class GameMenu extends Menu {
 
 
     private static void constructionMenu() {
-        ArrayList<Unit> units = CivilizationController.getInstance().getProducibleUnits();
+        ArrayList<UnitEnum> unitEnums = CivilizationController.getInstance().getProducibleUnits();
 
         System.out.println("List of producible units:");
-        for (int i = 1; i <= units.size(); i++)
-            System.out.println(i + "." + units.get(i - 1) + "|" + (int) Math.ceil((float) units.get(i - 1).getCost() / selectedCity.getProductionRate()));
+        for (int i = 1; i <= unitEnums.size(); i++)
+            System.out.println(i + "." + unitEnums.get(i - 1) + "|" + (int) Math.ceil((float) unitEnums.get(i - 1).getCost() / selectedCity.getProductionRate()));
         System.out.println("If you want to choose/change a production, please type its index");
         System.out.println("If you want to exit the menu, please type \"exit\"");
 
@@ -1283,10 +1283,10 @@ public class GameMenu extends Menu {
             if (Objects.equals(choice, "exit")) return;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
-                if (number < 1 || number > units.size()) System.out.println("Invalid number");
+                if (number < 1 || number > unitEnums.size()) System.out.println("Invalid number");
                 else {
-                    selectedCity.setUnitUnderProduct(units.get(number - 1));
-                    selectedCity.setUnitUnderProductTern((int) Math.ceil((float) units.get(number - 1).getCost() / selectedCity.getProductionRate()));
+                    selectedCity.setUnitUnderProduct(Unit.getUnitByUnitEnum(unitEnums.get(number - 1)));
+                    selectedCity.setUnitUnderProductTern((int) Math.ceil((float) unitEnums.get(number - 1).getCost() / selectedCity.getProductionRate()));
                 }
             } else invalidCommand();
         }

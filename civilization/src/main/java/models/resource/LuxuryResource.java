@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class LuxuryResource extends Resource{
 
     private final int goldBonus;
-    private static final HashMap<String,LuxuryResource> allLuxuryResource = new HashMap<>();
+    private static final HashMap<ResourceEnum,LuxuryResource> allLuxuryResource = new HashMap<>();
 
     public LuxuryResource(String name, ImprovementEnum requiredImprovement, int goldBonus) {
         super(name, requiredImprovement, true);
@@ -41,12 +41,12 @@ public class LuxuryResource extends Resource{
         arrayList.add(ResourceData.Silver.getResource());
         arrayList.add(ResourceData.Sugar.getResource());
         for (Resource resource : arrayList)
-            allLuxuryResource.put(resource.getName(), (LuxuryResource) resource);
+            allLuxuryResource.put(ResourceEnum.valueOf(resource.getName()), (LuxuryResource) resource);
 
 
     }
 
-    public static HashMap<String,LuxuryResource> getAllLuxuryResource(){
+    public static HashMap<ResourceEnum,LuxuryResource> getAllLuxuryResource(){
         if (allLuxuryResource.isEmpty())
             createAllInstance();
         return new HashMap<>(allLuxuryResource);

@@ -35,7 +35,7 @@ public class Improvement{
 
         this.suitableFeatureForThisImprovement.addAll(improvementEnum.suitableFeatureForThisImprovement);
 
-        HashMap<String,Resource> allResourcesCopy = Resource.getAllResourcesCopy();
+        HashMap<String,Resource> allResourcesCopy = Resource.getAllResourcesCopyString();
         for (String resourceName : improvementEnum.allResourcesThatNeedThisImprovement) {
             this.allResourcesThatNeedThisImprovement.add(allResourcesCopy.get(resourceName));
         }
@@ -79,20 +79,20 @@ public class Improvement{
         return 0;
     }
 
-    public static ArrayList<String> getImprovementsByFeature(Feature feature){
-        ArrayList<String> improvements= new ArrayList<>();
+    public static ArrayList<ImprovementEnum> getImprovementsByFeature(Feature feature){
+        ArrayList<ImprovementEnum> improvements= new ArrayList<>();
         for (ImprovementEnum improvementEnum : ImprovementEnum.values())
             if (allImprovements.get(improvementEnum).suitableFeatureForThisImprovement.contains(feature))
-                improvements.add(improvementEnum.name);
+                improvements.add(improvementEnum);
 
         return improvements;
     }
 
-    public static ArrayList<String> getImprovementsByTerrain(Terrain terrain){
-        ArrayList<String> improvements = new ArrayList<>();
+    public static ArrayList<ImprovementEnum> getImprovementsByTerrain(Terrain terrain){
+        ArrayList<ImprovementEnum> improvements = new ArrayList<>();
         for (ImprovementEnum improvementEnum : ImprovementEnum.values())
             if (allImprovements.get(improvementEnum).suitableTerrainForThisImprovement.contains(terrain))
-                improvements.add(improvementEnum.name);
+                improvements.add(improvementEnum);
 
         return improvements;
     }

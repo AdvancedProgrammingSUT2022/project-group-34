@@ -2,14 +2,11 @@ package models.resource;
 
 import models.tile.ImprovementEnum;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Resource {
 
-    public static ArrayList<HashMap<String,String>> dataSheet;
-    public static HashMap<String, ArrayList<String>> dataSheetLocationsOfResources;
-    public static HashMap<String,Resource> allResources = new HashMap<>();
+    public static HashMap<ResourceEnum,Resource> allResources = new HashMap<>();
 
     private final String name;
     private final ImprovementEnum requiredImprovement;
@@ -32,20 +29,28 @@ public class Resource {
         return 0;
     }
 
-    public static HashMap<String, Resource> getAllResourcesCopy() {
-
-
-        StrategicResource.getAllStrategicResource().forEach((name,resource)->{
-            Resource resourceCopy = resource.cloneResource();
-            allResources.put(name,resourceCopy);
+    public static HashMap<String, Resource> getAllResourcesCopyString() {
+        HashMap<ResourceEnum, Resource> resourceEnumResourceHashMap = getAllResourcesCopy();
+        HashMap<String      , Resource> resourceHashMap = new HashMap<>();
+        resourceEnumResourceHashMap.forEach((resourceEnum, resource) -> {
+                resourceHashMap.put(resource.getName(), resource);
         });
-        BonusResource.getAllBonusResource().forEach((name,resource)->{
+
+        return resourceHashMap;
+    }
+    public static HashMap<ResourceEnum, Resource> getAllResourcesCopy() {
+
+        StrategicResource.getAllStrategicResource().forEach((resourceEnum,resource)->{
             Resource resourceCopy = resource.cloneResource();
-            allResources.put(name,resourceCopy);
+            allResources.put(resourceEnum,resourceCopy);
         });
-        LuxuryResource.getAllLuxuryResource().forEach((name,resource)->{
+        BonusResource.getAllBonusResource().forEach((ResourceEnum,resource)->{
             Resource resourceCopy = resource.cloneResource();
-            allResources.put(name,resourceCopy);
+            allResources.put(ResourceEnum,resourceCopy);
+        });
+        LuxuryResource.getAllLuxuryResource().forEach((resourceEnum,resource)->{
+            Resource resourceCopy = resource.cloneResource();
+            allResources.put(resourceEnum,resourceCopy);
         });
 
         return allResources;

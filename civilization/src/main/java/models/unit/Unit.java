@@ -11,6 +11,7 @@ public abstract class Unit {
 
     public static HashMap<String, ArrayList<String>> dataBaseRequiredTechnology;
     public static HashMap<String, HashMap<String, String>> unitDataSheet = new HashMap<>();
+    public static HashMap<UnitEnum, Unit> unitEnumUnitHashMap = new HashMap<>();
     public static int motionPointConstant;
     public static int healthConstant;
 
@@ -59,6 +60,10 @@ public abstract class Unit {
     public static void loadDataSheet() {
         Unit.dataBaseRequiredTechnology = null; // todo Read from file
         Unit.unitDataSheet              = null; // todo Read from file
+    }
+
+    public static Unit getUnitByUnitEnum(UnitEnum unitEnum) {
+        return unitEnumUnitHashMap.get(unitEnum);
     }
 
     public Civilization getCivilization() {

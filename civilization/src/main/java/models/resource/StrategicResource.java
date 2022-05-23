@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class StrategicResource extends Resource{
 
-    public static final HashMap<String,StrategicResource> allStrategicResource = new HashMap<>();
+    public static final HashMap<ResourceEnum,StrategicResource> allStrategicResource = new HashMap<>();
     private final TechnologyEnum requiredTechnology;
     private final int productionBonus;
 
@@ -24,10 +24,10 @@ public class StrategicResource extends Resource{
         arrayList.add(ResourceData.Horses.getResource());
         arrayList.add(ResourceData.Iron.getResource());
         for (Resource resource : arrayList)
-            allStrategicResource.put(resource.getName(), (StrategicResource) resource);
+            allStrategicResource.put(ResourceEnum.valueOf(resource.getName()), (StrategicResource) resource);
     }
 
-    public static HashMap<String,StrategicResource> getAllStrategicResource(){
+    public static HashMap<ResourceEnum,StrategicResource> getAllStrategicResource(){
         if (allStrategicResource.isEmpty())
             createAllInstance();
         return allStrategicResource;

@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class BonusResource extends Resource{
 
     private final int foodBonus;
-    public static final HashMap<String,BonusResource> allBonusResource = new HashMap<>();
+    public static final HashMap<ResourceEnum,BonusResource> allBonusResource = new HashMap<>();
 
     public BonusResource(String name, ImprovementEnum requiredImprovement, int foodBonus) {
         super(name, requiredImprovement, false);
@@ -23,11 +23,11 @@ public class BonusResource extends Resource{
         arrayList.add(ResourceData.Sheep.getResource());
         arrayList.add(ResourceData.Wheat.getResource());
         for (Resource resource : arrayList) {
-            allBonusResource.put(resource.getName(),(BonusResource) resource);
+            allBonusResource.put(ResourceEnum.valueOf(resource.getName()), (BonusResource) resource);
         }
     }
 
-    public static HashMap<String,BonusResource> getAllBonusResource(){
+    public static HashMap<ResourceEnum,BonusResource> getAllBonusResource(){
         if (allBonusResource.isEmpty())
             createAllInstance();
         return allBonusResource;
