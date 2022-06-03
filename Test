@@ -7,3 +7,6 @@ Menu exit
 play game --player1 ahn
 
 cheat increase --x 12 --y 13
+
+user register -u salam -p Seyyed1382 --nickname pass
+user login -p Seyyed1382 -u salam
