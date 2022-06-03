@@ -1,14 +1,14 @@
-import controllers.GameController;
-import controllers.UserController;
-import models.User;
+import app.controllers.GameController;
+import app.controllers.UserController;
+import app.models.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
-import views.MainMenu;
-import views.Processor;
+import app.views.MainMenu;
+import app.views.Processor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
