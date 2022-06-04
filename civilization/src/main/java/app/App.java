@@ -14,7 +14,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         mainStage = stage;
-        setMenu("login_menu");
+        setMenu("main_menu");
         stage.setTitle("Civilization");
         stage.show();
     }
@@ -25,12 +25,17 @@ public class App extends Application {
 
     private static Parent loadPage(String pageName) {
         try {
-            URL address = new URL(App.class.getResource("/fxml/" + pageName + ".fxml").toExternalForm());
+            URL address = new URL(App.class.getResource("/app/fxml/" + pageName + ".fxml").toExternalForm());
             return FXMLLoader.load(address);
         }
         catch (Exception e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void exit() {
+        mainStage.close();
+        System.exit(0);
     }
 }
