@@ -6,6 +6,7 @@ change --nickname seyyed
 Menu exit
 play game --player1 ahn
 
-INFO UNITS
-1
-cheat teleport --x 12 --y 13
+cheat increase --x 12 --y 13
+
+user register -u salam -p Seyyed1382 --nickname pass
+user login -p Seyyed1382 -u salam
