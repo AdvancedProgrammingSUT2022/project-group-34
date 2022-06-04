@@ -1681,6 +1681,7 @@ public class GameMenu extends Menu {
     }
 
     private static void putResource(Civilization civilization, Resource resource, StringBuilder[][] output, int upperBound, int leftBound) {
+
         if (resource == null) return;
         String name = resource.getName();
 
