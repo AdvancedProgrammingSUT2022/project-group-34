@@ -636,14 +636,15 @@ public class GameMenu extends Menu {
 
     private static void researchInfoMenu() {
         Technology technology = GameController.getInstance().getCivilization().getStudyingTechnology();
-
-        System.out.println("Current Research Project: " + technology.getName());
-        System.out.println("Remaining Terms: " + technology.getRemainingTerm());
-
-        futureTechnologies(technology);
-        futureImprovements(technology);
-        futureUnits(technology);
-        futureResources(technology);
+        if (technology != null) {
+            System.out.println("Current Research Project: " + technology.getName());
+            System.out.println("Remaining Terms: " + technology.getRemainingTerm());
+            futureTechnologies(technology);
+            futureImprovements(technology);
+            futureUnits(technology);
+            futureResources(technology);
+        }
+        else System.out.println("No technology is being researched");
     }
 
     private static void futureTechnologies(Technology technology) {
@@ -1327,6 +1328,10 @@ public class GameMenu extends Menu {
         // TODO: 4/21/2022
     }
 
+    /*
+    cheat research technology --name <name>
+    cheat finish research
+     */
     private static void handleCheatCategoryCommand(Processor processor) {
         if  (processor.getSection() == null) invalidCommand();
         else if (processor.getSection().equals("increase"))
@@ -1377,12 +1382,12 @@ public class GameMenu extends Menu {
 
     private static void finishCheatCommand(String subSection) {
         if (!subSection.equals("research")) invalidCommand();
-        else System.out.printf(CheatController.getInstance().finishResearch());
+        else System.out.println(CheatController.getInstance().finishResearch());
     }
 
     private static void researchCheatCommand(String subSection, String name) {
-        if (!subSection.equals("research")) invalidCommand();
-        else System.out.printf(CheatController.getInstance().researchResearch(name));
+        if (!subSection.equals("technology")) invalidCommand();
+        else System.out.println(CheatController.getInstance().researchTechnology(name));
     }
 
     private static void revealCheatCommand(String xField, String yField) {
