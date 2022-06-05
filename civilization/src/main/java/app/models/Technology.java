@@ -38,7 +38,7 @@ public class Technology {
 
     public static HashMap<TechnologyEnum, Technology> getAllTechnologiesCopy() {
 
-        if (allTechnologies == null)
+        if (allTechnologies.size() == 0)
             createAllInstances();
 
         HashMap<TechnologyEnum,Technology> allTechnologiesCopy = new HashMap<>();

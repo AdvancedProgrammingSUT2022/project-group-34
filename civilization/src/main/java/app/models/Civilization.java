@@ -68,8 +68,6 @@ public class Civilization {
         this.mainCapital = mainCapital;
         this.works = new ArrayList<>();
         this.civilizationResources = Resource.getAllResourcesCopyString();
-        this.civilizationResearchedTechnologies = Technology.getAllTechnologiesCopy();
-        this.civilizationNotResearchedTechnologies = new HashMap<>();
 
         this.notifications = new ArrayList<>();
 
@@ -84,6 +82,19 @@ public class Civilization {
         this.numberOfBeakers = 100;
         this.happiness0 = 10;
         this.gold = 400;
+
+
+        civilizationResearchedTechnologies = new HashMap<>();
+        civilizationNotResearchedTechnologies = Technology.getAllTechnologiesCopy();
+        civilizationNotResearchedTechnologies.forEach(((technologyEnum, technology) -> {
+            if (technology.isResearched()){
+                civilizationResearchedTechnologies.put(technologyEnum,technology);
+            }
+        }));
+        civilizationResearchedTechnologies.forEach((technologyEnum, technology) -> {
+            civilizationNotResearchedTechnologies.remove(technologyEnum);
+        });
+
     }
 
     public String getCivilizationName() {
