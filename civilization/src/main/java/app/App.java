@@ -1,5 +1,6 @@
 package app;
 
+import app.controllers.UserController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,9 +15,9 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         mainStage = stage;
-        setMenu("main_menu");
         stage.setTitle("Civilization");
         stage.show();
+        setMenu("login_menu");
     }
 
     public static void setMenu(String menuName) {

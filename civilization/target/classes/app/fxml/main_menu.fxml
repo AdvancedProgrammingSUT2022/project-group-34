@@ -14,7 +14,7 @@
             stylesheets="@../css/main_menu.css">
     <Button layoutX="70" layoutY="200">Profile</Button>
     <Button layoutX="70" layoutY="300">Game Menu</Button>
-    <Button layoutX="70" layoutY="400" id="logout">Logout</Button>
+    <Button layoutX="70" layoutY="400" id="logout" onMouseClicked="#logout">Logout</Button>
     <Button layoutX="960" layoutY="200">Leaderboard</Button>
     <Button layoutX="960" layoutY="300">Chat</Button>
     <Button layoutX="960" layoutY="400" id="exit" onMouseClicked="#exit">Exit</Button>
