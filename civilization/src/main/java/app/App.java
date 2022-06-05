@@ -12,6 +12,11 @@ import java.net.URL;
 public class App extends Application {
     private static Stage mainStage;
 
+    public static void main(String[] args) {
+//        UserController.getInstance().loadUsers();
+        launch();
+    }
+
     @Override
     public void start(Stage stage) {
         mainStage = stage;
@@ -37,6 +42,7 @@ public class App extends Application {
 
     public static void exit() {
         mainStage.close();
+//        UserController.getInstance().saveUsers();
         System.exit(0);
     }
 }
