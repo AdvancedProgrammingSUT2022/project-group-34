@@ -42,14 +42,22 @@ public class CheatController {
 
     public String finishResearch() {
         Civilization civilization = GameController.getInstance().getCivilization();
-        CivilizationController.finishResearch(civilization);
+        CivilizationController.getInstance().finishResearch(civilization);
         return "done";
     }
 
-    public String researchResearch(String name) {
+    public String researchTechnology(String name) {
         Civilization civilization = GameController.getInstance().getCivilization();
-        CivilizationController.researchResearch(civilization, name);
-        return "done";
+        int flag = CivilizationController.getInstance().researchTechnology(civilization, name);
+        switch (flag){
+            case -1:
+                return "There is no technology with this name";
+            case -2:
+                return "This technology has been researched";
+            default:
+                return "done";
+        }
+
     }
 
 }

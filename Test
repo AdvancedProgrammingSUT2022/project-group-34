@@ -10,3 +10,9 @@ cheat increase --x 12 --y 13
 
 user register -u salam -p Seyyed1382 --nickname pass
 user login -p Seyyed1382 -u salam
+
+
+
+
+if (tile.getTerrain() != null && tile.getFeature() != null)
+            System.out.println(tile.getFeature().getName() + "----" + tile.getTerrain().getName() + "---" + tile.getX() + "," + tile.getY());

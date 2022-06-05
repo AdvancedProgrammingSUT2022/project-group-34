@@ -26,7 +26,7 @@ public class CivilizationController {
         return instance;
     }
 
-    public static void finishResearch(Civilization civilization) {
+    public void finishResearch(Civilization civilization) {
         Technology technology = civilization.getStudyingTechnology();
         technology.setResearching(false);
         technology.setResearched (true );
@@ -35,9 +35,16 @@ public class CivilizationController {
 
     }
 
-    public static int researchResearch(Civilization civilization,String name) {
+    public int researchTechnology(Civilization civilization, String name) {
         TechnologyEnum technologyEnum = TechnologyEnum.getTechnologyEnumByName(name);
         if (technologyEnum == null) return -1;
+
+        if (civilization.getStudyingTechnology() != null
+        && civilization.getStudyingTechnology().getName().equals(technologyEnum.getName())){
+            finishResearch(civilization);
+            return 0;
+        }
+
         Technology technology = civilization.getCivilizationNotResearchedTechnologies().get(technologyEnum);
         if (technology == null) return -2;
         civilization.getCivilizationNotResearchedTechnologies() .remove(technologyEnum);

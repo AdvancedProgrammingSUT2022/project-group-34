@@ -12,7 +12,7 @@ public enum ResourceData {
     Wheat   (new BonusResource("Wheat"  ,ImprovementEnum.Farm       ,1)),
 
     Coal    (new StrategicResource("Coal"   ,ImprovementEnum.Mine       ,1,TechnologyEnum.ScientificTheory)),
-    Horses  (new StrategicResource("Horse"  ,ImprovementEnum.Plantation ,1,TechnologyEnum.AnimalHusbandry)),
+    Horses  (new StrategicResource("Horses"  ,ImprovementEnum.Plantation ,1,TechnologyEnum.AnimalHusbandry)),
     Iron    (new StrategicResource("Iron"   ,ImprovementEnum.Mine       ,1,TechnologyEnum.IronWorking)),
 
     Cotton  (new LuxuryResource("Cotton",ImprovementEnum.Plantation ,2)),

@@ -124,6 +124,7 @@ public class GameMap extends Map {
 
     public void generateMap(){
         Random random = new Random(System.currentTimeMillis());
+
         for (int i = 0 ; i < mapHeight; i++){
             map.add(new ArrayList<>());
             for (int j = 0; j < mapWidth; j++) {
@@ -144,6 +145,17 @@ public class GameMap extends Map {
                 tile.setFeature(feature);
             }
         }
+
+        for (int i = 0 ; i < mapHeight; i++){
+            for (int j = 0; j < mapWidth; j++) {
+
+                Tile tile = map.get(i).get(j);
+                Resource resource = getRandomResourceForTile(tile,random);
+                //System.out.println(resource);
+                tile.setResource(resource);
+            }
+        }
+
 
 
         for (int i = 0 ; i < mapHeight ; i++) {
@@ -216,11 +228,16 @@ public class GameMap extends Map {
         return answer;
     }
 
-    public static Resource setTileRandomResource(Tile tile,int n){
+    public static Resource getRandomResourceForTile(Tile tile, Random random){
+        int n = random.nextInt();
+        if (n < 0) n = -n;
         ArrayList<ResourceEnum> resourceEnums;
         resourceEnums = ResourcesLocationsDataSheet.whichResourcesInThisTile(tile);
-        Resource resource = Resource.allResources.get(resourceEnums.get(n%resourceEnums.size()));
-        tile.setResource(resource);
+        Resource resource = null;
+        if (resourceEnums.size() != 0){
+            ResourceEnum resourceEnum = resourceEnums.get(n % resourceEnums.size());
+            resource = Resource.getAllResourcesCopy().get(resourceEnum);
+        }
         return resource;
     }
 }
