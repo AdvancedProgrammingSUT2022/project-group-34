@@ -25,6 +25,10 @@ public class App extends Application {
         setMenu("login_menu");
     }
 
+    public static Stage getStage() {
+        return mainStage;
+    }
+
     public static void setMenu(String menuName) {
         mainStage.setScene(new Scene(loadPage(menuName)));
     }

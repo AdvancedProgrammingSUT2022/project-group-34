@@ -28,6 +28,10 @@
             <TextField fx:id="nickname" promptText="nickname" onKeyTyped="#clearMessage"/>
             <Label text="Password:"/>
             <PasswordField fx:id="registerPassword" promptText="password" onKeyTyped="#clearMessage"/>
+            <HBox alignment="CENTER_LEFT" spacing="5">
+                <Label text="Profile Picture:"/>
+                <Button fx:id="chooserButton" id="choose" styleClass="chooser" text="Pick a file..." onMouseClicked="#openFileChooser"/>
+            </HBox>
             <Button text="Register" onMouseClicked="#register"/>
         </VBox>
     </right>

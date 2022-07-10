@@ -4,11 +4,20 @@ import app.App;
 import app.controllers.UserController;
 import app.models.User;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
+
+import java.io.File;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class LoginMenuController {
     private final static String VALID_USERNAME_REGEX = "^[a-zA-Z][a-zA-Z\\d]*$";
@@ -39,12 +48,37 @@ public class LoginMenuController {
     private PasswordField loginPassword;
 
     @FXML
+    private Button chooserButton;
+
+    private FileChooser fileChooser;
+    private File selectedFile;
+
+    @FXML
     private void initialize() {
+        fileChooser = new FileChooser();
+        ArrayList<String> list = new ArrayList<>(Arrays.asList("*.png", "*.jpg", "*.jpeg"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Images", list));
+        fileChooser.setTitle("Pick a profile picture...");
         Background background = new Background(new BackgroundImage(
                 new Image(getClass().getResource("/app/background/login_menu.png").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1280, 720, false, false, false, false)));
         pane.setBackground(background);
+    }
+
+    @FXML
+    private void openFileChooser() {
+        if (selectedFile == null) selectedFile = fileChooser.showOpenDialog(App.getStage());
+        else selectedFile = null;
+        if (selectedFile == null) {
+            chooserButton.setId("choose");
+            chooserButton.setText("Pick a file...");
+        }
+        else {
+            chooserButton.setId("chosen");
+            chooserButton.setText("Remove picture");
+        }
+        //TODO...
     }
 
     @FXML
@@ -58,7 +92,7 @@ public class LoginMenuController {
             registerMessage.setText("Invalid username!");
             registerMessage.setStyle("-fx-text-fill: red;");
         }
-        else if (!nickname.matches(VALID_USERNAME_REGEX)) {
+        else if (!nickname.matches(VALID_NICKNAME_REGEX)) {
             registerMessage.setText("Invalid nickname!");
             registerMessage.setStyle("-fx-text-fill: red;");
         }
