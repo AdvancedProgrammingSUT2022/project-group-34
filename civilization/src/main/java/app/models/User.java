@@ -3,6 +3,10 @@ package app.models;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+
 public class User {
     private final String username;
     private String password;
@@ -57,11 +61,25 @@ public class User {
 
     //Return avatar as ImageView
     public ImageView getImageView() {
-        return new ImageView(new Image("/app/avatars/" + username + ".png"));
+        File file = new File("src/main/resources/app/avatars/" + username + ".png");
+        if (!file.exists()) setAvatar(null);
+        return new ImageView(new Image(file.toURI().toString()));
     }
 
     //Checks if the given password is equal to user's password
     public boolean isPasswordCorrect(String password) {
         return this.password.equals(password);
+    }
+
+    public void setAvatar(File file) {
+        try {
+            if (file == null) file = new File("src/main/resources/app/placeholder.png");
+            new ImageView(new Image(file.toURI().toString()));
+            Files.copy(file.toPath(), new File("src/main/resources/app/avatars/" + username + ".png").toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+            setAvatar(null);
+            e.printStackTrace();
+            return;
+        }
     }
 }

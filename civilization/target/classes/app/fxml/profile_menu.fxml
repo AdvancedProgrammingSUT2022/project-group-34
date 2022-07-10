@@ -6,6 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:id="pane"
@@ -13,7 +14,9 @@
             prefHeight="720.0" prefWidth="1280.0"
             stylesheets="@../css/profile_menu.css">
 
-    <VBox fx:id="mainBox">
-    </VBox>
+    <center>
+        <VBox fx:id="mainBox" alignment="CENTER">
+        </VBox>
+    </center>
 
 </BorderPane>

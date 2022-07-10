@@ -66,8 +66,7 @@ public class LoginMenuController {
     @FXML
     private void initialize() {
         fileChooser = new FileChooser();
-        ArrayList<String> list = new ArrayList<>(Arrays.asList("*.png", "*.jpg", "*.jpeg", "*.bmp", "*.gif"));
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Images", list));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG", "*.png"));
         fileChooser.setTitle("Pick a profile picture...");
         Background background = new Background(new BackgroundImage(
                 new Image(getClass().getResource("/app/background/login_menu.png").toExternalForm()),
