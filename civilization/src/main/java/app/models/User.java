@@ -1,6 +1,7 @@
 package app.models;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class User {
     private final String username;
@@ -45,7 +46,7 @@ public class User {
         return nickname;
     }
 
-    public String getPassword() {
+    private String getPassword() {
         return password;
     }
 
@@ -53,6 +54,11 @@ public class User {
         return score;
     }
 
+
+    //Return avatar as ImageView
+    public ImageView getImageView() {
+        return new ImageView(new Image("/app/avatars/" + username + ".png"));
+    }
 
     //Checks if the given password is equal to user's password
     public boolean isPasswordCorrect(String password) {

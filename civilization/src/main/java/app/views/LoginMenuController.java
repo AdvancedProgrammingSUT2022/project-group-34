@@ -120,10 +120,7 @@ public class LoginMenuController {
 
         else {
             try {
-                System.out.println();
                 if (selectedFile == null) selectedFile = new File("src/main/resources/app/placeholder.png");
-                System.out.println(selectedFile.getAbsolutePath() + " " + selectedFile.getCanonicalPath());
-                System.out.println(selectedFile.exists());
                 new ImageView(new Image(selectedFile.toURI().toString()));
                 Files.copy(selectedFile.toPath(), new File("src/main/resources/app/avatars/" + username + ".png").toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (Exception e) {

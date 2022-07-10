@@ -29,4 +29,9 @@ public class MainMenuController {
         UserController.getInstance().setLoggedInUser(null);
         App.setMenu("login_menu");
     }
+
+    @FXML
+    private void profile() {
+        App.setMenu("profile_menu");
+    }
 }
