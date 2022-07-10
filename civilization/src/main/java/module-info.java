@@ -7,8 +7,8 @@ module civilization {
     exports app.controllers;
     opens app.models to javafx.fxml, com.google.gson;
     exports app.models;
-    opens app.views to javafx.fxml;
+    opens app.views to javafx.fxml, com.google.gson;
     exports app.views;
-    opens app to javafx.fxml;
+    opens app to javafx.fxml, com.google.gson;
     exports app;
 }
