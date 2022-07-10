@@ -9,11 +9,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.lang.reflect.Array;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -56,7 +66,7 @@ public class LoginMenuController {
     @FXML
     private void initialize() {
         fileChooser = new FileChooser();
-        ArrayList<String> list = new ArrayList<>(Arrays.asList("*.png", "*.jpg", "*.jpeg"));
+        ArrayList<String> list = new ArrayList<>(Arrays.asList("*.png", "*.jpg", "*.jpeg", "*.bmp", "*.gif"));
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Images", list));
         fileChooser.setTitle("Pick a profile picture...");
         Background background = new Background(new BackgroundImage(
@@ -78,7 +88,6 @@ public class LoginMenuController {
             chooserButton.setId("chosen");
             chooserButton.setText("Remove picture");
         }
-        //TODO...
     }
 
     @FXML
@@ -108,8 +117,25 @@ public class LoginMenuController {
             registerMessage.setText("Password is weak!");
             registerMessage.setStyle("-fx-text-fill: red;");
         }
+
         else {
+            try {
+                System.out.println();
+                if (selectedFile == null) selectedFile = new File("src/main/resources/app/placeholder.png");
+                System.out.println(selectedFile.getAbsolutePath() + " " + selectedFile.getCanonicalPath());
+                System.out.println(selectedFile.exists());
+                new ImageView(new Image(selectedFile.toURI().toString()));
+                Files.copy(selectedFile.toPath(), new File("src/main/resources/app/avatars/" + username + ".png").toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception e) {
+                registerMessage.setText("Unable to load picture!");
+                registerMessage.setStyle("-fx-text-fill: red;");
+                selectedFile = null;
+                e.printStackTrace();
+                return;
+            }
+
             UserController.getInstance().getUsers().add(new User(username, password, nickname));
+            UserController.getInstance().saveUsers();
             registerMessage.setText("User Created successfully!");
             registerMessage.setStyle("-fx-text-fill: green;");
             registerUsername.setText("");

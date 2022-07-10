@@ -1,5 +1,7 @@
 package app.models;
 
+import javafx.scene.image.Image;
+
 public class User {
     private final String username;
     private String password;
@@ -8,6 +10,13 @@ public class User {
 
     //Constructor of the class
     public User(String username, String password, String nickname) {
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.score = 0;
+    }
+
+    public User(String username, String password, String nickname, Image image) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
