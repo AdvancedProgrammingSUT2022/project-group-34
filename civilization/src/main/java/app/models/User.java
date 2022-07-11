@@ -21,6 +21,14 @@ public class User {
         this.score = 0;
     }
 
+    public User(String username, String password, String nickname, File file) throws Exception {
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.score = 0;
+        setAvatar(file);
+    }
+
     public User(String username, String password, String nickname, Image image) {
         this.username = username;
         this.password = password;
@@ -62,7 +70,10 @@ public class User {
     //Return avatar as ImageView
     public ImageView getImageView() {
         File file = new File("src/main/resources/app/avatars/" + username + ".png");
-        if (!file.exists()) setAvatar(null);
+        try {
+            if (!file.exists()) setAvatar(null);
+        } catch (Exception e) {
+        }
         return new ImageView(new Image(file.toURI().toString()));
     }
 
@@ -71,7 +82,7 @@ public class User {
         return this.password.equals(password);
     }
 
-    public void setAvatar(File file) {
+    public void setAvatar(File file) throws Exception {
         try {
             if (file == null) file = new File("src/main/resources/app/placeholder.png");
             new ImageView(new Image(file.toURI().toString()));
@@ -79,7 +90,7 @@ public class User {
         } catch (Exception e) {
             setAvatar(null);
             e.printStackTrace();
-            return;
+            throw new Exception();
         }
     }
 }

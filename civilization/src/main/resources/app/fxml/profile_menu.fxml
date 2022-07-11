@@ -16,6 +16,18 @@
 
     <center>
         <VBox fx:id="mainBox" alignment="CENTER">
+            <ImageView/>
+            <Label/>
+            <HBox>
+                <Label text="To change your profile picture"/>
+                <VBox>
+                    <HBox styleClass="lowSpacing">
+                        <Label text="either "/>
+                        <Button fx:id="chooserButton" id="choose" styleClass="chooser" text="pick a file..." onMouseClicked="#openFileChooser"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+            <Label text="" fx:id="message"/>
         </VBox>
     </center>
 

@@ -119,9 +119,7 @@ public class LoginMenuController {
 
         else {
             try {
-                if (selectedFile == null) selectedFile = new File("src/main/resources/app/placeholder.png");
-                new ImageView(new Image(selectedFile.toURI().toString()));
-                Files.copy(selectedFile.toPath(), new File("src/main/resources/app/avatars/" + username + ".png").toPath(), StandardCopyOption.REPLACE_EXISTING);
+                UserController.getInstance().getUsers().add(new User(username, password, nickname, selectedFile));
             } catch (Exception e) {
                 registerMessage.setText("Unable to load picture!");
                 registerMessage.setStyle("-fx-text-fill: red;");
@@ -130,7 +128,6 @@ public class LoginMenuController {
                 return;
             }
 
-            UserController.getInstance().getUsers().add(new User(username, password, nickname));
             UserController.getInstance().saveUsers();
             registerMessage.setText("User Created successfully!");
             registerMessage.setStyle("-fx-text-fill: green;");
