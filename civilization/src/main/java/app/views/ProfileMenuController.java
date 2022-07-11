@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -19,6 +20,8 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 
 public class ProfileMenuController {
+    private final static String VALID_NICKNAME_REGEX = "^[a-zA-Z]+$";
+
     @FXML
     private BorderPane pane;
 
@@ -35,9 +38,6 @@ public class ProfileMenuController {
     private Label message;
 
     @FXML
-    private Label successMessage;
-
-    @FXML
     private HBox placeholderBox;
 
     @FXML
@@ -45,6 +45,9 @@ public class ProfileMenuController {
 
     @FXML
     private PasswordField newPasswordField;
+
+    @FXML
+    private TextField newNicknameField;
 
     private FileChooser fileChooser;
     private File selectedFile;
@@ -60,8 +63,6 @@ public class ProfileMenuController {
                 new BackgroundSize(1280, 720, false, false, false, false)));
         pane.setBackground(background);
         User user = UserController.getInstance().getLoggedInUser();
-        message.setStyle("-fx-text-fill: red;");
-        successMessage.setStyle("-fx-text-fill: green;");
         loadAvatar(user);
         loadName(user);
         loadPlaceholders();
@@ -85,6 +86,20 @@ public class ProfileMenuController {
         for (int i = 0; i < 5; i++) {
             addPlaceholder();
         }
+    }
+
+    private void showFailureMessage(String string) {
+        message.setText(string);
+        message.setStyle("-fx-text-fill: #ff2200;");
+    }
+
+    private void showSuccessMessage(String string) {
+        message.setText(string);
+        message.setStyle("-fx-text-fill: #00ff55;");
+    }
+
+    private void clearMessage() {
+        message.setText("");
     }
 
     private void addPlaceholder() {
@@ -114,13 +129,12 @@ public class ProfileMenuController {
     }
 
     private void setAvatar(File file) {
-        message.setText("");
-        successMessage.setText("");
+        clearMessage();
         try {
             UserController.getInstance().getLoggedInUser().setAvatar(file);
-            successMessage.setText("Avatar changed successfully.");
+            showSuccessMessage("Avatar changed successfully.");
         } catch (Exception e) {
-            message.setText("Unable to load picture.");
+            showFailureMessage("Unable to load picture.");
         }
         loadAvatar(UserController.getInstance().getLoggedInUser());
     }
@@ -130,22 +144,50 @@ public class ProfileMenuController {
         String currentPassword = oldPasswordField.getText();
         String newPassword = newPasswordField.getText();
 
-        message.setText("");
-        successMessage.setText("");
+        clearMessage();
 
         if (!UserController.getInstance().getLoggedInUser().isPasswordCorrect(currentPassword)) {
-            message.setText("incorrect password");
+            showFailureMessage("incorrect password");
         }
         else if (currentPassword.equals(newPassword)) {
-            message.setText("Insert a new password.");
+            showFailureMessage("Insert a new password.");
         }
         else if (!UserController.getInstance().isPasswordStrong(newPassword)) {
-            message.setText("Password is weak!");
+            showFailureMessage("Password is weak!");
         }
         else {
             UserController.getInstance().getLoggedInUser().setPassword(newPassword);
-            successMessage.setText("Password changed successfully!");
+            showSuccessMessage("Password changed successfully!");
             UserController.getInstance().saveUsers();
+            oldPasswordField.setText("");
+            newPasswordField.setText("");
         }
+    }
+
+    @FXML
+    private void changeNickname() {
+        String nickname = newNicknameField.getText();
+
+        clearMessage();
+
+        if (!nickname.matches(VALID_NICKNAME_REGEX))
+            showFailureMessage("Please enter a valid nickname. (one or more alphabetic characters)");
+        else if (UserController.getInstance().getLoggedInUser().getNickname().equals(nickname))
+            showFailureMessage("Please enter a new nickname.");
+        else if (UserController.getInstance().getUserByNickname(nickname) != null)
+            showFailureMessage("A user with nickname " + nickname + " already exists.");
+        else {
+            UserController.getInstance().getLoggedInUser().setNickname(nickname);
+            showSuccessMessage("Nickname changed successfully!");
+            UserController.getInstance().saveUsers();
+            newNicknameField.setText("");
+        }
+        loadName(UserController.getInstance().getLoggedInUser());
+
+    }
+
+    @FXML
+    private void exit() {
+        App.setMenu("main_menu");
     }
 }

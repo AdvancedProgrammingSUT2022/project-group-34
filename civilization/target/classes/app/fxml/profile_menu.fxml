@@ -19,7 +19,7 @@
             <ImageView/>
             <Label/>
             <HBox>
-                <Label text="To change your profile picture"/>
+                <Label styleClass="title" text="To change your profile picture"/>
                 <VBox styleClass="lowSpacing">
                     <HBox styleClass="lowSpacing">
                         <Label text="either "/>
@@ -35,17 +35,24 @@
                     </HBox>
                 </VBox>
             </HBox>
-            <Label text="" fx:id="message"/>
-            <Label text="" fx:id="successMessage"/>
+            <Label fx:id="message"/>
             <HBox styleClass="lowSpacing">
                 <Label text="Old Password: "/>
                 <PasswordField promptText="Old Password" fx:id="oldPasswordField"/>
             </HBox>
             <HBox styleClass="lowSpacing">
-                <Label text="new Password: "/>
+                <Label text="New Password: "/>
                 <PasswordField promptText="New Password" fx:id="newPasswordField"/>
             </HBox>
-            <Button text="Change Password" onMouseClicked="#changePassword"/>
+            <HBox styleClass="lowSpacing">
+                <Label text="New nickname: "/>
+                <TextField promptText="New Nickname" fx:id="newNicknameField"/>
+            </HBox>
+            <HBox>
+                <Button text="Change Password" onMouseClicked="#changePassword"/>
+                <Button text="Change Nickname" onMouseClicked="#changeNickname"/>
+                <Button text="Back to Main Manu" onMouseClicked="#exit" id="exit"/>
+            </HBox>
         </VBox>
     </center>
 
