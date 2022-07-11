@@ -2,6 +2,7 @@ package app.views;
 
 import app.App;
 import app.controllers.UserController;
+import app.models.User;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -26,6 +27,7 @@ public class MainMenuController {
 
     @FXML
     private void logout() {
+        UserController.getInstance().getLoggedInUser().setLastSeen(System.currentTimeMillis());
         UserController.getInstance().setLoggedInUser(null);
         App.setMenu("login_menu");
     }
@@ -33,5 +35,10 @@ public class MainMenuController {
     @FXML
     private void profile() {
         App.setMenu("profile_menu");
+    }
+
+    @FXML
+    private void leaderboard() {
+        App.setMenu("leaderboard");
     }
 }

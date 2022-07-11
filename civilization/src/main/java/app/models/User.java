@@ -6,12 +6,17 @@ import javafx.scene.image.ImageView;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import java.util.Date;
 
-public class User {
+public class User implements Comparable<User> {
     private final String username;
     private String password;
     private String nickname;
     private int score;
+    private Date scoreTime;
+    private Date lastSeen;
 
     //Constructor of the class
     public User(String username, String password, String nickname) {
@@ -19,6 +24,8 @@ public class User {
         this.password = password;
         this.nickname = nickname;
         this.score = 0;
+        this.scoreTime = new Date(0);
+        this.lastSeen = new Date(System.currentTimeMillis());
     }
 
     public User(String username, String password, String nickname, File file) throws Exception {
@@ -26,6 +33,8 @@ public class User {
         this.password = password;
         this.nickname = nickname;
         this.score = 0;
+        this.scoreTime = new Date(0);
+        this.lastSeen = new Date(System.currentTimeMillis());
         setAvatar(file);
     }
 
@@ -43,6 +52,10 @@ public class User {
         this.password = password;
     }
 
+    public void setLastSeen(long lastSeen) {
+        this.lastSeen = new Date(lastSeen);
+    }
+
     public String getUsername() {
         return username;
     }
@@ -57,6 +70,14 @@ public class User {
 
     public int getScore() {
         return score;
+    }
+
+    public Date getScoreTime() {
+        return scoreTime;
+    }
+
+    public Date getLastSeen() {
+        return lastSeen;
     }
 
 
@@ -85,5 +106,12 @@ public class User {
             e.printStackTrace();
             throw new Exception();
         }
+    }
+
+    @Override
+    public int compareTo(User user) {
+        if (this.score != user.score) return this.score - user.score;
+        if (!this.scoreTime.equals(user.scoreTime)) return scoreTime.compareTo(user.scoreTime);
+        return this.nickname.compareTo(user.nickname);
     }
 }
