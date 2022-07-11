@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -34,7 +35,16 @@ public class ProfileMenuController {
     private Label message;
 
     @FXML
+    private Label successMessage;
+
+    @FXML
     private HBox placeholderBox;
+
+    @FXML
+    private PasswordField oldPasswordField;
+
+    @FXML
+    private PasswordField newPasswordField;
 
     private FileChooser fileChooser;
     private File selectedFile;
@@ -50,6 +60,8 @@ public class ProfileMenuController {
                 new BackgroundSize(1280, 720, false, false, false, false)));
         pane.setBackground(background);
         User user = UserController.getInstance().getLoggedInUser();
+        message.setStyle("-fx-text-fill: red;");
+        successMessage.setStyle("-fx-text-fill: green;");
         loadAvatar(user);
         loadName(user);
         loadPlaceholders();
@@ -57,13 +69,9 @@ public class ProfileMenuController {
 
     private void loadAvatar(User user) {
         ImageView avatar = user.getImageView();
-        System.out.println(avatar.getImage().getUrl());
-        System.out.println(avatar.getImage().getHeight());
         avatar.setPreserveRatio(true);
         avatar.setFitHeight(120);
-        System.out.println(avatar.getFitHeight());
         mainBox.getChildren().set(0, avatar);
-        System.out.println(avatar.getX() + " " + avatar.getY() + " " + avatar.getLayoutX() + " " + avatar.getOpacity() + " " + avatar.getScaleX());
     }
 
     private void loadName(User user) {
@@ -106,12 +114,38 @@ public class ProfileMenuController {
     }
 
     private void setAvatar(File file) {
+        message.setText("");
+        successMessage.setText("");
         try {
-            message.setText("");
             UserController.getInstance().getLoggedInUser().setAvatar(file);
+            successMessage.setText("Avatar changed successfully.");
         } catch (Exception e) {
             message.setText("Unable to load picture.");
         }
         loadAvatar(UserController.getInstance().getLoggedInUser());
+    }
+
+    @FXML
+    private void changePassword() {
+        String currentPassword = oldPasswordField.getText();
+        String newPassword = newPasswordField.getText();
+
+        message.setText("");
+        successMessage.setText("");
+
+        if (!UserController.getInstance().getLoggedInUser().isPasswordCorrect(currentPassword)) {
+            message.setText("incorrect password");
+        }
+        else if (currentPassword.equals(newPassword)) {
+            message.setText("Insert a new password.");
+        }
+        else if (!UserController.getInstance().isPasswordStrong(newPassword)) {
+            message.setText("Password is weak!");
+        }
+        else {
+            UserController.getInstance().getLoggedInUser().setPassword(newPassword);
+            successMessage.setText("Password changed successfully!");
+            UserController.getInstance().saveUsers();
+        }
     }
 }
