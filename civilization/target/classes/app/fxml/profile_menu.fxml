@@ -20,10 +20,18 @@
             <Label/>
             <HBox>
                 <Label text="To change your profile picture"/>
-                <VBox>
+                <VBox styleClass="lowSpacing">
                     <HBox styleClass="lowSpacing">
                         <Label text="either "/>
                         <Button fx:id="chooserButton" id="choose" styleClass="chooser" text="pick a file..." onMouseClicked="#openFileChooser"/>
+                    </HBox>
+                    <HBox styleClass="lowSpacing">
+                        <Label text="or select one of these: "/>
+                        <HBox fx:id="placeholderBox" id="placeholderBox"/>
+                    </HBox>
+                    <HBox styleClass="lowSpacing">
+                        <Label text="or"/>
+                        <Button fx:id="remover" id="chosen" styleClass="chooser" text="remove picture" onMouseClicked="#removeAvatar"/>
                     </HBox>
                 </VBox>
             </HBox>

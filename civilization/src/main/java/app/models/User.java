@@ -29,13 +29,6 @@ public class User {
         setAvatar(file);
     }
 
-    public User(String username, String password, String nickname, Image image) {
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        this.score = 0;
-    }
-
 
     //Setters and Getters for fields of the class
     public void setNickname(String nickname) {
