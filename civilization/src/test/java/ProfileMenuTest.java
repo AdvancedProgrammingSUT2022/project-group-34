@@ -57,7 +57,7 @@ public class ProfileMenuTest {
 
         Whitebox.invokeMethod(profileMenu, "changePassword", processor);
 
-        Assertions.assertEquals(processor.get("new"), UserController.getInstance().getLoggedInUser().getPassword());
+        Assertions.assertTrue(UserController.getInstance().getLoggedInUser().isPasswordCorrect(processor.get("new")));
         Assertions.assertEquals(outputStream.toString().trim(), "Password changed successfully!");
     }
 }
