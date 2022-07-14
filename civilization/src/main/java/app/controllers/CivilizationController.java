@@ -464,7 +464,7 @@ public class CivilizationController {
             return "not worker";
         else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
             return "in movement";
-        else if ((tile = selectedNonCombatUnit.getPosition()).getImprovementName() == null)
+        else if ((tile = selectedNonCombatUnit.getPosition()).getImprovement() == null)
             return "no improvement";
         else {
             selectedNonCombatUnit.makeUnitAwake();

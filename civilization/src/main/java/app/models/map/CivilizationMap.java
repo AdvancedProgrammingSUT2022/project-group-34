@@ -58,4 +58,12 @@ public class CivilizationMap extends Map {
             transparentTiles.add(getTileByXY(tile.getX(), tile.getY()));
         }
     }
+
+    public ArrayList<ArrayList<VisibleTile>> getMap() {
+        return map;
+    }
+
+    public ArrayList<VisibleTile> getTransparentTiles() {
+        return transparentTiles;
+    }
 }

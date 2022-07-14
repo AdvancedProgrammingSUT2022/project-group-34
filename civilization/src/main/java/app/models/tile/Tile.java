@@ -21,8 +21,7 @@ public class Tile extends AbstractTile {
     private boolean hasRoad = false;
     private boolean hasRail = false;
     private boolean isLooted = false;
-    private City city;
-    private app.models.unit.NonCombatUnit NonCombatUnit = null;
+    private NonCombatUnit NonCombatUnit = null;
     private CombatUnit combatUnit = null;
 
     public Tile(Terrain terrain, Feature feature, int x, int y, City city, Civilization civilization) {
@@ -130,7 +129,7 @@ public class Tile extends AbstractTile {
     }
 
 
-    public Improvement getImprovementName() {
+    public Improvement getImprovement() {
         return improvement;
     }
 
@@ -200,11 +199,6 @@ public class Tile extends AbstractTile {
 
     public void setCity(City city) {
         this.city = city;
-    }
-
-    @Override
-    public City getCity() {
-        return city;
     }
 
     public boolean isUsableResource() {

@@ -151,4 +151,8 @@ public class Technology {
     public static Technology getTechnologyByTechnologyEnum(TechnologyEnum technologyEnum){
         return  allTechnologies.get(technologyEnum);
     }
+
+    public ArrayList<TechnologyEnum> getPrerequisiteTechnologies() {
+        return prerequisiteTechnologies;
+    }
 }

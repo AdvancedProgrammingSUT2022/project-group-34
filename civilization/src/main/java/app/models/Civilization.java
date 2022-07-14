@@ -355,4 +355,28 @@ public class Civilization {
     public ArrayList<UnitEnum> getCivilizationUsableUnits() {
         return civilizationUsableUnits;
     }
+
+    public User getPlayer() {
+        return player;
+    }
+
+    public int getHappiness0() {
+        return happiness0;
+    }
+
+    public int getHappinessPerLuxuryResource() {
+        return happinessPerLuxuryResource;
+    }
+
+    public int getUnitMaintenanceCost() {
+        return unitMaintenanceCost;
+    }
+
+    public int getRoadMaintenanceCost() {
+        return roadMaintenanceCost;
+    }
+
+    public int getRailMaintenanceCost() {
+        return railMaintenanceCost;
+    }
 }

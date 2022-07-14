@@ -240,4 +240,8 @@ public class GameMap extends Map {
         }
         return resource;
     }
+
+    public ArrayList<ArrayList<Tile>> getMap() {
+        return map;
+    }
 }

@@ -99,4 +99,11 @@ public abstract class AbstractTile {
         return tile;
     }
 
+    public int getMovingCost() {
+        return movingCost;
+    }
+
+    public boolean isBlock() {
+        return isBlock;
+    }
 }

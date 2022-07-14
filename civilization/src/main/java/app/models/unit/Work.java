@@ -95,7 +95,19 @@ public class Work {
         }
     }
 
-    private int getTern() {
-        return 0;
+    public int getTern() {
+        return tern;
+    }
+
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public Improvement getImprovement() {
+        return improvement;
     }
 }

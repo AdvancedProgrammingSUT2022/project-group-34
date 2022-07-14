@@ -6,8 +6,6 @@ import javafx.scene.image.ImageView;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
 import java.util.Date;
 
 public class User implements Comparable<User> {
@@ -64,7 +62,7 @@ public class User implements Comparable<User> {
         return nickname;
     }
 
-    private String getPassword() {
+    public String getPassword() {
         return password;
     }
 
@@ -114,4 +112,6 @@ public class User implements Comparable<User> {
         if (!this.scoreTime.equals(user.scoreTime)) return scoreTime.compareTo(user.scoreTime);
         return this.nickname.compareTo(user.nickname);
     }
+
+
 }
