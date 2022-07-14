@@ -132,7 +132,8 @@ public class City {
 
         foodRate = 0;
         for (Citizen citizen : citizens)
-            foodRate += citizen.getWorkPosition().getFoodRate();
+            if (citizen.getWorkPosition() != null)
+                foodRate += citizen.getWorkPosition().getFoodRate();
         if (Dissatisfaction)
             foodRate -= foodRate*67/100;
         if (unitUnderProduct instanceof Settler)

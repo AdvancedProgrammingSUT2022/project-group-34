@@ -1,6 +1,7 @@
 package app.models.unit;
 
 import app.models.Civilization;
+import app.models.Technology;
 import app.models.tile.Tile;
 
 import java.util.ArrayList;
@@ -9,10 +10,7 @@ import java.util.Stack;
 
 public abstract class Unit {
 
-    public static HashMap<String, ArrayList<String>> dataBaseRequiredTechnology;
-    public static HashMap<String, HashMap<String, String>> unitDataSheet = new HashMap<>();
     public static HashMap<UnitEnum, Unit> unitEnumUnitHashMap = new HashMap<>();
-    public static int motionPointConstant;
     public static int healthConstant;
 
     private String name;
@@ -49,20 +47,30 @@ public abstract class Unit {
         this.civilization = civilization;
     }
 
-    public static HashMap<String, ArrayList<String>> getDataBaseRequiredTechnology() {
-        return dataBaseRequiredTechnology;
-    }
 
-    public static HashMap<String, HashMap<String, String>> getUnitDataSheet() {
-        return unitDataSheet;
-    }
-
-    public static void loadDataSheet() {
-        Unit.dataBaseRequiredTechnology = null; // todo Read from file
-        Unit.unitDataSheet              = null; // todo Read from file
+    public static void loadUnitEnumUNitHashMap() {
+        for (UnitEnum unitEnum : UnitEnum.values()) {
+            switch (unitEnum.type){
+                case "S":
+                    unitEnumUnitHashMap.put(unitEnum,new Settler(unitEnum,null,null));
+                    break;
+                case "W":
+                    unitEnumUnitHashMap.put(unitEnum,new Worker(unitEnum,null,null));
+                    break;
+                case "A":
+                    unitEnumUnitHashMap.put(unitEnum,new Archer(unitEnum,null,null));
+                    break;
+                case "I":
+                    unitEnumUnitHashMap.put(unitEnum,new Infantry(unitEnum,null,null));
+                    break;
+            }
+        }
     }
 
     public static Unit getUnitByUnitEnum(UnitEnum unitEnum) {
+        if (unitEnumUnitHashMap.size() == 0){
+            loadUnitEnumUNitHashMap();
+        }
         return unitEnumUnitHashMap.get(unitEnum);
     }
 
@@ -130,23 +138,15 @@ public abstract class Unit {
         this.destination = destination;
     }
 
-    public boolean isUnlock(String name,ArrayList<String> technologies) {
+    public static boolean isUnlock(String name,ArrayList<String> technologies) {
 
-        if (dataBaseRequiredTechnology.get(name) == null)
-            return false;
+        Technology technology1 = Technology.getTechnologyByTechnologyEnum(UnitEnum.valueOf(name).getRequiredTechnology());
+        if (technology1 == null) return false;
 
-        for (String technology1: dataBaseRequiredTechnology.get(name)) {
-
-            boolean flag = false;
-            for (String technology2 : technologies) {
-                if (technology1.equals(technology2)) {
-                    flag = true;
-                    break;
-                }
-            }
-
-            if (!flag)
+        for (String technology2 : technologies) {
+            if (technology1.getName().equals(technology2)) {
                 return false;
+            }
         }
 
         return true;

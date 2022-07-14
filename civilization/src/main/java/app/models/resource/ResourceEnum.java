@@ -31,4 +31,13 @@ public enum ResourceEnum {
         this.name = name;
     }
 
+    public static ResourceEnum getResourceEnumByResource(Resource resource){
+        if (resource == null)
+            return null;
+        for (ResourceEnum resourceEnum : ResourceEnum.values()) {
+            if (resourceEnum.name.equals(resource.getName()))
+                return resourceEnum;
+        }
+        return null;
+    }
 }

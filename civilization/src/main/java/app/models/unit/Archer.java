@@ -4,11 +4,8 @@ import app.models.Civilization;
 import app.models.tile.Tile;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Archer extends CombatUnit {
-
-    public static HashMap<String, HashMap<String, String>> archerDataSheet = new HashMap<>();
 
     public int RangedCombatStrength;
     public boolean isSiegeTool;
@@ -22,10 +19,6 @@ public class Archer extends CombatUnit {
         this.isSiegeTool = unitEnum.isSiegeTool;
         this.isSetup = false;
 
-    }
-
-    public static HashMap<String, HashMap<String, String>> getArcherDataSheet() {
-        return archerDataSheet;
     }
 
     public int getRangedCombatStrength() {
