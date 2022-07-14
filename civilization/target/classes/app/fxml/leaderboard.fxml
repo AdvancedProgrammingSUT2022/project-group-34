@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="app.views.LeaderboardController"
+            fx:id="pane"
+            prefHeight="720.0" prefWidth="1280.0"
+            stylesheets="@../css/leaderboard.css">
+    <center>
+        <GridPane fx:id="table"/>
+    </center>
+    <bottom>
+        <VBox><Button text="Back to main menu" id="exit" onMouseClicked="#exit"/></VBox>
+    </bottom>
+</BorderPane>

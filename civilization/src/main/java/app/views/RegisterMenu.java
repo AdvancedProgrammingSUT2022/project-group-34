@@ -70,7 +70,7 @@ public class RegisterMenu extends Menu {
             invalidCommand();
         else if ((user = UserController.getInstance().getUserByUsername(username)) == null)
             System.out.println("Username or password didn't match!");
-        else if (!user.getPassword().equals(password))
+        else if (!user.isPasswordCorrect(password))
             System.out.println("Username or password didn't match!");
         else {
             UserController.getInstance().setLoggedInUser(user);
