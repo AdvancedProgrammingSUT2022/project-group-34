@@ -221,4 +221,8 @@ public enum TechnologyEnum {
         }
         return null;
     }
+
+    public static TechnologyEnum getTechnologyEnumByTechnology(Technology technology) {
+        return getTechnologyEnumByName(technology.getName());
+    }
 }
