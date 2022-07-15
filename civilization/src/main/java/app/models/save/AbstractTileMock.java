@@ -1,6 +1,6 @@
 package app.models.save;
 
-import app.GSave;
+import app.controllers.GSave;
 import app.models.tile.AbstractTile;
 import app.models.tile.Feature;
 import app.models.tile.Terrain;
@@ -16,7 +16,6 @@ public abstract class AbstractTileMock extends Mock{
     protected Feature feature;;
     protected Integer cityID;
     protected Integer civilizationID;
-    protected ArrayList<Integer> adjacentTiles = new ArrayList<>();
     protected ArrayList<Boolean> isRiver = new ArrayList<>();
     protected boolean isBlock = false;
 
@@ -32,7 +31,7 @@ public abstract class AbstractTileMock extends Mock{
         this.isRiver = abstractTile.getIsRiver();
         this.isBlock = abstractTile.isBlock();
 
-        abstractTile.getAdjacentTiles().forEach(tile -> adjacentTiles.add(GSave.getInstance().save(tile)));
+        //abstractTile.getAdjacentTiles();
     }
 
 }

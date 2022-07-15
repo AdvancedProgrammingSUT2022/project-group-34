@@ -1,19 +1,16 @@
 package app.models.save;
 
-import app.GSave;
+import app.controllers.GSave;
 import app.models.*;
+import app.models.resource.ResourceEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MockCivilization extends Mock{
 
-    private Integer id;
-
     private Integer playerID;
-
     private String civilizationName;
-
     private Integer personalMap;
 
     private ArrayList<Integer> citiesID = new ArrayList<>();
@@ -26,8 +23,8 @@ public class MockCivilization extends Mock{
 
     private ArrayList<Integer> notificationsID = new ArrayList<>();
 
-    private final HashMap<Integer, Integer> numberOfEachResourceID = new HashMap<>();
-    private final HashMap<Integer, Integer> numberOfEachExchangedResourceID = new HashMap<>();
+    private final HashMap<ResourceEnum, Integer> numberOfEachResourceID = new HashMap<ResourceEnum, Integer>();
+    private final HashMap<ResourceEnum, Integer> numberOfEachExchangedResourceID = new HashMap<ResourceEnum, Integer>();
 
     private ArrayList<Integer> civilizationNotUsableUnitsID  = new ArrayList<>();
     private ArrayList<Integer> civilizationUsableUnitsID     = new ArrayList<>();
@@ -65,6 +62,9 @@ public class MockCivilization extends Mock{
         civilization.getNotifications() .forEach(notification -> this.notificationsID.add(GSave.getInstance().save(notification)));
         civilization.getCivilizationNotUsableUnits().forEach(unitEnum -> this.civilizationNotUsableUnitsID.add(GSave.getInstance().save(unitEnum)));
         civilization.getCivilizationUsableUnits()   .forEach(unitEnum -> this.civilizationUsableUnitsID.add(GSave.getInstance().save(unitEnum)));
+
+        civilization.getNumberOfEachResource().forEach((resource,integer)-> this.numberOfEachResourceID.put(GSave.getInstance().save(resource),integer));
+        civilization.getNumberOfEachExchangedResource().forEach((resource,integer)-> this.numberOfEachExchangedResourceID.put(GSave.getInstance().save(resource),integer));
         civilization.getCivilizationResearchedTechnologies()    .forEach((technologyEnum,technology) ->
                 this.civilizationResearchedTechnologiesID.put(GSave.getInstance().save(technologyEnum),GSave.getInstance().save(technology)));
         civilization.getCivilizationNotResearchedTechnologies() .forEach((technologyEnum, technology) ->

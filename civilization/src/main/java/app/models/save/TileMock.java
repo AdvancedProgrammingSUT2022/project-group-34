@@ -1,6 +1,6 @@
 package app.models.save;
 
-import app.GSave;
+import app.controllers.GSave;
 import app.models.resource.ResourceEnum;
 import app.models.tile.ImprovementEnum;
 import app.models.tile.Tile;

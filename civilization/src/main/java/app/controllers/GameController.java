@@ -50,6 +50,7 @@ public class GameController {
         }
         this.civilization = game.getCivilizations().get(0);
         this.civilizationIndex = 0;
+        GSave.getInstance().saveAllGame();
     }
 
 

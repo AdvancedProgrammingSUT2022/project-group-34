@@ -1,4 +1,4 @@
-package app;
+package app.controllers;
 
 import app.models.*;
 import app.models.map.CivilizationMap;
@@ -15,39 +15,46 @@ import app.models.unit.UnitEnum;
 import app.models.unit.Work;
 import com.google.gson.Gson;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class GSave {
 
     private Integer uniqueID;
-    private HashMap<String,Integer> uniqueIDForObject;
 
-    private HashMap<Technology,Integer> technologyIntegerHashMap = new HashMap<>();
-    private HashMap<Civilization,Integer> civilizationIntegerHashMap = new HashMap<>();
-    private HashMap<User,Integer> userIntegerHashMap = new HashMap<>();
-    private HashMap<GameMap,Integer> gameMapIntegerHashMap = new HashMap<>();
-    private HashMap<CivilizationMap,Integer> civilizationMapIntegerHashMap = new HashMap<>();
-    private HashMap<City,Integer> cityIntegerHashMap = new HashMap<>();
-    private HashMap<Work,Integer> workIntegerHashMap = new HashMap<>();
-    private HashMap<Notification,Integer> notificationIntegerHashMap = new HashMap<>();
-    private HashMap<UnitEnum, Integer> unitEnumIntegerHashMap = new HashMap<>();
+    private final HashMap<Technology,Integer> technologyIntegerHashMap = new HashMap<>();
+    private final HashMap<Civilization,Integer> civilizationIntegerHashMap = new HashMap<>();
+    private final HashMap<User,Integer> userIntegerHashMap = new HashMap<>();
+    private final HashMap<GameMap,Integer> gameMapIntegerHashMap = new HashMap<>();
+    private final HashMap<CivilizationMap,Integer> civilizationMapIntegerHashMap = new HashMap<>();
+    private final HashMap<City,Integer> cityIntegerHashMap = new HashMap<>();
+    private final HashMap<Work,Integer> workIntegerHashMap = new HashMap<>();
+    private final HashMap<Notification,Integer> notificationIntegerHashMap = new HashMap<>();
+    private final HashMap<UnitEnum, Integer> unitEnumIntegerHashMap = new HashMap<>();
 
-    private HashMap<TechnologyEnum, Integer> technologyEnumIntegerHashMap = new HashMap<>();
-    private HashMap<Citizen, Integer> citizenIntegerHashMap = new HashMap<>();
-    private HashMap<VisibleTile, Integer> visibleTileIntegerHashMap = new HashMap<>();
-    private HashMap<Tile, Integer> tileIntegerHashMap = new HashMap<>();
-    private HashMap<Unit, Integer> unitIntegerHashMap = new HashMap<>();
+    private final HashMap<TechnologyEnum, Integer> technologyEnumIntegerHashMap = new HashMap<>();
+    private final HashMap<Citizen, Integer> citizenIntegerHashMap = new HashMap<>();
+    private final HashMap<VisibleTile, Integer> visibleTileIntegerHashMap = new HashMap<>();
+    private final HashMap<Tile, Integer> tileIntegerHashMap = new HashMap<>();
+    private final HashMap<Unit, Integer> unitIntegerHashMap = new HashMap<>();
 
 
     private static GSave gSave;
 
     private GSave(){
-        uniqueID = 0;
+        uniqueID = 1;
     }
 
     public static GSave getInstance() {
         if (gSave == null) gSave = new GSave();
         return gSave;
+    }
+
+    public void saveAllGame(){
+        GameMock gameMock = new GameMock(GameController.getInstance().getGame(),0);
+        String gameMockJson = new Gson().toJson(gameMock);
+        saveAs(gameMockJson,0 + ".json");
     }
 
     public Integer save(Technology technology){
@@ -201,7 +208,14 @@ public class GSave {
     }
 
     private void saveAs(String string, String name) {
-        //todo
+        try {
+            System.out.println(name);
+            FileWriter fileWriter;
+            fileWriter = new FileWriter("app/save/" + name);
+            fileWriter.write(string);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private Integer getUniqueID() {

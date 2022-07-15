@@ -1,6 +1,6 @@
 package app.models.save;
 
-import app.GSave;
+import app.controllers.GSave;
 import app.models.Citizen;
 
 public class CitizenMock extends Mock {
