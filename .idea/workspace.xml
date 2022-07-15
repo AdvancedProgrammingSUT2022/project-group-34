@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6ff4ebf-a078-435d-a047-8a347d210104" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/civilization/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/civilization/src/main/java/models/map/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/src/main/java/models/map/GameMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/civilization/src/test/java/UserProcessesTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/src/test/java/RegisterMenuTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/civilization/target/test-classes/UserProcessesTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/civilization/src/main/java/app/views/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/src/main/java/app/views/MainMenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/civilization/src/main/resources/UserDatabase.json" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/src/main/resources/UserDatabase.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/civilization/src/main/resources/app/fxml/main_menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/src/main/resources/app/fxml/main_menu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/civilization/target/classes/UserDatabase.json" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/target/classes/UserDatabase.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/civilization/target/classes/app/fxml/main_menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/target/classes/app/fxml/main_menu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/civilization/target/classes/app/views/MainMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/target/classes/app/views/MainMenuController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +45,7 @@
       <updated>1650737098360</updated>
       <workItem from="1652463189115" duration="101000" />
       <workItem from="1652483972829" duration="544000" />
+      <workItem from="1657711333871" duration="16000" />
     </task>
     <servers />
   </component>

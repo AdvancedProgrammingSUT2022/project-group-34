@@ -1,0 +1,79 @@
+BorderPane {
+    -fx-background-image: url("../background/game_menu.png");
+    -fx-pref-height: 720;
+    -fx-pref-width: 1280;
+    -fx-alignment: Center;
+    -fx-padding: 100 275 75 300;
+}
+
+HBox {
+    -fx-alignment: left;
+    -fx-spacing: 10;
+}
+
+Label {
+    -fx-text-alignment: left;
+    -fx-alignment: center-left;
+    -fx-text-fill: white;
+    -fx-wrap-text: true;
+}
+
+TextField {
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+    -fx-translate-y: -4;
+}
+
+VBox {
+    -fx-alignment: left;
+    -fx-spacing: 70;
+}
+
+Button {
+    -fx-pref-width: 250;
+    -fx-pref-height: 50;
+    -fx-background-color: transparent;
+    -fx-text-fill: #00ff55;
+    -fx-border-color: #00ff55;
+    -fx-translate-y: 8;
+}
+
+Button:hover {
+    -fx-effect: dropshadow(gaussian, white, 10, 0, 0, 00);
+    -fx-cursor: hand;
+}
+
+ChoiceBox {
+    -fx-pref-width: 100;
+    -fx-pref-height: 30;
+    -fx-background-color: transparent;
+    -fx-border-color: #00ff55;
+    -fx-translate-y: -3;
+}
+
+ChoiceBox:hover {
+    -fx-effect: dropshadow(gaussian, white, 10, 0, 0, 00);
+    -fx-cursor: hand;
+}
+
+#invitationPart {
+    -fx-spacing: 10;
+}
+
+#gameSettingPart {
+    -fx-spacing: 15;
+}
+
+#startNewGamePart {
+    -fx-spacing: 8;
+    -fx-translate-y: -43;
+}
+
+#saveSettingPart {
+    -fx-spacing: 15;
+}
+
+#backButton {
+    -fx-text-fill: #ff2200;
+    -fx-border-color: #ff2200;
+}

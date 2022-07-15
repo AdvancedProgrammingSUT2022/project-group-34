@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="app.views.GameMenuController"
+            stylesheets="@../css/game_menu.css">
+    <left>
+        <VBox>
+            <VBox id="invitationPart">
+                <Label text="Type a username to send an invitation"/>
+                <TextField fx:id="invitationTextField" promptText="username"/>
+                <Button fx:id="invitationButton" text="Send Invitation" onMouseClicked="#sendInvitation"/>
+                <Text fx:id="invitationError"/>
+            </VBox>
+
+            <VBox id="gameSettingPart">
+                <HBox>
+                    <Label text="Number of players: "/>
+                    <ChoiceBox fx:id="numberOfPlayers"/>
+                </HBox>
+                <HBox>
+                    <Label text="Size of the map: "/>
+                    <ChoiceBox fx:id="sizeOfTheMap"/>
+                </HBox>
+            </VBox>
+
+        </VBox>
+    </left>
+    <right>
+        <VBox id="saveSettingPart">
+            <HBox>
+                <Label text="Number of auto save files: "/>
+                <ChoiceBox fx:id="numberOfAutoSaveFiles"/>
+            </HBox>
+            <HBox>
+                <Label text="The game gets auto saved every "/>
+                <ChoiceBox fx:id="frequencyOfSaving"/>
+                <Label text=" turn."/>
+            </HBox>
+            <Button text="Save"/>
+        </VBox>
+    </right>
+    <bottom>
+        <HBox>
+            <VBox id="startNewGamePart">
+                <TextField fx:id="startCommand" promptText="Command"/>
+                <Button text="start new game" onMouseClicked="#startNewGame"/>
+                <Text fx:id="startGameError"/>
+            </VBox>
+            <Button fx:id="resumeButton" text="resume"/>
+            <Button id="backButton" text="Back/Leave Game" onMouseClicked="#backToMainMenu"/>
+        </HBox>
+    </bottom>
+</BorderPane>
