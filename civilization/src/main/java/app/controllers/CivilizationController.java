@@ -26,12 +26,16 @@ public class CivilizationController {
         return instance;
     }
 
-    public void finishResearch(Civilization civilization) {
+    public String finishResearch(Civilization civilization) {
         Technology technology = civilization.getStudyingTechnology();
+        if (technology == null) {
+            return "You are not studying any technology";
+        }
         technology.setResearching(false);
         technology.setResearched (true );
         civilization.getCivilizationResearchedTechnologies().put(TechnologyEnum.getTechnologyEnumByName(technology.getName()),technology);
         civilization.setStudyingTechnology(null);
+        return "Research on " + technology.getName() + " technology is complete.";
 
     }
 
@@ -460,7 +464,7 @@ public class CivilizationController {
             return "not worker";
         else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
             return "in movement";
-        else if ((tile = selectedNonCombatUnit.getPosition()).getImprovementName() == null)
+        else if ((tile = selectedNonCombatUnit.getPosition()).getImprovement() == null)
             return "no improvement";
         else {
             selectedNonCombatUnit.makeUnitAwake();
@@ -525,10 +529,11 @@ public class CivilizationController {
         }
 
         Technology technology = civilization.getStudyingTechnology();
-        if (technology.updateTechnology(civilization.getCivilizationResearchedTechnologies()) == 1) {
-            civilization.getCivilizationResearchedTechnologies().put(TechnologyEnum.getTechnologyEnumByName(technology.getName()),technology);
+        if (technology != null)
+            if (technology.updateTechnology(civilization.getCivilizationResearchedTechnologies()) == 1) {
+                civilization.getCivilizationResearchedTechnologies().put(TechnologyEnum.getTechnologyEnumByName(technology.getName()),technology);
             //TODO : Notification
-        }
+            }
 
 
         continueMoves(civilization);

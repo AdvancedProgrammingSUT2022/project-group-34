@@ -505,7 +505,7 @@ public class GameMenu extends Menu {
             System.out.println("Selected unit is not a military unit");
         else if (selectedCombatUnit.getDestination() != null && !selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
             System.out.println("Unit is in a multiple-turn movement");
-        else if (selectedCombatUnit.getPosition().getImprovementName() == null)
+        else if (selectedCombatUnit.getPosition().getImprovement() == null)
             System.out.println("There is no improvement in this tile");
         else {
             selectedCombatUnit.makeUnitAwake();
@@ -1545,7 +1545,7 @@ public class GameMenu extends Menu {
                     putUnit(tile.getNonCombatUnit(), output, upperBound, leftBound);
                     if (tile.hasRoad()) putRoad(output, upperBound, leftBound);
                     if (tile.hasRail()) putRail(output, upperBound, leftBound);
-                    putImprovement(tile.getImprovementName(), output, upperBound, leftBound);
+                    putImprovement(tile.getImprovement(), output, upperBound, leftBound);
                     putResource(civilization, tile.getResource(), output, upperBound, leftBound);
                 } else putRevealed(output, upperBound, leftBound);
             } else putFogOfWar(output, upperBound, leftBound);

@@ -1,15 +1,14 @@
 package app.models;
 
 import app.models.map.CivilizationMap;
+import app.models.resource.LuxuryResource;
+import app.models.resource.Resource;
 import app.models.tile.AbstractTile;
 import app.models.tile.Tile;
 import app.models.unit.Unit;
 import app.models.unit.UnitEnum;
 import app.models.unit.Work;
-import app.models.resource.LuxuryResource;
-import app.models.resource.Resource;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,7 +34,6 @@ public class Civilization {
 
     private ArrayList<Notification> notifications;
 
-    private HashMap<String, Resource> civilizationResources;
     private final HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
     private final HashMap<Resource, Integer> numberOfEachExchangedResource = new HashMap<>();
 
@@ -67,7 +65,6 @@ public class Civilization {
         this.units = units;
         this.mainCapital = mainCapital;
         this.works = new ArrayList<>();
-        this.civilizationResources = Resource.getAllResourcesCopyString();
 
         this.notifications = new ArrayList<>();
 
@@ -172,14 +169,6 @@ public class Civilization {
 
     public void setNotifications(ArrayList<Notification> notifications) {
         this.notifications = notifications;
-    }
-
-    public AbstractMap<String, Resource> getCivilizationResources() {
-        return civilizationResources;
-    }
-
-    public void setCivilizationResources(HashMap<String, Resource> civilizationResources) {
-        this.civilizationResources = civilizationResources;
     }
 
     public HashMap<TechnologyEnum, Technology> getCivilizationResearchedTechnologies() {
@@ -365,5 +354,29 @@ public class Civilization {
 
     public ArrayList<UnitEnum> getCivilizationUsableUnits() {
         return civilizationUsableUnits;
+    }
+
+    public User getPlayer() {
+        return player;
+    }
+
+    public int getHappiness0() {
+        return happiness0;
+    }
+
+    public int getHappinessPerLuxuryResource() {
+        return happinessPerLuxuryResource;
+    }
+
+    public int getUnitMaintenanceCost() {
+        return unitMaintenanceCost;
+    }
+
+    public int getRoadMaintenanceCost() {
+        return roadMaintenanceCost;
+    }
+
+    public int getRailMaintenanceCost() {
+        return railMaintenanceCost;
     }
 }

@@ -11,4 +11,6 @@ module civilization {
     exports app.views;
     opens app to javafx.fxml, com.google.gson;
     exports app;
+    exports app.models.save;
+    opens app.models.save to com.google.gson, javafx.fxml;
 }

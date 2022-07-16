@@ -6,11 +6,8 @@ import app.models.Civilization;
 import app.models.TechnologyEnum;
 import app.models.tile.Tile;
 
-import java.util.HashMap;
-
 public class CombatUnit extends Unit {
 
-    public static HashMap<String, HashMap<String, String>> combatUnitDataSheet = new HashMap<>();
     public static int hitPointConstant;
 
     protected String combatType;
@@ -23,7 +20,6 @@ public class CombatUnit extends Unit {
     protected boolean isFortify;
     protected boolean isFortifyUntilHealed;
     protected City garrisonCity;
-    protected boolean isVisible;
     protected TechnologyEnum requiredTechnology;
     protected ResourceData requiredResource;
     private City GarrisonCity;
@@ -41,14 +37,6 @@ public class CombatUnit extends Unit {
         this.isFortify = false;
         this.isFortifyUntilHealed= false;
         this.garrisonCity = null;
-    }
-
-    public static HashMap<String, HashMap<String, String>> getCombatUnitDataSheet() {
-        return combatUnitDataSheet;
-    }
-
-    public static void loadDataSheet() {
-
     }
 
     public static int getHitPointConstant() {

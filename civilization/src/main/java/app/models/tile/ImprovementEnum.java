@@ -87,5 +87,14 @@ public enum ImprovementEnum {
     }
 
 
+    public static ImprovementEnum getImprovementEnumByImprovement(Improvement improvement) {
+        if (improvement == null)
+            return null;
+        for (ImprovementEnum improvementEnum : ImprovementEnum.values()) {
+            if (improvementEnum.name.equals(improvement.getName()))
+                return improvementEnum;
+        }
+        return null;
+    }
 
 }

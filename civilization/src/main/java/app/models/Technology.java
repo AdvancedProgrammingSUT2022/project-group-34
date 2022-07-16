@@ -147,4 +147,12 @@ public class Technology {
     public void setCost(int cost) {
         this.cost = cost;
     }
+
+    public static Technology getTechnologyByTechnologyEnum(TechnologyEnum technologyEnum){
+        return  allTechnologies.get(technologyEnum);
+    }
+
+    public ArrayList<TechnologyEnum> getPrerequisiteTechnologies() {
+        return prerequisiteTechnologies;
+    }
 }
