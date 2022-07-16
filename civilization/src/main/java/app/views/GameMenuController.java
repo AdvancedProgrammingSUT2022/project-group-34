@@ -9,6 +9,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -42,9 +44,10 @@ public class GameMenuController {
         setFrequencyOfSaving();
         setNumberOfPlayers();
         setSizeOfTheMap();
+        setTooltips();
         if (GameController.getInstance().getGame() == null)
             resumeButton.setDisable(true);
-        if (GameController.getInstance().getGame()!=null){
+        if (GameController.getInstance().getGame() != null) {
             invitationTextField.setDisable(true);
             invitationButton.setDisable(true);
         }
@@ -101,6 +104,15 @@ public class GameMenuController {
             sizeOfTheMap.setValue("Medium");
     }
 
+    private void setTooltips(){
+        invitationButton.setTooltip(new Tooltip("Sends an invitation to people you wanna play with."));
+        numberOfPlayers.setTooltip(new Tooltip("You can select number of people in the game.\nNote:This is the number of people apart from you!"));
+        sizeOfTheMap.setTooltip(new Tooltip("You can choose size of the map of the game."));
+        numberOfAutoSaveFiles.setTooltip(new Tooltip("This is a limitation for number of auto save files."));
+        frequencyOfSaving.setTooltip(new Tooltip("This specifies that the game get auto saved after how many turns."));
+        startCommand.setTooltip(new Tooltip("Type usernames you wanna play with in the following order:\n<username>/<username>/..."));
+    }
+
     @FXML
     private void startNewGame() {
         startGameError.setFill(Color.rgb(250, 0, 0));
@@ -143,5 +155,11 @@ public class GameMenuController {
             // TODO: Phase 3
             invitationError.setText("Invitation sent!");
         }
+    }
+
+    @FXML
+    private void clearMessage() {
+        invitationError.setText("");
+        startGameError.setText("");
     }
 }

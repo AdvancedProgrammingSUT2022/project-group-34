@@ -2,13 +2,16 @@ BorderPane {
     -fx-background-image: url("../background/game_menu.png");
     -fx-pref-height: 720;
     -fx-pref-width: 1280;
-    -fx-alignment: Center;
-    -fx-padding: 100 275 75 300;
+    -fx-alignment: center;
+    -fx-padding: 100 225 30 225;
 }
 
 HBox {
-    -fx-alignment: left;
     -fx-spacing: 10;
+}
+
+VBox {
+    -fx-spacing: 70;
 }
 
 Label {
@@ -22,11 +25,6 @@ TextField {
     -fx-pref-width: 250;
     -fx-pref-height: 35;
     -fx-translate-y: -4;
-}
-
-VBox {
-    -fx-alignment: left;
-    -fx-spacing: 70;
 }
 
 Button {

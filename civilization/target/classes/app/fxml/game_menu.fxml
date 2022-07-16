@@ -15,7 +15,7 @@
         <VBox>
             <VBox id="invitationPart">
                 <Label text="Type a username to send an invitation"/>
-                <TextField fx:id="invitationTextField" promptText="username"/>
+                <TextField fx:id="invitationTextField" promptText="username" onKeyPressed="#clearMessage"/>
                 <Button fx:id="invitationButton" text="Send Invitation" onMouseClicked="#sendInvitation"/>
                 <Text fx:id="invitationError"/>
             </VBox>
@@ -23,11 +23,11 @@
             <VBox id="gameSettingPart">
                 <HBox>
                     <Label text="Number of players: "/>
-                    <ChoiceBox fx:id="numberOfPlayers"/>
+                    <ChoiceBox fx:id="numberOfPlayers" onMouseClicked="#clearMessage"/>
                 </HBox>
                 <HBox>
                     <Label text="Size of the map: "/>
-                    <ChoiceBox fx:id="sizeOfTheMap"/>
+                    <ChoiceBox fx:id="sizeOfTheMap" onMouseClicked="#clearMessage"/>
                 </HBox>
             </VBox>
 
@@ -37,11 +37,11 @@
         <VBox id="saveSettingPart">
             <HBox>
                 <Label text="Number of auto save files: "/>
-                <ChoiceBox fx:id="numberOfAutoSaveFiles"/>
+                <ChoiceBox fx:id="numberOfAutoSaveFiles" onMouseClicked="#clearMessage"/>
             </HBox>
             <HBox>
                 <Label text="The game gets auto saved every "/>
-                <ChoiceBox fx:id="frequencyOfSaving"/>
+                <ChoiceBox fx:id="frequencyOfSaving" onMouseClicked="#clearMessage"/>
                 <Label text=" turn."/>
             </HBox>
             <Button text="Save"/>
@@ -50,7 +50,7 @@
     <bottom>
         <HBox>
             <VBox id="startNewGamePart">
-                <TextField fx:id="startCommand" promptText="Command"/>
+                <TextField fx:id="startCommand" promptText="Command" onKeyPressed="#clearMessage"/>
                 <Button text="start new game" onMouseClicked="#startNewGame"/>
                 <Text fx:id="startGameError"/>
             </VBox>
