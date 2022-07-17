@@ -1,0 +1,1 @@
+{"resource":"Iron","isUsableResource":false,"foodRate":1,"goldRate":1,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":19,"y":40,"movingCost":-33,"terrain":"Plains","isRiver":[true,false,true,true,true,false],"isBlock":false,"id":6195}

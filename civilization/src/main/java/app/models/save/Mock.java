@@ -1,6 +1,6 @@
 package app.models.save;
 
-abstract class Mock {
+public abstract class Mock {
 
     protected Integer id;
 

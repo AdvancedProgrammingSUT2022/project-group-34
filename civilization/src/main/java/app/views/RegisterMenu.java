@@ -5,7 +5,7 @@ import app.controllers.UserController;
 
 public class RegisterMenu extends Menu {
 
-    //Processes commands related with register menu
+    //Proccesse commands related with register menu
     static void processOneCommand() {
         Processor processor;
 

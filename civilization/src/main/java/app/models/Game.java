@@ -40,6 +40,13 @@ public class Game {
         //personal maps initialized in controller.
     }
 
+    private Game() {
+    }
+
+    public static Game getOneInstance() {
+        return new Game();
+    }
+
     public HashMap<String, Resource> getGameResources() {
         return gameResources;
     }

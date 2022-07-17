@@ -1,9 +1,16 @@
 package app.models.save;
 
+import app.controllers.GLoad;
 import app.controllers.GSave;
+import app.models.City;
+import app.models.Civilization;
+import app.models.resource.Resource;
 import app.models.resource.ResourceEnum;
+import app.models.tile.Improvement;
 import app.models.tile.ImprovementEnum;
 import app.models.tile.Tile;
+import app.models.unit.CombatUnit;
+import app.models.unit.NonCombatUnit;
 
 public class TileMock extends AbstractTileMock{
 
@@ -18,8 +25,8 @@ public class TileMock extends AbstractTileMock{
     private boolean hasRoad;
     private boolean hasRail;
     private boolean isLooted;
-    private Integer NonCombatUnitID;
-    private Integer combatUnit;
+    private Integer nonCombatUnitID;
+    private Integer combatUnitID;
 
     public TileMock(Tile tile, Integer id) {
         super(tile, id);
@@ -33,13 +40,29 @@ public class TileMock extends AbstractTileMock{
         this.hasRoad = tile.hasRoad();
         this.hasRail = tile.hasRail();
         this.isLooted = tile.isLooted();
-        this.NonCombatUnitID = GSave.getInstance().save(tile.getNonCombatUnit());
-        this.combatUnit = GSave.getInstance().save(tile.getNonCombatUnit());
+        this.nonCombatUnitID = GSave.getInstance().save(tile.getNonCombatUnit());
+        this.combatUnitID = GSave.getInstance().save(tile.getNonCombatUnit());
+    }
+
+    public TileMock() {
+        super(0);
     }
 
 
     @Override
-    public Object getOriginalObject() {
-        return null;
+    public Tile getOriginalObject() {
+        Tile tile = new Tile(this.terrain, this.feature, this.x, this.y, (City) GLoad.gIn().load(new CityMock(), this.cityID),
+                (Civilization) GLoad.gIn().load(new CivilizationMock(), this.civilizationID));
+
+        tile.setImprovement(Improvement.allImprovements.get(this.improvement));
+        tile.setResource(Resource.getAllResourcesCopy().get(this.resource));
+
+        tile.setHasRail(this.hasRail);
+        tile.setHasRoad(this.hasRoad);
+        tile.setLooted(this.isLooted);
+        tile.setCombatUnit((CombatUnit) GLoad.gIn().load(new UnitMock(),this.combatUnitID));
+        tile.setNonCombatUnit((NonCombatUnit) GLoad.gIn().load(new UnitMock(),this.nonCombatUnitID));
+
+        return tile;
     }
 }

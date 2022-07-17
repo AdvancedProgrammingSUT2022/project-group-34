@@ -97,4 +97,12 @@ public enum ImprovementEnum {
         return null;
     }
 
+    public static Improvement getImprovementByName(String name) {
+        final Improvement[] improvement = {null};
+        Improvement.getAllImprovements().forEach((improvementEnum, improvement1) -> {
+            if (improvementEnum.name.equals(name))
+                improvement[0] = improvement1;
+        });
+        return improvement[0];
+    }
 }

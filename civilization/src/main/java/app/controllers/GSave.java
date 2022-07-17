@@ -22,6 +22,7 @@ import java.util.HashMap;
 public class GSave {
 
     private Integer uniqueID;
+    private GameMock gameSave;
 
     private final HashMap<Technology,Integer> technologyIntegerHashMap = new HashMap<>();
     private final HashMap<Civilization,Integer> civilizationIntegerHashMap = new HashMap<>();
@@ -51,10 +52,17 @@ public class GSave {
         return gSave;
     }
 
+    public GameMock getGameSave() {
+        return gameSave;
+    }
+
     public void saveAllGame(){
-        GameMock gameMock = new GameMock(GameController.getInstance().getGame(),0);
-        String gameMockJson = new Gson().toJson(gameMock);
+        gameSave = new GameMock(GameController.getInstance().getGame(),0);
+        System.out.println(gameSave);
+        String gameMockJson = new Gson().toJson(gameSave);
+        System.out.println(gameMockJson);
         saveAs(gameMockJson,0 + ".json");
+        System.out.println("game save successfully");
     }
 
     public Integer save(Technology technology){
@@ -63,13 +71,13 @@ public class GSave {
         if ((id = technologyIntegerHashMap.get(technology)) != null) return id;
         id = getUniqueID();
         technologyIntegerHashMap.put(technology,id);
-        saveAs(new Gson().toJson(new MockTechnology(technology,id)),id + ".json");
+        saveAs(new Gson().toJson(new TechnologyMock(technology,id)),id + ".json");
         return id;
     }
 
     public ResourceEnum save(Resource resource) {
         if (resource == null) return null;
-        return ResourceEnum.getResourceEnumByResource(resource);
+        return ResourceEnum.getEnumByResource(resource);
     }
 
     public Integer save(User user) {
@@ -88,7 +96,7 @@ public class GSave {
         if ((id = civilizationIntegerHashMap.get(civilization)) != null) return id;
         id = getUniqueID();
         civilizationIntegerHashMap.put(civilization,id);
-        saveAs(new Gson().toJson(new MockCivilization(civilization,id)),id + ".json");
+        saveAs(new Gson().toJson(new CivilizationMock(civilization,id)),id + ".json");
         return id;
     }
 
@@ -98,7 +106,7 @@ public class GSave {
         if ((id = gameMapIntegerHashMap.get(gameMap)) != null) return id;
         id = getUniqueID();
         gameMapIntegerHashMap.put(gameMap,id);
-        saveAs(new Gson().toJson(new MockGameMap(gameMap,id)),id + ".json");
+        saveAs(new Gson().toJson(new GameMapMock(gameMap,id)),id + ".json");
         return id;
     }
 
@@ -108,7 +116,7 @@ public class GSave {
         if ((id = civilizationMapIntegerHashMap.get(personalMap)) != null) return id;
         id = getUniqueID();
         civilizationMapIntegerHashMap.put(personalMap,id);
-        saveAs(new Gson().toJson(new MockCivilizationMap(personalMap,id)),id + ".json");
+        saveAs(new Gson().toJson(new CivilizationMapMock(personalMap,id)),id + ".json");
         return id;
     }
 
@@ -209,12 +217,13 @@ public class GSave {
 
     private void saveAs(String string, String name) {
         try {
-            System.out.println(name);
+            //System.out.println(name);
             FileWriter fileWriter;
-            fileWriter = new FileWriter("app/save/" + name);
+            fileWriter = new FileWriter("src/main/resources/app/save/" + name);
             fileWriter.write(string);
+            fileWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            //System.out.println("error for file , " + name);
         }
     }
 

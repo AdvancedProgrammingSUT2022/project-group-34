@@ -1,7 +1,9 @@
 package app.models.save;
 
+import app.controllers.GLoad;
 import app.controllers.GSave;
 import app.models.Citizen;
+import app.models.tile.Tile;
 
 public class CitizenMock extends Mock {
 
@@ -15,8 +17,15 @@ public class CitizenMock extends Mock {
 
     }
 
+    public CitizenMock() {
+        super(0);
+    }
+
     @Override
-    public Object getOriginalObject() {
+    public Citizen getOriginalObject() {
+        Citizen citizen = new Citizen(null);
+        citizen.setWorking(this.isWorking);
+        citizen.setWorkPosition((Tile) GLoad.gIn().load(this,this.workPosition));
         return null;
     }
 }

@@ -18,43 +18,44 @@ public class Civilization {
     private static final int decreasedHappinessDueToTheFoundingOfTheCity = 4;
 
 
-    private final User player;
+    private User player;
 
     private String civilizationName;
 
     private CivilizationMap personalMap;
 
-    private ArrayList<City> cities;
-    private ArrayList<Tile> workingTiles;
-    private ArrayList<Unit> units;
-    private final ArrayList<Work> works;
+    private ArrayList<City> cities = new ArrayList<>();
+    private ArrayList<Tile> workingTiles = new ArrayList<>();
+    private ArrayList<Unit> units = new ArrayList<>();
+    private ArrayList<Work> works = new ArrayList<>();
 
     private City mainCapital;
     private City currentCapital;
 
-    private ArrayList<Notification> notifications;
+    private ArrayList<Notification> notifications = new ArrayList<>();
 
-    private final HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
-    private final HashMap<Resource, Integer> numberOfEachExchangedResource = new HashMap<>();
+    private HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
+    private HashMap<Resource, Integer> numberOfEachExchangedResource = new HashMap<>();
 
     private ArrayList<UnitEnum> civilizationNotUsableUnits  = new ArrayList<>();
     private ArrayList<UnitEnum> civilizationUsableUnits     = new ArrayList<>();
 
 
-    private HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies;
-    private HashMap<TechnologyEnum, Technology> civilizationNotResearchedTechnologies;
+    private HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies = new HashMap<>();
+    private HashMap<TechnologyEnum, Technology> civilizationNotResearchedTechnologies = new HashMap<>();
 
     private int numberOfBeakers;
     private Technology studyingTechnology;
 
     private int gold;
     private int happiness;
-    private final int happiness0;
-    private final int happinessPerLuxuryResource = 4;
+    private int happiness0;
 
-    private final int unitMaintenanceCost = 2;
-    private final int roadMaintenanceCost = 1;
-    private final int railMaintenanceCost = 1;
+    private int happinessPerLuxuryResource = 4;
+
+    private int unitMaintenanceCost = 2;
+    private int roadMaintenanceCost = 1;
+    private int railMaintenanceCost = 1;
 
     private int turn = 0;
 
@@ -92,6 +93,11 @@ public class Civilization {
             civilizationNotResearchedTechnologies.remove(technologyEnum);
         });
 
+    }
+
+    private Civilization() {}
+    public static Civilization getOneInstance(){
+        return new Civilization();
     }
 
     public String getCivilizationName() {
@@ -209,6 +215,31 @@ public class Civilization {
 
     public void setGold(int gold) {
         this.gold = gold;
+    }
+
+
+    public void setPlayer(User player) {
+        this.player = player;
+    }
+
+    public void setWorks(ArrayList<Work> works) {
+        this.works = works;
+    }
+
+    public void setCivilizationNotUsableUnits(ArrayList<UnitEnum> civilizationNotUsableUnits) {
+        this.civilizationNotUsableUnits = civilizationNotUsableUnits;
+    }
+
+    public void setCivilizationUsableUnits(ArrayList<UnitEnum> civilizationUsableUnits) {
+        this.civilizationUsableUnits = civilizationUsableUnits;
+    }
+
+    public void setHappiness(int happiness) {
+        this.happiness = happiness;
+    }
+
+    public void setHappiness0(int happiness0) {
+        this.happiness0 = happiness0;
     }
 
     public void updateGold() {
@@ -378,5 +409,29 @@ public class Civilization {
 
     public int getRailMaintenanceCost() {
         return railMaintenanceCost;
+    }
+
+    public void setNumberOfEachResource(HashMap<Resource, Integer> numberOfEachResource) {
+        this.numberOfEachResource = numberOfEachResource;
+    }
+
+    public void setNumberOfEachExchangedResource(HashMap<Resource, Integer> numberOfEachExchangedResource) {
+        this.numberOfEachExchangedResource = numberOfEachExchangedResource;
+    }
+
+    public void setHappinessPerLuxuryResource(int happinessPerLuxuryResource) {
+        this.happinessPerLuxuryResource = happinessPerLuxuryResource;
+    }
+
+    public void setUnitMaintenanceCost(int unitMaintenanceCost) {
+        this.unitMaintenanceCost = unitMaintenanceCost;
+    }
+
+    public void setRoadMaintenanceCost(int roadMaintenanceCost) {
+        this.roadMaintenanceCost = roadMaintenanceCost;
+    }
+
+    public void setRailMaintenanceCost(int railMaintenanceCost) {
+        this.railMaintenanceCost = railMaintenanceCost;
     }
 }

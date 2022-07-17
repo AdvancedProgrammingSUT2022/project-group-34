@@ -32,7 +32,7 @@ public class Work {
         this.worker = worker;
         this.tern = tern;
         this.type = type;
-        this.improvement = Improvement.getAllImprovements().get(improvement);
+        this.improvement = ImprovementEnum.getImprovementByName(improvement);
         worker.startWork();
         worker.setTernWork(tern);
     }

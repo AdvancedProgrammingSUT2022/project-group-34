@@ -1,8 +1,11 @@
 package app.models.save;
 
+import app.controllers.GLoad;
 import app.controllers.GSave;
 import app.models.tile.Improvement;
+import app.models.tile.Tile;
 import app.models.unit.Work;
+import app.models.unit.Worker;
 
 public class WorkMock extends Mock {
 
@@ -22,8 +25,14 @@ public class WorkMock extends Mock {
         this.improvement = work.getImprovement();
     }
 
+    public WorkMock() {
+        super(0);
+    }
+
     @Override
-    public Object getOriginalObject() {
-        return null;
+    public Work getOriginalObject() {
+
+        return new Work((Tile) GLoad.gIn().load(new TileMock(), this.tileID), (Worker) GLoad.gIn().load(new UnitMock(),this.workerID)
+                , this.type, this.improvement.getName(), this.tern);
     }
 }

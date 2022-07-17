@@ -1,0 +1,1 @@
+{"resource":"Sheep","isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":22,"y":41,"movingCost":-33,"terrain":"Desert","isRiver":[true,true,true,false,false,false],"isBlock":false,"id":6355}

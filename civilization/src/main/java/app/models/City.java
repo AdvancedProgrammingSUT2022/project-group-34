@@ -33,6 +33,11 @@ public class City {
     private int production;
     private int scienceRate;
 
+    private City(){}
+    public static City getOneInstance(){
+        return new City();
+    }
+
     public City(String name, Civilization owner, Tile position , ArrayList<Tile> territory) {
         this.name = name;
         this.civilization = owner;
@@ -242,5 +247,33 @@ public class City {
 
     public void setHitPoint(int hitPoint) {
         this.hitPoint = hitPoint;
+    }
+
+    public static void setFoodPerCitizens(int foodPerCitizens) {
+        City.foodPerCitizens = foodPerCitizens;
+    }
+
+    public void setTerritory(ArrayList<Tile> territory) {
+        this.territory = territory;
+    }
+
+    public void setCitizens(ArrayList<Citizen> citizens) {
+        this.citizens = citizens;
+    }
+
+    public void setImprovements(ArrayList<Improvement> improvements) {
+        this.improvements = improvements;
+    }
+
+    public void setFoodRate(int foodRate) {
+        this.foodRate = foodRate;
+    }
+
+    public void setFood(int food) {
+        this.food = food;
+    }
+
+    public void setProductionRate(int productionRate) {
+        this.productionRate = productionRate;
     }
 }

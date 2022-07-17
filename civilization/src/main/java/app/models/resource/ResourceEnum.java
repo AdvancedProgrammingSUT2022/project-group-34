@@ -31,7 +31,7 @@ public enum ResourceEnum {
         this.name = name;
     }
 
-    public static ResourceEnum getResourceEnumByResource(Resource resource){
+    public static ResourceEnum getEnumByResource(Resource resource){
         if (resource == null)
             return null;
         for (ResourceEnum resourceEnum : ResourceEnum.values()) {
@@ -39,5 +39,9 @@ public enum ResourceEnum {
                 return resourceEnum;
         }
         return null;
+    }
+
+    public static Resource getResourceByEnum(ResourceEnum resourceEnum) {
+        return Resource.getAllResourcesCopy().get(resourceEnum);
     }
 }

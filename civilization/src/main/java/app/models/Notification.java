@@ -1,14 +1,21 @@
 package app.models;
 
-public class Notification {
+import app.models.save.Mock;
 
-    private final String message;
+public class Notification extends Mock {
+
+    private String message;
     private int tern;
-    private final String type;
+    private String type;
 
     public Notification(String message, String type) {
+        super(null);
         this.message = message;
         this.type = type;
+    }
+
+    public Notification() {
+        super(0);
     }
 
     public String getMessage() {
@@ -31,5 +38,10 @@ public class Notification {
 
     public void setTern(int tern) {
         this.tern = tern;
+    }
+
+    @Override
+    public Notification getOriginalObject() {
+        return this;
     }
 }

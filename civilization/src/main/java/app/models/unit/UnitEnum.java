@@ -3,7 +3,7 @@ package app.models.unit;
 import app.models.resource.ResourceData;
 import app.models.TechnologyEnum;
 
-public enum UnitEnum {
+public enum UnitEnum{
 
     Archer          ("Archer"   ,"A",70, "Archery"  ,4 ,6 ,2,2,null , TechnologyEnum.Archery    ,false),
     ChariotArcher   ("ChariotArcher","A",70, "Mounted",3,6,2,4, ResourceData.Horses, TechnologyEnum.TheWheel     ,false),

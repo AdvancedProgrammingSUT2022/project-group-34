@@ -1,0 +1,1 @@
+{"resource":"Silver","isUsableResource":false,"foodRate":0,"goldRate":2,"productionRate":0,"impactOnWar":2,"hasRoad":false,"hasRail":false,"isLooted":false,"x":31,"y":22,"movingCost":25,"terrain":"Hills","isRiver":[false,false,true,false,true,false],"isBlock":true,"id":6786}

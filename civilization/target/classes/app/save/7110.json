@@ -1,0 +1,1 @@
+{"resource":"Gold","isUsableResource":false,"foodRate":3,"goldRate":1,"productionRate":0,"impactOnWar":-32,"hasRoad":false,"hasRail":false,"isLooted":false,"x":38,"y":5,"movingCost":-32,"terrain":"Desert","feature":"Oasis","isRiver":[false,true,true,false,true,true],"isBlock":false,"id":7110}

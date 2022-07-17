@@ -34,4 +34,7 @@ public abstract class AbstractTileMock extends Mock{
         //abstractTile.getAdjacentTiles();
     }
 
+    public AbstractTileMock(int id) {
+        super(id);
+    }
 }

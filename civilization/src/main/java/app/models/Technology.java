@@ -30,6 +30,9 @@ public class Technology {
 
     }
 
+    private Technology() {
+
+    }
 
     public static void createAllInstances(){
         for (TechnologyEnum technologyEnum : TechnologyEnum.values())
@@ -45,6 +48,10 @@ public class Technology {
         assert allTechnologies != null;
         allTechnologies.forEach((key, technology) -> allTechnologiesCopy.put(key,technology.cloneTechnology()));
         return allTechnologiesCopy;
+    }
+
+    public static Technology getOneInstance() {
+        return new Technology();
     }
 
     private Technology cloneTechnology() {
@@ -154,5 +161,9 @@ public class Technology {
 
     public ArrayList<TechnologyEnum> getPrerequisiteTechnologies() {
         return prerequisiteTechnologies;
+    }
+
+    public void setPrerequisiteTechnologies(ArrayList<TechnologyEnum> prerequisiteTechnologies) {
+        this.prerequisiteTechnologies = prerequisiteTechnologies;
     }
 }

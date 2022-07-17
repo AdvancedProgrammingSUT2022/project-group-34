@@ -22,7 +22,7 @@ public class Improvement{
 
     public static final HashMap<ImprovementEnum, Improvement> allImprovements = new HashMap<>();
 
-    Improvement(ImprovementEnum improvementEnum) {
+    public Improvement(ImprovementEnum improvementEnum) {
 
         this.name = improvementEnum.name;
         this.foodRate = improvementEnum.foodRate;
@@ -108,4 +108,6 @@ public class Improvement{
     public boolean isUsable() {
         return isUsable;
     }
+
+
 }

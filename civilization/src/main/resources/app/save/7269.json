@@ -1,0 +1,1 @@
+{"resource":"Wheat","isUsableResource":false,"foodRate":2,"goldRate":1,"productionRate":-1,"impactOnWar":26,"hasRoad":false,"hasRail":false,"isLooted":false,"x":41,"y":5,"movingCost":-31,"terrain":"Plains","feature":"Jungle","isRiver":[false,false,true,false,false,true],"isBlock":false,"id":7269}
