@@ -51,8 +51,8 @@ public class TileMock extends AbstractTileMock{
 
     @Override
     public Tile getOriginalObject() {
-        Tile tile = new Tile(this.terrain, this.feature, this.x, this.y, (City) GLoad.gIn().load(new CityMock(), this.cityID),
-                (Civilization) GLoad.gIn().load(new CivilizationMock(), this.civilizationID));
+        Tile tile = new Tile(this.terrain, this.feature, this.x, this.y, (City) GLoad.getInstance().load(new CityMock(), this.cityID),
+                (Civilization) GLoad.getInstance().load(new CivilizationMock(), this.civilizationID));
 
         tile.setImprovement(Improvement.allImprovements.get(this.improvement));
         tile.setResource(Resource.getAllResourcesCopy().get(this.resource));
@@ -60,8 +60,8 @@ public class TileMock extends AbstractTileMock{
         tile.setHasRail(this.hasRail);
         tile.setHasRoad(this.hasRoad);
         tile.setLooted(this.isLooted);
-        tile.setCombatUnit((CombatUnit) GLoad.gIn().load(new UnitMock(),this.combatUnitID));
-        tile.setNonCombatUnit((NonCombatUnit) GLoad.gIn().load(new UnitMock(),this.nonCombatUnitID));
+        tile.setCombatUnit((CombatUnit) GLoad.getInstance().load(new UnitMock(),this.combatUnitID));
+        tile.setNonCombatUnit((NonCombatUnit) GLoad.getInstance().load(new UnitMock(),this.nonCombatUnitID));
 
         return tile;
     }

@@ -11,7 +11,6 @@ import app.models.tile.ImprovementEnum;
 import app.models.tile.Tile;
 import app.models.tile.VisibleTile;
 import app.models.unit.Unit;
-import app.models.unit.UnitEnum;
 import app.models.unit.Work;
 import com.google.gson.Gson;
 
@@ -32,9 +31,7 @@ public class GSave {
     private final HashMap<City,Integer> cityIntegerHashMap = new HashMap<>();
     private final HashMap<Work,Integer> workIntegerHashMap = new HashMap<>();
     private final HashMap<Notification,Integer> notificationIntegerHashMap = new HashMap<>();
-    private final HashMap<UnitEnum, Integer> unitEnumIntegerHashMap = new HashMap<>();
 
-    private final HashMap<TechnologyEnum, Integer> technologyEnumIntegerHashMap = new HashMap<>();
     private final HashMap<Citizen, Integer> citizenIntegerHashMap = new HashMap<>();
     private final HashMap<VisibleTile, Integer> visibleTileIntegerHashMap = new HashMap<>();
     private final HashMap<Tile, Integer> tileIntegerHashMap = new HashMap<>();
@@ -167,26 +164,6 @@ public class GSave {
         id = getUniqueID();
         notificationIntegerHashMap.put(notification,id);
         saveAs(new Gson().toJson(notification),id + ".json");
-        return id;
-    }
-
-    public Integer save(UnitEnum unitEnum) {
-        if (unitEnum == null) return null;
-        Integer id;
-        if ((id = unitEnumIntegerHashMap.get(unitEnum)) != null) return id;
-        id = getUniqueID();
-        unitEnumIntegerHashMap.put(unitEnum,id);
-        saveAs(new Gson().toJson(unitEnum),id + ".json");
-        return id;
-    }
-
-    public Integer save(TechnologyEnum technologyEnum) {
-        if (technologyEnum == null) return null;
-        Integer id;
-        if ((id = technologyEnumIntegerHashMap.get(technologyEnum)) != null) return id;
-        id = getUniqueID();
-        technologyEnumIntegerHashMap.put(technologyEnum,id);
-        saveAs(new Gson().toJson(technologyEnum),id + ".json");
         return id;
     }
 

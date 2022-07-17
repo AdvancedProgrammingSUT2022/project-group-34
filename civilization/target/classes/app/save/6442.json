@@ -1,1 +1,1 @@
-{"resource":"Cotton","isUsableResource":false,"foodRate":2,"goldRate":1,"productionRate":1,"impactOnWar":26,"hasRoad":false,"hasRail":false,"isLooted":false,"x":24,"y":37,"movingCost":-31,"terrain":"Plains","feature":"Forests","isRiver":[false,true,false,false,true,false],"isBlock":false,"id":6442}
+{"isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":-1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":26,"y":0,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":6442}

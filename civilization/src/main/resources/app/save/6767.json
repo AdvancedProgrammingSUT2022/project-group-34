@@ -1,1 +1,1 @@
-{"resource":"Coal","isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":31,"y":3,"movingCost":-33,"terrain":"Grasslands","isRiver":[true,true,false,false,false,false],"isBlock":false,"id":6767}
+{"resource":"Cotton","isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":32,"y":26,"movingCost":-33,"terrain":"Grasslands","isRiver":[false,false,true,false,false,true],"isBlock":false,"id":6767}

@@ -1,1 +1,1 @@
-{"resource":"Gems","isUsableResource":false,"foodRate":1,"goldRate":1,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":25,"y":4,"movingCost":-33,"terrain":"Plains","isRiver":[false,false,false,true,false,false],"isBlock":false,"id":6459}
+{"resource":"Wheat","isUsableResource":false,"foodRate":2,"goldRate":1,"productionRate":1,"impactOnWar":26,"hasRoad":false,"hasRail":false,"isLooted":false,"x":26,"y":17,"movingCost":-31,"terrain":"Plains","feature":"Forests","isRiver":[false,false,false,true,true,false],"isBlock":false,"id":6459}

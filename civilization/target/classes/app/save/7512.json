@@ -1,1 +1,1 @@
-{"resource":"Cattle","isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":-32,"hasRoad":false,"hasRail":false,"isLooted":false,"x":46,"y":7,"movingCost":-31,"terrain":"Grasslands","feature":"Marsh","isRiver":[false,false,false,true,true,false],"isBlock":false,"id":7512}
+{"isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":-1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":47,"y":20,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":7512}

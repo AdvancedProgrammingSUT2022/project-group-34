@@ -1,1 +1,1 @@
-{"isInFog":true,"x":49,"y":41,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":5137}
+{"name":"Steel","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["MetalCasting"],"id":5137}

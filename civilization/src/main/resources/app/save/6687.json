@@ -1,1 +1,1 @@
-{"resource":"Gems","isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":29,"y":23,"movingCost":-33,"terrain":"Grasslands","isRiver":[false,false,false,false,false,true],"isBlock":false,"id":6687}
+{"resource":"Gold","isUsableResource":false,"foodRate":2,"goldRate":1,"productionRate":1,"impactOnWar":26,"hasRoad":false,"hasRail":false,"isLooted":false,"x":30,"y":46,"movingCost":-31,"terrain":"Plains","feature":"Forests","isRiver":[true,false,false,false,false,true],"isBlock":false,"id":6687}

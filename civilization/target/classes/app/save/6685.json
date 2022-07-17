@@ -1,1 +1,1 @@
-{"resource":"Gems","isUsableResource":false,"foodRate":0,"goldRate":2,"productionRate":0,"impactOnWar":2,"hasRoad":false,"hasRail":false,"isLooted":false,"x":29,"y":30,"movingCost":25,"terrain":"Hills","isRiver":[true,false,true,true,false,false],"isBlock":true,"id":6685}
+{"resource":"Marble","isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":30,"y":43,"movingCost":-33,"terrain":"Tundra","isRiver":[false,false,false,false,true,true],"isBlock":false,"id":6685}

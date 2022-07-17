@@ -1,1 +1,1 @@
-{"isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":1,"impactOnWar":26,"hasRoad":false,"hasRail":false,"isLooted":false,"x":11,"y":20,"movingCost":-31,"terrain":"Tundra","feature":"Forests","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":5784}
+{"resource":"Incense","isUsableResource":false,"foodRate":3,"goldRate":1,"productionRate":0,"impactOnWar":-32,"hasRoad":false,"hasRail":false,"isLooted":false,"x":12,"y":43,"movingCost":-32,"terrain":"Desert","feature":"Oasis","isRiver":[false,false,true,false,true,false],"isBlock":false,"id":5784}

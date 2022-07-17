@@ -1,1 +1,1 @@
-{"resource":"Silver","isUsableResource":false,"foodRate":3,"goldRate":1,"productionRate":0,"impactOnWar":-32,"hasRoad":false,"hasRail":false,"isLooted":false,"x":39,"y":22,"movingCost":-32,"terrain":"Desert","feature":"Oasis","isRiver":[true,false,false,false,true,true],"isBlock":false,"id":7186}
+{"isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":-1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":40,"y":45,"movingCost":0,"terrain":"Mountain","isRiver":[true,false,true,false,true,true],"isBlock":true,"id":7186}

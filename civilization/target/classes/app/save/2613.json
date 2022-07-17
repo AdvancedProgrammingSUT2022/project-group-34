@@ -1,1 +1,1 @@
-{"name":"Chemistry","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2553],"id":2613}
+{"isInFog":true,"x":0,"y":39,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2613}

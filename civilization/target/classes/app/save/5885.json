@@ -1,1 +1,1 @@
-{"resource":"Sheep","isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":13,"y":30,"movingCost":-33,"terrain":"Desert","isRiver":[false,false,false,false,true,true],"isBlock":false,"id":5885}
+{"resource":"Silver","isUsableResource":false,"foodRate":3,"goldRate":1,"productionRate":0,"impactOnWar":-32,"hasRoad":false,"hasRail":false,"isLooted":false,"x":14,"y":43,"movingCost":-32,"terrain":"Desert","feature":"Oasis","isRiver":[false,false,false,true,false,false],"isBlock":false,"id":5885}

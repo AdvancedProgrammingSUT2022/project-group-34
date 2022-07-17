@@ -1,1 +1,1 @@
-{"resource":"Marble","isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":29,"y":15,"movingCost":-33,"terrain":"Desert","isRiver":[true,false,false,false,false,false],"isBlock":false,"id":6670}
+{"resource":"Cotton","isUsableResource":false,"foodRate":3,"goldRate":1,"productionRate":0,"impactOnWar":-32,"hasRoad":false,"hasRail":false,"isLooted":false,"x":30,"y":28,"movingCost":-32,"terrain":"Desert","feature":"Oasis","isRiver":[false,true,false,false,false,true],"isBlock":false,"id":6670}

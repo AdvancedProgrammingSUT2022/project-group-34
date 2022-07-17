@@ -1,1 +1,1 @@
-{"name":"Biology","remainingTerm":0,"cost":1680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2577,2601],"id":2600}
+{"isInFog":true,"x":0,"y":27,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2600}

@@ -1,1 +1,1 @@
-{"name":"MetalCasting","remainingTerm":0,"cost":240,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2622],"id":2621}
+{"isInFog":true,"x":0,"y":47,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2621}

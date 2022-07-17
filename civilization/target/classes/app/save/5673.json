@@ -1,1 +1,1 @@
-{"resource":"Furs","isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":9,"y":18,"movingCost":-33,"terrain":"Tundra","isRiver":[false,false,false,true,false,false],"isBlock":false,"id":5673}
+{"resource":"Cotton","isUsableResource":false,"foodRate":2,"goldRate":1,"productionRate":-1,"impactOnWar":26,"hasRoad":false,"hasRail":false,"isLooted":false,"x":10,"y":31,"movingCost":-31,"terrain":"Plains","feature":"Jungle","isRiver":[false,false,false,true,false,false],"isBlock":false,"id":5673}

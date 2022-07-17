@@ -1,1 +1,1 @@
-{"name":"MilitaryScience","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2558,2598],"id":2597}
+{"isInFog":true,"x":0,"y":24,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2597}

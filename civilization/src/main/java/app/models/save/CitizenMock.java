@@ -25,7 +25,7 @@ public class CitizenMock extends Mock {
     public Citizen getOriginalObject() {
         Citizen citizen = new Citizen(null);
         citizen.setWorking(this.isWorking);
-        citizen.setWorkPosition((Tile) GLoad.gIn().load(this,this.workPosition));
+        citizen.setWorkPosition((Tile) GLoad.getInstance().load(this,this.workPosition));
         return null;
     }
 }

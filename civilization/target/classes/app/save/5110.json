@@ -1,1 +1,1 @@
-{"isInFog":true,"x":49,"y":15,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":5110}
+{"name":"Rifling","remainingTerm":0,"cost":1425,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Metallurgy"],"id":5110}

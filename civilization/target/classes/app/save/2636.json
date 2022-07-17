@@ -1,1 +1,1 @@
-{"name":"HorsebackRiding","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2609],"id":2636}
+{"isInFog":true,"x":1,"y":12,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2636}

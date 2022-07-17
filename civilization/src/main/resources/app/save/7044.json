@@ -1,1 +1,1 @@
-{"resource":"Gems","isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":36,"y":30,"movingCost":-33,"terrain":"Tundra","isRiver":[false,false,false,true,true,false],"isBlock":false,"id":7044}
+{"resource":"Wheat","isUsableResource":false,"foodRate":2,"goldRate":1,"productionRate":1,"impactOnWar":26,"hasRoad":false,"hasRail":false,"isLooted":false,"x":38,"y":3,"movingCost":-31,"terrain":"Plains","feature":"Forests","isRiver":[true,false,false,false,false,false],"isBlock":false,"id":7044}

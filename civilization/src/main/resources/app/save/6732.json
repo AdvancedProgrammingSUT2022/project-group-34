@@ -1,1 +1,1 @@
-{"resource":"Gems","isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":30,"y":18,"movingCost":-33,"terrain":"Desert","isRiver":[false,true,true,false,true,false],"isBlock":false,"id":6732}
+{"resource":"Banana","isUsableResource":false,"foodRate":1,"goldRate":2,"productionRate":-1,"impactOnWar":27,"hasRoad":false,"hasRail":false,"isLooted":false,"x":31,"y":41,"movingCost":27,"terrain":"Hills","feature":"Jungle","isRiver":[false,false,false,false,false,true],"isBlock":true,"id":6732}

@@ -1,1 +1,1 @@
-"ChariotArcher"
+{"name":"Gunpowder","remainingTerm":0,"cost":680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Physics","Steel"],"id":2525}

@@ -1,1 +1,1 @@
-{"resource":"Marble","isUsableResource":false,"foodRate":3,"goldRate":0,"productionRate":1,"impactOnWar":26,"hasRoad":false,"hasRail":false,"isLooted":false,"x":40,"y":17,"movingCost":-31,"terrain":"Grasslands","feature":"Forests","isRiver":[true,false,true,false,false,false],"isBlock":false,"id":7231}
+{"resource":"Deer","isUsableResource":false,"foodRate":0,"goldRate":2,"productionRate":0,"impactOnWar":2,"hasRoad":false,"hasRail":false,"isLooted":false,"x":41,"y":40,"movingCost":25,"terrain":"Hills","isRiver":[false,false,false,true,false,false],"isBlock":true,"id":7231}

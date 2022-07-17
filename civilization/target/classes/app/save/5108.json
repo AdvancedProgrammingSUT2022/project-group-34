@@ -1,1 +1,1 @@
-{"isInFog":true,"x":49,"y":13,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":5108}
+{"name":"Education","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Theology"],"id":5108}

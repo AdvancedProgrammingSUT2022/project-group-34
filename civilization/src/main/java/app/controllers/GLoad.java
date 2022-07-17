@@ -15,7 +15,7 @@ public class GLoad {
     private GLoad(){
     }
 
-    public static GLoad gIn() {
+    public static GLoad getInstance() {
         if (gLoad == null) gLoad = new GLoad();
         return gLoad;
     }
@@ -27,7 +27,7 @@ public class GLoad {
     public <T extends Mock> Object load(T mockObject, Integer id){
         if (id == null) return null;
         String string = loadFrom(id+".json");
-        System.out.println("string :  " + string);
+        //System.out.println("string :  " + string);
         try {
             //noinspection unchecked
             mockObject = (T) new Gson().fromJson(string,mockObject.getClass());
@@ -39,7 +39,7 @@ public class GLoad {
 
     private String loadFrom(String name) {
 
-        System.out.println("file : " + name);
+        //System.out.println("file : " + name);
         StringBuilder stringBuilder = new StringBuilder();
         FileReader fileReader;
         try {
@@ -59,8 +59,4 @@ public class GLoad {
         return stringBuilder.toString();
     }
 
-    public Object loadEnum(Integer id) {
-        // for Enum
-        return new Object();
-    }
 }

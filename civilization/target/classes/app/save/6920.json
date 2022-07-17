@@ -1,1 +1,1 @@
-{"resource":"Marble","isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":34,"y":15,"movingCost":-33,"terrain":"Tundra","isRiver":[false,false,true,false,false,true],"isBlock":false,"id":6920}
+{"resource":"Incense","isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":0,"impactOnWar":-32,"hasRoad":false,"hasRail":false,"isLooted":false,"x":35,"y":28,"movingCost":-32,"terrain":"Desert","feature":"FloodPlain","isRiver":[false,true,true,false,true,true],"isBlock":false,"id":6920}

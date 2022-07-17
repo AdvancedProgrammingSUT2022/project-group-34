@@ -68,20 +68,20 @@ public class CityMock extends Mock {
         
         City city = City.getOneInstance();
         city.setName(this.name);
-        city.setCivilization((Civilization) GLoad.gIn().load(new CivilizationMock(),this.civilizationID));
-        city.setPosition((Tile) GLoad.gIn().load(new TileMock(),this.positionID));
+        city.setCivilization((Civilization) GLoad.getInstance().load(new CivilizationMock(),this.civilizationID));
+        city.setPosition((Tile) GLoad.getInstance().load(new TileMock(),this.positionID));
         city.setStrength(this.strength);
-        city.setUnitUnderProduct((Unit) GLoad.gIn().load(new UnitMock(),this.unitUnderProductID));
+        city.setUnitUnderProduct((Unit) GLoad.getInstance().load(new UnitMock(),this.unitUnderProductID));
         city.setUnitUnderProductTern(this.unitUnderProductTern);
         city.setGarrison(this.isGarrison);
         city.setHitPoint(this.hitPoint);
 
         ArrayList<Tile> territory = new ArrayList<>();
-        this.territoryID.forEach(id -> territory.add((Tile) GLoad.gIn().load(new TileMock(),id)));
+        this.territoryID.forEach(id -> territory.add((Tile) GLoad.getInstance().load(new TileMock(),id)));
         city.setTerritory(territory);
 
         ArrayList<Citizen> citizens = new ArrayList<>();
-        this.citizensID.forEach(id -> citizens.add((Citizen) GLoad.gIn().load(new CitizenMock(),id)));
+        this.citizensID.forEach(id -> citizens.add((Citizen) GLoad.getInstance().load(new CitizenMock(),id)));
         city.setCitizens(citizens);
 
         ArrayList<Improvement> improvements = new ArrayList<>();

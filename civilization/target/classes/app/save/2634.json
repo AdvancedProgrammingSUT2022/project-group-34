@@ -1,1 +1,1 @@
-{"name":"IronWorking","remainingTerm":0,"cost":150,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2586],"id":2634}
+{"isInFog":true,"x":1,"y":10,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2634}

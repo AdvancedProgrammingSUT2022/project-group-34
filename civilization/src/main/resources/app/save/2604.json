@@ -1,1 +1,1 @@
-{"name":"Dynamite","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2605,2584],"id":2604}
+{"isInFog":true,"x":0,"y":31,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2604}

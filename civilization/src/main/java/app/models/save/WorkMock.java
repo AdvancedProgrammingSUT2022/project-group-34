@@ -32,7 +32,7 @@ public class WorkMock extends Mock {
     @Override
     public Work getOriginalObject() {
 
-        return new Work((Tile) GLoad.gIn().load(new TileMock(), this.tileID), (Worker) GLoad.gIn().load(new UnitMock(),this.workerID)
+        return new Work((Tile) GLoad.getInstance().load(new TileMock(), this.tileID), (Worker) GLoad.getInstance().load(new UnitMock(),this.workerID)
                 , this.type, this.improvement.getName(), this.tern);
     }
 }

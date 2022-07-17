@@ -1,1 +1,1 @@
-{"resource":"Iron","isUsableResource":false,"foodRate":0,"goldRate":2,"productionRate":0,"impactOnWar":2,"hasRoad":false,"hasRail":false,"isLooted":false,"x":32,"y":40,"movingCost":25,"terrain":"Hills","isRiver":[false,false,false,true,false,false],"isBlock":true,"id":6854}
+{"resource":"Silk","isUsableResource":false,"foodRate":2,"goldRate":1,"productionRate":-1,"impactOnWar":26,"hasRoad":false,"hasRail":false,"isLooted":false,"x":34,"y":13,"movingCost":-31,"terrain":"Plains","feature":"Jungle","isRiver":[false,false,false,false,false,true],"isBlock":false,"id":6854}

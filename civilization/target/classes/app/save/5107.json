@@ -1,1 +1,1 @@
-{"isInFog":true,"x":49,"y":12,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":5107}
+{"name":"Economics","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Banking","PrintingPress"],"id":5107}

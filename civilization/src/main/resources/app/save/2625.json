@@ -1,1 +1,1 @@
-{"name":"Electricity","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2599,2583],"id":2625}
+{"isInFog":true,"x":1,"y":2,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2625}

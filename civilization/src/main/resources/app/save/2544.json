@@ -1,1 +1,1 @@
-"AntiTankGun"
+{"name":"Dynamite","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Fertilize","Rifling"],"id":2544}

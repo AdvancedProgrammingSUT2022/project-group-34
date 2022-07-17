@@ -1,1 +1,1 @@
-{"resource":"Marble","isUsableResource":false,"foodRate":1,"goldRate":1,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":4,"y":4,"movingCost":-33,"terrain":"Plains","isRiver":[true,false,false,false,false,true],"isBlock":false,"id":5409}
+{"resource":"Iron","isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":5,"y":17,"movingCost":-33,"terrain":"Tundra","isRiver":[true,true,false,false,false,false],"isBlock":false,"id":5409}

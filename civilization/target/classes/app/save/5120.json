@@ -1,1 +1,1 @@
-{"isInFog":true,"x":49,"y":25,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":5120}
+{"name":"Electricity","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Biology","SteamPower"],"id":5120}

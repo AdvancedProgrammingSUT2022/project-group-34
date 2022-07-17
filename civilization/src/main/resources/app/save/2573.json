@@ -1,1 +1,1 @@
-{"name":"Archery","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2549],"id":2573}
+{"isInFog":true,"x":0,"y":0,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2573}

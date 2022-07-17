@@ -17,8 +17,8 @@ public class VisibleTileMock extends AbstractTileMock {
 
     @Override
     public VisibleTile getOriginalObject() {
-        Tile tile = new Tile(this.terrain, this.feature, this.x, this.y, (City) GLoad.gIn().load(new CityMock(), this.cityID),
-                (Civilization) GLoad.gIn().load(new CivilizationMock(), this.civilizationID));
+        Tile tile = new Tile(this.terrain, this.feature, this.x, this.y, (City) GLoad.getInstance().load(new CityMock(), this.cityID),
+                (Civilization) GLoad.getInstance().load(new CivilizationMock(), this.civilizationID));
 
         return new VisibleTile(tile,this.isInFog);
     }

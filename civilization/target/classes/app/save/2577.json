@@ -1,1 +1,1 @@
-{"name":"Archaeology","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2568],"id":2577}
+{"isInFog":true,"x":0,"y":3,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2577}

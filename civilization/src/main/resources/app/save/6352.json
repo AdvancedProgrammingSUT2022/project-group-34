@@ -1,1 +1,1 @@
-{"isUsableResource":false,"foodRate":1,"goldRate":1,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":22,"y":38,"movingCost":-33,"terrain":"Plains","isRiver":[false,false,false,false,true,false],"isBlock":false,"id":6352}
+{"resource":"Sugar","isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":0,"impactOnWar":-32,"hasRoad":false,"hasRail":false,"isLooted":false,"x":24,"y":11,"movingCost":-32,"terrain":"Desert","feature":"FloodPlain","isRiver":[true,false,false,false,true,false],"isBlock":false,"id":6352}

@@ -1,1 +1,1 @@
-{"resource":"Coal","isUsableResource":false,"foodRate":1,"goldRate":1,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":18,"y":28,"movingCost":-33,"terrain":"Plains","isRiver":[false,true,false,false,true,false],"isBlock":false,"id":6133}
+{"isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":-1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":19,"y":41,"movingCost":0,"terrain":"Mountain","isRiver":[true,false,false,false,true,false],"isBlock":true,"id":6133}

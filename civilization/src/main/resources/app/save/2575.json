@@ -1,1 +1,1 @@
-{"name":"Trapping","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2576],"id":2575}
+{"isInFog":true,"x":0,"y":2,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2575}

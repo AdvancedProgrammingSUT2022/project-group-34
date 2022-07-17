@@ -1,1 +1,1 @@
-{"name":"Construction","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2605],"id":2620}
+{"isInFog":true,"x":0,"y":46,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2620}

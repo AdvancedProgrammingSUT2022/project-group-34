@@ -34,12 +34,12 @@ public class CivilizationMock extends Mock{
     private final HashMap<ResourceEnum, Integer> numberOfEachResourceID = new HashMap<>();
     private final HashMap<ResourceEnum, Integer> numberOfEachExchangedResourceID = new HashMap<>();
 
-    private final ArrayList<Integer> civilizationNotUsableUnitsID  = new ArrayList<>();
-    private final ArrayList<Integer> civilizationUsableUnitsID     = new ArrayList<>();
+    private final ArrayList<String> civilizationNotUsableUnitsID  = new ArrayList<String>();
+    private final ArrayList<String> civilizationUsableUnitsID     = new ArrayList<String>();
 
 
-    private final HashMap<Integer, Integer> civilizationResearchedTechnologiesID = new HashMap<>();
-    private final HashMap<Integer, Integer> civilizationNotResearchedTechnologiesID = new HashMap<>();
+    private final HashMap<String, Integer> civilizationResearchedTechnologiesID = new HashMap<String, Integer>();
+    private final HashMap<String, Integer> civilizationNotResearchedTechnologiesID = new HashMap<String, Integer>();
 
     private int numberOfBeakers;
     private Integer studyingTechnologyID;
@@ -72,15 +72,15 @@ public class CivilizationMock extends Mock{
         civilization.getUnits()         .forEach(unit -> this.unitsID.add(GSave.getInstance().save(unit)));
         civilization.getWorks()         .forEach(work -> this.worksID.add(GSave.getInstance().save(work)));
         civilization.getNotifications() .forEach(notification -> this.notificationsID.add(GSave.getInstance().save(notification)));
-        civilization.getCivilizationNotUsableUnits().forEach(unitEnum -> this.civilizationNotUsableUnitsID.add(GSave.getInstance().save(unitEnum)));
-        civilization.getCivilizationUsableUnits()   .forEach(unitEnum -> this.civilizationUsableUnitsID.add(GSave.getInstance().save(unitEnum)));
+        civilization.getCivilizationNotUsableUnits().forEach(unitEnum -> this.civilizationNotUsableUnitsID.add(unitEnum.getName()));
+        civilization.getCivilizationUsableUnits()   .forEach(unitEnum -> this.civilizationUsableUnitsID.add(unitEnum.getName()));
 
         civilization.getNumberOfEachResource().forEach((resource,integer)-> this.numberOfEachResourceID.put(GSave.getInstance().save(resource),integer));
         civilization.getNumberOfEachExchangedResource().forEach((resource,integer)-> this.numberOfEachExchangedResourceID.put(GSave.getInstance().save(resource),integer));
         civilization.getCivilizationResearchedTechnologies()    .forEach((technologyEnum,technology) ->
-                this.civilizationResearchedTechnologiesID.put(GSave.getInstance().save(technologyEnum),GSave.getInstance().save(technology)));
+                this.civilizationResearchedTechnologiesID.put(technologyEnum.getName(),GSave.getInstance().save(technology)));
         civilization.getCivilizationNotResearchedTechnologies() .forEach((technologyEnum, technology) ->
-                this.civilizationNotResearchedTechnologiesID.put(GSave.getInstance().save(technologyEnum), GSave.getInstance().save(technology)));
+                this.civilizationNotResearchedTechnologiesID.put(technologyEnum.getName(), GSave.getInstance().save(technology)));
 
         this.numberOfBeakers = civilization.getNumberOfBeakers();
         this.civilizationName = civilization.getCivilizationName();
@@ -100,38 +100,38 @@ public class CivilizationMock extends Mock{
     public Civilization getOriginalObject() {
         Civilization civilization = Civilization.getOneInstance();
 
-        civilization.setPlayer((User) GLoad.gIn().load(new UserMock(),this.playerID));
-        civilization.setPersonalMap((CivilizationMap) GLoad.gIn().load(new CivilizationMapMock(),this.personalMapID));
-        civilization.setMainCapital((City) GLoad.gIn().load(new CityMock(),this.mainCapitalID));
-        civilization.setCurrentCapital((City) GLoad.gIn().load(new CityMock(),this.currentCapitalID));
-        civilization.setStudyingTechnology((Technology) GLoad.gIn().load(new TechnologyMock(),this.studyingTechnologyID));
+        civilization.setPlayer((User) GLoad.getInstance().load(new UserMock(),this.playerID));
+        civilization.setPersonalMap((CivilizationMap) GLoad.getInstance().load(new CivilizationMapMock(),this.personalMapID));
+        civilization.setMainCapital((City) GLoad.getInstance().load(new CityMock(),this.mainCapitalID));
+        civilization.setCurrentCapital((City) GLoad.getInstance().load(new CityMock(),this.currentCapitalID));
+        civilization.setStudyingTechnology((Technology) GLoad.getInstance().load(new TechnologyMock(),this.studyingTechnologyID));
 
         ArrayList<City> cities = new ArrayList<>();
-        this.citiesID.forEach(id -> cities.add((City) GLoad.gIn().load(new CityMock(),id)));
+        this.citiesID.forEach(id -> cities.add((City) GLoad.getInstance().load(new CityMock(),id)));
         civilization.setCities(cities);
 
         ArrayList<Tile> workingTiles = new ArrayList<>();
-        this.workingTilesID.forEach(id -> workingTiles.add((Tile) GLoad.gIn().load(new TileMock(),id)));
+        this.workingTilesID.forEach(id -> workingTiles.add((Tile) GLoad.getInstance().load(new TileMock(),id)));
         civilization.setWorkingTiles(workingTiles);
 
         ArrayList<Unit> units = new ArrayList<>();
-        this.unitsID.forEach(id -> units.add((Unit) GLoad.gIn().load(new UnitMock(),id)));
+        this.unitsID.forEach(id -> units.add((Unit) GLoad.getInstance().load(new UnitMock(),id)));
         civilization.setUnits(units);
 
         ArrayList<Work> works = new ArrayList<>();
-        this.worksID.forEach(id -> works.add((Work) GLoad.gIn().load(new WorkMock(),id)));
+        this.worksID.forEach(id -> works.add((Work) GLoad.getInstance().load(new WorkMock(),id)));
         civilization.setWorks(works);
 
         ArrayList<Notification> notifications = new ArrayList<>();
-        this.notificationsID.forEach(id -> notifications.add((Notification) GLoad.gIn().load(new Notification(),id)));
+        this.notificationsID.forEach(id -> notifications.add((Notification) GLoad.getInstance().load(new Notification(),id)));
         civilization.setNotifications(notifications);
 
         ArrayList<UnitEnum> civilizationNotUsableUnits = new ArrayList<>();
-        this.civilizationNotUsableUnitsID.forEach(id -> civilizationNotUsableUnits.add((UnitEnum) GLoad.gIn().loadEnum(id)));
+        this.civilizationNotUsableUnitsID.forEach(name -> civilizationNotUsableUnits.add(UnitEnum.getEnumByUnitName(name)));
         civilization.setCivilizationNotUsableUnits(civilizationNotUsableUnits);
 
         ArrayList<UnitEnum> civilizationUsableUnits = new ArrayList<>();
-        this.civilizationUsableUnitsID.forEach(id -> civilizationUsableUnits.add((UnitEnum) GLoad.gIn().loadEnum(id)));
+        this.civilizationUsableUnitsID.forEach(name -> civilizationUsableUnits.add(UnitEnum.getEnumByUnitName(name)));
         civilization.setCivilizationUsableUnits(civilizationUsableUnits);
 
         HashMap<Resource, Integer> numberOfEachResource = new HashMap<>();
@@ -143,13 +143,13 @@ public class CivilizationMock extends Mock{
         civilization.setNumberOfEachExchangedResource(numberOfEachExchangedResource);
 
         HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies = new HashMap<>();
-        this.civilizationResearchedTechnologiesID.forEach((integer1, integer2) -> civilizationResearchedTechnologies.put(
-                (TechnologyEnum) GLoad.gIn().loadEnum(integer1), (Technology) GLoad.gIn().load(new TechnologyMock(),integer2)));
+        this.civilizationResearchedTechnologiesID.forEach((name, integer2) -> civilizationResearchedTechnologies.put(
+                TechnologyEnum.getTechnologyEnumByName(name), (Technology) GLoad.getInstance().load(new TechnologyMock(),integer2)));
         civilization.setCivilizationResearchedTechnologies(civilizationResearchedTechnologies);
 
         HashMap<TechnologyEnum, Technology> civilizationNotResearchedTechnologies = new HashMap<>();
-        this.civilizationNotResearchedTechnologiesID.forEach((integer1, integer2) -> civilizationNotResearchedTechnologies.put(
-                (TechnologyEnum) GLoad.gIn().loadEnum(integer1), (Technology) GLoad.gIn().load(new TechnologyMock(),integer2)));
+        this.civilizationNotResearchedTechnologiesID.forEach((name, integer2) -> civilizationNotResearchedTechnologies.put(
+                TechnologyEnum.getTechnologyEnumByName(name), (Technology) GLoad.getInstance().load(new TechnologyMock(),integer2)));
         civilization.setCivilizationNotResearchedTechnologies(civilizationNotResearchedTechnologies);
 
 

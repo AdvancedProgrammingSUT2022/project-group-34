@@ -1,7 +1,5 @@
 package app.models.save;
 
-import app.controllers.GLoad;
-import app.controllers.GSave;
 import app.models.Technology;
 import app.models.TechnologyEnum;
 
@@ -15,7 +13,7 @@ public class TechnologyMock extends Mock{
     private boolean isResearching;
     private boolean isResearchable;
     private boolean isResearched;
-    private ArrayList<Integer> prerequisiteTechnologies = new ArrayList<>();
+    private ArrayList<String> prerequisiteTechnologies = new ArrayList<String>();
 
     public TechnologyMock(Technology technology, Integer id) {
         super(id);
@@ -25,7 +23,7 @@ public class TechnologyMock extends Mock{
         this.isResearching = technology.isResearching();
         this.isResearchable = technology.isResearchable();
         this.isResearched = technology.isResearched();
-        technology.getPrerequisiteTechnologies().forEach(technologyEnum -> this.prerequisiteTechnologies.add(GSave.getInstance().save(technologyEnum)));
+        technology.getPrerequisiteTechnologies().forEach(technologyEnum -> this.prerequisiteTechnologies.add(technologyEnum.getName()));
     }
 
     public TechnologyMock() {
@@ -45,7 +43,7 @@ public class TechnologyMock extends Mock{
         technology.setResearched(this.isResearched);
 
         ArrayList<TechnologyEnum> prerequisiteTechnologies = new ArrayList<>();
-        this.prerequisiteTechnologies.forEach(id -> prerequisiteTechnologies.add((TechnologyEnum) GLoad.gIn().loadEnum(id)));
+        this.prerequisiteTechnologies.forEach(name -> prerequisiteTechnologies.add(TechnologyEnum.getTechnologyEnumByName(name)));
         technology.setPrerequisiteTechnologies(prerequisiteTechnologies);
 
         return null;

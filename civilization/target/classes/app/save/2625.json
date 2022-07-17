@@ -1,1 +1,1 @@
-{"name":"Pottery","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2548],"id":2625}
+{"isInFog":true,"x":1,"y":1,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2625}

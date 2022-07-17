@@ -1,1 +1,1 @@
-{"isInFog":true,"x":49,"y":38,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":5134}
+{"name":"HorsebackRiding","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["TheWheel"],"id":5134}

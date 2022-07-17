@@ -244,4 +244,8 @@ public class GameMap extends Map {
     public ArrayList<ArrayList<Tile>> getMap() {
         return map;
     }
+
+    public void setMap(ArrayList<ArrayList<Tile>> map2D) {
+        this.map = map2D;
+    }
 }

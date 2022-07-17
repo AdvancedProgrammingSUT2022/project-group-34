@@ -1,1 +1,1 @@
-{"isInFog":true,"x":49,"y":27,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":5123}
+{"name":"Construction","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Masonry"],"id":5123}

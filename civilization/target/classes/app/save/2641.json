@@ -1,1 +1,1 @@
-{"name":"Chivalry","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2631,2635,2616],"id":2641}
+{"isInFog":true,"x":1,"y":17,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2641}

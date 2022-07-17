@@ -1,1 +1,1 @@
-{"name":"Mathematics","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2610,2572],"id":2609}
+{"isInFog":true,"x":0,"y":36,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2609}

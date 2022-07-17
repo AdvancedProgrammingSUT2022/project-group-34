@@ -1,1 +1,1 @@
-{"name":"Metallurgy","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2553],"id":2594}
+{"isInFog":true,"x":0,"y":20,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2594}

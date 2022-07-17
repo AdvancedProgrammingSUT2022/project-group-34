@@ -1,1 +1,1 @@
-{"name":"Calendar","remainingTerm":0,"cost":70,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2553],"id":2602}
+{"isInFog":true,"x":0,"y":29,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2602}

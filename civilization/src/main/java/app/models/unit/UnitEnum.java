@@ -59,6 +59,14 @@ public enum UnitEnum{
         this.isSiegeTool = isSiegeTool;
     }
 
+    public static UnitEnum getEnumByUnitName(String name) {
+        for (UnitEnum value : values()) {
+            if (value.getName().equals(name))
+                return value;
+        }
+        return null;
+    }
+
     public TechnologyEnum getRequiredTechnology() {
         return requiredTechnology;
     }

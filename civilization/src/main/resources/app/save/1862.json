@@ -1,1 +1,1 @@
-{"isInFog":true,"x":37,"y":8,"movingCost":-33,"terrain":"Snow","isRiver":[true,false,false,false,true,true],"isBlock":false,"id":1862}
+{"isInFog":true,"x":37,"y":8,"movingCost":-32,"terrain":"Desert","feature":"Oasis","isRiver":[false,false,false,false,false,true],"isBlock":false,"id":1862}

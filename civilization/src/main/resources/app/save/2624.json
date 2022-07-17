@@ -1,1 +1,1 @@
-{"name":"Education","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2592],"id":2624}
+{"isInFog":true,"x":1,"y":1,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":2624}

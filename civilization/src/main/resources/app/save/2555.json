@@ -1,1 +1,1 @@
-{"name":"Gunpowder","remainingTerm":0,"cost":680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":[2556,2557],"id":2555}
+{"name":"Education","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Theology"],"id":2555}

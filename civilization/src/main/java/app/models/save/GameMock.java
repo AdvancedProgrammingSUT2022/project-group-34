@@ -47,18 +47,18 @@ public class GameMock extends Mock{
         game.setGameResources(gameResources);
 
         HashMap<String, Technology> gameTechnologies = new HashMap<>();
-        this.gameTechnologiesID.forEach((string , integer) -> gameTechnologies.put(string, (Technology) GLoad.gIn().load(new TechnologyMock(),integer)));
+        this.gameTechnologiesID.forEach((string , integer) -> gameTechnologies.put(string, (Technology) GLoad.getInstance().load(new TechnologyMock(),integer)));
         game.setGameTechnologies(gameTechnologies);
 
         ArrayList<Civilization> civilizations = new ArrayList<>();
-        this.civilizationsID.forEach(id -> civilizations.add((Civilization) GLoad.gIn().load(new CivilizationMock(),id)));
+        this.civilizationsID.forEach(id -> civilizations.add((Civilization) GLoad.getInstance().load(new CivilizationMock(),id)));
         game.setCivilizations(civilizations);
 
         ArrayList<User> users = new ArrayList<>();
-        this.usersID.forEach(id -> users.add((User) GLoad.gIn().load(new UserMock(),id)));
+        this.usersID.forEach(id -> users.add((User) GLoad.getInstance().load(new UserMock(),id)));
         game.setUsers(users);
 
-        game.setMainGameMap((GameMap) GLoad.gIn().load(new GameMapMock(),this.mainGameMapID));
+        game.setMainGameMap((GameMap) GLoad.getInstance().load(new GameMapMock(),this.mainGameMapID));
         game.setTern(this.tern);
 
 
