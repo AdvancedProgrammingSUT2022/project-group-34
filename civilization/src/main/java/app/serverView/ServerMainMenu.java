@@ -23,14 +23,17 @@ public class ServerMainMenu extends ServerMenu{
         return instance;
     }
     public void processOneProcessor(Processor processor) {
-        if (!processor.isValid() || processor.getCategory() == null) sendMessage(new Message(getInvalidCommand()));
-        else if (processor.getCategory().equals("user")) logout(processor);
-        else if (processor.getCategory().equals("play")) playCategoryCommand(processor);
-        else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
-        else sendMessage(new Message(getInvalidCommand()));
+        message = new Message();
+        if (!processor.isValid() || processor.getCategory() == null) message.addLine(getInvalidCommand());
+        else if (processor.getCategory().equals("user")) logout(processor, message);
+        else if (processor.getCategory().equals("play")) playCategoryCommand(processor, message);
+        else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor, message);
+        else message.addLine(getInvalidCommand());
+        sendMessage(message);
     }
 
     private void sendMessage(Message message) {
+        super.sendMessage();
         MainMenu.setMessage(message);
     }
 
@@ -38,27 +41,22 @@ public class ServerMainMenu extends ServerMenu{
 
     //Logouts the user
     //user logout
-    private void logout(Processor processor) {
-
-        Message message = new Message();
+    private void logout(Processor processor, Message message) {
 
         if (processor.getSection() != null && processor.getSection().equals("logout")) {
             UserController.getInstance().setLoggedInUser(null);
             setCurrentMenu("register");
-            message.setMessage("User logged out successfully!");
-        } else message.setMessage(getInvalidCommand());
+            message.addLine("User logged out successfully!");
+        } else message.addLine(getInvalidCommand());
 
-        sendMessage(message);
     }
 
 
     //Handles commands that start with "play"
-    private void playCategoryCommand(Processor processor) {
-        Message message = new Message();
+    private void playCategoryCommand(Processor processor, Message message) {
         if (processor.getSection() != null && processor.getSection().equals("game")) startNewGame(processor,message);
-        else message.setMessage(getInvalidCommand());
+        else message.addLine(getInvalidCommand());
 
-        sendMessage(message);
     }
 
 
@@ -67,19 +65,19 @@ public class ServerMainMenu extends ServerMenu{
     private void startNewGame(Processor processor,Message message) {
         ArrayList<User> users = new ArrayList<>(List.of(UserController.getInstance().getLoggedInUser()));
         if (processor.getNumberOfFields()==0){
-            message.setMessage("Please select some other players");
+            message.addLine("Please select some other players");
             return;
         }
 
         for (int i = 1; i < processor.getNumberOfFields() + 1; i++) {
             if (processor.get("player" + i) == null) {
-                message.setMessage(getInvalidCommand());
+                message.addLine(getInvalidCommand());
                 return;
             } else if (UserController.getInstance().getUserByUsername(processor.get("player" + i)) == null) {
-                message.setMessage("Some of the usernames doesn't exist!");
+                message.addLine("Some of the usernames doesn't exist!");
                 return;
             } else if (UserController.getInstance().getLoggedInUser().getUsername().equals(processor.get("player" + i))) {
-                message.setMessage("Some of the usernames are invalid!");
+                message.addLine("Some of the usernames are invalid!");
                 return;
             } else
                 users.add(UserController.getInstance().getUserByUsername(processor.get("player" + i)));
@@ -87,9 +85,9 @@ public class ServerMainMenu extends ServerMenu{
         if (users.size() > 0) {
             GameController.getInstance().startNewGame(users);
             setCurrentMenu("game");
-            message.setMessage("Game started!");
+            message.addLine("Game started!");
         } else
-            message.setMessage(getInvalidCommand());
+            message.addLine(getInvalidCommand());
     }
 
 

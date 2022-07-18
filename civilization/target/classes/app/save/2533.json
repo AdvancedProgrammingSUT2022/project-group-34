@@ -1,1 +1,1 @@
-{"name":"Banking","remainingTerm":0,"cost":650,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Education","Chivalry"],"id":2533}
+{"name":"Telegraph","remainingTerm":0,"cost":2200,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Electricity"],"id":2533}

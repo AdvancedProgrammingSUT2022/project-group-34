@@ -1,1 +1,1 @@
-{"name":"Chemistry","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Gunpowder"],"id":5096}
+{"name":"Economics","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Banking","PrintingPress"],"id":5096}

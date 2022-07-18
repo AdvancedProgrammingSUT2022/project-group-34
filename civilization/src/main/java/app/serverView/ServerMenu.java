@@ -11,7 +11,7 @@ public class ServerMenu {
 
     private final Scanner scanner = new Scanner(System.in);
     private String currentMenu = "register";
-    private Message message;
+    protected Message message;
 
     protected ServerMenu(){}
 
@@ -24,53 +24,48 @@ public class ServerMenu {
     }
 
 
-    //Scans one line of input
-    protected String getInput() {
-        return scanner.nextLine().trim();
-    }
-
 
     //Handles commands that start with "menu"
-    protected void handleMenuCategoryCommand(Processor processor) {
+    public void handleMenuCategoryCommand(Processor processor, Message message) {
         if (processor.getSection() == null) invalidCommand();
         else {
-            if (processor.getSection().equals("enter")) menuEnter(processor);
+            if (processor.getSection().equals("enter")) menuEnter(processor,message);
             else if (processor.getSection().equals("exit")) menuExit();
-            else if (processor.getSection().equals("show-current")) menuShowCurrent();
-            else invalidCommand();
+            else if (processor.getSection().equals("show-current")) menuShowCurrent(message);
+            else message.addLine(getInvalidCommand());
         }
     }
 
 
     //Enters the asked menu if its possible
     //menu enter <menu name>
-    protected void menuEnter(Processor processor) {
+    protected void menuEnter(Processor processor, Message message) {
         if (processor.getSubSection() == null) {
-            invalidCommand();
+            message.addLine(getInvalidCommand());
             return;
         }
         switch (processor.getSubSection()) {
             case "register":
-                System.out.println("Menu navigation is not possible");
+                message.addLine("Menu navigation is not possible");
                 break;
             case "main":
-                if (currentMenu.equals("register")) System.out.println("Please login first");
+                if (currentMenu.equals("register")) message.addLine("Please login first");
                 else {
                     setCurrentMenu("main");
                     GameController.getInstance().setGame(null);
                 }
                 break;
             case "profile":
-                if (currentMenu.equals("register")) System.out.println("Please login first");
-                else if (currentMenu.equals("game")) System.out.println("Menu navigation is not possible");
+                if (currentMenu.equals("register")) message.addLine("Please login first");
+                else if (currentMenu.equals("game")) message.addLine("Menu navigation is not possible");
                 else setCurrentMenu("profile");
                 break;
             case "game":
-                if (currentMenu.equals("register")) System.out.println("Please login first");
-                else System.out.println("Menu navigation is not possible");
+                if (currentMenu.equals("register")) message.addLine("Please login first");
+                else message.addLine("Menu navigation is not possible");
                 break;
             default:
-                invalidCommand();
+                message.addLine(getInvalidCommand());
                 break;
         }
     }
@@ -90,8 +85,8 @@ public class ServerMenu {
 
     //Shows the menu we are in
     //menu show-current
-    protected void menuShowCurrent() {
-        System.out.println(currentMenu.substring(0, 1).toUpperCase() + currentMenu.substring(1) + " Menu");
+    protected void menuShowCurrent(Message message) {
+        message.addLine(currentMenu.substring(0, 1).toUpperCase() + currentMenu.substring(1) + " Menu");
     }
 
 

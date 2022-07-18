@@ -1,1 +1,1 @@
-{"name":"Machinery","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Engineering"],"id":5130}
+{"name":"Banking","remainingTerm":0,"cost":650,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Education","Chivalry"],"id":5130}

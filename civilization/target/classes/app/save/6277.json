@@ -1,1 +1,1 @@
-{"resource":"Cotton","isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":22,"y":35,"movingCost":-33,"terrain":"Desert","isRiver":[false,false,false,false,true,true],"isBlock":false,"id":6277}
+{"resource":"Incense","isUsableResource":false,"foodRate":3,"goldRate":1,"productionRate":0,"impactOnWar":-32,"hasRoad":false,"hasRail":false,"isLooted":false,"x":22,"y":36,"movingCost":-32,"terrain":"Desert","feature":"Oasis","isRiver":[false,false,false,true,false,false],"isBlock":false,"id":6277}

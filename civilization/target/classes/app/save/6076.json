@@ -1,1 +1,1 @@
-{"resource":"Incense","isUsableResource":false,"foodRate":1,"goldRate":1,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":18,"y":34,"movingCost":-33,"terrain":"Plains","isRiver":[true,true,true,true,false,false],"isBlock":false,"id":6076}
+{"resource":"Sugar","isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":-32,"hasRoad":false,"hasRail":false,"isLooted":false,"x":18,"y":35,"movingCost":-31,"terrain":"Grasslands","feature":"Marsh","isRiver":[false,false,false,false,true,true],"isBlock":false,"id":6076}

@@ -1,1 +1,1 @@
-{"resource":"Iron","isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":41,"y":39,"movingCost":-33,"terrain":"Snow","isRiver":[true,false,false,false,false,true],"isBlock":false,"id":7231}
+{"resource":"Deer","isUsableResource":false,"foodRate":0,"goldRate":2,"productionRate":0,"impactOnWar":2,"hasRoad":false,"hasRail":false,"isLooted":false,"x":41,"y":40,"movingCost":25,"terrain":"Hills","isRiver":[false,false,false,true,false,false],"isBlock":true,"id":7231}

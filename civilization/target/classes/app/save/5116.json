@@ -1,1 +1,1 @@
-{"name":"Philosophy","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Writing"],"id":5116}
+{"name":"Mathematics","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["TheWheel","Archery"],"id":5116}

@@ -19,11 +19,12 @@ public class ProfileMenu extends Menu {
     }
 
     private static void printMessage(Message message) {
-        if (message.getMessage() != null)
-            System.out.println(message.getMessage());
+        if (message.getMessageString() != null)
+            System.out.println(message.getMessageString());
     }
 
     public static void setMessage(Message message) {
+        Menu.setMessage(message);
         ProfileMenu.message = message;
     }
 }

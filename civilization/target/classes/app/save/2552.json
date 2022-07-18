@@ -1,1 +1,1 @@
-{"name":"MetalCasting","remainingTerm":0,"cost":240,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["IronWorking"],"id":2552}
+{"name":"Machinery","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Engineering"],"id":2552}

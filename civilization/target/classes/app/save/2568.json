@@ -1,1 +1,1 @@
-{"name":"Theology","remainingTerm":0,"cost":250,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Calendar","Philosophy"],"id":2568}
+{"name":"TheWheel","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["AnimalHusbandry"],"id":2568}

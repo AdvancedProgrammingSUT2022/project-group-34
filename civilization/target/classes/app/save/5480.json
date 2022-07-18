@@ -1,1 +1,1 @@
-{"resource":"Iron","isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":6,"y":38,"movingCost":-33,"terrain":"Snow","isRiver":[false,true,false,false,false,false],"isBlock":false,"id":5480}
+{"isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":6,"y":39,"movingCost":-33,"terrain":"Tundra","isRiver":[false,false,false,true,false,true],"isBlock":false,"id":5480}

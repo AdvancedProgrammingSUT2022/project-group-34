@@ -1,1 +1,1 @@
-{"name":"Physics","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Engineering","MetalCasting"],"id":5125}
+{"name":"Education","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Theology"],"id":5125}

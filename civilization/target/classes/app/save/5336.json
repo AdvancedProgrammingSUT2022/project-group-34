@@ -1,1 +1,1 @@
-{"resource":"Dyes","isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":1,"impactOnWar":26,"hasRoad":false,"hasRail":false,"isLooted":false,"x":3,"y":44,"movingCost":-31,"terrain":"Tundra","feature":"Forests","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":5336}
+{"resource":"Gems","isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":3,"y":45,"movingCost":-33,"terrain":"Grasslands","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":5336}

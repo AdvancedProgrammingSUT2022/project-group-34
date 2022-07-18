@@ -1,1 +1,1 @@
-{"resource":"Incense","isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":41,"y":40,"movingCost":-33,"terrain":"Desert","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":7232}
+{"resource":"Sheep","isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":41,"y":41,"movingCost":-33,"terrain":"Grasslands","isRiver":[true,false,false,false,false,false],"isBlock":false,"id":7232}

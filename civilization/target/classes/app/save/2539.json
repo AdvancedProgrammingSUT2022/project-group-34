@@ -1,1 +1,1 @@
-{"name":"MilitaryScience","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Economics","Chemistry"],"id":2539}
+{"name":"Metallurgy","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Gunpowder"],"id":2539}

@@ -1,1 +1,1 @@
-{"name":"Agriculture","remainingTerm":0,"cost":20,"isResearching":false,"isResearchable":false,"isResearched":true,"prerequisiteTechnologies":[],"id":5094}
+{"name":"Writing","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Pottery"],"id":5094}

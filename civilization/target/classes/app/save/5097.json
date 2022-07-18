@@ -1,1 +1,1 @@
-{"name":"Fertilize","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Chemistry"],"id":5097}
+{"name":"Philosophy","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Writing"],"id":5097}

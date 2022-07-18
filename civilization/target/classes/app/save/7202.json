@@ -1,1 +1,1 @@
-{"resource":"Deer","isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":1,"impactOnWar":26,"hasRoad":false,"hasRail":false,"isLooted":false,"x":41,"y":10,"movingCost":-31,"terrain":"Tundra","feature":"Forests","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":7202}
+{"resource":"Deer","isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":41,"y":11,"movingCost":-33,"terrain":"Tundra","isRiver":[false,false,true,false,false,true],"isBlock":false,"id":7202}

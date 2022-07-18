@@ -1,27 +1,34 @@
 package app.models.connection;
 
 public class Message {
-    String message;
+    StringBuilder message;
     String currentMenu;
 
     public Message() {
-        this.message = null;
+        this.message = new StringBuilder();
         this.currentMenu = null;
     }
 
     public Message(String message) {
-        this.message = message;
+        this.message = new StringBuilder(message);
         this.currentMenu = null;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMessageString() {
+        return message.toString();
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void addLine(String mess) {
+        if (mess.length() != 0)
+            this.message.append("\n");
+        this.message.append(mess);
     }
 
-    public void setCurrentMenu(String main) {
+    public void setCurrentMenu(String menu) {
+        currentMenu = menu;
+    }
+
+    public String getCurrentMenu() {
+        return currentMenu;
     }
 }

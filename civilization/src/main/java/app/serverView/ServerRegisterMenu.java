@@ -18,10 +18,12 @@ public class ServerRegisterMenu extends ServerMenu{
     }
 
     public void proccessOneProcessor(Processor processor) {
-        if (!processor.isValid() || processor.getCategory() == null) sendMessage(new Message(getInvalidCommand()));
-        else if (processor.getCategory().equals("user")) handleUserCategoryCommand(processor);
-        else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
-        else sendMessage(new Message(getInvalidCommand()));
+        message = new Message();
+        if (!processor.isValid() || processor.getCategory() == null) message.addLine(getInvalidCommand());
+        else if (processor.getCategory().equals("user")) handleUserCategoryCommand(processor,message);
+        else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor,message);
+        else message.addLine(getInvalidCommand());
+        sendMessage(message);
     }
 
     private void sendMessage(Message message) {
@@ -31,14 +33,14 @@ public class ServerRegisterMenu extends ServerMenu{
 
     //Handles commands that start with "user"
 
-    private void handleUserCategoryCommand(Processor processor) {
+    private void handleUserCategoryCommand(Processor processor, Message message) {
         if (processor.getSection() != null &&
                 processor.getSection().equals("register"))
             register(processor);
         else if (processor.getSection() != null &&
                 processor.getSection().equals("login"))
             login(processor);
-        else sendMessage(new Message(getInvalidCommand()));
+        else message.addLine(getInvalidCommand());
     }
 
     //Creates a user if it has wanted conditions
@@ -55,16 +57,16 @@ public class ServerRegisterMenu extends ServerMenu{
                 password == null ||
                 nickname == null ||
                 processor.getNumberOfFields() != 3)
-            message.setMessage(getInvalidCommand());
+            message.addLine(getInvalidCommand());
         else if (UserController.getInstance().getUserByUsername(username) != null)
-            message.setMessage("A user with username " + username + " already exists\n");
+            message.addLine("A user with username " + username + " already exists\n");
         else if (UserController.getInstance().getUserByNickname(nickname) != null)
-            message.setMessage("A user with nickname " + nickname + " already exists\n");
+            message.addLine("A user with nickname " + nickname + " already exists\n");
         else if (!UserController.getInstance().isPasswordStrong(password))
-            message.setMessage("Password is weak!");
+            message.addLine("Password is weak!");
         else {
             UserController.getInstance().getUsers().add(new User(username, password, nickname));
-            message.setMessage("User Created successfully!");
+            message.addLine("User Created successfully!");
         }
 
         sendMessage(message);
@@ -83,15 +85,15 @@ public class ServerRegisterMenu extends ServerMenu{
         if (username == null ||
                 password == null ||
                 processor.getNumberOfFields() != 2)
-            message.setMessage(getInvalidCommand());
+            message.addLine(getInvalidCommand());
         else if ((user = UserController.getInstance().getUserByUsername(username)) == null)
-            message.setMessage("Username or password didn't match!");
+            message.addLine("Username or password didn't match!");
         else if (!user.isPasswordCorrect(password))
-            message.setMessage("Username or password didn't match!");
+            message.addLine("Username or password didn't match!");
         else {
             UserController.getInstance().setLoggedInUser(user);
             setCurrentMenu("main");
-            message.setMessage("User logged in successfully!");
+            message.addLine("User logged in successfully!");
         }
 
         sendMessage(message);

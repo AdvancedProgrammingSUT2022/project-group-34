@@ -1,1 +1,1 @@
-{"resource":"Gold","isUsableResource":false,"foodRate":1,"goldRate":2,"productionRate":-1,"impactOnWar":27,"hasRoad":false,"hasRail":false,"isLooted":false,"x":37,"y":19,"movingCost":27,"terrain":"Hills","feature":"Jungle","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":7011}
+{"isUsableResource":false,"foodRate":2,"goldRate":1,"productionRate":-1,"impactOnWar":26,"hasRoad":false,"hasRail":false,"isLooted":false,"x":37,"y":20,"movingCost":-31,"terrain":"Plains","feature":"Jungle","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":7011}

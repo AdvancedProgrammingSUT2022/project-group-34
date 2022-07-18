@@ -1,1 +1,1 @@
-{"isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":30,"y":24,"movingCost":-33,"terrain":"Tundra","isRiver":[true,false,false,false,false,true],"isBlock":false,"id":6666}
+{"resource":"Iron","isUsableResource":false,"foodRate":1,"goldRate":2,"productionRate":1,"impactOnWar":27,"hasRoad":false,"hasRail":false,"isLooted":false,"x":30,"y":25,"movingCost":27,"terrain":"Hills","feature":"Forests","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":6666}

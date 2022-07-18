@@ -1,1 +1,1 @@
-{"name":"Trapping","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["AnimalHusbandry"],"id":2569}
+{"name":"Chivalry","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["CivilService","HorsebackRiding","Currency"],"id":2569}

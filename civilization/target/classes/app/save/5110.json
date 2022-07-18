@@ -1,1 +1,1 @@
-{"name":"Rifling","remainingTerm":0,"cost":1425,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Metallurgy"],"id":5110}
+{"name":"MilitaryScience","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Economics","Chemistry"],"id":5110}

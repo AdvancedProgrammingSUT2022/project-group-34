@@ -1,1 +1,1 @@
-{"resource":"Ivory","isUsableResource":false,"foodRate":1,"goldRate":1,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":21,"y":15,"movingCost":-33,"terrain":"Plains","isRiver":[false,false,false,true,false,false],"isBlock":false,"id":6207}
+{"resource":"Gold","isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":21,"y":16,"movingCost":-33,"terrain":"Desert","isRiver":[false,true,false,true,false,false],"isBlock":false,"id":6207}

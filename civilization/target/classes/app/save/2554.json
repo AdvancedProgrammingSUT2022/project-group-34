@@ -1,1 +1,1 @@
-{"name":"HorsebackRiding","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["TheWheel"],"id":2554}
+{"name":"MetalCasting","remainingTerm":0,"cost":240,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["IronWorking"],"id":2554}

@@ -1,1 +1,1 @@
-{"resource":"Gold","isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":21,"y":8,"movingCost":-33,"terrain":"Desert","isRiver":[true,true,false,false,false,true],"isBlock":false,"id":6200}
+{"resource":"Cotton","isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":21,"y":9,"movingCost":-33,"terrain":"Desert","isRiver":[true,true,false,false,false,false],"isBlock":false,"id":6200}

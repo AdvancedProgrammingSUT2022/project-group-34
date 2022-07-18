@@ -1,1 +1,1 @@
-{"name":"Acoustics","remainingTerm":0,"cost":650,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Education"],"id":5126}
+{"name":"Electricity","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Biology","SteamPower"],"id":5126}

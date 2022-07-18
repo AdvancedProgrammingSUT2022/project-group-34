@@ -1,1 +1,1 @@
-{"name":"Gunpowder","remainingTerm":0,"cost":680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Physics","Steel"],"id":5131}
+{"name":"CivilService","remainingTerm":0,"cost":400,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Philosophy","Trapping"],"id":5131}

@@ -1,1 +1,1 @@
-{"resource":"Furs","isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":1,"hasRoad":false,"hasRail":false,"isLooted":false,"x":17,"y":20,"movingCost":-33,"terrain":"Tundra","isRiver":[false,false,true,false,true,false],"isBlock":false,"id":6012}
+{"resource":"Gems","isUsableResource":false,"foodRate":3,"goldRate":1,"productionRate":0,"impactOnWar":-32,"hasRoad":false,"hasRail":false,"isLooted":false,"x":17,"y":21,"movingCost":-32,"terrain":"Desert","feature":"Oasis","isRiver":[true,true,false,true,false,false],"isBlock":false,"id":6012}
