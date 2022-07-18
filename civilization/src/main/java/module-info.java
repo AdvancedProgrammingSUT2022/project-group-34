@@ -16,6 +16,8 @@ open module civilization {
     exports app.models.map;
     exports app.models.tile;
     exports app.models.unit;
+    exports app.models.connection;
+    exports app.serverView;
     //opens app.models.save to com.google.gson, javafx.fxml;
 
 }
