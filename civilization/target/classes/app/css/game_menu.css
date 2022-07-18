@@ -3,11 +3,11 @@ BorderPane {
     -fx-pref-height: 720;
     -fx-pref-width: 1280;
     -fx-alignment: Center;
-    -fx-padding: 100 275 75 300;
+    -fx-padding: 100 275 75 275;
 }
 
 HBox {
-    -fx-alignment: left;
+    -fx-alignment: top-left;
     -fx-spacing: 10;
 }
 
@@ -25,7 +25,7 @@ TextField {
 }
 
 VBox {
-    -fx-alignment: left;
+    -fx-alignment: top-left;
     -fx-spacing: 70;
 }
 
