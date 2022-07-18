@@ -151,6 +151,7 @@ public class GameMenuController {
                 break;
         }
         GameController.getInstance().startNewGame(users,mapScale);
+        App.setMenu("game_view");
     }
 
     @FXML

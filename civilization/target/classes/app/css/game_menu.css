@@ -2,11 +2,20 @@ BorderPane {
     -fx-background-image: url("../background/game_menu.png");
     -fx-pref-height: 720;
     -fx-pref-width: 1280;
+<<<<<<< HEAD
     -fx-alignment: center;
     -fx-padding: 100 225 30 225;
 }
 
 HBox {
+=======
+    -fx-alignment: Center;
+    -fx-padding: 100 275 75 275;
+}
+
+HBox {
+    -fx-alignment: top-left;
+>>>>>>> origin/Seyyed
     -fx-spacing: 10;
 }
 
@@ -27,6 +36,14 @@ TextField {
     -fx-translate-y: -4;
 }
 
+<<<<<<< HEAD
+=======
+VBox {
+    -fx-alignment: top-left;
+    -fx-spacing: 70;
+}
+
+>>>>>>> origin/Seyyed
 Button {
     -fx-pref-width: 250;
     -fx-pref-height: 50;
