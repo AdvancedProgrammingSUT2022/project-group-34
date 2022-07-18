@@ -15,6 +15,8 @@ public class GameViewController {
     private final int VIEW_MAP_WIDTH = 9;
     private final int TILE_HEIGHT = 120;
     private final int TILE_WIDTH = 140;
+    private final int UP_PADDING = 60;
+    private final int LEFT_PADDING = 10;
 
     private int mapX = VIEW_MAP_HEIGHT / 2;
     private int mapY = VIEW_MAP_WIDTH / 2;
@@ -50,6 +52,31 @@ public class GameViewController {
                 int x = mapX + i;
                 int y = mapY + j;
                 VisibleTile visibleTile = personalMap.getTileByXY(x, y);
+
+                int upperBound;
+                int leftBound = TILE_WIDTH * (j + VIEW_MAP_WIDTH / 2) + LEFT_PADDING;
+                if (j % 2 == 0) {
+                    upperBound = TILE_HEIGHT * (i + VIEW_MAP_HEIGHT / 2) + UP_PADDING;
+                } else {
+                    if (mapY % 2 == 1) {
+                        upperBound = TILE_HEIGHT * (i + VIEW_MAP_HEIGHT / 2) - TILE_HEIGHT / 2 + UP_PADDING;
+                    } else {
+                        upperBound = TILE_HEIGHT * (i + VIEW_MAP_HEIGHT / 2) + TILE_HEIGHT / 2 + UP_PADDING;
+                    }
+                }
+
+                putTile(civilization, visibleTile, x, y, upperBound, leftBound);
             }
         }
+    }
+
+    private void putTile(Civilization civilization, VisibleTile visibleTile, int x, int y, int upperBound, int leftBound) {
+        putTileBorders(civilization, upperBound, leftBound, x, y);
+
+        //TODO...
+    }
+
+    private void putTileBorders(Civilization civilization, int upperBound, int leftBound, int x, int y) {
+        //TODO...
+    }
 }
