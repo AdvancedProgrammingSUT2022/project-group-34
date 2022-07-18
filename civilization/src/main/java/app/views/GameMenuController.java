@@ -126,16 +126,31 @@ public class GameMenuController {
             return;
         }
         ArrayList<User> users = new ArrayList<>();
+        users.add(UserController.getInstance().getLoggedInUser());
         for (String username : usernames) {
             User user;
-            if ((user = UserController.getInstance().getUserByUsername(username)) == null)
+            if ((user = UserController.getInstance().getUserByUsername(username)) == null) {
                 startGameError.setText("Invalid username");
-            else if (users.contains(user))
+                return;
+            } else if (users.contains(user)) {
                 startGameError.setText("Some usernames are duplicate");
-            else
+                return;
+            } else
                 users.add(user);
         }
-        // TODO: start game
+        int mapScale = 13;
+        switch (sizeOfTheMap.getValue()){
+            case "Small":
+                mapScale=12;
+                break;
+            case "Large":
+                mapScale=14;
+                break;
+            case "Extra Large":
+                mapScale=15;
+                break;
+        }
+        GameController.getInstance().startNewGame(users,mapScale);
     }
 
     @FXML

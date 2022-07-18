@@ -40,8 +40,8 @@ public class GameController {
         return civilization;
     }
 
-    public void startNewGame(ArrayList<User> users) {
-        game = new Game(users);
+    public void startNewGame(ArrayList<User> users, int mapScale) {
+        game = new Game(users, mapScale);
         GameMap mainGameMap = game.getMainGameMap();
         for (Civilization civilization : game.getCivilizations()) {
             civilization.setPersonalMap(new CivilizationMap(mainGameMap.getMapWidth(), mainGameMap.getMapHeight(), mainGameMap));

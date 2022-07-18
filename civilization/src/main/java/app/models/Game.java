@@ -23,8 +23,8 @@ public class Game {
 
     private int tern;
 
-    public Game(ArrayList<User> users) {
-        mainGameMap = new GameMap(50, 50);
+    public Game(ArrayList<User> users, int mapScale) {
+        mainGameMap = new GameMap(users.size() * mapScale, users.size() * mapScale);
         mainGameMap.generateMap();
         ArrayList<Settler> settlers = makeRandomSettlers(mainGameMap, users.size());
         for (int i = 0; i < users.size(); i++) {
