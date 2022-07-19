@@ -4,22 +4,29 @@ import app.controllers.CivilizationController;
 import app.controllers.GameController;
 import app.models.Civilization;
 import app.models.map.CivilizationMap;
+import app.models.tile.Feature;
+import app.models.tile.Terrain;
 import app.models.tile.Tile;
 import app.models.tile.VisibleTile;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+
+import java.util.HashMap;
 
 public class GameViewController {
     private final int VIEW_MAP_HEIGHT = 5;
-    private final int VIEW_MAP_WIDTH = 9;
-    private final int TILE_HEIGHT = 120;
-    private final int TILE_WIDTH = 140;
-    private final int UP_PADDING = 60;
-    private final int LEFT_PADDING = 10;
+    private final int VIEW_MAP_WIDTH = 11;
+    private final int TILE_HEIGHT = 124;
+    private final int TILE_WIDTH = 144;
+    private final int UP_PADDING = 50;
+    private final int LEFT_PADDING = 28;
 
     private int mapX = VIEW_MAP_HEIGHT / 2;
     private int mapY = VIEW_MAP_WIDTH / 2;
+
+    private HashMap<String, Image> loadedImages = new HashMap<>();
 
     @FXML
     private BorderPane pane;
@@ -54,7 +61,7 @@ public class GameViewController {
                 VisibleTile visibleTile = personalMap.getTileByXY(x, y);
 
                 int upperBound;
-                int leftBound = TILE_WIDTH * (j + VIEW_MAP_WIDTH / 2) + LEFT_PADDING;
+                int leftBound = TILE_WIDTH * 3 / 4 * (j + VIEW_MAP_WIDTH / 2) + LEFT_PADDING;
                 if (j % 2 == 0) {
                     upperBound = TILE_HEIGHT * (i + VIEW_MAP_HEIGHT / 2) + UP_PADDING;
                 } else {
@@ -65,18 +72,40 @@ public class GameViewController {
                     }
                 }
 
-                putTile(civilization, visibleTile, x, y, upperBound, leftBound);
+                putTile(visibleTile, x, y, upperBound, leftBound);
             }
         }
     }
 
-    private void putTile(Civilization civilization, VisibleTile visibleTile, int x, int y, int upperBound, int leftBound) {
-        putTileBorders(civilization, upperBound, leftBound, x, y);
+    private void putTile(VisibleTile visibleTile, int x, int y, int upperBound, int leftBound) {
+        putTileBorders(upperBound, leftBound, x, y);
 
+        if (visibleTile.isInFog()) {
+            putTerrainFeature(null, null, upperBound, leftBound);
+        }
+    }
+
+    private void putTileBorders(int upperBound, int leftBound, int x, int y) {
         //TODO...
     }
 
-    private void putTileBorders(Civilization civilization, int upperBound, int leftBound, int x, int y) {
+    private void putTerrainFeature(Terrain terrain, Feature feature, int upperBound, int leftBound) {
         //TODO...
+        String fileName = terrain + "_" + feature + ".png";
+        String filePath = "/app/assets/tiles/" + fileName;
+        ImageView imageView = new ImageView(getImage(filePath));
+        imageView.setY(upperBound);
+        imageView.setX(leftBound);
+        imageView.getStyleClass().add("tile");
+        tilePane.getChildren().add(imageView);
+    }
+
+    private Image getImage(String filePath) {
+        Image image = loadedImages.get(filePath);
+        if (image == null) {
+            image = new Image(getClass().getResource(filePath).toExternalForm());
+            loadedImages.put(filePath, image);
+        }
+        return image;
     }
 }

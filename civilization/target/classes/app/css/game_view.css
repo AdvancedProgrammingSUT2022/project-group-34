@@ -23,6 +23,14 @@ Button {
     -fx-border-color: #00ff55;
 }
 
-Button: hover {
+Button:hover {
     -fx-effect: dropshadow(gaussian, white, 10, 0, 0, 0);
+}
+
+.tile {
+    -fx-border-color: black;
+}
+
+.tile:hover {
+    -fx-effect: dropshadow(gaussian, orange, 10, 0, 0, 0);
 }
