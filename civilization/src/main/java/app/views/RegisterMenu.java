@@ -17,13 +17,6 @@ public class RegisterMenu extends Menu {
         }
     }
 
-    private static void printMessage(Message message) {
-        System.out.println("current Menu :" + getCurrentMenu());
-        if (message.getMessageString().length() != 0) {
-            System.out.println(message.getMessageString());
-        }
-    }
-
     public static void setMessage(Message message) {
         Menu.setMessage(message);
         RegisterMenu.message = message;

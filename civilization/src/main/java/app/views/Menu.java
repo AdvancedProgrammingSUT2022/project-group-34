@@ -1,7 +1,6 @@
 package app.views;
 
 import app.models.connection.Message;
-import app.serverView.ServerGameMenu;
 
 import java.util.Scanner;
 
@@ -36,21 +35,14 @@ public class Menu {
         return currentMenu;
     }
 
-    //Handles commands that start with "menu"
-    protected static void handleMenuCategoryCommand(Processor processor) {
-        ServerGameMenu.getInstance().handleMenuCategoryCommand(processor,new Message());
-    }
 
-    //Prints "invalid command" if command is invalid
-    protected static void invalidCommand() {
-        System.out.println("Invalid command!");
-    }
-
-
-    protected static String getInvalidCommand() {
-        return "Invalid command!";
-    }
     protected static void setMessage(Message message) {
         currentMenu = message.getCurrentMenu();
+    }
+
+    protected static void printMessage(Message message) {
+        if (message.getMessageString().length() != 0) {
+            System.out.println(message.getMessageString());
+        }
     }
 }
