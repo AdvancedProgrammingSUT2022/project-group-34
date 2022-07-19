@@ -91,7 +91,7 @@ public class ServerMainMenu extends ServerMenu{
     }
 
 
-    private void loadGame(Processor processor) {
+    private void loadGame(Processor processor, Message message) {
         // TODO: Not phase1
     }
 }

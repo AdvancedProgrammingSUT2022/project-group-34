@@ -19,7 +19,7 @@ public class Message {
     }
 
     public void addLine(String mess) {
-        if (mess.length() != 0)
+        if (message.length() != 0)
             this.message.append("\n");
         this.message.append(mess);
     }

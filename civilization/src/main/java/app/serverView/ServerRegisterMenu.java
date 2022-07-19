@@ -28,6 +28,7 @@ public class ServerRegisterMenu extends ServerMenu{
 
     private void sendMessage(Message message) {
         super.sendMessage();
+        System.out.println("SRM + sendMessage + message : " + message.getCurrentMenu() + " " + message.getMessageString());
         RegisterMenu.setMessage(message);
     }
 
@@ -36,22 +37,20 @@ public class ServerRegisterMenu extends ServerMenu{
     private void handleUserCategoryCommand(Processor processor, Message message) {
         if (processor.getSection() != null &&
                 processor.getSection().equals("register"))
-            register(processor);
+            register(processor,message);
         else if (processor.getSection() != null &&
                 processor.getSection().equals("login"))
-            login(processor);
+            login(processor,message);
         else message.addLine(getInvalidCommand());
     }
 
     //Creates a user if it has wanted conditions
     //register --username <username> --nickname <nickname> --password <password>
 
-    private void register(Processor processor) {
+    private void register(Processor processor, Message message) {
         String username = processor.get("username");
         String password = processor.get("password");
         String nickname = processor.get("nickname");
-
-        Message message = new Message();
 
         if (username == null ||
                 password == null ||
@@ -59,9 +58,9 @@ public class ServerRegisterMenu extends ServerMenu{
                 processor.getNumberOfFields() != 3)
             message.addLine(getInvalidCommand());
         else if (UserController.getInstance().getUserByUsername(username) != null)
-            message.addLine("A user with username " + username + " already exists\n");
+            message.addLine("A user with username " + username + " already exists");
         else if (UserController.getInstance().getUserByNickname(nickname) != null)
-            message.addLine("A user with nickname " + nickname + " already exists\n");
+            message.addLine("A user with nickname " + nickname + " already exists");
         else if (!UserController.getInstance().isPasswordStrong(password))
             message.addLine("Password is weak!");
         else {
@@ -69,18 +68,15 @@ public class ServerRegisterMenu extends ServerMenu{
             message.addLine("User Created successfully!");
         }
 
-        sendMessage(message);
     }
 
 
     //Login the user if it exists or password is correct
     //user login --username <username> --password <password>
-    private void login(Processor processor) {
+    private void login(Processor processor, Message message) {
         String username = processor.get("username");
         String password = processor.get("password");
-        User user;
-
-        Message message = new Message();
+        User user = null;
 
         if (username == null ||
                 password == null ||
@@ -96,7 +92,7 @@ public class ServerRegisterMenu extends ServerMenu{
             message.addLine("User logged in successfully!");
         }
 
-        sendMessage(message);
+
     }
 
 }

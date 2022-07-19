@@ -27,7 +27,7 @@ public class ServerMenu {
 
     //Handles commands that start with "menu"
     public void handleMenuCategoryCommand(Processor processor, Message message) {
-        if (processor.getSection() == null) invalidCommand();
+        if (processor.getSection() == null) message.addLine(getInvalidCommand());
         else {
             if (processor.getSection().equals("enter")) menuEnter(processor,message);
             else if (processor.getSection().equals("exit")) menuExit();

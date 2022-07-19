@@ -17,7 +17,6 @@ public class Menu {
         while (true) {
             RegisterMenu.processOneCommand();
             if (currentMenu.equals("end")) return;
-
             while (true) {
                 MainMenu.processOneCommand();
                 if (currentMenu.equals("register")) break;
