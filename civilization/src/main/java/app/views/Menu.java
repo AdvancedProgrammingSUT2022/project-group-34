@@ -46,6 +46,10 @@ public class Menu {
         System.out.println("Invalid command!");
     }
 
+
+    protected static String getInvalidCommand() {
+        return "Invalid command!";
+    }
     protected static void setMessage(Message message) {
         currentMenu = message.getCurrentMenu();
     }

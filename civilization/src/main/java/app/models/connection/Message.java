@@ -18,10 +18,10 @@ public class Message {
         return message.toString();
     }
 
-    public void addLine(String mess) {
+    public <T> void addLine(T mess) {
         if (message.length() != 0)
             this.message.append("\n");
-        this.message.append(mess);
+        this.message.append(mess.toString());
     }
 
     public void setCurrentMenu(String menu) {

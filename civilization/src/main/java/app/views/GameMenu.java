@@ -2,6 +2,7 @@ package app.views;
 
 import app.controllers.CheatController;
 import app.models.*;
+import app.models.connection.Message;
 import app.models.map.CivilizationMap;
 import app.models.map.GameMap;
 import app.models.tile.*;
@@ -16,6 +17,8 @@ import app.models.resource.StrategicResource;
 import java.util.*;
 
 public class GameMenu extends Menu {
+
+    private static Message message;
     private final static int VIEW_MAP_WIDTH = 9;
     private final static int VIEW_MAP_HEIGHT = 7;
 
@@ -62,18 +65,29 @@ public class GameMenu extends Menu {
         while (getCurrentMenu().equals("game")) {
             showMap();
             processor = new Processor(getInput());
-
-            if (!processor.isValid() || processor.getCategory() == null) invalidCommand();
-            else if (processor.getCategory().equals("select")) handleSelectCategoryCommand(processor);
-            else if (processor.getCategory().equals("unit")) handleUnitCategoryCommand(processor);
-            else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
-            else if (processor.getCategory().equals("info")) handleInfoCategoryCommand(processor);
-            else if (processor.getCategory().equals("city")) handleCityCategoryCommand(processor);
-            else if (processor.getCategory().equals("cheat")) handleCheatCategoryCommand(processor);
-            else if (processor.getCategory().equals("map")) handleMapCategoryCommand(processor);
-            else if (processor.getCategory().equals("end")) handleEndCategoryCommand(processor);
-            else invalidCommand();
+            processOneProcessor(processor);
         }
+    }
+
+    private static void processOneProcessor(Processor processor) {
+        Message message = new Message();
+        if (!processor.isValid() || processor.getCategory() == null) message.addLine(getInvalidCommand());
+        else if (processor.getCategory().equals("select")) handleSelectCategoryCommand(processor, message);
+        else if (processor.getCategory().equals("unit")) handleUnitCategoryCommand(processor);
+        else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor);
+        else if (processor.getCategory().equals("info")) handleInfoCategoryCommand(processor);
+        else if (processor.getCategory().equals("city")) handleCityCategoryCommand(processor);
+        else if (processor.getCategory().equals("cheat")) handleCheatCategoryCommand(processor);
+        else if (processor.getCategory().equals("map")) handleMapCategoryCommand(processor);
+        else if (processor.getCategory().equals("end")) handleEndCategoryCommand(processor);
+        else message.addLine(getInvalidCommand());
+        sendMessage(message);
+    }
+
+
+    private static void sendMessage(Message message) {
+        //super.sendMessage();
+        GameMenu.setMessage(message);
     }
 
 
@@ -82,76 +96,76 @@ public class GameMenu extends Menu {
     2.select unit noncombat --x <x> --y <y>
     3.select city --name <name>
     4.select city --x <x> --y <y>*/
-    private static void handleSelectCategoryCommand(Processor processor) {
+    private static void handleSelectCategoryCommand(Processor processor, Message message) {
         String x = processor.get("x");
         String y = processor.get("y");
         String name = processor.get("nickname");
         if (name == null) name = processor.get("name");
 
         if (processor.getSection() == null)
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else if (processor.getSection().equals("unit")) {
             if (x == null || y == null ||
                     processor.getNumberOfFields() != 2 ||
                     processor.getSubSection() == null ||
                     (!processor.getSubSection().equals("combat") && !processor.getSubSection().equals("noncombat")))
-                invalidCommand();
+                message.addLine(getInvalidCommand());
             else selectUnit(new int[]{Integer.parseInt(x), Integer.parseInt(y)}, processor.getSubSection());
         } else if (processor.getSection().equals("city")) {
-            if (processor.getSubSection() != null) invalidCommand();
+            if (processor.getSubSection() != null) message.addLine(getInvalidCommand());
             else if (x != null) {
-                if (y == null || processor.getNumberOfFields() != 2) invalidCommand();
+                if (y == null || processor.getNumberOfFields() != 2) message.addLine(getInvalidCommand());
                 else selectCity(new int[]{Integer.parseInt(x), Integer.parseInt(y)});
             } else if (name != null) {
-                if (processor.getNumberOfFields() != 1) invalidCommand();
+                if (processor.getNumberOfFields() != 1) message.addLine(getInvalidCommand());
                 else selectCity(name);
-            } else invalidCommand();
+            } else message.addLine(getInvalidCommand());
         } else
-            invalidCommand();
+            message.addLine(getInvalidCommand());
     }
 
     private static void selectUnit(int[] position, String unitType) {
         switch (CivilizationController.getInstance().selectUnit(position, unitType)) {
             case "invalid position":
-                System.out.println("Position is invalid");
+                message.addLine("Position is invalid");
                 break;
             case "no such unit":
-                System.out.format("No %s unit exists in position[%d %d]\n",
-                        unitType.substring(0, 1).toUpperCase() + unitType.substring(1), position[0], position[1]);
+                message.addLine("No " + unitType.substring(0, 1).toUpperCase() + unitType.substring(1) +
+                                " unit exists in position[" + position[0] + " " + position[1] + "]");
                 break;
             case "not yours":
-                System.out.println("This unit is not yours");
+                message.addLine("This unit is not yours");
                 break;
             case "combat":
                 selectedCombatUnit = CivilizationController.getInstance().getCombatUnitByPosition(position);
                 selectedNonCombatUnit = null;
                 selectedCity = null;
-                System.out.println("Combat unit selected");
+                message.addLine("Combat unit selected");
                 break;
             case "noncombat":
                 selectedNonCombatUnit = CivilizationController.getInstance().getNonCombatUnitByPosition(position);
                 selectedCombatUnit = null;
                 selectedCity = null;
-                System.out.println("Noncombat unit selected");
+                message.addLine("Noncombat unit selected");
                 break;
         }
     }
 
-    private static void selectCity(int[] position) {
+    private static void selectCity(int[] position, Message message) {
         Tile tile = CivilizationController.getInstance().getTileByPosition(position);
         City city = tile.getCity();
 
         if (tile == null)
-            System.out.println("Position is invalid");
+            message.addLine("Position is invalid");
         else if (tile.getCity() == null)
-            System.out.println("There is no city in the selected area");
+            message.addLine("There is no city in the selected area");
         else if (!GameController.getInstance().getCivilization().getCities().contains(city))
-            System.out.println("This city is not in your territory");
+            message.addLine("This city is not in your territory");
         else {
             selectedCity = city;
             selectedCombatUnit = null;
             selectedNonCombatUnit = null;
-            System.out.format("%s city is selected\n", city.getName());
+            message.addLine(String.format("%s city is selected\n", city.getName()));
         }
     }
 
@@ -164,13 +178,13 @@ public class GameMenu extends Menu {
                     selectedCity = city;
                     selectedCombatUnit = null;
                     selectedNonCombatUnit = null;
-                    System.out.format("%s city is selected\n", city.getName());
-                } else System.out.println("This city is not in your territory");
+                    message.addLine(String.format("%s city is selected\n", city.getName()));
+                } else message.addLine("This city is not in your territory");
 
                 return;
             }
         }
-        System.out.format("There is no city named %s\n", name);
+        message.addLine(String.format("There is no city named %s\n", name));
     }
 
 
@@ -197,9 +211,9 @@ public class GameMenu extends Menu {
 
         // TODO: Booleans in unit class (Specially combat units)
         if (selectedCombatUnit == null && selectedNonCombatUnit == null)
-            System.out.println("Please select a unit first");
+            message.addLine("Please select a unit first");
         else if (processor.getSection() == null)
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else if (processor.getSection().equals("moveto"))
             movetoCommand(processor);
         else if (processor.getSection().equals("sleep"))
@@ -233,7 +247,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("repair"))
             repairCommand();
         else
-            invalidCommand();
+            message.addLine(getInvalidCommand());
     }
 
     private static void movetoCommand(Processor processor) {
@@ -245,27 +259,27 @@ public class GameMenu extends Menu {
         else if (selectedCombatUnit != null) unit = selectedCombatUnit;
 
         if (x == null || y == null || processor.getNumberOfFields() != 2)
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else if (unit.getDestination() != null && !unit.getPosition().equals(unit.getDestination()))
-            System.out.println("Unit is in a multiple-turn movement");
+            message.addLine("Unit is in a multiple-turn movement");
         else {
 
             int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
             String response = CivilizationController.getInstance().moveUnit(unit, position);
 
             if (response.equals("invalid destination"))
-                System.out.println("Destination is not valid");
+                message.addLine("Destination is not valid");
             else if (response.equals("fog of war"))
-                System.out.println("Destination is in fog of war");
+                message.addLine("Destination is in fog of war");
             else if (response.equals("already at the same tile"))
-                System.out.println("We already are at the tile you want to move to");
+                message.addLine("We already are at the tile you want to move to");
             else if (response.equals("destination occupied"))
-                System.out.println("There is already a unit in the tile you want to move to");
+                message.addLine("There is already a unit in the tile you want to move to");
             else if (response.equals("no valid path"))
-                System.out.println("There is no path to the tile you want to move to");
+                message.addLine("There is no path to the tile you want to move to");
             else if (response.equals("success")) {
                 unit.makeUnitAwake();
-                System.out.println("Unit moved to destination successfully");
+                message.addLine("Unit moved to destination successfully");
                 selectedCombatUnit = null;
                 selectedNonCombatUnit = null;
             }
@@ -282,73 +296,73 @@ public class GameMenu extends Menu {
         unit.setDestination(unit.getPosition());
         selectedCombatUnit = null;
         selectedNonCombatUnit = null;
-        System.out.println("Unit is sleep");
+        message.addLine("Unit is sleep");
     }
 
     private static void alertCommand() {
         if (selectedCombatUnit == null) {
-            System.out.println("Selected unit is not a military unit");
+            message.addLine("Selected unit is not a military unit");
         } else {
             selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit.setAlert(true);
             selectedCombatUnit.setDestination(selectedCombatUnit.getPosition());
             selectedCombatUnit = null;
-            System.out.println("Unit is alert");
+            message.addLine("Unit is alert");
         }
     }
 
     private static void fortifyCommand() {
         if (selectedCombatUnit == null)
-            System.out.println("Selected unit is not a military unit");
+            message.addLine("Selected unit is not a military unit");
         else {
             selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit.setFortify(true);
             selectedCombatUnit.setDestination(selectedCombatUnit.getPosition());
             selectedCombatUnit = null;
-            System.out.println("Unit is fortified");
+            message.addLine("Unit is fortified");
         }
     }
 
     private static void healCommand() {
         if (selectedCombatUnit == null)
-            System.out.println("Selected unit is not a military unit");
+            message.addLine("Selected unit is not a military unit");
         else {
             selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit.setFortifyUntilHealed(true);
             selectedCombatUnit.setDestination(selectedCombatUnit.getPosition());
             selectedCombatUnit = null;
-            System.out.println("Unit is healed");
+            message.addLine("Unit is healed");
         }
     }
 
     private static void garrisonCommand() {
         switch (CivilizationController.getInstance().garrisonCity(selectedCombatUnit)) {
             case "not military":
-                System.out.println("Selected unit is not a military unit");
+                message.addLine("Selected unit is not a military unit");
                 break;
             case "no city":
-                System.out.println("There is no city in this tile");
+                message.addLine("There is no city in this tile");
                 break;
             case "in  movement":
-                System.out.println("Unit is in a multiple-turn movement");
+                message.addLine("Unit is in a multiple-turn movement");
                 break;
             case "ok":
                 selectedCombatUnit = null;
-                System.out.println("City is garrisoned");
+                message.addLine("City is garrisoned");
                 break;
         }
     }
 
     private static void setupCommand() {
         if (!(selectedCombatUnit instanceof Archer) || !((Archer) selectedCombatUnit).isSiegeTool)
-            System.out.println("Selected unit is not a siege tool unit");
+            message.addLine("Selected unit is not a siege tool unit");
         else if (selectedCombatUnit.getDestination() != null && !selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
-            System.out.println("Unit is in a multiple-turn movement");
+            message.addLine("Unit is in a multiple-turn movement");
         else {
             selectedCombatUnit.makeUnitAwake();
             ((Archer) selectedCombatUnit).setSetup(true);
             selectedCombatUnit = null;
-            System.out.println("Unit is setup");
+            message.addLine("Unit is setup");
         }
     }
 
@@ -359,13 +373,13 @@ public class GameMenu extends Menu {
                 (!processor.getSubSection().equals("city") && !processor.getSubSection().equals("combat") && !processor.getSubSection().equals("noncombat")) ||
                 processor.getNumberOfFields() != 2 ||
                 x == null || y == null)
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         if (selectedCombatUnit == null)
-            System.out.println("Selected unit is not a military unit");
+            message.addLine("Selected unit is not a military unit");
         else if (!CivilizationController.getInstance().isPositionValid(new int[]{Integer.parseInt(x), Integer.parseInt(y)}))
-            System.out.println("Invalid coordinates!");
+            message.addLine("Invalid coordinates!");
         else if (selectedCombatUnit.getDestination() != null && !selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
-            System.out.println("Unit is in a multiple-turn movement");
+            message.addLine("Unit is in a multiple-turn movement");
         else {
             int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
             if (processor.getSubSection().equals("city")) {
@@ -373,7 +387,7 @@ public class GameMenu extends Menu {
                 attackCity(position);
             } else {
                 // TODO: Not phase1
-                System.out.println("Not this phase!");
+                message.addLine("Not this phase!");
             }
             selectedCombatUnit = null;
         }
@@ -382,16 +396,16 @@ public class GameMenu extends Menu {
     private static void attackCity(int[] position) {
         Tile tile = CivilizationController.getInstance().getTileByPosition(position);
         if (tile.getCity() == null)
-            System.out.println("There is no city in that place");
+            message.addLine("There is no city in that place");
         else if (selectedCombatUnit.getCombatType().equals("Archery") ||
                 selectedCombatUnit.getCombatType().equals("Siege") ||
                 selectedCombatUnit.getName().equals("ChariotArcher")) {
             int distance = CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile);
 
             if (selectedCombatUnit.getCombatType().equals("Siege") && !((Archer) selectedCombatUnit).isSetup)
-                System.out.println("Siege unit should be set up first");
+                message.addLine("Siege unit should be set up first");
             else if (distance > selectedCombatUnit.getRange())
-                System.out.println("City is out of range");
+                message.addLine("City is out of range");
             else {
                 City city = tile.getCity();
                 int cityHealth = city.getHitPoint();
@@ -403,13 +417,13 @@ public class GameMenu extends Menu {
 
                 cityHealth -= unitStrength;
                 city.setHitPoint(Math.max(cityHealth, 1));
-                System.out.println("City HP:" + city.getHitPoint());
+                message.addLine("City HP:" + city.getHitPoint());
             }
         } else {
             int distance = CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile);
 
             if (!selectedCombatUnit.getPosition().getAdjacentTiles().contains(tile))
-                System.out.println("Unit is far from the city to attack");
+                message.addLine("Unit is far from the city to attack");
             else {
                 City city = tile.getCity();
                 int cityHealth = city.getHitPoint();
@@ -422,10 +436,10 @@ public class GameMenu extends Menu {
                 int unitHealth = selectedCombatUnit.getHitPoint() - city.getStrength();
 
                 if (unitHealth == 0) {
-                    System.out.println("Your unit get destroyed");
+                    message.addLine("Your unit get destroyed");
                 } else {
                     selectedCombatUnit.setHitPoint(unitHealth);
-                    System.out.println("Unit HP:" + unitHealth);
+                    message.addLine("Unit HP:" + unitHealth);
                 }
 
                 cityHealth -= unitStrength;
@@ -433,7 +447,7 @@ public class GameMenu extends Menu {
                     ;// TODO: destroy, ...
                 else {
                     city.setHitPoint(cityHealth);
-                    System.out.println("City HP:" + cityHealth);
+                    message.addLine("City HP:" + cityHealth);
                 }
             }
         }
@@ -444,10 +458,10 @@ public class GameMenu extends Menu {
         if (unit == null) unit = selectedNonCombatUnit;
 
         if (unit.getDestination() != null && unit.getDestination().equals(unit.getPosition()))
-            System.out.println("Unit is not in a multiple-turn movement");
+            message.addLine("Unit is not in a multiple-turn movement");
         else {
             unit.setDestination(unit.getPosition());
-            System.out.println("Unit's multiple-turn movement canceled");
+            message.addLine("Unit's multiple-turn movement canceled");
         }
     }
 
@@ -456,28 +470,28 @@ public class GameMenu extends Menu {
         if (name == null) name = processor.get("name");
 
         if (name == null || processor.getNumberOfFields() != 1)
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else if (processor.getSubSection() != null && processor.getSubSection().equals("city")) {
             if (!(selectedNonCombatUnit instanceof Settler))
-                System.out.println("Selected unit is not a settler");
+                message.addLine("Selected unit is not a settler");
             else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
-                System.out.println("Unit is in a multiple-turn movement");
+                message.addLine("Unit is in a multiple-turn movement");
             else {
                 switch (CivilizationController.getInstance().foundCity((Settler) selectedNonCombatUnit, name)) {
                     case "too close":
-                        System.out.println("You cannot found a city close to another civilization");
+                        message.addLine("You cannot found a city close to another civilization");
                         break;
                     case "duplicate name":
-                        System.out.println("This name is used before");
+                        message.addLine("This name is used before");
                         break;
                     case "ok":
-                        System.out.println("City founded!");
+                        message.addLine("City founded!");
                         selectedNonCombatUnit = null;
                         break;
                 }
             }
         } else
-            invalidCommand();
+            message.addLine(getInvalidCommand());
     }
 
     private static void wakeUnit() {
@@ -486,7 +500,7 @@ public class GameMenu extends Menu {
 
         selectedCombatUnit = null;
         selectedNonCombatUnit = null;
-        System.out.println("Unit is awake");
+        message.addLine("Unit is awake");
     }
 
     private static void deleteUnitCommand() {
@@ -497,47 +511,47 @@ public class GameMenu extends Menu {
 
         selectedNonCombatUnit = null;
         selectedCombatUnit = null;
-        System.out.println("Unit deleted");
+        message.addLine("Unit deleted");
     }
 
     private static void pillageCommand() {
         if (selectedCombatUnit == null)
-            System.out.println("Selected unit is not a military unit");
+            message.addLine("Selected unit is not a military unit");
         else if (selectedCombatUnit.getDestination() != null && !selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
-            System.out.println("Unit is in a multiple-turn movement");
+            message.addLine("Unit is in a multiple-turn movement");
         else if (selectedCombatUnit.getPosition().getImprovement() == null)
-            System.out.println("There is no improvement in this tile");
+            message.addLine("There is no improvement in this tile");
         else {
             selectedCombatUnit.makeUnitAwake();
             selectedCombatUnit.getPosition().setLooted(true);
             selectedCombatUnit = null;
-            System.out.println("Tile is pillaged");
+            message.addLine("Tile is pillaged");
         }
     }
 
     private static void buildCommand() {
         if (!(selectedNonCombatUnit instanceof Worker))
-            System.out.println("Selected unit is not a worker");
+            message.addLine("Selected unit is not a worker");
         else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
-            System.out.println("Unit is in a multiple-turn movement");
+            message.addLine("Unit is in a multiple-turn movement");
         else {
             Tile tile = selectedNonCombatUnit.getPosition();
             ArrayList<String> improvements = CivilizationController.getInstance().getPossibleImprovements(tile);
             String choice = getBuildChoice(improvements);
             if (!choice.equals("exit")) {
                 CivilizationController.getInstance().build((Worker) selectedNonCombatUnit, improvements.get(Integer.parseInt(choice) - 1));
-                System.out.println("Building improvement started");
+                message.addLine("Building improvement started");
                 selectedNonCombatUnit = null;
             }
         }
     }
 
     private static String getBuildChoice(ArrayList<String> improvements) {
-        System.out.println("Please type improvement index you want to build");
-        System.out.println("Type \"exit\" if you don't want to choose any improvement");
+        message.addLine("Please type improvement index you want to build");
+        message.addLine("Type \"exit\" if you don't want to choose any improvement");
 
         for (int i = 0; i < improvements.size(); i++)
-            System.out.println(i + 1 + "." + improvements.get(i));
+            message.addLine(i + 1 + "." + improvements.get(i));
 
         String command;
         while (true) {
@@ -546,32 +560,32 @@ public class GameMenu extends Menu {
             if (command.equals("exit")) return "exit";
             else if (command.matches("\\d+")) {
                 int number = Integer.parseInt(command);
-                if (number < 1 || number > improvements.size()) System.out.println("Invalid number!");
+                if (number < 1 || number > improvements.size()) message.addLine("Invalid number!");
                 else return command;
-            } else invalidCommand();
+            } else message.addLine(getInvalidCommand());
         }
     }
 
     private static void removeCommand(Processor processor) {
         if (processor.getSubSection() == null)
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else if (!processor.getSubSection().equals("jungle") ||
                 !processor.getSubSection().equals("forest") ||
                 !processor.getSubSection().equals("marsh"))
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else {
             switch (CivilizationController.getInstance().removeFeature(selectedNonCombatUnit, processor.getSubSection())) {
                 case "not worker":
-                    System.out.println("Selected unit is not a worker");
+                    message.addLine("Selected unit is not a worker");
                     break;
                 case "in movement":
-                    System.out.println("Unit is in a multiple-turn movement");
+                    message.addLine("Unit is in a multiple-turn movement");
                     break;
                 case "irremovable feature":
-                    System.out.println("This tiles feature cannot get removed");
+                    message.addLine("This tiles feature cannot get removed");
                     break;
                 case "ok":
-                    System.out.println("Removing feature started");
+                    message.addLine("Removing feature started");
                     selectedNonCombatUnit = null;
                     break;
             }
@@ -581,16 +595,16 @@ public class GameMenu extends Menu {
     private static void repairCommand() {
         switch (CivilizationController.getInstance().repair(selectedNonCombatUnit)) {
             case "not worker":
-                System.out.println("Selected unit is not a worker");
+                message.addLine("Selected unit is not a worker");
                 break;
             case "in movement":
-                System.out.println("Unit is in a multiple-turn movement");
+                message.addLine("Unit is in a multiple-turn movement");
                 break;
             case "no improvement":
-                System.out.println("There is no improvement in this tile to get repaired");
+                message.addLine("There is no improvement in this tile to get repaired");
                 break;
             case "ok":
-                System.out.println("Repairing tile started");
+                message.addLine("Repairing tile started");
                 selectedNonCombatUnit = null;
                 break;
         }
@@ -607,7 +621,7 @@ public class GameMenu extends Menu {
     7.info economic*/
     private static void handleInfoCategoryCommand(Processor processor) {
         if (processor.getSection() == null)
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else if (processor.getSection().equals("research"))
             researchInfoMenu();
         else if (processor.getSection().equals("units"))
@@ -631,20 +645,20 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("deals"))
             ;// TODO: Not Phase1
         else
-            invalidCommand();
+            message.addLine(getInvalidCommand());
     }
 
     private static void researchInfoMenu() {
         Technology technology = GameController.getInstance().getCivilization().getStudyingTechnology();
         if (technology != null) {
-            System.out.println("Current Research Project: " + technology.getName());
-            System.out.println("Remaining Terms: " + technology.getRemainingTerm());
+            message.addLine("Current Research Project: " + technology.getName());
+            message.addLine("Remaining Terms: " + technology.getRemainingTerm());
             futureTechnologies(technology);
             futureImprovements(technology);
             futureUnits(technology);
             futureResources(technology);
         }
-        else System.out.println("No technology is being researched");
+        else message.addLine("No technology is being researched");
     }
 
     private static void futureTechnologies(Technology technology) {
@@ -654,11 +668,11 @@ public class GameMenu extends Menu {
                 technologies.add(technology.getName());
 
         if (technologies.size() == 0)
-            System.out.println("No new technology");
+            message.addLine("No new technology");
         else {
-            System.out.println("New Technologies:");
+            message.addLine("New Technologies:");
             for (String tech : technologies)
-                System.out.println(tech);
+                message.addLine(tech);
         }
     }
 
@@ -669,11 +683,11 @@ public class GameMenu extends Menu {
                 improvements.add(technology.getName());
 
         if (improvements.size() == 0)
-            System.out.println("No new improvement");
+            message.addLine("No new improvement");
         else {
-            System.out.println("New Improvements:");
+            message.addLine("New Improvements:");
             for (String improvement : improvements)
-                System.out.println(improvement);
+                message.addLine(improvement);
         }
     }
 
@@ -684,11 +698,11 @@ public class GameMenu extends Menu {
                 units.add(technology.getName());
 
         if (units.size() == 0)
-            System.out.println("No new unit");
+            message.addLine("No new unit");
         else {
-            System.out.println("New Units:");
+            message.addLine("New Units:");
             for (String unit : units)
-                System.out.println(unit);
+                message.addLine(unit);
         }
     }
 
@@ -702,10 +716,10 @@ public class GameMenu extends Menu {
             resourceName = "Iron";
 
         if (resourceName == null)
-            System.out.println("No new resource");
+            message.addLine("No new resource");
         else {
-            System.out.println("New resources:");
-            System.out.println(resourceName);
+            message.addLine("New resources:");
+            message.addLine(resourceName);
         }
     }
 
@@ -725,7 +739,7 @@ public class GameMenu extends Menu {
         output.append("If you want to enter military overview screen, please type \"military\".\n");
         output.append("If you want to exit the panel, please type \"exit\".");
 
-        System.out.println(output);
+        message.addLine(output);
 
         String choice = getUnitsPanelChoice(civilization);
         if (Objects.equals(choice, "military"))
@@ -754,9 +768,9 @@ public class GameMenu extends Menu {
                 int number = Integer.parseInt(choice);
 
                 if (number < 1 || number > civilization.getUnits().size())
-                    System.out.println("Invalid number!");
+                    message.addLine("Invalid number!");
                 else return choice;
-            } else invalidCommand();
+            } else message.addLine(getInvalidCommand());
         }
     }
 
@@ -782,7 +796,7 @@ public class GameMenu extends Menu {
         output.append("If you want to enter economic overview screen, please type \"economic\".\n");
         output.append("If you want to exit the panel, please type \"exit\".");
 
-        System.out.println(output);
+        message.addLine(output);
 
         String choice = getCitiesPanelChoice(civilization);
         if (Objects.equals(choice, "economic"))
@@ -808,9 +822,9 @@ public class GameMenu extends Menu {
                 int number = Integer.parseInt(choice);
 
                 if (number < 1 || number > civilization.getCities().size())
-                    System.out.println("Invalid number!");
+                    message.addLine("Invalid number!");
                 else return choice;
-            } else invalidCommand();
+            } else message.addLine(getInvalidCommand());
         }
     }
 
@@ -827,7 +841,7 @@ public class GameMenu extends Menu {
     private static void demographicsInfoMenu() {
         ArrayList<Civilization> civilizations = GameController.getInstance().getGame().getCivilizations();
 
-        System.out.println("Demographics Screen:");
+        message.addLine("Demographics Screen:");
         territoryRank(civilizations);
         populationRank(civilizations);
         goldRank(civilizations);
@@ -848,8 +862,8 @@ public class GameMenu extends Menu {
         int average = territory.get(territory.size() / 2);
         int worst = territory.get(territory.size() - 1);
 
-        System.out.format("Territory: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", territorySize,
-                best, average, worst, rank);
+        message.addLine(String.format("Territory: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", territorySize,
+                best, average, worst, rank));
     }
 
     private static void populationRank(ArrayList<Civilization> civilizations) {
@@ -865,8 +879,8 @@ public class GameMenu extends Menu {
         int average = population.get(population.size() / 2);
         int worst = population.get(population.size() - 1);
 
-        System.out.format("Population: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", populationSize,
-                best, average, worst, rank);
+        message.addLine(String.format("Population: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", populationSize,
+                best, average, worst, rank));
     }
 
     private static void goldRank(ArrayList<Civilization> civilizations) {
@@ -882,8 +896,8 @@ public class GameMenu extends Menu {
         int average = gold.get(gold.size() / 2);
         int worst = gold.get(gold.size() - 1);
 
-        System.out.format("Wealth: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", goldAmount,
-                best, average, worst, rank);
+        message.addLine(String.format("Wealth: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", goldAmount,
+                best, average, worst, rank));
     }
 
     private static void happinessRank(ArrayList<Civilization> civilizations) {
@@ -899,8 +913,8 @@ public class GameMenu extends Menu {
         int average = happiness.get(happiness.size() / 2);
         int worst = happiness.get(happiness.size() - 1);
 
-        System.out.format("Happiness: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", happinessAmount,
-                best, average, worst, rank);
+        message.addLine(String.format("Happiness: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", happinessAmount,
+                best, average, worst, rank));
     }
 
     private static void unitsRank(ArrayList<Civilization> civilizations) {
@@ -916,8 +930,8 @@ public class GameMenu extends Menu {
         int average = units.get(units.size() / 2);
         int worst = units.get(units.size() - 1);
 
-        System.out.format("Number of units: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", unitsSize,
-                best, average, worst, rank);
+        message.addLine(String.format("Number of units: %d|Best: %d|Average: %d|Worst: %d|Rank: %d\n", unitsSize,
+                best, average, worst, rank));
     }
 
 
@@ -930,7 +944,7 @@ public class GameMenu extends Menu {
             output.append("|Tern:").append(notification.getTern()).append("\n");
         }
 
-        System.out.println(output);
+        message.addLine(output);
     }
 
 
@@ -940,7 +954,7 @@ public class GameMenu extends Menu {
         StringBuilder output = new StringBuilder("List of units: ").append("\n");
         printListOfUnits(output, civilization);
 
-        System.out.println(output);
+        message.addLine(output);
     }
 
     private static void printListOfUnits(StringBuilder output, Civilization civilization) {
@@ -973,7 +987,7 @@ public class GameMenu extends Menu {
         output.append("If you want to select a city, please type its index.\n");
         output.append("If you want to exit the screen, please type \"exit\".\n");
 
-        System.out.println(output);
+        message.addLine(output.toString());
 
         String choice = getEconomicMenuChoice(civilization);
 
@@ -1018,10 +1032,10 @@ public class GameMenu extends Menu {
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
 
-                if (number < 1 || number > civilization.getCities().size()) System.out.println("Invalid number!");
+                if (number < 1 || number > civilization.getCities().size()) message.addLine("Invalid number!");
                 else return choice;
             } else
-                invalidCommand();
+                message.addLine(getInvalidCommand());
         }
     }
 
@@ -1047,9 +1061,9 @@ public class GameMenu extends Menu {
      */
     private static void handleCityCategoryCommand(Processor processor) {
         if (selectedCity == null)
-            System.out.println("Please select a city first");
+            message.addLine("Please select a city first");
         else if (processor.getSection() == null)
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else if (processor.getSection().equals("screen"))
             cityScreen();
         else if (processor.getSection().equals("output"))
@@ -1065,33 +1079,33 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("attack"))
             ;// TODO: 5/16/2022
         else
-            invalidCommand();
+            message.addLine(getInvalidCommand());
     }
 
     private static void cityScreen() {
         System.out.print(selectedCity.getName());
         if (Objects.equals(GameController.getInstance().getCivilization().getCurrentCapital(), selectedCity))
-            System.out.format("(Capital)| Strength:%d\n", selectedCity.getStrength());
+            message.addLine(String.format("(Capital)| Strength:%d\n", selectedCity.getStrength()));
         else
-            System.out.format("|Strength:%d\n", selectedCity.getStrength());
+            message.addLine(String.format("|Strength:%d\n", selectedCity.getStrength()));
 
-        System.out.format("Food:%d| Production Rate:%d| Science Rate:%d| Gold Rate:%d\n",
-                selectedCity.getFood(), selectedCity.getProductionRate(), selectedCity.getScienceRate(), selectedCity.getGoldRate());
-        System.out.format("Population:%d| Turn's until new citizen:%d\n", selectedCity.getCitizens().size(), selectedCity.getTillNewCitizen());
-        System.out.println("Turn's until new production:" + selectedCity.getUnitUnderProductTern());
-        System.out.println("List of City's citizens:");
+        message.addLine(String.format("Food:%d| Production Rate:%d| Science Rate:%d| Gold Rate:%d\n",
+                selectedCity.getFood(), selectedCity.getProductionRate(), selectedCity.getScienceRate(), selectedCity.getGoldRate()));
+        message.addLine(String.format("Population:%d| Turn's until new citizen:%d\n", selectedCity.getCitizens().size(), selectedCity.getTillNewCitizen()));
+        message.addLine("Turn's until new production:" + selectedCity.getUnitUnderProductTern());
+        message.addLine("List of City's citizens:");
         for (int i = 1; i <= selectedCity.getCitizens().size(); i++) {
             Citizen citizen;
             if ((citizen = selectedCity.getCitizens().get(i - 1)).isWorking())
-                System.out.println(i + ".(" + citizen.getWorkPosition().getX() + ", " + citizen.getWorkPosition().getY() + ")");
+                message.addLine(i + ".(" + citizen.getWorkPosition().getX() + ", " + citizen.getWorkPosition().getY() + ")");
             else
-                System.out.println("Idle");
+                message.addLine("Idle");
         }
 
-        System.out.println("City's territory:");
+        message.addLine("City's territory:");
         for (Tile tile : selectedCity.getTerritory())
             System.out.print("(" + tile.getX() + ", " + tile.getY() + ") ");
-        System.out.println();
+        message.addLine("");
 
         City city = navigateBetweenCities();
 
@@ -1105,11 +1119,11 @@ public class GameMenu extends Menu {
         ArrayList<City> cities = new ArrayList<>(GameController.getInstance().getCivilization().getCities());
         cities.remove(selectedCity);
 
-        System.out.println("-------------------------------------------------------------");
-        System.out.println("If you want to enter a city's screen, please type its index");
-        System.out.println("If you want to exit this screen, please type \"exit\"");
+        message.addLine("-------------------------------------------------------------");
+        message.addLine("If you want to enter a city's screen, please type its index");
+        message.addLine("If you want to exit this screen, please type \"exit\"");
         for (int i = 1; i <= cities.size(); i++)
-            System.out.println(i + "." + cities.get(i - 1));
+            message.addLine(i + "." + cities.get(i - 1));
 
         String choice;
         while (true) {
@@ -1117,9 +1131,9 @@ public class GameMenu extends Menu {
             if (Objects.equals(choice, "exit")) break;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
-                if (number < 1 || number > cities.size()) System.out.println("Invalid number");
+                if (number < 1 || number > cities.size()) message.addLine("Invalid number");
                 else break;
-            } else invalidCommand();
+            } else message.addLine(getInvalidCommand());
         }
 
         if (Objects.equals(choice, "exit")) return null;
@@ -1128,32 +1142,32 @@ public class GameMenu extends Menu {
 
 
     private static void cityOutput() {
-        System.out.println(selectedCity.getName() + "'s output:");
-        System.out.println("Production Rate:" + selectedCity.getProductionRate());
-        System.out.println("Science Rate:" + selectedCity.getScienceRate());
-        System.out.println("Gold Rate:" + selectedCity.getGoldRate());
-        System.out.println("Food Rate:" + selectedCity.getFoodRate());
-        System.out.println("Turns till new citizens:" + selectedCity.getTillNewCitizen());
+        message.addLine(selectedCity.getName() + "'s output:");
+        message.addLine("Production Rate:" + selectedCity.getProductionRate());
+        message.addLine("Science Rate:" + selectedCity.getScienceRate());
+        message.addLine("Gold Rate:" + selectedCity.getGoldRate());
+        message.addLine("Food Rate:" + selectedCity.getFoodRate());
+        message.addLine("Turns till new citizens:" + selectedCity.getTillNewCitizen());
     }
 
 
     private static void unemployedCitizenSection(Processor processor) {
         if (processor.getSubSection() == null || !processor.getSubSection().equals("citizens"))
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else {
             ArrayList<Citizen> citizens = new ArrayList<>(selectedCity.getCitizens());
 
             citizens.removeIf(Citizen::isWorking);
 
-            if (citizens.size() == 0) System.out.println("There is not unemployed citizen in this city");
+            if (citizens.size() == 0) message.addLine("There is not unemployed citizen in this city");
             else lockCitizensToTiles(citizens);
         }
     }
 
     private static void lockCitizensToTiles(ArrayList<Citizen> citizens) {
-        System.out.println("There is " + citizens.size() + " unemployed citizens in this city");
-        System.out.println("If you want to lock a citizen to a tile, please type tiles coordinates like \"x y\"");
-        System.out.println("If you want to exit this menu, please type \"exit\"");
+        message.addLine("There is " + citizens.size() + " unemployed citizens in this city");
+        message.addLine("If you want to lock a citizen to a tile, please type tiles coordinates like \"x y\"");
+        message.addLine("If you want to exit this menu, please type \"exit\"");
 
         String choice;
         while (true) {
@@ -1163,47 +1177,47 @@ public class GameMenu extends Menu {
             else if (choice.matches("\\d+ \\d+")) {
                 int[] position = {Integer.parseInt(choice.split(" ")[0]), Integer.parseInt(choice.split(" ")[1])};
                 if (!CivilizationController.getInstance().isPositionValid(position))
-                    System.out.println("Invalid coordinates");
+                    message.addLine("Invalid coordinates");
                 else if (!selectedCity.getTerritory().contains(CivilizationController.getInstance().getTileByPosition(position)))
-                    System.out.println("This tile is not in this city");
+                    message.addLine("This tile is not in this city");
                 else {
                     citizens.get(0).setWorking(true);
                     citizens.get(0).setWorkPosition(CivilizationController.getInstance().getTileByPosition(position));
                     citizens.remove(citizens.get(0));
-                    System.out.println("A citizen has been locked to tile (" + position[0] + ", " + position[1] + ")");
+                    message.addLine("A citizen has been locked to tile (" + position[0] + ", " + position[1] + ")");
                     if (citizens.size() == 0) {
-                        System.out.println("There is not any other unemployed citizen in this city");
+                        message.addLine("There is not any other unemployed citizen in this city");
                         return;
                     }
-                    System.out.println("There is " + citizens.size() + " unemployed citizens in this city");
-                    System.out.println("If you want to lock a citizen to a tile, please type tiles coordinates like \"x y\"");
-                    System.out.println("If you want to exit this menu, please type \"exit\"");
+                    message.addLine("There is " + citizens.size() + " unemployed citizens in this city");
+                    message.addLine("If you want to lock a citizen to a tile, please type tiles coordinates like \"x y\"");
+                    message.addLine("If you want to exit this menu, please type \"exit\"");
                 }
-            } else invalidCommand();
+            } else message.addLine(getInvalidCommand());
         }
     }
 
 
     private static void removeCitizensFromWork(Processor processor) {
         if (processor.getSubSection() == null || !processor.getSubSection().equals("citizens"))
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else {
             ArrayList<Citizen> citizens = new ArrayList<>(selectedCity.getCitizens());
 
             citizens.removeIf(citizen -> !citizen.isWorking());
 
-            if (citizens.size() == 0) System.out.println("There is no employed citizens in this city");
+            if (citizens.size() == 0) message.addLine("There is no employed citizens in this city");
             else getCitizenToRemove(citizens);
         }
     }
 
     private static void getCitizenToRemove(ArrayList<Citizen> citizens) {
-        System.out.println("There is " + citizens.size() + " employed citizens in this city");
+        message.addLine("There is " + citizens.size() + " employed citizens in this city");
         for (int i = 1; i <= citizens.size(); i++)
-            System.out.println(i + ".(" + citizens.get(i - 1).getWorkPosition().getX() +
+            message.addLine(i + ".(" + citizens.get(i - 1).getWorkPosition().getX() +
                     ", " + citizens.get(i - 1).getWorkPosition().getY() + ")");
-        System.out.println("If you want to remove a citizen from a tile, please type its index");
-        System.out.println("If you want to exit this menu, please type \"exit\"");
+        message.addLine("If you want to remove a citizen from a tile, please type its index");
+        message.addLine("If you want to exit this menu, please type \"exit\"");
 
         String choice;
         while (true) {
@@ -1213,22 +1227,22 @@ public class GameMenu extends Menu {
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
                 if (number < 1 || number > citizens.size())
-                    System.out.println("Invalid number");
+                    message.addLine("Invalid number");
                 else {
                     citizens.get(number - 1).setWorking(false);
-                    System.out.println("Selected citizen get removed from work");
+                    message.addLine("Selected citizen get removed from work");
                     return;
                 }
-            } else invalidCommand();
+            } else message.addLine(getInvalidCommand());
         }
     }
 
 
     private static void buyTile(Processor processor) {
         if (processor.getSubSection() == null || !processor.getSubSection().equals("tile"))
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else if (GameController.getInstance().getCivilization().getGold() < 50)
-            System.out.println("You don't have enough money to buy a tile");
+            message.addLine("You don't have enough money to buy a tile");
         else {
             ArrayList<Tile> purchasableTiles = new ArrayList<>();
 
@@ -1240,18 +1254,18 @@ public class GameMenu extends Menu {
             Set<Tile> set = new HashSet<>(purchasableTiles);
             purchasableTiles.clear();
             purchasableTiles.addAll(set);
-            if (purchasableTiles.size() == 0) System.out.println("There is not tile to buy");
+            if (purchasableTiles.size() == 0) message.addLine("There is not tile to buy");
             else chooseTileToBuy(purchasableTiles);
         }
     }
 
     private static void chooseTileToBuy(ArrayList<Tile> purchasableTiles) {
-        System.out.println("Purchasable tiles:");
+        message.addLine("Purchasable tiles:");
         for (int i = 1; i <= purchasableTiles.size(); i++)
-            System.out.println(i + ".(" + purchasableTiles.get(i - 1).getX() + ", " + purchasableTiles.get(i - 1).getY() + ")");
+            message.addLine(i + ".(" + purchasableTiles.get(i - 1).getX() + ", " + purchasableTiles.get(i - 1).getY() + ")");
 
-        System.out.println("If you want to buy a tile, please type its index");
-        System.out.println("If you want to exit this menu, please type \"exit\"");
+        message.addLine("If you want to buy a tile, please type its index");
+        message.addLine("If you want to exit this menu, please type \"exit\"");
 
         String choice;
         while (true) {
@@ -1261,13 +1275,13 @@ public class GameMenu extends Menu {
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
                 if (number < 1 || number > purchasableTiles.size())
-                    System.out.println("Invalid number");
+                    message.addLine("Invalid number");
                 else {
                     CivilizationController.getInstance().purchaseTile(selectedCity, purchasableTiles.get(number - 1));
-                    System.out.println("The selected tile is added to your territory");
+                    message.addLine("The selected tile is added to your territory");
                     return;
                 }
-            } else invalidCommand();
+            } else message.addLine(getInvalidCommand());
         }
     }
 
@@ -1275,11 +1289,11 @@ public class GameMenu extends Menu {
     private static void constructionMenu() {
         ArrayList<UnitEnum> unitEnums = CivilizationController.getInstance().getProducibleUnits();
 
-        System.out.println("List of producible units:");
+        message.addLine("List of producible units:");
         for (int i = 1; i <= unitEnums.size(); i++)
-            System.out.println(i + "." + unitEnums.get(i - 1) + "|" + (int) Math.ceil((float) unitEnums.get(i - 1).getCost() / selectedCity.getProductionRate()));
-        System.out.println("If you want to choose/change a production, please type its index");
-        System.out.println("If you want to exit the menu, please type \"exit\"");
+            message.addLine(i + "." + unitEnums.get(i - 1) + "|" + (int) Math.ceil((float) unitEnums.get(i - 1).getCost() / selectedCity.getProductionRate()));
+        message.addLine("If you want to choose/change a production, please type its index");
+        message.addLine("If you want to exit the menu, please type \"exit\"");
 
         String choice;
         while (true) {
@@ -1287,12 +1301,12 @@ public class GameMenu extends Menu {
             if (Objects.equals(choice, "exit")) return;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
-                if (number < 1 || number > unitEnums.size()) System.out.println("Invalid number");
+                if (number < 1 || number > unitEnums.size()) message.addLine("Invalid number");
                 else {
                     selectedCity.setUnitUnderProduct(Unit.getUnitByUnitEnum(unitEnums.get(number - 1)));
                     selectedCity.setUnitUnderProductTern((int) Math.ceil((float) unitEnums.get(number - 1).getCost() / selectedCity.getProductionRate()));
                 }
-            } else invalidCommand();
+            } else message.addLine(getInvalidCommand());
         }
     }
 
@@ -1304,21 +1318,21 @@ public class GameMenu extends Menu {
                 (!processor.getSubSection().equals("combat") && !processor.getSubSection().equals("noncombat")) ||
                 processor.getNumberOfFields() != 2 ||
                 x == null || y == null)
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else if (!CivilizationController.getInstance().isPositionValid(new int[]{Integer.parseInt(x), Integer.parseInt(y)}))
-            System.out.println("Invalid coordinates!");
+            message.addLine("Invalid coordinates!");
         else {
             int[] unitPosition = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
             Tile tile = CivilizationController.getInstance().getTileByPosition(unitPosition);
 
             if (processor.getSection() == null) {}
             else if (processor.getSection().equals("combat")) {
-                if (tile.getCombatUnit() == null) System.out.println("There is no combat unit in that place");
+                if (tile.getCombatUnit() == null) message.addLine("There is no combat unit in that place");
             } else if (processor.getSection().equals("noncombat")) {
-                if (tile.getNonCombatUnit() == null) System.out.println("There is no noncombat unit in that place");
+                if (tile.getNonCombatUnit() == null) message.addLine("There is no noncombat unit in that place");
             } else {
                 if (CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile) > 2)
-                    System.out.println("Unit is not in city's range");
+                    message.addLine("Unit is not in city's range");
 
             }
         }
@@ -1333,7 +1347,7 @@ public class GameMenu extends Menu {
     cheat finish research
      */
     private static void handleCheatCategoryCommand(Processor processor) {
-        if  (processor.getSection() == null) invalidCommand();
+        if  (processor.getSection() == null) message.addLine(getInvalidCommand());
         else if (processor.getSection().equals("increase"))
             increaseCheatCommand(processor.get("amount"), processor.getSubSection());
         else if (processor.getSection().equals("teleport"))
@@ -1341,7 +1355,7 @@ public class GameMenu extends Menu {
         else if (processor.getSection().equals("finish")) finishCheatCommand(processor.getSubSection());
         else if (processor.getSection().equals("research")) researchCheatCommand(processor.getSubSection(),processor.get("name"));
         else if (processor.getSection().equals("reveal")) revealCheatCommand(processor.get("x"), processor.get("y"));
-        else invalidCommand();
+        else message.addLine(getInvalidCommand());
 
     }
 
@@ -1360,7 +1374,7 @@ public class GameMenu extends Menu {
         } else if (Objects.equals(subSection, "beaker")) {
             CheatController.getInstance().increaseBeaker(amount);
             System.out.printf("Done");
-        } else invalidCommand();
+        } else message.addLine(getInvalidCommand());
     }
 
     private static void teleportCheatCommand(String xField, String yField) {
@@ -1381,13 +1395,13 @@ public class GameMenu extends Menu {
     }
 
     private static void finishCheatCommand(String subSection) {
-        if (!subSection.equals("research")) invalidCommand();
-        else System.out.println(CheatController.getInstance().finishResearch());
+        if (!subSection.equals("research")) message.addLine(getInvalidCommand());
+        else message.addLine(CheatController.getInstance().finishResearch());
     }
 
     private static void researchCheatCommand(String subSection, String name) {
-        if (!subSection.equals("technology")) invalidCommand();
-        else System.out.println(CheatController.getInstance().researchTechnology(name));
+        if (!subSection.equals("technology")) message.addLine(getInvalidCommand());
+        else message.addLine(CheatController.getInstance().researchTechnology(name));
     }
 
     private static void revealCheatCommand(String xField, String yField) {
@@ -1711,19 +1725,19 @@ public class GameMenu extends Menu {
                 if (output[i][j].length() == 0) continue;
                 System.out.printf("%s", output[i][j].toString());
             }
-            System.out.println();
+            message.addLine("");
         }
     }
 
     private static void handleEndCategoryCommand(Processor processor) {
-        if (processor.getSection() == null) invalidCommand();
+        if (processor.getSection() == null) message.addLine(getInvalidCommand());
         else if (processor.getSection().equals("turn")) GameController.getInstance().startTurn();
-        else invalidCommand();
+        else message.addLine(getInvalidCommand());
     }
 
     private static void handleMapCategoryCommand(Processor processor) {
         if (processor.getSection() == null)
-            invalidCommand();
+            message.addLine(getInvalidCommand());
         else if (processor.getSection().equals("show")) {
             // TODO : subsection may be null.
             if (processor.getSubSection().equals("position")) {
@@ -1745,7 +1759,7 @@ public class GameMenu extends Menu {
                 }
                 mapX = x;
                 mapY = y;
-            } else invalidCommand();
+            } else message.addLine(getInvalidCommand());
         } else if (processor.getSection().equals("move")) {
             if (processor.getSubSection().equals("right")) {
                 if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX))
@@ -1770,6 +1784,6 @@ public class GameMenu extends Menu {
                 else mapX++;
             }
         } else
-            invalidCommand();
+            message.addLine(getInvalidCommand());
     }
 }
