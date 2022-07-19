@@ -1,17 +1,16 @@
 package app.models.connection;
 
 public class Message {
-    StringBuilder message;
-    String currentMenu;
+
+    private final StringBuilder message;
+    private String currentMenu;
 
     public Message() {
         this.message = new StringBuilder();
-        this.currentMenu = null;
     }
 
     public Message(String message) {
         this.message = new StringBuilder(message);
-        this.currentMenu = null;
     }
 
     public String getMessageString() {
@@ -30,5 +29,15 @@ public class Message {
 
     public String getCurrentMenu() {
         return currentMenu;
+    }
+
+    public void setMessage(String messageString) {
+        message.setLength(0);
+        message.append(messageString);
+    }
+
+    public void copy(Message message) {
+        setCurrentMenu(message.currentMenu);
+        setMessage(message.message.toString());
     }
 }

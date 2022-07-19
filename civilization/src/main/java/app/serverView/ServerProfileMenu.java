@@ -10,6 +10,7 @@ public class ServerProfileMenu extends ServerMenu{
     private static ServerProfileMenu instance;
 
     private ServerProfileMenu(){
+        super("profile");
 
     }
 
@@ -29,7 +30,7 @@ public class ServerProfileMenu extends ServerMenu{
 
     private void sendMessage(Message message) {
         super.sendMessage();
-        ProfileMenu.setMessage(message);
+        ProfileMenu.setAndPrintMessage(message);
     }
 
 

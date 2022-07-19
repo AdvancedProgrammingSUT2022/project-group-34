@@ -2,7 +2,6 @@ package app.views;
 
 import app.controllers.CivilizationController;
 import app.controllers.GameController;
-import app.models.City;
 import app.models.Civilization;
 import app.models.connection.Message;
 import app.models.map.CivilizationMap;
@@ -12,7 +11,9 @@ import app.models.resource.LuxuryResource;
 import app.models.resource.Resource;
 import app.models.resource.StrategicResource;
 import app.models.tile.*;
-import app.models.unit.*;
+import app.models.unit.Settler;
+import app.models.unit.Unit;
+import app.models.unit.Worker;
 import app.serverView.ServerGameMenu;
 
 import java.util.Random;
@@ -52,12 +53,6 @@ public class GameMenu extends Menu {
     private final static String[] CHARACTER_SEED = {"A", "B", "G", "K", "M", "!", "@", "#", "H", "$", "%", "^", "&", "3",
             "5", "8", "a", "g", "q", "0", "}", "{", "[", "|", ",", ";", "m", "?", "="};
 
-    private static CombatUnit selectedCombatUnit = null;
-    private static NonCombatUnit selectedNonCombatUnit = null;
-    private static City selectedCity = null;
-    private static int mapX = 0;
-    private static int mapY = 0;
-
 
     //Processes commands related with main menu
     static void processOneCommand() {
@@ -68,17 +63,21 @@ public class GameMenu extends Menu {
             showMap();
             processor = new Processor(getInput());
             ServerGameMenu.getInstance().processOneProcessor(processor);
-            printMessage(message);
+            //printMessage(message);
 
         }
     }
 
-    public static void setMessage(Message message) {
-        GameMenu.message = message;
+    public static void setAndPrintMessage(Message receivedMessage) {
+        Menu.setMessage(receivedMessage, message);
+        printMessage(receivedMessage);
+
     }
 
 
     private static void showMap() {
+        int mapX = ServerGameMenu.getInstance().getMapX();
+        int mapY = ServerGameMenu.getInstance().getMapY();
         Civilization civilization = GameController.getInstance().getCivilization();
         System.out.printf("%s : ", civilization.getCivilizationName());
         System.out.printf("Turn %d\n", civilization.getTurn());

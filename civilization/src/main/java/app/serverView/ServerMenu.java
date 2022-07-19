@@ -10,12 +10,15 @@ import java.util.Scanner;
 public class ServerMenu {
 
     private final Scanner scanner = new Scanner(System.in);
-    private String currentMenu = "register";
+    private String currentMenu;
     protected Message message;
 
-    protected ServerMenu(){}
+    protected ServerMenu(String currentMenu){
+        this.currentMenu = currentMenu;
+    }
 
     protected void setCurrentMenu(String menuName) {
+        System.out.println(menuName);
         currentMenu = menuName;
     }
 
@@ -90,11 +93,6 @@ public class ServerMenu {
     }
 
 
-    //Prints "invalid command" if command is invalid
-    protected void invalidCommand() {
-        System.out.println("Invalid command!");
-    }
-
     protected String getInvalidCommand() {
         return "Invalid command!";
     }
@@ -102,5 +100,6 @@ public class ServerMenu {
 
     protected void sendMessage() {
         message.setCurrentMenu(currentMenu);
+        //System.out.println("SRM + sendMessage + message : " + message.getCurrentMenu() + " " + message.getMessageString());
     }
 }

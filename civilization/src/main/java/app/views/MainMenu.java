@@ -14,13 +14,14 @@ public class MainMenu extends Menu {
         while (Menu.getCurrentMenu().equals("main")) {
             processor = new Processor(getInput());
             ServerMainMenu.getInstance().processOneProcessor(processor);
-            printMessage(message);
+            //printMessage(message);
         }
     }
 
-    public static void setMessage(Message message) {
-        Menu.setMessage(message);
-        MainMenu.message = message;
+    public static void setAndPrintMessage(Message receivedMessage) {
+        Menu.setMessage(receivedMessage, message);
+        printMessage(receivedMessage);
+
     }
 
 }

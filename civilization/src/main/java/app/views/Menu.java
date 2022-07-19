@@ -26,7 +26,7 @@ public class Menu {
     }
 
     //Scans one line of input
-    protected static String getInput() {
+    public static String getInput() {
         return scanner.nextLine().trim();
     }
 
@@ -36,7 +36,8 @@ public class Menu {
     }
 
 
-    protected static void setMessage(Message message) {
+    protected static void setMessage(Message message, Message message1) {
+        message1.copy(message);
         currentMenu = message.getCurrentMenu();
     }
 

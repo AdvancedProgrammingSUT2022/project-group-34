@@ -15,7 +15,7 @@ public class ServerMainMenu extends ServerMenu{
     private static ServerMainMenu instance;
 
     private ServerMainMenu(){
-
+        super("main");
     }
 
     public static ServerMainMenu getInstance(){
@@ -34,7 +34,7 @@ public class ServerMainMenu extends ServerMenu{
 
     private void sendMessage(Message message) {
         super.sendMessage();
-        MainMenu.setMessage(message);
+        MainMenu.setAndPrintMessage(message);
     }
 
 

@@ -9,12 +9,13 @@ import app.models.tile.ImprovementEnum;
 import app.models.tile.Tile;
 import app.models.unit.*;
 import app.views.GameMenu;
+import app.views.Menu;
 import app.views.Processor;
 
 import java.util.*;
 
 public class ServerGameMenu extends ServerMenu {
-    private static Message message;
+
     private final static int VIEW_MAP_WIDTH = 9;
     private final static int VIEW_MAP_HEIGHT = 7;
 
@@ -57,7 +58,7 @@ public class ServerGameMenu extends ServerMenu {
 
 
     private ServerGameMenu() {
-
+        super("game");
     }
 
     public static ServerGameMenu getInstance() {
@@ -84,7 +85,7 @@ public class ServerGameMenu extends ServerMenu {
 
     private void sendMessage(Message message) {
         super.sendMessage();
-        GameMenu.setMessage(message);
+        GameMenu.setAndPrintMessage(message);
     }
 
 
@@ -93,6 +94,12 @@ public class ServerGameMenu extends ServerMenu {
     2.select unit noncombat --x <x> --y <y>
     3.select city --name <name>
     4.select city --x <x> --y <y>*/
+    private String getInput() {
+        sendMessage(message);
+        message = new Message();
+        return Menu.getInput();//todo
+    }
+
     private void handleSelectCategoryCommand(Processor processor) {
         String x = processor.get("x");
         String y = processor.get("y");
@@ -184,7 +191,6 @@ public class ServerGameMenu extends ServerMenu {
         message.addLine(String.format("There is no city named %s\n", name));
     }
 
-
     /*Handles commands that start with "unit":
     1.unit moveto --x <x> --y <y>
     2.unit sleep
@@ -204,6 +210,7 @@ public class ServerGameMenu extends ServerMenu {
     14.unit remove <jungle/forest/marsh>
     15.unit repair
     16.unit pillage*/
+
     private void handleUnitCategoryCommand(Processor processor) {
 
         // TODO: Booleans in unit class (Specially combat units)
@@ -561,10 +568,6 @@ public class ServerGameMenu extends ServerMenu {
                 else return command;
             } else message.addLine(getInvalidCommand());
         }
-    }
-
-    private String getInput() {
-        return null;//todo
     }
 
     private void removeCommand(Processor processor) {
@@ -1481,5 +1484,13 @@ public class ServerGameMenu extends ServerMenu {
             }
         } else
             message.addLine(getInvalidCommand());
+    }
+
+    public int getMapX() {
+        return mapX;
+    }
+
+    public int getMapY(){
+        return mapY;
     }
 }

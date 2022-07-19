@@ -14,12 +14,11 @@ public class ProfileMenu extends Menu {
         while (getCurrentMenu().equals("profile")) {
             processor = new Processor(getInput());
             ServerProfileMenu.getInstance().processOneProcessor(processor);
-            printMessage(message);
         }
     }
 
-    public static void setMessage(Message message) {
-        Menu.setMessage(message);
-        ProfileMenu.message = message;
+    public static void setAndPrintMessage(Message receivedMessage) {
+        Menu.setMessage(receivedMessage, message);
+        printMessage(receivedMessage);
     }
 }

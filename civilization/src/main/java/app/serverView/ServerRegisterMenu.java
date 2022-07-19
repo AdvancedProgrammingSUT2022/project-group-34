@@ -9,7 +9,9 @@ import app.views.RegisterMenu;
 public class ServerRegisterMenu extends ServerMenu{
 
     private static ServerRegisterMenu instance;
-    private ServerRegisterMenu(){}
+    private ServerRegisterMenu(){
+        super("register");
+    }
 
     public static ServerRegisterMenu getInstance() {
         if (instance == null)
@@ -28,8 +30,7 @@ public class ServerRegisterMenu extends ServerMenu{
 
     private void sendMessage(Message message) {
         super.sendMessage();
-        System.out.println("SRM + sendMessage + message : " + message.getCurrentMenu() + " " + message.getMessageString());
-        RegisterMenu.setMessage(message);
+        RegisterMenu.setAndPrintMessage(message);
     }
 
     //Handles commands that start with "user"

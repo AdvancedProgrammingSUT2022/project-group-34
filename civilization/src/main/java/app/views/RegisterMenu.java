@@ -5,7 +5,7 @@ import app.serverView.ServerRegisterMenu;
 
 public class RegisterMenu extends Menu {
 
-    private static Message message = new Message();
+    private static final Message message = new Message();
 
     //Proccesse commands related with register menu
     static void processOneCommand() {
@@ -13,12 +13,14 @@ public class RegisterMenu extends Menu {
         while (Menu.getCurrentMenu().equals("register")) {
             processor = new Processor(getInput());
             ServerRegisterMenu.getInstance().proccessOneProcessor(processor);
-            printMessage(message);
+            //printMessage(message);
+            //System.out.println("RegisterMenu processOneCommand Menu.getCurrentMenu() : " + Menu.getCurrentMenu());
         }
     }
 
-    public static void setMessage(Message message) {
-        Menu.setMessage(message);
-        RegisterMenu.message = message;
+    public static void setAndPrintMessage(Message receivedMessage) {
+        Menu.setMessage(receivedMessage,message);
+        printMessage(receivedMessage);
+
     }
 }
