@@ -9,8 +9,11 @@ import app.models.tile.Terrain;
 import app.models.tile.Tile;
 import app.models.tile.VisibleTile;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 
 import java.util.HashMap;
@@ -29,10 +32,13 @@ public class GameViewController {
     private HashMap<String, Image> loadedImages = new HashMap<>();
 
     @FXML
-    private BorderPane pane;
+    private Pane pane;
 
     @FXML
-    private Pane tilePane;
+    private Group tileGroup;
+
+    @FXML
+    private Label temp;
 
     @FXML
     private void initialize() {
@@ -45,10 +51,34 @@ public class GameViewController {
         loadTiles();
     }
 
+    @FXML
+    private void navigate(KeyEvent event) {
+        switch (event.getCode()) {
+            case UP:
+                mapX--;
+                break;
+            case DOWN:
+                mapX++;
+                break;
+            case LEFT:
+                mapY--;
+                break;
+            case RIGHT:
+                mapY++;
+                break;
+        }
+        mapX = Math.max(mapX, VIEW_MAP_HEIGHT / 2);
+        mapX = Math.min(mapX, GameController.getInstance().getCivilization().getPersonalMap().getMapHeight() - VIEW_MAP_HEIGHT / 2 - 1);
+        mapY = Math.max(mapY, VIEW_MAP_HEIGHT / 2);
+        mapX = Math.min(mapY, GameController.getInstance().getCivilization().getPersonalMap().getMapWidth() - VIEW_MAP_WIDTH / 2 - 1);
+    }
+
     private void loadTiles() {
-        tilePane.getChildren().clear();
+        tileGroup.getChildren().clear();
         Civilization civilization = GameController.getInstance().getCivilization();
         CivilizationMap personalMap = civilization.getPersonalMap();
+
+        temp.setText(mapX + ", " + mapY);
 
         for (int i = -(VIEW_MAP_HEIGHT / 2); i <= VIEW_MAP_HEIGHT / 2; i++) {
             for (int j = -(VIEW_MAP_WIDTH / 2); j <= VIEW_MAP_WIDTH / 2; j++) {
@@ -97,7 +127,7 @@ public class GameViewController {
         imageView.setY(upperBound);
         imageView.setX(leftBound);
         imageView.getStyleClass().add("tile");
-        tilePane.getChildren().add(imageView);
+        tileGroup.getChildren().add(imageView);
     }
 
     private Image getImage(String filePath) {
