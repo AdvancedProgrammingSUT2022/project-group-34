@@ -40,6 +40,8 @@ public class Civilization {
     private ArrayList<UnitEnum> civilizationNotUsableUnits  = new ArrayList<>();
     private ArrayList<UnitEnum> civilizationUsableUnits     = new ArrayList<>();
 
+    private ArrayList<BuildingEnum> civilizationProducibleBuildings = new ArrayList<>();
+
 
     private HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies;
     private HashMap<TechnologyEnum, Technology> civilizationNotResearchedTechnologies;
@@ -79,6 +81,12 @@ public class Civilization {
         this.numberOfBeakers = 100;
         this.happiness0 = 10;
         this.gold = 400;
+
+        this.civilizationProducibleBuildings.add(BuildingEnum.Monument);
+        this.civilizationUsableUnits.add(UnitEnum.Settler);
+        this.civilizationUsableUnits.add(UnitEnum.Worker);
+        this.civilizationUsableUnits.add(UnitEnum.Warrior);
+        this.civilizationUsableUnits.add(UnitEnum.Scout);
 
 
         civilizationResearchedTechnologies = new HashMap<>();
@@ -378,5 +386,13 @@ public class Civilization {
 
     public int getRailMaintenanceCost() {
         return railMaintenanceCost;
+    }
+
+    public ArrayList<BuildingEnum> getCivilizationProducibleBuildings() {
+        return civilizationProducibleBuildings;
+    }
+
+    public void setCivilizationProducibleBuildings(ArrayList<BuildingEnum> civilizationProducibleBuildings) {
+        this.civilizationProducibleBuildings = civilizationProducibleBuildings;
     }
 }
