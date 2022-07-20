@@ -773,6 +773,8 @@ public class GameMenu extends Menu {
             output.append("|Number of Citizens:").append(city.getCitizens().size());
             if (city.getUnitUnderProduct() != null)
                 output.append("|City Production:").append(city.getUnitUnderProduct().getName()).append("\n");
+            else if(city.getBuildingUnderProduct()!=null)
+                output.append("|City Production:").append(city.getBuildingUnderProduct().getName()).append("\n");
             else
                 output.append("|City Production:").append("\n");
         }
@@ -1277,6 +1279,7 @@ public class GameMenu extends Menu {
         System.out.println("List of producible Things:");
         for (int i = 1; i <= unitEnums.size(); i++)
             System.out.println(i + "." + unitEnums.get(i - 1) + "|" + (int) Math.ceil((float) unitEnums.get(i - 1).getCost() / selectedCity.getProductionRate()));
+        System.out.println("-------------------------------------------------------------");
         for (int i = 1; i <= buildingEnums.size(); i++)
             System.out.println(i+unitEnums.size() + "." + buildingEnums.get(i - 1) + "|" + (int) Math.ceil((float) buildingEnums.get(i - 1).getCost() / selectedCity.getProductionRate()));
 
@@ -1299,6 +1302,8 @@ public class GameMenu extends Menu {
                         selectedCity.setBuildingUnderProduct(new Building(buildingEnums.get(number - unitEnums.size() - 1)));
                         selectedCity.setProductionUnderProductTern((int) Math.ceil((float) buildingEnums.get(number - unitEnums.size() - 1).getCost() / selectedCity.getProductionRate()));
                     }
+                    System.out.println("City started construction!");
+                    break;
                 }
             } else invalidCommand();
         }

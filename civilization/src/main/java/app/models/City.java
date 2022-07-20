@@ -227,7 +227,7 @@ public class City {
     }
 
     public int getGoldRate() {
-        int goldRate=0;
+        int goldRate=20;
         for (Citizen citizen : citizens)
             if (citizen.isWorking()) goldRate += citizen.getWorkPosition().getGoldRate();
 
