@@ -12,7 +12,10 @@ import app.models.tile.VisibleTile;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -126,29 +129,86 @@ public class GameViewController {
     }
 
     private void putTile(VisibleTile visibleTile, int x, int y, int upperBound, int leftBound) {
-        putTileBorders(upperBound, leftBound, x, y);
-
+        StringBuilder tooltip = new StringBuilder("");
+        ImageView imageView;
+        Civilization civilization = GameController.getInstance().getCivilization();
+        Tile tile = CivilizationController.getInstance().getTileByPosition(new int[]{visibleTile.getX(), visibleTile.getY()});
         if (visibleTile.isInFog()) {
-            putTerrainFeature(null, null, upperBound, leftBound);
+            imageView = putTerrainFeature(null, null, upperBound, leftBound);
+            tooltip = new StringBuilder("FOG OF WOR!");
         }
         else {
-            putTerrainFeature(visibleTile.getTerrain(), visibleTile.getFeature(), upperBound, leftBound);
+            putRivers(upperBound, leftBound, x, y);
+            imageView = putTerrainFeature(visibleTile.getTerrain(), visibleTile.getFeature(), upperBound, leftBound);
+            tooltip.append("This tile is owned by " + visibleTile.getCivilization() + ".\n");
+            tooltip.append("Terrain: " + visibleTile.getTerrain() + "\n");
+            tooltip.append("Terrain Feature: " + visibleTile.getFeature() + "\n");
+
+            if (civilization.isTransparent(tile)) {
+
+            }
+        }
+        Tooltip.install(imageView, new Tooltip(tooltip.toString()));
+    }
+
+    private void putRivers(int upperBound, int leftBound, int x, int y) {
+        Tile tile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y});
+        Tile otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y});
+        if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+            putRiver(upperBound, leftBound, 0);
+        otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x + 1, y});
+        if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+            putRiver(upperBound, leftBound, 3);
+        if (y % 2 == 0) {
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y - 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(upperBound, leftBound, 5);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y - 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(upperBound, leftBound, 4);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x - 1, y + 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(upperBound, leftBound, 1);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y + 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(upperBound, leftBound, 2);
+        } else {
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y - 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(upperBound, leftBound, 5);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x + 1, y - 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(upperBound, leftBound, 4);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x, y + 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(upperBound, leftBound, 1);
+            otherTile = CivilizationController.getInstance().getTileByPosition(new int[]{x + 1, y + 1});
+            if (CivilizationController.getInstance().isRiverBetween(tile, otherTile))
+                putRiver(upperBound, leftBound, 2);
         }
     }
 
-    private void putTileBorders(int upperBound, int leftBound, int x, int y) {
+    private void putRiver(int upperBound, int leftBound, int position) {
         //TODO...
+        String filePath = "/app/assets/rivers/" + position + ".png";
+        putElement(tileGroup, filePath, "river", upperBound, leftBound);
     }
 
-    private void putTerrainFeature(Terrain terrain, Feature feature, int upperBound, int leftBound) {
+    private ImageView putTerrainFeature(Terrain terrain, Feature feature, int upperBound, int leftBound) {
         //TODO...
         String fileName = terrain + "_" + feature + ".png";
         String filePath = "/app/assets/tiles/" + fileName;
+        System.out.println(filePath);
+        return putElement(tileGroup, filePath, "tile", upperBound, leftBound);
+    }
+
+    private ImageView putElement(Group group, String filePath, String styleClass, int x, int y) {
         ImageView imageView = new ImageView(getImage(filePath));
-        imageView.setY(upperBound);
-        imageView.setX(leftBound);
-        imageView.getStyleClass().add("tile");
-        tileGroup.getChildren().add(imageView);
+        imageView.setY(x);
+        imageView.setX(y);
+        imageView.getStyleClass().add(styleClass);
+        group.getChildren().add(imageView);
+        return imageView;
     }
 
     private Image getImage(String filePath) {
