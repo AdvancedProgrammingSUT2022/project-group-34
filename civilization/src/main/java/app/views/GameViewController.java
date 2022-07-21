@@ -1,5 +1,6 @@
 package app.views;
 
+import app.App;
 import app.controllers.CivilizationController;
 import app.controllers.GameController;
 import app.models.Civilization;
@@ -8,6 +9,7 @@ import app.models.tile.Feature;
 import app.models.tile.Terrain;
 import app.models.tile.Tile;
 import app.models.tile.VisibleTile;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -46,7 +48,21 @@ public class GameViewController {
                 new Image(getClass().getResource("/app/background/game_view.png").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1280, 720, false, false, false, false)));
+
         pane.setBackground(background);
+
+        pane.setFocusTraversable(true);
+        pane.requestFocus();
+
+        System.out.println(App.getStage().getScene().getFocusOwner());
+        System.out.println(App.getStage().getScene().getRoot());
+
+        App.getStage().getScene().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                navigate(event);
+            }
+        });
 
         loadTiles();
     }
@@ -69,8 +85,10 @@ public class GameViewController {
         }
         mapX = Math.max(mapX, VIEW_MAP_HEIGHT / 2);
         mapX = Math.min(mapX, GameController.getInstance().getCivilization().getPersonalMap().getMapHeight() - VIEW_MAP_HEIGHT / 2 - 1);
-        mapY = Math.max(mapY, VIEW_MAP_HEIGHT / 2);
-        mapX = Math.min(mapY, GameController.getInstance().getCivilization().getPersonalMap().getMapWidth() - VIEW_MAP_WIDTH / 2 - 1);
+        mapY = Math.max(mapY, VIEW_MAP_WIDTH / 2);
+        mapY = Math.min(mapY, GameController.getInstance().getCivilization().getPersonalMap().getMapWidth() - VIEW_MAP_WIDTH / 2 - 1);
+
+        loadTiles();
     }
 
     private void loadTiles() {
@@ -112,6 +130,9 @@ public class GameViewController {
 
         if (visibleTile.isInFog()) {
             putTerrainFeature(null, null, upperBound, leftBound);
+        }
+        else {
+            putTerrainFeature(visibleTile.getTerrain(), visibleTile.getFeature(), upperBound, leftBound);
         }
     }
 

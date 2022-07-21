@@ -7,6 +7,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -41,7 +43,14 @@ public class App extends Application {
     }
 
     public static void setMenu(String menuName) {
-        mainStage.setScene(new Scene(loadPage(menuName)));
+        mainStage.close();
+        Scene scene = new Scene(new Pane());
+        mainStage.setScene(scene);
+        Parent root = loadPage(menuName);
+        scene.setRoot(root);
+        mainStage.show();
+        System.out.println(menuName);
+        System.out.println(mainStage.getScene().getRoot());
     }
 
     private static Parent loadPage(String pageName) {
