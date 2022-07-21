@@ -34,3 +34,7 @@ Button:hover {
 .tile:hover {
     -fx-effect: dropshadow(gaussian, orange, 10, 0, 0, 0);
 }
+
+.revealed {
+    -fx-opacity: 0.5;
+}

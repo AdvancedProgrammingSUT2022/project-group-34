@@ -5,6 +5,10 @@ import app.controllers.CivilizationController;
 import app.controllers.GameController;
 import app.models.Civilization;
 import app.models.map.CivilizationMap;
+import app.models.resource.BonusResource;
+import app.models.resource.LuxuryResource;
+import app.models.resource.Resource;
+import app.models.resource.StrategicResource;
 import app.models.tile.Feature;
 import app.models.tile.Terrain;
 import app.models.tile.Tile;
@@ -135,7 +139,7 @@ public class GameViewController {
         Tile tile = CivilizationController.getInstance().getTileByPosition(new int[]{visibleTile.getX(), visibleTile.getY()});
         if (visibleTile.isInFog()) {
             imageView = putTerrainFeature(null, null, upperBound, leftBound);
-            tooltip = new StringBuilder("FOG OF WOR!");
+            tooltip = new StringBuilder("FOG OF WAR!\n");
         }
         else {
             putRivers(upperBound, leftBound, x, y);
@@ -145,9 +149,15 @@ public class GameViewController {
             tooltip.append("Terrain Feature: " + visibleTile.getFeature() + "\n");
 
             if (civilization.isTransparent(tile)) {
-
+                putResource(tile.getResource(), upperBound, leftBound, x, y);
+                tooltip.append("The resource in this tile is: " + getResourceName(tile.getResource()) + "\n");
+            }
+            else {
+                imageView.getStyleClass().add("revealed");
+                tooltip.insert(0, "This tile is revealed but not transparent!\n");
             }
         }
+        tooltip.append("Tile coordinates: " + tile.getX() + ", " + tile.getY() + "\n");
         Tooltip.install(imageView, new Tooltip(tooltip.toString()));
     }
 
@@ -192,6 +202,20 @@ public class GameViewController {
         //TODO...
         String filePath = "/app/assets/rivers/" + position + ".png";
         putElement(tileGroup, filePath, "river", upperBound, leftBound);
+    }
+
+    private void putResource(Resource resource, int upperBound, int leftBound, int x, int y) {
+        String name = getResourceName(resource);
+        String filePath = "/app/assets/resources/" + name + ".png";
+        putElement(tileGroup, filePath, "resource", upperBound, leftBound);
+    }
+
+    private String getResourceName(Resource resource) {
+        if (resource == null) return "null";
+        Civilization civilization = GameController.getInstance().getCivilization();
+        if (resource instanceof StrategicResource && !civilization.hasResearched(((StrategicResource) resource).getRequiredTechnology())) {
+            return "unknown";
+        } else return resource.getName();
     }
 
     private ImageView putTerrainFeature(Terrain terrain, Feature feature, int upperBound, int leftBound) {

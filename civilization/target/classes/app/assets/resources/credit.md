@@ -1,0 +1,20 @@
+<a href="https://www.flaticon.com/free-icons/sheep" title="sheep icons">Sheep icons created by smalllikeart - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/cotton" title="Cotton icons">Cotton icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/marble" title="marble icons">Marble icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/sugar" title="sugar icons">Sugar icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/banana" title="banana icons">Banana icons created by catkuro - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/reindeer" title="reindeer icons">Reindeer icons created by smalllikeart - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/cow" title="cow icons">Cow icons created by smalllikeart - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/rice" title="rice icons">Rice icons created by Icongeek26 - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/silver" title="silver icons">Silver icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/silk" title="silk icons">Silk icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/horn" title="horn icons">Horn icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/deity" title="deity icons">Deity icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/gold" title="gold icons">Gold icons created by photo3idea_studio - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/diamond" title="diamond icons">Diamond icons created by Smashicons - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/fur" title="fur icons">Fur icons created by Nikita Golubev - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/dye" title="dye icons">Dye icons created by Smashicons - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/steel" title="steel icons">Steel icons created by Smashicons - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/zoo" title="zoo icons">Zoo icons created by smalllikeart - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/coal" title="coal icons">Coal icons created by Pause08 - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/unknown" title="unknown icons">Unknown icons created by Freepik - Flaticon</a>
