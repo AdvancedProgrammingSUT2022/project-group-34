@@ -13,6 +13,7 @@ import app.models.tile.Feature;
 import app.models.tile.Terrain;
 import app.models.tile.Tile;
 import app.models.tile.VisibleTile;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -24,6 +25,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
 
 import java.util.HashMap;
 
@@ -47,7 +51,10 @@ public class GameViewController {
     private Group tileGroup;
 
     @FXML
-    private Label temp;
+    private Group statusBarGroup;
+
+    @FXML
+    private HBox statusBar;
 
     @FXML
     private void initialize() {
@@ -72,6 +79,7 @@ public class GameViewController {
         });
 
         loadTiles();
+        loadStatusBar();
     }
 
     @FXML
@@ -102,8 +110,6 @@ public class GameViewController {
         tileGroup.getChildren().clear();
         Civilization civilization = GameController.getInstance().getCivilization();
         CivilizationMap personalMap = civilization.getPersonalMap();
-
-        temp.setText(mapX + ", " + mapY);
 
         for (int i = -(VIEW_MAP_HEIGHT / 2); i <= VIEW_MAP_HEIGHT / 2; i++) {
             for (int j = -(VIEW_MAP_WIDTH / 2); j <= VIEW_MAP_WIDTH / 2; j++) {
@@ -227,11 +233,20 @@ public class GameViewController {
     }
 
     private ImageView putElement(Group group, String filePath, String styleClass, int x, int y) {
-        ImageView imageView = new ImageView(getImage(filePath));
+        ImageView imageView = putElement(group.getChildren(), filePath, styleClass);
         imageView.setY(x);
         imageView.setX(y);
+        return imageView;
+    }
+
+    private ImageView putElement(HBox box, String filePath, String styleClass) {
+        return putElement(box.getChildren(), filePath, styleClass);
+    }
+
+    private ImageView putElement(ObservableList<Node> children, String filePath, String styleClass) {
+        ImageView imageView = new ImageView(getImage(filePath));
         imageView.getStyleClass().add(styleClass);
-        group.getChildren().add(imageView);
+        children.add(imageView);
         return imageView;
     }
 
@@ -242,5 +257,45 @@ public class GameViewController {
             loadedImages.put(filePath, image);
         }
         return image;
+    }
+
+    private void loadStatusBar() {
+        statusBar.getChildren().clear();
+        putStatusBarBackground();
+        showGold();
+        showHappiness();
+        showBeaker();
+        //TODO...
+    }
+
+    private void putStatusBarBackground() {
+        Rectangle rectangle = new Rectangle();
+        rectangle.setHeight(25);
+        rectangle.setWidth(1280);
+        rectangle.setX(0);
+        rectangle.setY(0);
+        rectangle.setFill(Color.DARKSLATEGRAY);
+        statusBarGroup.getChildren().add(0, rectangle);
+    }
+
+    private void showGold() {
+        ImageView imageView = putElement(statusBar, "/app/assets/icons/Gold.png", "icon");
+        Tooltip.install(imageView, new Tooltip("Gold"));
+        Label gold = new Label(String.valueOf(GameController.getInstance().getCivilization().getGold()));
+        statusBar.getChildren().add(gold);
+    }
+
+    private void showHappiness() {
+        ImageView imageView = putElement(statusBar, "/app/assets/icons/Happiness.png", "icon");
+        Tooltip.install(imageView, new Tooltip("Happiness"));
+        Label happiness = new Label(String.valueOf(GameController.getInstance().getCivilization().getHappiness()));
+        statusBar.getChildren().add(happiness);
+    }
+
+    private void showBeaker() {
+        ImageView imageView = putElement(statusBar, "/app/assets/icons/Beaker.png", "icon");
+        Tooltip.install(imageView, new Tooltip("Science"));
+        Label beaker = new Label(String.valueOf(GameController.getInstance().getCivilization().getNumberOfBeakers()));
+        statusBar.getChildren().add(beaker);
     }
 }

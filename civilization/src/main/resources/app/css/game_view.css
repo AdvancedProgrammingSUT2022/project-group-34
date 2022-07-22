@@ -7,6 +7,13 @@ VBox {
     -fx-alignment: center;
 }
 
+HBox {
+    -fx-padding: 0 0 0 5;
+    -fx-alignment: center;
+    -fx-spacing: 5;
+    -fx-pref-height: 25;
+}
+
 Label {
     -fx-text-alignment: center;
     -fx-alignment: center;
@@ -37,4 +44,8 @@ Button:hover {
 
 .revealed {
     -fx-opacity: 0.5;
+}
+
+.icon:hover {
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0, 0, 0);
 }
