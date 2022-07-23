@@ -1,0 +1,59 @@
+BorderPane {
+    -fx-padding: 0 200 75 200;
+}
+
+VBox {
+    -fx-max-width: 250;
+    -fx-spacing: 20;
+    -fx-alignment: center-left;
+}
+
+Label {
+    -fx-text-alignment: left;
+    -fx-alignment: center-left;
+    -fx-text-fill: white;
+    -fx-wrap-text: true;
+}
+
+TextField {
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+}
+
+PasswordField {
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+}
+
+Button {
+    -fx-pref-width: 250;
+    -fx-pref-height: 50;
+    -fx-background-color: transparent;
+    -fx-text-fill: #00ff55;
+    -fx-border-color: #00ff55;
+}
+
+Button: hover {
+    -fx-effect: dropshadow(gaussian, white, 10, 0, 0, 00);
+}
+
+.chooser {
+    -fx-pref-width: 150;
+    -fx-pref-height: 20;
+    -fx-font-size: 15;
+}
+
+#choose {
+    -fx-text-fill: #999999;
+    -fx-border-color: #999999;
+}
+
+#chosen {
+    -fx-text-fill: #ff2200;
+    -fx-border-color: #ff2200;
+}
+
+#exit {
+    -fx-text-fill: #ff2200;
+    -fx-border-color: #ff2200;
+}

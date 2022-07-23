@@ -1,0 +1,1 @@
+{"resource":"Gold","isUsableResource":false,"foodRate":1,"goldRate":2,"productionRate":1,"impactOnWar":27,"hasRoad":false,"hasRail":false,"isLooted":false,"x":3,"y":4,"movingCost":27,"terrain":"Hills","feature":"Forests","isRiver":[true,true,true,false,false,false],"isBlock":true,"id":5295}

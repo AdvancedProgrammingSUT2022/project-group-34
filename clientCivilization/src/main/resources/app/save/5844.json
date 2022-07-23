@@ -1,0 +1,1 @@
+{"resource":"Coal","isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":-32,"hasRoad":false,"hasRail":false,"isLooted":false,"x":14,"y":3,"movingCost":-31,"terrain":"Grasslands","feature":"Marsh","isRiver":[false,false,true,false,false,false],"isBlock":false,"id":5844}

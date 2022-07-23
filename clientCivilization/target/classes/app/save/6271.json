@@ -1,0 +1,1 @@
+{"resource":"Deer","isUsableResource":false,"foodRate":0,"goldRate":2,"productionRate":0,"impactOnWar":2,"hasRoad":false,"hasRail":false,"isLooted":false,"x":22,"y":30,"movingCost":25,"terrain":"Hills","isRiver":[true,false,false,false,false,true],"isBlock":true,"id":6271}

@@ -1,0 +1,90 @@
+BorderPane {
+    -fx-padding: 0 50 50 50;
+}
+
+VBox {
+    -fx-spacing: 20;
+    -fx-alignment: center;
+}
+
+HBox {
+    -fx-alignment: center;
+    -fx-spacing: 30;
+}
+
+ImageView {
+    -fx-pref-height: 120;
+    -fx-max-width: 300;
+}
+
+Label {
+    -fx-text-alignment: left;
+    -fx-alignment: center-left;
+    -fx-text-fill: white;
+    -fx-wrap-text: true;
+}
+
+TextField {
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+}
+
+PasswordField {
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+}
+
+Button {
+    -fx-pref-width: 250;
+    -fx-pref-height: 50;
+    -fx-background-color: transparent;
+    -fx-text-fill: #00ff55;
+    -fx-border-color: #00ff55;
+}
+
+.header {
+    -fx-font-size: 30;
+}
+
+Button: hover {
+    -fx-effect: dropshadow(gaussian, white, 10, 0, 0, 0);
+}
+
+.title {
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+}
+
+.chooser {
+    -fx-pref-width: 150;
+    -fx-pref-height: 20;
+    -fx-font-size: 15;
+}
+
+.lowSpacing {
+    -fx-spacing: 10;
+}
+
+.placeholder: hover {
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0, 0, 0);
+    -fx-cursor: hand;
+}
+
+#choose {
+    -fx-text-fill: #999999;
+    -fx-border-color: #999999;
+}
+
+#placeholderBox {
+    -fx-spacing: 3;
+}
+
+#chosen {
+    -fx-text-fill: #ff2200;
+    -fx-border-color: #ff2200;
+}
+
+#exit {
+    -fx-text-fill: #ff2200;
+    -fx-border-color: #ff2200;
+}
