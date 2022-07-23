@@ -41,7 +41,7 @@ public enum Terrain{
         allTerrains.put("Grasslands",Terrain.Grasslands);
         allTerrains.put("Hills"     ,Terrain.Hills);
         allTerrains.put("Mountain"  ,Terrain.Mountain);
-        allTerrains.put("Oceana"    ,Terrain.Ocean);
+        allTerrains.put("Ocean"    ,Terrain.Ocean);
         allTerrains.put("Plains"    ,Terrain.Plains);
         allTerrains.put("Snow"      ,Terrain.Snow);
         allTerrains.put("Tundra"    ,Terrain.Tundra);
@@ -66,6 +66,11 @@ public enum Terrain{
     }
 
     public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
         return name;
     }
 }

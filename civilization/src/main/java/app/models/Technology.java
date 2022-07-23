@@ -155,4 +155,9 @@ public class Technology {
     public ArrayList<TechnologyEnum> getPrerequisiteTechnologies() {
         return prerequisiteTechnologies;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -301,6 +301,10 @@ public class Civilization {
         return personalMap.getTileByXY(tile.getX(), tile.getY()).isInFog();
     }
 
+    public boolean isInFog(int x, int y) {
+        return personalMap.getTileByXY(x, y).isInFog();
+    }
+
     public boolean isTransparent(Tile tile) {
         return personalMap.isTransparent(personalMap.getTileByXY(tile.getX(), tile.getY()));
     }
