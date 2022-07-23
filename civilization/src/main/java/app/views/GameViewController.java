@@ -4,6 +4,7 @@ import app.App;
 import app.controllers.CivilizationController;
 import app.controllers.GameController;
 import app.models.Civilization;
+import app.models.Technology;
 import app.models.map.CivilizationMap;
 import app.models.resource.BonusResource;
 import app.models.resource.LuxuryResource;
@@ -51,6 +52,9 @@ public class GameViewController {
     private Group tileGroup;
 
     @FXML
+    private Group currentTechnologyGroup;
+
+    @FXML
     private Group statusBarGroup;
 
     @FXML
@@ -65,12 +69,6 @@ public class GameViewController {
 
         pane.setBackground(background);
 
-        pane.setFocusTraversable(true);
-        pane.requestFocus();
-
-        System.out.println(App.getStage().getScene().getFocusOwner());
-        System.out.println(App.getStage().getScene().getRoot());
-
         App.getStage().getScene().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -80,6 +78,7 @@ public class GameViewController {
 
         loadTiles();
         loadStatusBar();
+        loadCurrentTechnology();
     }
 
     @FXML
@@ -297,5 +296,34 @@ public class GameViewController {
         Tooltip.install(imageView, new Tooltip("Science"));
         Label beaker = new Label(String.valueOf(GameController.getInstance().getCivilization().getNumberOfBeakers()));
         statusBar.getChildren().add(beaker);
+    }
+
+    private void loadCurrentTechnology() {
+        currentTechnologyGroup.getChildren().clear();
+        Technology technology = GameController.getInstance().getCivilization().getStudyingTechnology();
+        putCurrentTechnologyBackground();
+        putCurrentTechnologyImage(technology);
+        //TODO...
+    }
+
+    private void putCurrentTechnologyBackground() {
+        Rectangle background = new Rectangle();
+        background.setHeight(64);
+        background.setWidth(64);
+        background.setY(25);
+        background.setFill(Color.WHITESMOKE);
+        currentTechnologyGroup.getChildren().add(background);
+    }
+
+    private void putCurrentTechnologyImage(Technology technology) {
+        String filePath = "/app/assets/technologies/" + technology + ".png";
+        ImageView imageView = putElement(currentTechnologyGroup, filePath, "technology", 25, 0);
+        Tooltip.install(imageView, new Tooltip(String.valueOf(technology)));
+        Label currentTechnology = new Label(String.valueOf(technology));
+        currentTechnology.setBackground(new Background(new BackgroundFill(Color.DARKSLATEGRAY, null, null)));
+        currentTechnology.setLayoutX(64);
+        currentTechnology.setLayoutY(25);
+        currentTechnology.setMaxHeight(15);
+        currentTechnologyGroup.getChildren().add(currentTechnology);
     }
 }

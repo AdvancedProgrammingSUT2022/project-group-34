@@ -49,3 +49,7 @@ Button:hover {
 .icon:hover {
     -fx-effect: dropshadow(gaussian, yellow, 10, 0, 0, 0);
 }
+
+.technology:hover {
+    -fx-effect: dropshadow(gaussian, green, 10, 0, 0, 0);
+}
