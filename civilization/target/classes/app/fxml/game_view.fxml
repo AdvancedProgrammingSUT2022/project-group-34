@@ -17,5 +17,6 @@
         <HBox fx:id="statusBar"/>
     </Group>
     <Group fx:id="currentTechnologyGroup"/>
+    <Group fx:id="currentUnitGroup"/>
     <Group fx:id="tileGroup"/>
 </Pane>

@@ -3,8 +3,10 @@ package app.views;
 import app.App;
 import app.controllers.CivilizationController;
 import app.controllers.GameController;
+import app.models.City;
 import app.models.Civilization;
 import app.models.Technology;
+import app.models.TechnologyEnum;
 import app.models.map.CivilizationMap;
 import app.models.resource.BonusResource;
 import app.models.resource.LuxuryResource;
@@ -14,6 +16,9 @@ import app.models.tile.Feature;
 import app.models.tile.Terrain;
 import app.models.tile.Tile;
 import app.models.tile.VisibleTile;
+import app.models.unit.CombatUnit;
+import app.models.unit.NonCombatUnit;
+import app.models.unit.Unit;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -43,6 +48,10 @@ public class GameViewController {
     private int mapX = VIEW_MAP_HEIGHT / 2;
     private int mapY = VIEW_MAP_WIDTH / 2;
 
+    private CombatUnit selectedCombatUnit = null;
+    private NonCombatUnit selectedNonCombatUnit = null;
+    private City selectedCity = null;
+
     private HashMap<String, Image> loadedImages = new HashMap<>();
 
     @FXML
@@ -53,6 +62,9 @@ public class GameViewController {
 
     @FXML
     private Group currentTechnologyGroup;
+
+    @FXML
+    private Group currentUnitGroup;
 
     @FXML
     private Group statusBarGroup;
@@ -79,6 +91,7 @@ public class GameViewController {
         loadTiles();
         loadStatusBar();
         loadCurrentTechnology();
+        loadCurrentUnit();
     }
 
     @FXML
@@ -303,6 +316,7 @@ public class GameViewController {
         Technology technology = GameController.getInstance().getCivilization().getStudyingTechnology();
         putCurrentTechnologyBackground();
         putCurrentTechnologyImage(technology);
+        putCurrentTechnologyLabel(technology);
         //TODO...
     }
 
@@ -319,6 +333,9 @@ public class GameViewController {
         String filePath = "/app/assets/technologies/" + technology + ".png";
         ImageView imageView = putElement(currentTechnologyGroup, filePath, "technology", 25, 0);
         Tooltip.install(imageView, new Tooltip(String.valueOf(technology)));
+    }
+
+    private void putCurrentTechnologyLabel(Technology technology) {
         Label currentTechnology = new Label(String.valueOf(technology));
         if (technology != null) currentTechnology.setText(currentTechnology.getText() + " (" + technology.getRemainingTerm() + ")");
         currentTechnology.setBackground(new Background(new BackgroundFill(Color.DARKSLATEGRAY, null, null)));
@@ -326,5 +343,40 @@ public class GameViewController {
         currentTechnology.setLayoutY(25);
         currentTechnology.setMaxHeight(15);
         currentTechnologyGroup.getChildren().add(currentTechnology);
+    }
+
+    private void loadCurrentUnit() {
+        currentUnitGroup.getChildren().clear();
+        Unit unit = selectedCombatUnit;
+        if (unit == null) unit = selectedNonCombatUnit;
+        putCurrentUnitBackground();
+        putCurrentUnitImage(unit);
+        putCurrentUnitLabel(unit);
+        //TODO...
+    }
+
+    private void putCurrentUnitBackground() {
+        Rectangle background = new Rectangle();
+        background.setHeight(64);
+        background.setWidth(64);
+        background.setY(700 - 64);
+        background.setFill(Color.WHITESMOKE);
+        currentUnitGroup.getChildren().add(background);
+    }
+
+    private void putCurrentUnitImage(Unit unit) {
+        String filePath = "/app/assets/units/" + unit + ".png";
+        ImageView imageView = putElement(currentUnitGroup, filePath, "unit", 700 - 64, 0);
+        Tooltip.install(imageView, new Tooltip(String.valueOf(unit)));
+    }
+
+    private void putCurrentUnitLabel(Unit unit) {
+        Label currentUnit = new Label(String.valueOf(unit));
+        if (unit != null) currentUnit.setText(currentUnit.getText());
+        currentUnit.setBackground(new Background(new BackgroundFill(Color.DARKSLATEGRAY, null, null)));
+        currentUnit.setLayoutX(64);
+        currentUnit.setLayoutY(700 - 15);
+        currentUnit.setMaxHeight(15);
+        currentUnitGroup.getChildren().add(currentUnit);
     }
 }
