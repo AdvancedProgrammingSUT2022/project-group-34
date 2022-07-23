@@ -26,9 +26,8 @@ public class MiniCivilizationMap extends MiniMap{
             }
             civilizationMap.getMap().add(visibleTiles);
         }
-
         this.tT.forEach(id -> civilizationMap.getTransparentTiles().add((VisibleTile)GLoad.getInstance().load(new MiniVisibleTile(), id)));
-
+        cloneMap(civilizationMap);
         return civilizationMap;
     }
 }

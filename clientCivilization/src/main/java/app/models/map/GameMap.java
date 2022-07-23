@@ -16,8 +16,9 @@ public class GameMap extends Map {
     }
 
     public Tile getTileByXY(int x, int y){
-        if(x < 0 || this.mapHeight <= x || y < 0 || this.mapWidth <= y)
+        if(x < 0 || this.mapHeight <= x || y < 0 || this.mapWidth <= y) {
             return null;
+        }
         return map.get(x).get(y);
     }
 

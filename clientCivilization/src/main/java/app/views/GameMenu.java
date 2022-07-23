@@ -19,6 +19,8 @@ import app.models.unit.Unit;
 import app.models.unit.Worker;
 import com.google.gson.Gson;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Random;
@@ -84,11 +86,7 @@ public class GameMenu extends Menu {
 
     private static void showMap() {
 
-        HashMap<String,Object> data = getData();
-        mapX = getAndCast2Integer(((Double) data.get("mapX")), mapX);
-        mapY = getAndCast2Integer(((Double) data.get("mapY")), mapY);
-        GLoad.getInstance().setTemp(new Gson().fromJson((String) data.get("GameController"), (Type) String[].class));
-        GameController gameController = (GameController)GLoad.getInstance().loadObject(new MiniGameController(),0);
+        GameController gameController = loadDataForShowMap();
 
         Civilization civilization = gameController.getCivilization();
         System.out.printf("%s : ", civilization.getCivilizationName());
@@ -100,7 +98,7 @@ public class GameMenu extends Menu {
         int arrayHeight = VIEW_MAP_HEIGHT * 6 + 2;
         int arrayWidth = VIEW_MAP_WIDTH * 30;
 
-        StringBuilder output[][] = new StringBuilder[arrayHeight][arrayWidth];
+        StringBuilder[][] output = new StringBuilder[arrayHeight][arrayWidth];
 
         for (int i = 0; i < arrayHeight; i++) {
             for (int j = 0; j < arrayWidth; j++) {
@@ -147,7 +145,6 @@ public class GameMenu extends Menu {
                         upperBound = 6 * (i + VIEW_MAP_HEIGHT / 2) + 3;
                     }
                 }
-
                 putTile(civilization, tile, visibleTile, output, x, y, upperBound, leftBound);
             }
         }
@@ -155,10 +152,39 @@ public class GameMenu extends Menu {
         printMap(output);
     }
 
-    private static int getAndCast2Integer(Double mapX, int def) {
-        if (mapX == null)
+    private static GameController loadDataForShowMap() {
+        HashMap<String,Object> data = getData();
+        writeTemp(data.keySet().toString());
+        mapX = getAndCast2Integer(((Double) data.get("mapX")), mapX);
+        mapY = getAndCast2Integer(((Double) data.get("mapY")), mapY);
+        GLoad.getInstance().setTemp(new Gson().fromJson((String) data.get("GameController"), (Type) String[].class));
+        GameController gameController = (GameController)GLoad.getInstance().loadObject(new MiniGameController(),0);
+        return gameController;
+    }
+
+    private static void writeTemp(String str) {
+        try {
+            FileWriter fileWriter = new FileWriter("temp.json");
+            //System.out.println("get pos :");
+            //String[] strings = Menu.getInput().split(" ");
+            //String str = new Gson().toJson(gameController.getCivilization().getPersonalMap().getMap().get(Integer.parseInt(strings[0])).get(Integer.parseInt(strings[1])));
+            for (int i = 0; i < str.length(); i += 10000) {
+                if (i + 10000 < str.length())
+                    fileWriter.write(str.substring(i,i+10000));
+                else fileWriter.write(str.substring(i));
+            }
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static int getAndCast2Integer(Double num, int def) {
+        if (num == null) {
+            System.out.println("null");
             return def;
-        return mapX.intValue();
+        }
+        return num.intValue();
     }
 
     private static HashMap<String, Object> getData() {
@@ -186,7 +212,9 @@ public class GameMenu extends Menu {
 
             if (!civilization.isInFog(tile)) {
                 putCivilization(visibleTile.getCivilization(), output, upperBound, leftBound);
-                putTerrain(visibleTile.getTerrain(), output, upperBound, leftBound);
+                try {
+                    putTerrain(visibleTile.getTerrain(), output, upperBound, leftBound);
+                }catch (Exception ignored){}
                 putFeature(visibleTile.getFeature(), output, upperBound, leftBound);
 
                 if (civilization.isTransparent(tile)) {
@@ -344,8 +372,8 @@ public class GameMenu extends Menu {
         putColor(colorCode, output, upperBound + 2, leftBound + 8);
     }
 
-    private static void putTerrain(Terrain terrain, StringBuilder[][] output, int upperBound, int leftBound) {
-        String terrainName = terrain.getName().toString();
+    private static void putTerrain(Terrain terrain, StringBuilder[][] output, int upperBound, int leftBound){
+        String terrainName = terrain.getName();
         putString(terrainName.substring(0, 1), output, upperBound + 1, leftBound + 5);
         String colorCode = ANSI_WHITE;
         if (terrainName.equals("Desert")) colorCode = ANSI_YELLOW;

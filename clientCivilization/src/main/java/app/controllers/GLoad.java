@@ -8,11 +8,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class GLoad {
 
     private static GLoad gLoad;
     private ArrayList<String> temp = new ArrayList<>();
+    private HashMap<Integer,Object> tempObject = new HashMap<>();
 
     private GLoad(){
     }
@@ -28,8 +30,9 @@ public class GLoad {
 
     public <T extends Mini> Object load(T miniObject, Integer id){
         if (id == null) return null;
+        if (tempObject.containsKey(id)) return tempObject.get(id);
+
         String string = temp.get(id);
-        //System.out.println("string :  " + string);
         try {
             //noinspection unchecked
             miniObject = (T) new Gson().fromJson(string,miniObject.getClass());
@@ -37,30 +40,9 @@ public class GLoad {
             System.out.println("can not load file : " + id + ".json");
             e.printStackTrace();
         }
-
-        return miniObject.getOriginal();
-    }
-
-    private String loadFrom(String name) {
-
-        //System.out.println("file : " + name);
-        StringBuilder stringBuilder = new StringBuilder();
-        FileReader fileReader;
-        try {
-            fileReader = new FileReader("src/main/resources/app/save/" + name);
-            int intCh;
-            try {
-                while ((intCh = fileReader.read()) != -1)
-                    stringBuilder.append((char)intCh);
-            }catch (IOException ignored){
-                System.out.println("can not read");
-            }
-
-        } catch (FileNotFoundException e) {
-            System.out.println("file not found , name : " + name);
-        }
-
-        return stringBuilder.toString();
+        Object object = miniObject.getOriginal();
+        tempObject.put(id, object);
+        return object;
     }
 
     public ArrayList<String> getTemp() {
@@ -71,6 +53,7 @@ public class GLoad {
         if (temp != null && temp.length != 0) {
             this.temp = new ArrayList<>();
             this.temp.addAll(Arrays.asList(temp));
+            this.tempObject.clear();
         }
     }
 }

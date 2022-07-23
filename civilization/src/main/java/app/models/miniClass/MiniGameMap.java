@@ -6,11 +6,12 @@ import app.models.tile.Tile;
 
 import java.util.ArrayList;
 
-public class MiniGameMap {
+public class MiniGameMap extends MiniMap{
 
     private ArrayList<ArrayList<Integer>> map;
 
     public MiniGameMap(GameMap gameMap) {
+        super(gameMap);
         this.map = new ArrayList<>();;
         for (ArrayList<Tile> tilesmapOrg : gameMap.getMap()) {
             ArrayList<Integer> copy = new ArrayList<>();

@@ -20,7 +20,6 @@ public class MiniGameMap extends MiniMap {
     @Override
     public Object getOriginal() {
         GameMap gameMap = new GameMap(this.mapWidth,this.mapHeight);
-
         for (ArrayList<Integer> integers : map) {
             ArrayList<Tile> tiles = new ArrayList<>();
             for (Integer id : integers) {
