@@ -320,6 +320,7 @@ public class GameViewController {
         ImageView imageView = putElement(currentTechnologyGroup, filePath, "technology", 25, 0);
         Tooltip.install(imageView, new Tooltip(String.valueOf(technology)));
         Label currentTechnology = new Label(String.valueOf(technology));
+        if (technology != null) currentTechnology.setText(currentTechnology.getText() + " (" + technology.getRemainingTerm() + ")");
         currentTechnology.setBackground(new Background(new BackgroundFill(Color.DARKSLATEGRAY, null, null)));
         currentTechnology.setLayoutX(64);
         currentTechnology.setLayoutY(25);
