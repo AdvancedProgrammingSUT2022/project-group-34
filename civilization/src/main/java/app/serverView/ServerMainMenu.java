@@ -4,7 +4,6 @@ import app.controllers.GameController;
 import app.controllers.UserController;
 import app.models.User;
 import app.models.connection.Message;
-import app.views.MainMenu;
 import app.views.Processor;
 
 import java.util.ArrayList;
@@ -12,16 +11,10 @@ import java.util.List;
 
 public class ServerMainMenu extends ServerMenu{
 
-    private static ServerMainMenu instance;
-
-    private ServerMainMenu(){
-        super("main");
+    ServerMainMenu(MySocketHandler mySocketHandler){
+        super("main", mySocketHandler);
     }
 
-    public static ServerMainMenu getInstance(){
-        if (instance == null) instance = new ServerMainMenu();
-        return instance;
-    }
     public void processOneProcessor(Processor processor) {
         message = new Message();
         if (!processor.isValid() || processor.getCategory() == null) message.addLine(getInvalidCommand());
@@ -30,11 +23,6 @@ public class ServerMainMenu extends ServerMenu{
         else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor, message);
         else message.addLine(getInvalidCommand());
         sendMessage(message);
-    }
-
-    private void sendMessage(Message message) {
-        super.sendMessage();
-        MainMenu.setAndPrintMessage(message);
     }
 
 

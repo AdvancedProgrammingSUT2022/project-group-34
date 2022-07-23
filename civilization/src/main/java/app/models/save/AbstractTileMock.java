@@ -16,6 +16,7 @@ public abstract class AbstractTileMock extends Mock{
     protected Feature feature;;
     protected Integer cityID;
     protected Integer civilizationID;
+    protected ArrayList<Integer> adjacentTiles = new ArrayList<>();
     protected ArrayList<Boolean> isRiver = new ArrayList<>();
     protected boolean isBlock = false;
 
@@ -30,8 +31,8 @@ public abstract class AbstractTileMock extends Mock{
         this.civilizationID = GSave.getInstance().save(abstractTile.getCivilization());;
         this.isRiver = abstractTile.getIsRiver();
         this.isBlock = abstractTile.isBlock();
+        //abstractTile.getAdjacentTiles().forEach(adj -> this.adjacentTiles.add(GSave.getInstance().miniSave(adj))); todo : error : doe mikhore
 
-        //abstractTile.getAdjacentTiles();
     }
 
     public AbstractTileMock(int id) {

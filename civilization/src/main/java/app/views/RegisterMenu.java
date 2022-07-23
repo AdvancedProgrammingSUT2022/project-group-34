@@ -1,7 +1,6 @@
 package app.views;
 
 import app.models.connection.Message;
-import app.serverView.ServerRegisterMenu;
 
 public class RegisterMenu extends Menu {
 
@@ -12,7 +11,7 @@ public class RegisterMenu extends Menu {
         Processor processor;
         while (Menu.getCurrentMenu().equals("register")) {
             processor = new Processor(getInput());
-            ServerRegisterMenu.getInstance().proccessOneProcessor(processor);
+            //ServerRegisterMenu.getInstance().proccessOneProcessor(processor);
             //printMessage(message);
             //System.out.println("RegisterMenu processOneCommand Menu.getCurrentMenu() : " + Menu.getCurrentMenu());
         }

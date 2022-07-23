@@ -1,7 +1,6 @@
 package app.views;
 
 import app.models.connection.Message;
-import app.serverView.ServerProfileMenu;
 
 public class ProfileMenu extends Menu {
 
@@ -13,7 +12,7 @@ public class ProfileMenu extends Menu {
 
         while (getCurrentMenu().equals("profile")) {
             processor = new Processor(getInput());
-            ServerProfileMenu.getInstance().processOneProcessor(processor);
+            //ServerProfileMenu.getInstance().processOneProcessor(processor);
         }
     }
 

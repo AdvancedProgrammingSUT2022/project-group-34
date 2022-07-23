@@ -22,6 +22,7 @@ public class Processor {
     private String category;
     private String section;
     private String subSection;
+    private String whichMenu;
     private HashMap<String, String> fields = new HashMap<>();
 
     public Processor(String command) {
@@ -30,6 +31,7 @@ public class Processor {
             category = null;
             section = null;
             subSection = null;
+            whichMenu = null;
             fields = null;
             return;
         }
@@ -99,5 +101,22 @@ public class Processor {
         else if (c == 'h') return "help";
         else return "randomInvalidFieldName";
         //TODO... Complete these.
+    }
+
+    public String getWhichMenu() {
+        return whichMenu;
+    }
+
+    public void setWhichMenu(String whichMenu) {
+        this.whichMenu = whichMenu;
+    }
+
+    @Override
+    public String toString() {
+        return "Processor{" +
+                "category='" + category + '\'' +
+                ", section='" + section + '\'' +
+                ", subSection='" + subSection + '\'' +
+                '}';
     }
 }

@@ -23,6 +23,7 @@ public class GSave {
     private Integer uniqueID;
     private GameMock gameSave;
 
+
     private final HashMap<Technology,Integer> technologyIntegerHashMap = new HashMap<>();
     private final HashMap<Civilization,Integer> civilizationIntegerHashMap = new HashMap<>();
     private final HashMap<User,Integer> userIntegerHashMap = new HashMap<>();
@@ -31,7 +32,6 @@ public class GSave {
     private final HashMap<City,Integer> cityIntegerHashMap = new HashMap<>();
     private final HashMap<Work,Integer> workIntegerHashMap = new HashMap<>();
     private final HashMap<Notification,Integer> notificationIntegerHashMap = new HashMap<>();
-
     private final HashMap<Citizen, Integer> citizenIntegerHashMap = new HashMap<>();
     private final HashMap<VisibleTile, Integer> visibleTileIntegerHashMap = new HashMap<>();
     private final HashMap<Tile, Integer> tileIntegerHashMap = new HashMap<>();
@@ -41,7 +41,6 @@ public class GSave {
     private static GSave gSave;
 
     private GSave(){
-        uniqueID = 1;
     }
 
     public static GSave getInstance() {
@@ -54,11 +53,12 @@ public class GSave {
     }
 
     public void saveAllGame(){
+        uniqueID = 1;
         gameSave = new GameMock(GameController.getInstance().getGame(),0);
         System.out.println(gameSave);
         String gameMockJson = new Gson().toJson(gameSave);
         System.out.println(gameMockJson);
-        saveAs(gameMockJson,0 + ".json");
+        saveAs(gameMockJson,"save" ,0 + ".json");
         System.out.println("game save successfully");
     }
 
@@ -68,7 +68,7 @@ public class GSave {
         if ((id = technologyIntegerHashMap.get(technology)) != null) return id;
         id = getUniqueID();
         technologyIntegerHashMap.put(technology,id);
-        saveAs(new Gson().toJson(new TechnologyMock(technology,id)),id + ".json");
+        saveAs(new Gson().toJson(new TechnologyMock(technology,id)),"save",id + ".json");
         return id;
     }
 
@@ -83,7 +83,7 @@ public class GSave {
         if ((id = userIntegerHashMap.get(user)) != null) return id;
         id = getUniqueID();
         userIntegerHashMap.put(user,id);
-        saveAs(new Gson().toJson(user),id + ".json");
+        saveAs(new Gson().toJson(user),"save",id + ".json");
         return id;
     }
 
@@ -93,7 +93,7 @@ public class GSave {
         if ((id = civilizationIntegerHashMap.get(civilization)) != null) return id;
         id = getUniqueID();
         civilizationIntegerHashMap.put(civilization,id);
-        saveAs(new Gson().toJson(new CivilizationMock(civilization,id)),id + ".json");
+        saveAs(new Gson().toJson(new CivilizationMock(civilization,id)),"save",id + ".json");
         return id;
     }
 
@@ -103,7 +103,7 @@ public class GSave {
         if ((id = gameMapIntegerHashMap.get(gameMap)) != null) return id;
         id = getUniqueID();
         gameMapIntegerHashMap.put(gameMap,id);
-        saveAs(new Gson().toJson(new GameMapMock(gameMap,id)),id + ".json");
+        saveAs(new Gson().toJson(new GameMapMock(gameMap,id)),"save",id + ".json");
         return id;
     }
 
@@ -113,7 +113,7 @@ public class GSave {
         if ((id = civilizationMapIntegerHashMap.get(personalMap)) != null) return id;
         id = getUniqueID();
         civilizationMapIntegerHashMap.put(personalMap,id);
-        saveAs(new Gson().toJson(new CivilizationMapMock(personalMap,id)),id + ".json");
+        saveAs(new Gson().toJson(new CivilizationMapMock(personalMap,id)),"save",id + ".json");
         return id;
     }
 
@@ -123,7 +123,7 @@ public class GSave {
         if ((id = cityIntegerHashMap.get(city)) != null) return id;
         id = getUniqueID();
         cityIntegerHashMap.put(city,id);
-        saveAs(new Gson().toJson(new CityMock(city,id)),id + ".json");
+        saveAs(new Gson().toJson(new CityMock(city,id)),"save",id + ".json");
         return id;
     }
 
@@ -133,7 +133,7 @@ public class GSave {
         if ((id = tileIntegerHashMap.get(tile)) != null) return id;
         id = getUniqueID();
         tileIntegerHashMap.put(tile,id);
-        saveAs(new Gson().toJson(new TileMock(tile,id)),id + ".json");
+        saveAs(new Gson().toJson(new TileMock(tile,id)),"save",id + ".json");
         return id;
     }
 
@@ -143,7 +143,7 @@ public class GSave {
         if ((id = unitIntegerHashMap.get(unit)) != null) return id;
         id = getUniqueID();
         unitIntegerHashMap.put(unit,id);
-        saveAs(new Gson().toJson(new UnitMock(unit,id)),id + ".json");
+        saveAs(new Gson().toJson(new UnitMock(unit,id)),"save",id + ".json");
         return id;
     }
 
@@ -153,7 +153,7 @@ public class GSave {
         if ((id = workIntegerHashMap.get(work)) != null) return id;
         id = getUniqueID();
         workIntegerHashMap.put(work,id);
-        saveAs(new Gson().toJson(new WorkMock(work,id)),id + ".json");
+        saveAs(new Gson().toJson(new WorkMock(work,id)),"save",id + ".json");
         return id;
     }
 
@@ -163,7 +163,7 @@ public class GSave {
         if ((id = notificationIntegerHashMap.get(notification)) != null) return id;
         id = getUniqueID();
         notificationIntegerHashMap.put(notification,id);
-        saveAs(new Gson().toJson(notification),id + ".json");
+        saveAs(new Gson().toJson(notification),"save",id + ".json");
         return id;
     }
 
@@ -173,7 +173,7 @@ public class GSave {
         if ((id = visibleTileIntegerHashMap.get(visibleTile)) != null) return id;
         id = getUniqueID();
         visibleTileIntegerHashMap.put(visibleTile,id);
-        saveAs(new Gson().toJson(new VisibleTileMock(visibleTile,id)),id + ".json");
+        saveAs(new Gson().toJson(new VisibleTileMock(visibleTile,id)),"save",id + ".json");
         return id;
     }
 
@@ -188,15 +188,15 @@ public class GSave {
         if ((id = citizenIntegerHashMap.get(citizen)) != null) return id;
         id = getUniqueID();
         citizenIntegerHashMap.put(citizen,id);
-        saveAs(new Gson().toJson(new CitizenMock(citizen,id)),id + ".json");
+        saveAs(new Gson().toJson(new CitizenMock(citizen,id)),"save",id + ".json");
         return id;
     }
 
-    private void saveAs(String string, String name) {
+    private void saveAs(String string, String loc, String name) {
         try {
             //System.out.println(name);
             FileWriter fileWriter;
-            fileWriter = new FileWriter("src/main/resources/app/save/" + name);
+            fileWriter = new FileWriter("src/main/resources/app/" + loc + "/" + name);
             fileWriter.write(string);
             fileWriter.close();
         } catch (IOException e) {
@@ -208,4 +208,6 @@ public class GSave {
         uniqueID++;
         return uniqueID - 1;
     }
+
+
 }

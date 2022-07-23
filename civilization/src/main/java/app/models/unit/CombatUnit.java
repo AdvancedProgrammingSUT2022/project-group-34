@@ -15,7 +15,6 @@ public class CombatUnit extends Unit {
     protected int combatStrength;
     protected int hitPoint;
 
-    protected boolean isSleep;
     protected boolean isAlert;
     protected boolean isFortify;
     protected boolean isFortifyUntilHealed;

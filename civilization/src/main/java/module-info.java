@@ -18,6 +18,8 @@ open module civilization {
     exports app.models.unit;
     exports app.models.connection;
     exports app.serverView;
+    exports app.models.miniClass;
+    exports app.models.miniClass.tile;
     //opens app.models.save to com.google.gson, javafx.fxml;
 
 }

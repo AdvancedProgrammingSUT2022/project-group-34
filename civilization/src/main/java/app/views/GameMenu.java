@@ -14,7 +14,6 @@ import app.models.tile.*;
 import app.models.unit.Settler;
 import app.models.unit.Unit;
 import app.models.unit.Worker;
-import app.serverView.ServerGameMenu;
 
 import java.util.Random;
 
@@ -62,7 +61,7 @@ public class GameMenu extends Menu {
             message = new Message();
             showMap();
             processor = new Processor(getInput());
-            ServerGameMenu.getInstance().processOneProcessor(processor);
+            //ServerGameMenu.getInstance().processOneProcessor(processor);
             //printMessage(message);
 
         }
@@ -76,8 +75,8 @@ public class GameMenu extends Menu {
 
 
     private static void showMap() {
-        int mapX = ServerGameMenu.getInstance().getMapX();
-        int mapY = ServerGameMenu.getInstance().getMapY();
+        int mapX = 0;//ServerGameMenu.getInstance().getMapX();
+        int mapY = 0;//ServerGameMenu.getInstance().getMapY();
         Civilization civilization = GameController.getInstance().getCivilization();
         System.out.printf("%s : ", civilization.getCivilizationName());
         System.out.printf("Turn %d\n", civilization.getTurn());

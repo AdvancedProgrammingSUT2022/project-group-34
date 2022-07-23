@@ -3,20 +3,11 @@ package app.serverView;
 import app.controllers.UserController;
 import app.models.connection.Message;
 import app.views.Processor;
-import app.views.ProfileMenu;
 
 public class ServerProfileMenu extends ServerMenu{
 
-    private static ServerProfileMenu instance;
-
-    private ServerProfileMenu(){
-        super("profile");
-
-    }
-
-    public static ServerProfileMenu getInstance(){
-        if (instance == null) instance = new ServerProfileMenu();
-        return instance;
+    ServerProfileMenu(MySocketHandler mySocketHandler){
+        super("profile", mySocketHandler);
     }
 
     public void processOneProcessor(Processor processor) {
@@ -26,11 +17,6 @@ public class ServerProfileMenu extends ServerMenu{
         else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor, message);
         else message.addLine(getInvalidCommand());
         sendMessage(message);
-    }
-
-    private void sendMessage(Message message) {
-        super.sendMessage();
-        ProfileMenu.setAndPrintMessage(message);
     }
 
 

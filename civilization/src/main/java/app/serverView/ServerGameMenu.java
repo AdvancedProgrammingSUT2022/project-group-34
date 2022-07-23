@@ -2,15 +2,15 @@ package app.serverView;
 
 import app.controllers.CheatController;
 import app.controllers.CivilizationController;
+import app.controllers.GMini;
 import app.controllers.GameController;
 import app.models.*;
 import app.models.connection.Message;
 import app.models.tile.ImprovementEnum;
 import app.models.tile.Tile;
 import app.models.unit.*;
-import app.views.GameMenu;
-import app.views.Menu;
 import app.views.Processor;
+import com.google.gson.Gson;
 
 import java.util.*;
 
@@ -48,24 +48,15 @@ public class ServerGameMenu extends ServerMenu {
     private final static String[] CHARACTER_SEED = {"A", "B", "G", "K", "M", "!", "@", "#", "H", "$", "%", "^", "&", "3",
             "5", "8", "a", "g", "q", "0", "}", "{", "[", "|", ",", ";", "m", "?", "="};
 
-    private static CombatUnit selectedCombatUnit = null;
-    private static NonCombatUnit selectedNonCombatUnit = null;
-    private static City selectedCity = null;
-    private static int mapX = 0;
-    private static int mapY = 0;
+    private CombatUnit selectedCombatUnit = null;
+    private NonCombatUnit selectedNonCombatUnit = null;
+    private City selectedCity = null;
+    private int mapX = 0;
+    private int mapY = 0;
 
-    private static ServerGameMenu instance;
-
-
-    private ServerGameMenu() {
-        super("game");
+    ServerGameMenu(MySocketHandler mySocketHandler) {
+        super("game", mySocketHandler);
     }
-
-    public static ServerGameMenu getInstance() {
-        if (instance == null) instance = new ServerGameMenu();
-        return instance;
-    }
-
 
     public void processOneProcessor(Processor processor) {
         message = new Message();
@@ -79,26 +70,22 @@ public class ServerGameMenu extends ServerMenu {
         else if (processor.getCategory().equals("map")) handleMapCategoryCommand(processor);
         else if (processor.getCategory().equals("end")) handleEndCategoryCommand(processor);
         else message.addLine(getInvalidCommand());
-        sendMessage(message);
+        mySocketHandler.sendMessage(message);
     }
 
 
-    private void sendMessage(Message message) {
-        super.sendMessage();
-        GameMenu.setAndPrintMessage(message);
+    private String getInput() {
+        if (message.getMessageString().length() != 0)
+            sendMessage(message);
+        message = new Message();
+        return mySocketHandler.listen();//todo
     }
-
 
     /*Handles commands that start with "select unit":
     1.select unit combat --x <x> --y <y>
     2.select unit noncombat --x <x> --y <y>
     3.select city --name <name>
     4.select city --x <x> --y <y>*/
-    private String getInput() {
-        sendMessage(message);
-        message = new Message();
-        return Menu.getInput();//todo
-    }
 
     private void handleSelectCategoryCommand(Processor processor) {
         String x = processor.get("x");
@@ -764,7 +751,6 @@ public class ServerGameMenu extends ServerMenu {
         String choice;
         while (true) {
             choice = getInput();
-
             if (Objects.equals(choice, "military")) return choice;
             else if (Objects.equals(choice, "exit")) return choice;
             else if (choice.matches("\\d+")) {
@@ -1481,6 +1467,20 @@ public class ServerGameMenu extends ServerMenu {
                 if (processor.get("c") != null && processor.get("c").matches(NON_NEGATIVE_NUMBER_REGEX))
                     mapX += Integer.parseInt(processor.get("c"));
                 else mapX++;
+            }
+        } else if (processor.getSection().equals("get")) {
+            if (processor.getSubSection().equals("x")) {
+                message.addData("mapX", mapX);
+            } else if (processor.getSubSection().equals("y")) {
+                message.addData("mapY", mapY);
+            } else if (processor.getSubSection().equals("data")) {
+                message.addData("mapX", mapX);
+                message.addData("mapY", mapY);
+                String[] hashMap = GMini.getInstance().startMiniSave(GameController.getInstance());
+                String str = new Gson().toJson(hashMap);
+                //str = str.replace("false","|").replace("true","~");
+                //str = str.replace("\\\"","^");
+                message.addData("GameController", str);
             }
         } else
             message.addLine(getInvalidCommand());

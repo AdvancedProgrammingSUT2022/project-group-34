@@ -4,33 +4,20 @@ import app.controllers.UserController;
 import app.models.User;
 import app.models.connection.Message;
 import app.views.Processor;
-import app.views.RegisterMenu;
 
 public class ServerRegisterMenu extends ServerMenu{
 
-    private static ServerRegisterMenu instance;
-    private ServerRegisterMenu(){
-        super("register");
+    ServerRegisterMenu(MySocketHandler mySocketHandler){
+        super("register", mySocketHandler);
     }
 
-    public static ServerRegisterMenu getInstance() {
-        if (instance == null)
-            instance = new ServerRegisterMenu();
-        return instance;
-    }
-
-    public void proccessOneProcessor(Processor processor) {
+    public void processOneProcessor(Processor processor) {
         message = new Message();
         if (!processor.isValid() || processor.getCategory() == null) message.addLine(getInvalidCommand());
         else if (processor.getCategory().equals("user")) handleUserCategoryCommand(processor,message);
         else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor,message);
         else message.addLine(getInvalidCommand());
         sendMessage(message);
-    }
-
-    private void sendMessage(Message message) {
-        super.sendMessage();
-        RegisterMenu.setAndPrintMessage(message);
     }
 
     //Handles commands that start with "user"

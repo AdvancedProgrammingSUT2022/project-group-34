@@ -10,11 +10,13 @@ import java.util.Scanner;
 public class ServerMenu {
 
     private final Scanner scanner = new Scanner(System.in);
+    protected final MySocketHandler mySocketHandler;
     private String currentMenu;
     protected Message message;
 
-    protected ServerMenu(String currentMenu){
+    protected ServerMenu(String currentMenu, MySocketHandler mySocketHandler){
         this.currentMenu = currentMenu;
+        this.mySocketHandler = mySocketHandler;
     }
 
     protected void setCurrentMenu(String menuName) {
@@ -98,8 +100,8 @@ public class ServerMenu {
     }
 
 
-    protected void sendMessage() {
+    protected void sendMessage(Message message) {
         message.setCurrentMenu(currentMenu);
-        //System.out.println("SRM + sendMessage + message : " + message.getCurrentMenu() + " " + message.getMessageString());
+        mySocketHandler.sendMessage(message);
     }
 }

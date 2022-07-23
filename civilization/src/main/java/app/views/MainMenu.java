@@ -1,7 +1,6 @@
 package app.views;
 
 import app.models.connection.Message;
-import app.serverView.ServerMainMenu;
 
 public class MainMenu extends Menu {
 
@@ -13,7 +12,7 @@ public class MainMenu extends Menu {
 
         while (Menu.getCurrentMenu().equals("main")) {
             processor = new Processor(getInput());
-            ServerMainMenu.getInstance().processOneProcessor(processor);
+            //ServerMainMenu.getInstance().processOneProcessor(processor);
             //printMessage(message);
         }
     }
