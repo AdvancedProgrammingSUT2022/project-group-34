@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Message {
 
-    private final StringBuilder message;
+    private StringBuilder message;
     private String currentMenu;
     private String whichMenu;
     private HashMap<String, Object> data;
@@ -13,6 +13,11 @@ public class Message {
         message = new StringBuilder();
         currentMenu = null;
         whichMenu = null;
+        data = new HashMap<>();
+    }
+
+    public void clearMessageAndData(){
+        message = new StringBuilder();
         data = new HashMap<>();
     }
 

@@ -75,9 +75,9 @@ public class ServerGameMenu extends ServerMenu {
 
 
     private String getInput() {
-        if (message.getMessageString().length() != 0)
-            sendMessage(message);
-        message = new Message();
+        message.addData("input","");
+        sendMessage(message);
+        message.clearMessageAndData();
         return mySocketHandler.listen();//todo
     }
 
