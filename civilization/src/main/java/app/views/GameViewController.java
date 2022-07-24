@@ -25,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -151,6 +152,13 @@ public class GameViewController {
         }
     }
 
+    private void clickOnTile(MouseEvent event, int x, int y) {
+        if (event.isSecondaryButtonDown()) {
+            Unit unit = getSelectedUnit();
+            //TODO
+        }
+    }
+
     private void putTile(VisibleTile visibleTile, int x, int y, int upperBound, int leftBound) {
         StringBuilder tooltip = new StringBuilder("");
         ImageView imageView;
@@ -182,6 +190,12 @@ public class GameViewController {
         }
         tooltip.append("Tile coordinates: " + tile.getX() + ", " + tile.getY() + "\n");
         Tooltip.install(imageView, new Tooltip(tooltip.toString()));
+        imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                clickOnTile(mouseEvent, x, y);
+            }
+        });
     }
 
     private void putRivers(int upperBound, int leftBound, int x, int y) {
@@ -407,5 +421,12 @@ public class GameViewController {
         currentUnit.setLayoutY(700 - 15);
         currentUnit.setMaxHeight(15);
         currentUnitGroup.getChildren().add(currentUnit);
+    }
+
+    private void alert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.show();
     }
 }
