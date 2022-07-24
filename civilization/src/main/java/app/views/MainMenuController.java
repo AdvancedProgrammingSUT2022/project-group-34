@@ -46,4 +46,9 @@ public class MainMenuController {
     public void gameMenu() {
         App.setMenu("game_menu");
     }
+
+    @FXML
+    private void chatroom() {
+        App.setMenu("public_chatroom");
+    }
 }
