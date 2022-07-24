@@ -7,7 +7,6 @@ public abstract class Map {
     protected int mapHeight;
 
     public Map() {
-        //TODO
     }
 
     public abstract AbstractTile getTileByXY(int x, int y);

@@ -1,6 +1,7 @@
-package app.views;
+package app.views.commandLineMenu;
 
 import app.models.connection.Message;
+import app.models.connection.Processor;
 
 public class MainMenu extends Menu {
 

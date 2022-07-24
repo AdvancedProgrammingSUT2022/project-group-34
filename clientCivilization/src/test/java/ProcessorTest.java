@@ -1,6 +1,6 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import app.views.Processor;
+import app.models.connection.Processor;
 
 public class ProcessorTest {
     private Processor processor;

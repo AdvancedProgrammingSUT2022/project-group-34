@@ -17,7 +17,6 @@ public class LuxuryResource extends Resource{
 
 
 
-    @Override
     public Resource cloneResource(){
         return new LuxuryResource(getName(), getRequiredImprovement(), goldBonus);
     }

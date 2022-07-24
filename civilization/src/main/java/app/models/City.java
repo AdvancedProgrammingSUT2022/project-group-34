@@ -103,7 +103,7 @@ public class City {
         this.unitUnderProduct = unitUnderProduct;
     }
 
-    public void setProductionUnderProductTern(int productionUnderProductTern) {
+    public void setUnitUnderProductTern(int productionUnderProductTern) {
         this.productionUnderProductTern = productionUnderProductTern;
     }
 
@@ -298,4 +298,5 @@ public class City {
     public void setBuildingUnderProduct(Building buildingUnderProduct) {
         this.buildingUnderProduct = buildingUnderProduct;
     }
+
 }

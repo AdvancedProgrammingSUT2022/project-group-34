@@ -1,8 +1,12 @@
 package app.views;
 
 import app.App;
+import app.controllers.InputController;
 import app.controllers.UserController;
 import app.models.User;
+import app.models.connection.Message;
+import app.models.connection.Processor;
+import app.views.commandLineMenu.Menu;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,8 +20,6 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 public class ProfileMenuController {
     private final static String VALID_NICKNAME_REGEX = "^[a-zA-Z]+$";
@@ -137,28 +139,27 @@ public class ProfileMenuController {
             showFailureMessage("Unable to load picture.");
         }
         loadAvatar(UserController.getInstance().getLoggedInUser());
+
     }
 
     @FXML
     private void changePassword() {
         String currentPassword = oldPasswordField.getText();
         String newPassword = newPasswordField.getText();
-
         clearMessage();
+        Processor processor = new Processor(Adapter.changePassword(currentPassword, newPassword));
+        Menu.sendProcessor(processor);
+        Message messageS = InputController.getInstance().getMessage();
+        changePasswordResponse(messageS);
+    }
 
-        if (!UserController.getInstance().getLoggedInUser().isPasswordCorrect(currentPassword)) {
-            showFailureMessage("incorrect password");
-        }
-        else if (currentPassword.equals(newPassword)) {
-            showFailureMessage("Insert a new password.");
-        }
-        else if (!UserController.getInstance().isPasswordStrong(newPassword)) {
-            showFailureMessage("Password is weak!");
+    private void changePasswordResponse(Message messageS) {
+        if (!messageS.isSuccessful()) {
+            showFailureMessage((String) messageS.getData((String) messageS.getData("changePasswordResponseMessage")));
         }
         else {
-            UserController.getInstance().getLoggedInUser().setPassword(newPassword);
-            showSuccessMessage("Password changed successfully!");
-            UserController.getInstance().saveUsers();
+            showSuccessMessage((String) messageS.getData((String) messageS.getData("changePasswordResponseMessage")));
+            //UserController.getInstance().saveUsers(); todo server
             oldPasswordField.setText("");
             newPasswordField.setText("");
         }
@@ -167,23 +168,23 @@ public class ProfileMenuController {
     @FXML
     private void changeNickname() {
         String nickname = newNicknameField.getText();
-
         clearMessage();
+        Processor processor = new Processor(Adapter.changeNickname(nickname));
+        Menu.sendProcessor(processor);
+        Message messageS = InputController.getInstance().getMessage();
+        changeNicknameResponse(messageS);
 
-        if (!nickname.matches(VALID_NICKNAME_REGEX))
-            showFailureMessage("Please enter a valid nickname. (one or more alphabetic characters)");
-        else if (UserController.getInstance().getLoggedInUser().getNickname().equals(nickname))
-            showFailureMessage("Please enter a new nickname.");
-        else if (UserController.getInstance().getUserByNickname(nickname) != null)
-            showFailureMessage("A user with nickname " + nickname + " already exists.");
+    }
+
+    private void changeNicknameResponse(Message messageS) {
+        if (!messageS.isSuccessful())
+            showFailureMessage((String) messageS.getData("changePasswordResponseMessage"));
         else {
-            UserController.getInstance().getLoggedInUser().setNickname(nickname);
-            showSuccessMessage("Nickname changed successfully!");
-            UserController.getInstance().saveUsers();
+            showSuccessMessage((String) messageS.getData("changePasswordResponseMessage"));
+            //UserController.getInstance().saveUsers();todo server
             newNicknameField.setText("");
         }
         loadName(UserController.getInstance().getLoggedInUser());
-
     }
 
     @FXML

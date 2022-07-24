@@ -1,8 +1,11 @@
 package app.views;
 
 import app.App;
+import app.controllers.InputController;
 import app.controllers.UserController;
-import app.models.User;
+import app.models.connection.Message;
+import app.models.connection.Processor;
+import app.views.commandLineMenu.Menu;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -27,8 +30,10 @@ public class MainMenuController {
 
     @FXML
     private void logout() {
-        UserController.getInstance().getLoggedInUser().setLastSeen(System.currentTimeMillis());
-        UserController.getInstance().setLoggedInUser(null);
+        Processor processor = new Processor("exit menu");
+        Menu.sendProcessor(processor);
+        //UserController.getInstance().getLoggedInUser().setLastSeen(System.currentTimeMillis()); todo server
+        //UserController.getInstance().setLoggedInUser(null); todo server
         App.setMenu("login_menu");
     }
 
@@ -40,5 +45,14 @@ public class MainMenuController {
     @FXML
     private void leaderboard() {
         App.setMenu("leaderboard");
+    }
+
+    public void gameMenu() {
+        App.setMenu("game_menu");
+    }
+
+    @FXML
+    private void chatroom() {
+        App.setMenu("public_chatroom");
     }
 }

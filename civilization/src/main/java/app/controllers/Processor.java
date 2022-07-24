@@ -1,6 +1,6 @@
 //besmellah
 
-package app.views;
+package app.controllers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,13 +24,6 @@ public class Processor {
     private String subSection;
     private String whichMenu;
     private HashMap<String, String> fields = new HashMap<>();
-
-    public Processor(String category, String section, String subSection) {
-        this.validity = true;
-        this.category = category;
-        this.section = section;
-        this.subSection = subSection;
-    }
 
     public Processor(String command) {
         if (!command.matches(VALIDITY_REGEX)) {
@@ -116,5 +109,14 @@ public class Processor {
 
     public void setWhichMenu(String whichMenu) {
         this.whichMenu = whichMenu;
+    }
+
+    @Override
+    public String toString() {
+        return "Processor{" +
+                "category='" + category + '\'' +
+                ", section='" + section + '\'' +
+                ", subSection='" + subSection + '\'' +
+                '}';
     }
 }

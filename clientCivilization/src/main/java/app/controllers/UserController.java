@@ -1,6 +1,8 @@
 package app.controllers;
 
 import app.models.User;
+import app.models.connection.Processor;
+import app.views.commandLineMenu.Menu;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -39,7 +41,9 @@ public class UserController {
     }
 
     public User getLoggedInUser() {
-        return loggedInUser;
+        Processor processor = new Processor("UserController","get","loggedInUser");
+        Menu.sendProcessor(processor);
+        return new Gson().fromJson((String) InputController.getInstance().getMessage().getData("loggedInUser"), User.class);
     }
 
     public ArrayList<User> getUsers() {

@@ -1,20 +1,24 @@
 package app.models;
 
+import app.controllers.InputController;
+import app.models.connection.Processor;
 import app.models.map.CivilizationMap;
 import app.models.tile.Tile;
+import app.views.commandLineMenu.Menu;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Civilization {
 
 
-    private String civilizationName;
-
-    private CivilizationMap personalMap;
+    private final String civilizationName;
+    private final CivilizationMap personalMap;
 
     private HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies = new HashMap<>();
-
     private int turn = 0;
 
 
@@ -50,15 +54,48 @@ public class Civilization {
         return personalMap.isTransparent(personalMap.getTileByXY(tile.getX(), tile.getY()));
     }
 
-    public boolean hasResearched(TechnologyEnum technology) {
-        return civilizationResearchedTechnologies.containsKey(technology);
-    }
-
-    public ArrayList<City> getCities(){
-        return null;
+    public boolean hasResearched(TechnologyEnum technologyEnum) {
+        return civilizationResearchedTechnologies.containsKey(technologyEnum);
     }
 
     public void setCivilizationResearchedTechnologies(HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies) {
         this.civilizationResearchedTechnologies = civilizationResearchedTechnologies;
     }
+
+    public ArrayList<City> getCities(){
+        String nameField = "cities";
+        String json = getField(nameField);
+        return new Gson().fromJson(json, new TypeToken<List<City>>(){}.getType());
+    }
+
+    public int getGold() {
+        String nameField = "gold";
+        String json = getField(nameField);
+        return new Gson().fromJson(json, Integer.class);
+    }
+
+    public int getHappiness() {
+        String nameField = "happiness";
+        String json = getField(nameField);
+        return new Gson().fromJson(json, Integer.class);
+    }
+
+    public int getNumberOfBeakers() {
+        String nameField = "numberOfBeakers";
+        String json = getField(nameField);
+        return new Gson().fromJson(json, Integer.class);
+    }
+
+    public Technology getStudyingTechnology() {
+        String nameField = "studyingTechnology";
+        String json = getField(nameField);
+        return new Gson().fromJson(json, Technology.class);
+    }
+
+    private String getField(String nameField) {
+        String category = "Civilization";
+        return InputController.getInstance().getField(nameField, category);
+    }
+
+
 }

@@ -1,33 +1,22 @@
 package app.views;
 
 import app.App;
+import app.controllers.InputController;
 import app.controllers.UserController;
 import app.models.User;
+import app.models.connection.Message;
+import app.models.connection.Processor;
+import app.views.commandLineMenu.Menu;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.lang.reflect.Array;
-import java.net.URI;
-import java.net.URL;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class LoginMenuController {
     private final static String VALID_USERNAME_REGEX = "^[a-zA-Z][a-zA-Z\\d]*$";
@@ -95,46 +84,35 @@ public class LoginMenuController {
         String username = registerUsername.getText();
         String password = registerPassword.getText();
         String nickname = this.nickname.getText();
+        Processor processor = new Processor(Adapter.register(username,nickname,password));
+        Menu.sendProcessor(processor);
+        Message message = InputController.getInstance().getMessage();
+        //-----------
+        registerResponse(message);
+    }
 
-        if (!username.matches(VALID_USERNAME_REGEX)) {
-            registerMessage.setText("Invalid username!");
-            registerMessage.setStyle("-fx-text-fill: red;");
-        }
-        else if (!nickname.matches(VALID_NICKNAME_REGEX)) {
-            registerMessage.setText("Invalid nickname!");
-            registerMessage.setStyle("-fx-text-fill: red;");
-        }
-        else if (UserController.getInstance().getUserByUsername(username) != null) {
-            registerMessage.setText("A user with username " + username + " already exists");
-            registerMessage.setStyle("-fx-text-fill: red;");
-        }
-        else if (UserController.getInstance().getUserByNickname(nickname) != null) {
-            registerMessage.setText("A user with nickname " + nickname + " already exists");
-            registerMessage.setStyle("-fx-text-fill: red;");
-        }
-        else if (!UserController.getInstance().isPasswordStrong(password)) {
-            registerMessage.setText("Password is weak!");
-            registerMessage.setStyle("-fx-text-fill: red;");
-        }
-
-        else {
+    private void registerResponse(Message message) {
+        String logString = (String) message.getData("loginMessage");
+        String logStyle = "-fx-text-fill: red;";// or "-fx-text-fill: green;" //(String) message.getData("loginStyle"); todo
+        if (message.isSuccessful()) {
             try {
-                UserController.getInstance().getUsers().add(new User(username, password, nickname, selectedFile));
+                //UserController.getInstance().getUsers().add(new User(username, password, nickname, selectedFile)); todo server
             } catch (Exception e) {
-                registerMessage.setText("Unable to load picture!");
-                registerMessage.setStyle("-fx-text-fill: red;");
+                registerMessage.setText(logString);//registerMessage.setText("Unable to load picture!");
+                registerMessage.setStyle(logStyle);
                 selectedFile = null;
                 e.printStackTrace();
                 return;
             }
 
-            UserController.getInstance().saveUsers();
-            registerMessage.setText("User Created successfully!");
-            registerMessage.setStyle("-fx-text-fill: green;");
+            //UserController.getInstance().saveUsers(); //todo server
+            //registerMessage.setStyle("-fx-text-fill: green;"); // todo server
             registerUsername.setText("");
             registerPassword.setText("");
             this.nickname.setText("");
         }
+        registerMessage.setText(logString);
+        registerMessage.setStyle(logStyle);
     }
 
     @FXML
@@ -142,16 +120,22 @@ public class LoginMenuController {
         clearMessage();
         String username = loginUsername.getText();
         String password = loginPassword.getText();
+        Processor processor = new Processor(Adapter.login(username,password));
+        Menu.sendProcessor(processor);
+        Message message = InputController.getInstance().getMessage();
+        loginResponse(message);
+    }
 
-        User user = UserController.getInstance().getUserByUsername(username);
-        if (user == null || !user.isPasswordCorrect(password)) {
-            loginMessage.setText("Username or password didn't match!");
-            loginMessage.setStyle("-fx-text-fill: red;");
+    private void loginResponse(Message message) {
+        String logString = (String) message.getData("loginMessage");
+        String logStyle = "-fx-text-fill: red;";//(String) message.getData("loginStyle"); todo
+        if (logString.length() != 0) {
+            loginMessage.setText(logString);
+            loginMessage.setStyle(logStyle);
         }
-        else {
-            UserController.getInstance().setLoggedInUser(user);
-            App.setMenu("main_menu");
-        }
+        if (message.getCurrentMenu() != null && !message.getCurrentMenu().equals("login"))
+            App.setMenu(message.getCurrentMenu() + "_menu");
+
     }
 
     @FXML

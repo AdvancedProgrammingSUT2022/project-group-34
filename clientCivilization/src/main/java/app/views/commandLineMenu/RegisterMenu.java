@@ -1,21 +1,19 @@
-package app.views;
+package app.views.commandLineMenu;
 
 import app.models.connection.Message;
+import app.models.connection.Processor;
 
 public class RegisterMenu extends Menu {
 
     private static Message message = new Message();
 
     //Proccesse commands related with register menu
-    static void processOneCommand() {
-        Processor processor;
-        while (Menu.getCurrentMenu().equals("register")) {
+    public static void processOneCommand() {
             isReceivedResponse = false;
             message = new Message();
-            processor = new Processor(getInput());
+            Processor processor = new Processor(getInput());
             Menu.sendProcessor(processor);
             waitForResponse(-1);
-        }
     }
 
     public static void setAndPrintMessage(Message receivedMessage) {

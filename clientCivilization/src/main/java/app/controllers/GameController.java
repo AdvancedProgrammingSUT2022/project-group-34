@@ -2,6 +2,9 @@ package app.controllers;
 
 import app.models.Civilization;
 import app.models.Game;
+import app.models.User;
+
+import java.util.ArrayList;
 
 public class GameController {
     //Singleton Pattern
@@ -19,6 +22,10 @@ public class GameController {
     //Fields of the class
     private Game game;
     private Civilization civilization;
+
+    public static void setInstance(GameController gameController) {
+        instance = gameController;
+    }
 
 
     //Setters and Getters for the fields of the class
@@ -40,5 +47,9 @@ public class GameController {
 
     public void setCivilization(Civilization civilization) {
         this.civilization = civilization;
+    }
+
+    public void startNewGame(ArrayList<User> users, int mapScale) {
+
     }
 }

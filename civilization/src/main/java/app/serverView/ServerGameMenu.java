@@ -1005,7 +1005,7 @@ public class ServerGameMenu extends ServerMenu {
             output.append("|Gold Rate:").append(city.getGoldRate());
             if (city.getUnitUnderProduct() != null) {
                 output.append("|City Production:").append(city.getUnitUnderProduct().getName());
-                output.append("(").append(city.getUnitUnderProductTern()).append("\n");
+                output.append("(").append(city.getProductionUnderProductTern()).append("\n");
             } else
                 output.append("|City Production:").append("\n");
         }
@@ -1080,7 +1080,7 @@ public class ServerGameMenu extends ServerMenu {
         message.addLine(String.format("Food:%d| Production Rate:%d| Science Rate:%d| Gold Rate:%d\n",
                 selectedCity.getFood(), selectedCity.getProductionRate(), selectedCity.getScienceRate(), selectedCity.getGoldRate()));
         message.addLine(String.format("Population:%d| Turn's until new citizen:%d\n", selectedCity.getCitizens().size(), selectedCity.getTillNewCitizen()));
-        message.addLine("Turn's until new production:" + selectedCity.getUnitUnderProductTern());
+        message.addLine("Turn's until new production:" + selectedCity.getProductionUnderProductTern());
         message.addLine("List of City's citizens:");
         for (int i = 1; i <= selectedCity.getCitizens().size(); i++) {
             Citizen citizen;

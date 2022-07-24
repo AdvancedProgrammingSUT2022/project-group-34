@@ -40,6 +40,9 @@ public class GameController {
         return civilization;
     }
 
+    public void startNewGame(ArrayList<User> users) {
+        startNewGame(users, 1);
+    }
     public void startNewGame(ArrayList<User> users, int mapScale) {
         game = new Game(users, mapScale);
         GameMap mainGameMap = game.getMainGameMap();

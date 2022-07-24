@@ -8,6 +8,7 @@ public class Message {
     private String currentMenu;
     private String whichMenu;
     private final HashMap<String, Object> data = new HashMap<>();
+    private boolean isSuccessful;
 
     public Message() {
         this.message = new StringBuilder();
@@ -72,5 +73,13 @@ public class Message {
 
     public HashMap<String, Object> getAllData() {
         return data;
+    }
+
+    public boolean isSuccessful() {
+        return isSuccessful;
+    }
+
+    public void setSuccessful(boolean successful) {
+        isSuccessful = successful;
     }
 }

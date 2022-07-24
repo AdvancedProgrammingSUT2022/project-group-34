@@ -12,7 +12,6 @@ public class GameMap extends Map {
         super();
         this.mapHeight = mapHeight;
         this.mapWidth = mapWidth;
-        // TODO
     }
 
     public Tile getTileByXY(int x, int y){

@@ -33,7 +33,6 @@ public class BonusResource extends Resource{
         return allBonusResource;
     }
 
-    @Override
     public Resource cloneResource(){
         return new BonusResource(getName(), getRequiredImprovement(), foodBonus);
     }

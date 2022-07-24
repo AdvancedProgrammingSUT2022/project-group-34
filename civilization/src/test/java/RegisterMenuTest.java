@@ -1,24 +1,23 @@
 import app.controllers.UserController;
 import app.models.User;
+import app.views.Processor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
-import app.views.Processor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 public class RegisterMenuTest {
     private final PrintStream standard = System.out;
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final Processor processor = Mockito.mock(Processor.class);
-    private final RegisterMenu registerMenu = new RegisterMenu();
+    //private final RegisterMenu registerMenu = new RegisterMenu();
 
     @BeforeEach
     public void setUp() {
@@ -38,7 +37,7 @@ public class RegisterMenuTest {
         when(processor.get("nickname")).thenReturn("def");
         when(processor.getNumberOfFields()).thenReturn(3);
 
-        Whitebox.invokeMethod(registerMenu, "register", processor);
+        //Whitebox.invokeMethod(registerMenu, "register", processor);
 
         Assertions.assertEquals(outputStream.toString().trim(), "User Created successfully!");
     }
@@ -50,7 +49,7 @@ public class RegisterMenuTest {
 
         UserController.getInstance().getUsers().add(new User("abc", "ghi4JKL", "def"));
 
-        Whitebox.invokeMethod(registerMenu, "login", processor);
+        //Whitebox.invokeMethod(registerMenu, "login", processor);
 
         Assertions.assertEquals(outputStream.toString().trim(), "User logged in successfully!");
     }

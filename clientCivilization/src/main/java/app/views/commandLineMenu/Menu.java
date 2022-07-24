@@ -1,8 +1,9 @@
-package app.views;
+package app.views.commandLineMenu;
 
 import app.controllers.ConnectionController;
 import app.controllers.InputController;
 import app.models.connection.Message;
+import app.models.connection.Processor;
 
 import java.util.Scanner;
 
@@ -47,10 +48,10 @@ public class Menu {
             isReceivedResponse = true;
     }
 
-    protected static void sendProcessor(Processor processor){
+    public static void sendProcessor(Processor processor){
         sendProcessor(processor, true);
     }
-    protected static void sendProcessor(Processor processor, boolean start){
+    public static void sendProcessor(Processor processor, boolean start){
         processor.setWhichMenu(currentMenu);
         ConnectionController.send(processor);
         if (start)

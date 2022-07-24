@@ -17,16 +17,6 @@ public class Resource {
         this.isExchangeable = isExchangeable;
     }
 
-    public static int loadDataSheet(){
-        //todo ReadFromFile
-        return 0;
-    }
-
-    public static int createAllInstances(){
-
-        return 0;
-    }
-
     public static HashMap<String, Resource> getAllResourcesCopyString() {
         HashMap<ResourceEnum, Resource> resourceEnumResourceHashMap = getAllResourcesCopy();
         HashMap<String      , Resource> resourceHashMap = new HashMap<>();
@@ -55,28 +45,12 @@ public class Resource {
     }
 
 
-
-
-
-    //todo
-    public Resource cloneResource(){
-        return null;
-    }
-
     public String getName() {
         return name;
     }
 
     public ImprovementEnum getRequiredImprovement() {
         return requiredImprovement;
-    }
-
-    public boolean deleteResearchedTechnology(String Improvement) {
-        return false;
-    }
-
-    public boolean isVisible() {
-        return true;
     }
 
     public boolean isExchangeable() {

@@ -1,8 +1,13 @@
 package app.models;
 
+import app.controllers.InputController;
 import app.models.map.GameMap;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Game {
 
@@ -26,4 +31,14 @@ public class Game {
     }
 
 
+    public ArrayList<User> getUsers() {
+        String nameField = "cities";
+        String json = getField(nameField);
+        return new Gson().fromJson(json, new TypeToken<List<User>>(){}.getType());
+    }
+
+    private String getField(String nameField) {
+        String category = "Civilization";
+        return InputController.getInstance().getField(nameField, category);
+    }
 }

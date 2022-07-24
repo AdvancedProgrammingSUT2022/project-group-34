@@ -34,7 +34,6 @@ public class StrategicResource extends Resource{
     }
 
 
-    @Override
     public Resource cloneResource(){
         return new StrategicResource(getName(),getRequiredImprovement(), productionBonus, requiredTechnology);
     }

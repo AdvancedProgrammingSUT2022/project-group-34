@@ -1,4 +1,4 @@
-package app.views;
+package app.views.commandLineMenu;
 
 import app.controllers.CivilizationController;
 import app.controllers.GLoad;
@@ -17,6 +17,7 @@ import app.models.tile.*;
 import app.models.unit.Settler;
 import app.models.unit.Unit;
 import app.models.unit.Worker;
+import app.models.connection.Processor;
 import com.google.gson.Gson;
 
 import java.io.FileWriter;

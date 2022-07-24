@@ -8,7 +8,7 @@ import app.models.tile.VisibleTile;
 import java.util.ArrayList;
 
 public class MiniCivilizationMap extends MiniMap{
-    private ArrayList<ArrayList<Integer>> map; //TODO at the first of each turn, update civilization map.
+    private ArrayList<ArrayList<Integer>> map = new ArrayList<>();
     private ArrayList<Integer> tT = new ArrayList<>();
 
     public MiniCivilizationMap() {

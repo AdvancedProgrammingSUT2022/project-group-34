@@ -1,7 +1,8 @@
 package app.controllers;
 
 import app.models.connection.Message;
-import app.views.*;
+import app.models.connection.Processor;
+import app.views.commandLineMenu.*;
 import com.google.gson.Gson;
 
 import java.io.EOFException;
@@ -9,13 +10,10 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class InputController extends Thread{
 
     private static InputController instance;
-    private static HashMap<String, Object> data = new HashMap<>();
-    private static ArrayList<Message> inputRequests = new ArrayList<>();
 
     private Message message;
     private String response;
@@ -38,7 +36,6 @@ public class InputController extends Thread{
             try {
                 message = new Gson().fromJson(response, Message.class);
                 HandlerMessage(message);
-                data.putAll(message.getAllData());
             }catch (Exception exception){
                 System.out.println("not Message format");
             }
@@ -70,22 +67,28 @@ public class InputController extends Thread{
     }
 
 
-    public Object getObject(String name){
-        System.out.println("InputCon getInteger : name : " + name);
-        int k = 0;
-        while (!data.containsKey(name)){
-            k++;
+    public Message getMessage() {
+        Message message = null;
+        try {
+            System.out.println("listen...");
+            response = ConnectionController.listen();
+            System.out.println("finish :)");
+        } catch (IOException exception) {
+            exception.printStackTrace();
+            if (exception instanceof EOFException || exception instanceof SocketException);
+            System.err.println("con not readUTF : ConnectionController listen()");
         }
-        System.out.println(k);
-        Object ob = data.get(name);
-        data.remove(name);
-        return ob;
-
+        try {
+            message = new Gson().fromJson(response, Message.class);
+        }catch (Exception exception){
+            System.out.println("not Message format");
+        }
+        return message;
     }
 
-    public Message getMessage() {
-        InputController inputController = new InputController();
-        inputController.run();
-        return inputController.message;
+    public String getField(String nameField, String category) {
+        Processor processor = new Processor(category,"get", nameField);
+        Menu.sendProcessor(processor);
+        return (String) InputController.getInstance().getMessage().getData(nameField);
     }
 }
