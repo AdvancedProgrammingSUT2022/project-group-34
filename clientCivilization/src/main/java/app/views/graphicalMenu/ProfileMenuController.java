@@ -1,4 +1,4 @@
-package app.views;
+package app.views.graphicalMenu;
 
 import app.App;
 import app.controllers.InputController;
@@ -6,6 +6,7 @@ import app.controllers.UserController;
 import app.models.User;
 import app.models.connection.Message;
 import app.models.connection.Processor;
+import app.views.Adapter;
 import app.views.commandLineMenu.Menu;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -159,7 +160,6 @@ public class ProfileMenuController {
         }
         else {
             showSuccessMessage((String) messageS.getData((String) messageS.getData("changePasswordResponseMessage")));
-            //UserController.getInstance().saveUsers(); todo server
             oldPasswordField.setText("");
             newPasswordField.setText("");
         }
@@ -181,7 +181,6 @@ public class ProfileMenuController {
             showFailureMessage((String) messageS.getData("changePasswordResponseMessage"));
         else {
             showSuccessMessage((String) messageS.getData("changePasswordResponseMessage"));
-            //UserController.getInstance().saveUsers();todo server
             newNicknameField.setText("");
         }
         loadName(UserController.getInstance().getLoggedInUser());

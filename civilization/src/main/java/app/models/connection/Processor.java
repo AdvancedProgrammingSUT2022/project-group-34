@@ -1,6 +1,6 @@
 //besmellah
 
-package app.controllers;
+package app.models.connection;
 
 import java.util.ArrayList;
 import java.util.Arrays;

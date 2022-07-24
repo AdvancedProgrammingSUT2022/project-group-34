@@ -82,6 +82,7 @@ public class ServerMenu {
         if (getCurrentMenu().equals("register")) setCurrentMenu("end");
         else if (getCurrentMenu().equals("main")) {
             setCurrentMenu("register");
+            UserController.getInstance().getLoggedInUser().setLastSeen(System.currentTimeMillis());
             UserController.getInstance().setLoggedInUser(null);
         } else setCurrentMenu("main");
         GameController.getInstance().setGame(null);

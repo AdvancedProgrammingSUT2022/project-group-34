@@ -1,4 +1,4 @@
-package app.views;
+package app.views.graphicalMenu;
 
 import app.App;
 import app.controllers.GameController;

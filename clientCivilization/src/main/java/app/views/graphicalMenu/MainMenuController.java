@@ -1,4 +1,4 @@
-package app.views;
+package app.views.graphicalMenu;
 
 import app.App;
 import app.controllers.InputController;
@@ -30,10 +30,8 @@ public class MainMenuController {
 
     @FXML
     private void logout() {
-        Processor processor = new Processor("exit menu");
+        Processor processor = new Processor("menu exit");
         Menu.sendProcessor(processor);
-        //UserController.getInstance().getLoggedInUser().setLastSeen(System.currentTimeMillis()); todo server
-        //UserController.getInstance().setLoggedInUser(null); todo server
         App.setMenu("login_menu");
     }
 

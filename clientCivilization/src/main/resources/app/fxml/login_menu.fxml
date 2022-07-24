@@ -11,7 +11,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:id="pane"
-            fx:controller="app.views.LoginMenuController"
+            fx:controller="app.views.graphicalMenu.LoginMenuController"
             prefHeight="720" prefWidth="1280"
             stylesheets="@../css/login_menu.css">
     <top>

@@ -33,7 +33,6 @@ public class ServerProfileMenu extends ServerMenu{
     //profile change --nickname <nickname>
     private void changeNickname(Processor processor, Message message) {
         String nickname = processor.get("nickname");
-
         if (nickname == null || processor.getNumberOfFields() != 1)
             message.addLine(getInvalidCommand());
         else if (UserController.getInstance().getLoggedInUser().getNickname().equals(nickname))
@@ -43,6 +42,7 @@ public class ServerProfileMenu extends ServerMenu{
         else {
             UserController.getInstance().getLoggedInUser().setNickname(nickname);
             message.addLine("Nickname changed successfully!");
+            UserController.getInstance().saveUsers();
         }
     }
 
@@ -67,6 +67,7 @@ public class ServerProfileMenu extends ServerMenu{
         else {
             UserController.getInstance().getLoggedInUser().setPassword(newPassword);
             message.addLine("Password changed successfully!");
+            UserController.getInstance().saveUsers();
         }
     }
 

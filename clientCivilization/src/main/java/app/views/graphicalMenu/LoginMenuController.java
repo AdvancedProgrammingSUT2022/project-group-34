@@ -1,4 +1,4 @@
-package app.views;
+package app.views.graphicalMenu;
 
 import app.App;
 import app.controllers.InputController;
@@ -6,6 +6,7 @@ import app.controllers.UserController;
 import app.models.User;
 import app.models.connection.Message;
 import app.models.connection.Processor;
+import app.views.Adapter;
 import app.views.commandLineMenu.Menu;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -93,26 +94,25 @@ public class LoginMenuController {
 
     private void registerResponse(Message message) {
         String logString = (String) message.getData("loginMessage");
-        String logStyle = "-fx-text-fill: red;";// or "-fx-text-fill: green;" //(String) message.getData("loginStyle"); todo
         if (message.isSuccessful()) {
+            registerMessage.setText(logString);
+            registerMessage.setStyle("-fx-text-fill: red;");
             try {
                 //UserController.getInstance().getUsers().add(new User(username, password, nickname, selectedFile)); todo server
             } catch (Exception e) {
                 registerMessage.setText(logString);//registerMessage.setText("Unable to load picture!");
-                registerMessage.setStyle(logStyle);
+                registerMessage.setStyle("-fx-text-fill: red;");
                 selectedFile = null;
                 e.printStackTrace();
                 return;
             }
 
-            //UserController.getInstance().saveUsers(); //todo server
-            //registerMessage.setStyle("-fx-text-fill: green;"); // todo server
+            registerMessage.setText(logString);
+            registerMessage.setStyle("-fx-text-fill: green;");
             registerUsername.setText("");
             registerPassword.setText("");
             this.nickname.setText("");
         }
-        registerMessage.setText(logString);
-        registerMessage.setStyle(logStyle);
     }
 
     @FXML
@@ -128,7 +128,7 @@ public class LoginMenuController {
 
     private void loginResponse(Message message) {
         String logString = (String) message.getData("loginMessage");
-        String logStyle = "-fx-text-fill: red;";//(String) message.getData("loginStyle"); todo
+        String logStyle = "-fx-text-fill: red;";
         if (logString.length() != 0) {
             loginMessage.setText(logString);
             loginMessage.setStyle(logStyle);

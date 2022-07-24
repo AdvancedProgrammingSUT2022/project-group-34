@@ -54,6 +54,7 @@ public class ServerRegisterMenu extends ServerMenu{
         else {
             UserController.getInstance().getUsers().add(new User(username, password, nickname));
             message.addLine("User Created successfully!");
+            UserController.getInstance().saveUsers();
         }
 
     }

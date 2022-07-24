@@ -1,16 +1,16 @@
-package app.views;
+package app.views.graphicalMenu;
 
 import app.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
-public class GroupChatroomController {
+public class PrivateChatroomController {
     @FXML
-    private Button groupChatButton;
+    private Button privateChatButton;
 
     @FXML
     private void initialize() {
-        groupChatButton.setDisable(true);
+        privateChatButton.setDisable(true);
     }
 
     @FXML
@@ -19,8 +19,8 @@ public class GroupChatroomController {
     }
 
     @FXML
-    private void goToPrivateChat() {
-        App.setMenu("private_chatroom");
+    private void goToGroupChat() {
+        App.setMenu("group_chatroom");
     }
 
     @FXML
