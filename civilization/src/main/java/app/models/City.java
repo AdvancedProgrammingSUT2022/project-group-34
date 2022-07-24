@@ -6,6 +6,7 @@ import app.models.unit.Settler;
 import app.models.unit.Unit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class City {
 
@@ -17,14 +18,17 @@ public class City {
     private Civilization civilization;
     private Tile position;
     private int strength;
-    private Unit unitUnderProduct;
-    private int  unitUnderProductTern;
     private boolean isGarrison;
     private int hitPoint;
 
     private ArrayList<Tile> territory;
     private ArrayList<Citizen> citizens = new ArrayList<>();
     private ArrayList<Improvement> improvements = new ArrayList<>();
+
+    private HashMap<BuildingEnum,Building> previouslyBuiltBuildings;
+    private Building buildingUnderProduct;
+    private Unit unitUnderProduct;
+    private int productionUnderProductTern;
 
     private int tillNewCitizen;
     private int foodRate;
@@ -49,6 +53,8 @@ public class City {
         this.tillNewCitizen = (int) Math.pow(2, citizens.size());
         this.food = 50;
         this.production = 100;
+        this.productionRate=20;
+        this.foodRate=20;
     }
 
     public City(String name, Tile position , ArrayList<Tile> territory) {
@@ -97,12 +103,12 @@ public class City {
         this.unitUnderProduct = unitUnderProduct;
     }
 
-    public void setUnitUnderProductTern(int unitUnderProductTern) {
-        this.unitUnderProductTern = unitUnderProductTern;
+    public void setProductionUnderProductTern(int productionUnderProductTern) {
+        this.productionUnderProductTern = productionUnderProductTern;
     }
 
-    public int getUnitUnderProductTern() {
-        return unitUnderProductTern;
+    public int getProductionUnderProductTern() {
+        return productionUnderProductTern;
     }
 
     public int getFoodRate() {
@@ -206,13 +212,13 @@ public class City {
 
     public void startProductUnit(Unit unit){
         unitUnderProduct = unit;
-        unitUnderProductTern = 12;//TODO Unit.getTern(unit);
+        productionUnderProductTern = 12;//TODO Unit.getTern(unit);
     }
 
     public boolean updateProductUnit(){
-        if (unitUnderProductTern == 0)
+        if (productionUnderProductTern == 0)
             return true;
-        unitUnderProductTern--;
+        productionUnderProductTern--;
         return false;
     }
 
@@ -226,7 +232,7 @@ public class City {
     }
 
     public int getGoldRate() {
-        int goldRate=0;
+        int goldRate=20;
         for (Citizen citizen : citizens)
             if (citizen.isWorking()) goldRate += citizen.getWorkPosition().getGoldRate();
 
@@ -275,5 +281,21 @@ public class City {
 
     public void setProductionRate(int productionRate) {
         this.productionRate = productionRate;
+    }
+
+    public HashMap<BuildingEnum, Building> getPreviouslyBuiltBuildings() {
+        return previouslyBuiltBuildings;
+    }
+
+    public void setPreviouslyBuiltBuildings(HashMap<BuildingEnum, Building> previouslyBuiltBuildings) {
+        this.previouslyBuiltBuildings = previouslyBuiltBuildings;
+    }
+
+    public Building getBuildingUnderProduct() {
+        return buildingUnderProduct;
+    }
+
+    public void setBuildingUnderProduct(Building buildingUnderProduct) {
+        this.buildingUnderProduct = buildingUnderProduct;
     }
 }

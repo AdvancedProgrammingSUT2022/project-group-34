@@ -159,4 +159,9 @@ public abstract class Unit {
     public void makeUnitAwake(){
         setSleep(false);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

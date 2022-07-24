@@ -45,7 +45,6 @@ public class Technology {
             createAllInstances();
 
         HashMap<TechnologyEnum,Technology> allTechnologiesCopy = new HashMap<>();
-        assert allTechnologies != null;
         allTechnologies.forEach((key, technology) -> allTechnologiesCopy.put(key,technology.cloneTechnology()));
         return allTechnologiesCopy;
     }
@@ -165,5 +164,8 @@ public class Technology {
 
     public void setPrerequisiteTechnologies(ArrayList<TechnologyEnum> prerequisiteTechnologies) {
         this.prerequisiteTechnologies = prerequisiteTechnologies;
+    }
+    public String toString() {
+        return name;
     }
 }

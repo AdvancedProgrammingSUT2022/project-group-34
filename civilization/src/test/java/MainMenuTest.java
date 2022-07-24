@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
-import app.views.MainMenu;
 import app.views.Processor;
 
 import java.io.ByteArrayOutputStream;

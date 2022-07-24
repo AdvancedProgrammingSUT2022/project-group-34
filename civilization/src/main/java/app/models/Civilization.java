@@ -40,6 +40,8 @@ public class Civilization {
     private ArrayList<UnitEnum> civilizationNotUsableUnits  = new ArrayList<>();
     private ArrayList<UnitEnum> civilizationUsableUnits     = new ArrayList<>();
 
+    private ArrayList<BuildingEnum> civilizationProducibleBuildings = new ArrayList<>();
+
 
     private HashMap<TechnologyEnum, Technology> civilizationResearchedTechnologies = new HashMap<>();
     private HashMap<TechnologyEnum, Technology> civilizationNotResearchedTechnologies = new HashMap<>();
@@ -80,6 +82,12 @@ public class Civilization {
         this.numberOfBeakers = 100;
         this.happiness0 = 10;
         this.gold = 400;
+
+        this.civilizationProducibleBuildings.add(BuildingEnum.Monument);
+        this.civilizationUsableUnits.add(UnitEnum.Settler);
+        this.civilizationUsableUnits.add(UnitEnum.Worker);
+        this.civilizationUsableUnits.add(UnitEnum.Warrior);
+        this.civilizationUsableUnits.add(UnitEnum.Scout);
 
 
         civilizationResearchedTechnologies = new HashMap<>();
@@ -324,6 +332,10 @@ public class Civilization {
         return personalMap.getTileByXY(tile.getX(), tile.getY()).isInFog();
     }
 
+    public boolean isInFog(int x, int y) {
+        return personalMap.getTileByXY(x, y).isInFog();
+    }
+
     public boolean isTransparent(Tile tile) {
         return personalMap.isTransparent(personalMap.getTileByXY(tile.getX(), tile.getY()));
     }
@@ -433,5 +445,13 @@ public class Civilization {
 
     public void setRailMaintenanceCost(int railMaintenanceCost) {
         this.railMaintenanceCost = railMaintenanceCost;
+    }
+
+    public ArrayList<BuildingEnum> getCivilizationProducibleBuildings() {
+        return civilizationProducibleBuildings;
+    }
+
+    public void setCivilizationProducibleBuildings(ArrayList<BuildingEnum> civilizationProducibleBuildings) {
+        this.civilizationProducibleBuildings = civilizationProducibleBuildings;
     }
 }

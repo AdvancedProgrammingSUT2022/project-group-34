@@ -5,6 +5,7 @@ import app.controllers.UserController;
 import app.models.User;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 public class MainMenuController {
@@ -40,5 +41,14 @@ public class MainMenuController {
     @FXML
     private void leaderboard() {
         App.setMenu("leaderboard");
+    }
+
+    public void gameMenu() {
+        App.setMenu("game_menu");
+    }
+
+    @FXML
+    private void chatroom() {
+        App.setMenu("public_chatroom");
     }
 }

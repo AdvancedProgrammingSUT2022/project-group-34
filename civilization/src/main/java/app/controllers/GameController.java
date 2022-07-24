@@ -40,8 +40,8 @@ public class GameController {
         return civilization;
     }
 
-    public void startNewGame(ArrayList<User> users) {
-        game = new Game(users);
+    public void startNewGame(ArrayList<User> users, int mapScale) {
+        game = new Game(users, mapScale);
         GameMap mainGameMap = game.getMainGameMap();
         for (Civilization civilization : game.getCivilizations()) {
             civilization.setPersonalMap(new CivilizationMap(mainGameMap.getMapWidth(), mainGameMap.getMapHeight(), mainGameMap));
@@ -68,9 +68,10 @@ public class GameController {
         for (Civilization civilization : game.getCivilizations()) {
             CivilizationController.getInstance().updateCivilization(civilization);
         }
+        game.getCivilizations().get(civilizationIndex).setTurn(game.getCivilizations().get(civilizationIndex).getTurn()+1);
         civilizationIndex++;
         civilizationIndex %= game.getCivilizations().size();
         civilization = game.getCivilizations().get(civilizationIndex);
-        civilization.setTurn(civilization.getTurn() + 1);
+//        civilization.setTurn(civilization.getTurn() + 1);
     }
 }

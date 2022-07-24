@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 [{"username":"ahn","password":"Amirh1","nickname":"ahn","score":0},{"username":"ali","password":"Alir3za","nickname":"ali","score":0},{"username":"seyyed","password":"Seyyed1382","nickname":"seyyed","score":0}]
+=======
+[{"username":"Seyyed","password":"Seyyed1","nickname":"Hosseini","score":0,"scoreTime":"Jan 1, 1970, 3:30:00 AM","lastSeen":"Jul 23, 2022, 11:14:09 PM"},{"username":"smhh22","password":"Seyyed1","nickname":"Seyyed","score":0,"scoreTime":"Jan 1, 1970, 3:30:00 AM","lastSeen":"Jul 19, 2022, 6:45:25 AM"},{"username":"ahn","password":"Amirh1","nickname":"ahn","score":0,"scoreTime":"Jan 1, 1970, 3:30:00 AM","lastSeen":"Jul 24, 2022, 8:29:01 AM"},{"username":"ali","password":"Alireza1","nickname":"ali","score":0,"scoreTime":"Jan 1, 1970, 3:30:00 AM","lastSeen":"Jul 16, 2022, 7:25:19 PM"}]
+>>>>>>> 79cf98b585ceba69776c1ca05a7151f649c10c49

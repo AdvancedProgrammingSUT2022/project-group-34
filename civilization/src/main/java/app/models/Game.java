@@ -25,6 +25,14 @@ public class Game {
 
     public Game(ArrayList<User> users) {
         mainGameMap = new GameMap(15, 15);
+        Constructor(users);
+    }
+    public Game(ArrayList<User> users, int mapScale) {
+        mainGameMap = new GameMap(users.size() * mapScale, users.size() * mapScale);
+        Constructor(users);
+    }
+
+    private void Constructor(ArrayList<User> users) {
         mainGameMap.generateMap();
         ArrayList<Settler> settlers = makeRandomSettlers(mainGameMap, users.size());
         for (int i = 0; i < users.size(); i++) {
