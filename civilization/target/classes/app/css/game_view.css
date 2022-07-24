@@ -53,3 +53,7 @@ Button:hover {
 .technology:hover {
     -fx-effect: dropshadow(gaussian, green, 10, 0, 0, 0);
 }
+
+.unit:hover {
+    -fx-effect: dropshadow(gaussian, green, 10, 0, 0, 0);
+}

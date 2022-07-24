@@ -30,6 +30,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -169,6 +170,10 @@ public class GameViewController {
             if (civilization.isTransparent(tile)) {
                 putResource(tile.getResource(), upperBound, leftBound, x, y);
                 tooltip.append("The resource in this tile is: " + getResourceName(tile.getResource()) + "\n");
+                Unit unit = tile.getCombatUnit();
+                if (unit == null) unit = tile.getNonCombatUnit();
+                System.out.println(unit);
+                if (unit != null) putUnit(unit, upperBound, leftBound, x, y);
             }
             else {
                 imageView.getStyleClass().add("revealed");
@@ -220,6 +225,25 @@ public class GameViewController {
         //TODO...
         String filePath = "/app/assets/rivers/" + position + ".png";
         putElement(tileGroup, filePath, "river", upperBound, leftBound);
+    }
+
+    private void putUnit(Unit unit, int upperBound, int leftBound, int x, int y) {
+        String filePath = "/app/assets/units/" + unit.getName() + ".png";
+        ImageView imageView = putElement(tileGroup, filePath, "unit", upperBound + 10, leftBound + 70 - 32);
+        imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                selectUnit(unit);
+            }
+        });
+    }
+
+    private void selectUnit(Unit unit) {
+        selectedCombatUnit = null;
+        selectedNonCombatUnit = null;
+        if (unit instanceof CombatUnit) selectedCombatUnit = (CombatUnit)unit;
+        else selectedNonCombatUnit = (NonCombatUnit)unit;
+        loadCurrentUnit();
     }
 
     private void putResource(Resource resource, int upperBound, int leftBound, int x, int y) {
@@ -345,11 +369,16 @@ public class GameViewController {
         currentTechnologyGroup.getChildren().add(currentTechnology);
     }
 
-    private void loadCurrentUnit() {
-        currentUnitGroup.getChildren().clear();
+    private Unit getSelectedUnit() {
         Unit unit = selectedCombatUnit;
         if (unit == null) unit = selectedNonCombatUnit;
+        return unit;
+    }
+
+    private void loadCurrentUnit() {
+        currentUnitGroup.getChildren().clear();
         putCurrentUnitBackground();
+        Unit unit = getSelectedUnit();
         putCurrentUnitImage(unit);
         putCurrentUnitLabel(unit);
         //TODO...
