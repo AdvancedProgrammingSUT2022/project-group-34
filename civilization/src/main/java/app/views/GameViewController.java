@@ -31,6 +31,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -38,6 +39,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 public class GameViewController {
     private final int VIEW_MAP_HEIGHT = 5;
@@ -90,6 +92,12 @@ public class GameViewController {
             }
         });
 
+        System.out.println(GameController.getInstance().getCivilization().getUnits().get(0).getPosition().getX());
+
+        load();
+    }
+
+    private void load() {
         loadTiles();
         loadStatusBar();
         loadCurrentTechnology();
@@ -153,9 +161,39 @@ public class GameViewController {
     }
 
     private void clickOnTile(MouseEvent event, int x, int y) {
-        if (event.isSecondaryButtonDown()) {
-            Unit unit = getSelectedUnit();
-            //TODO
+        if (event.getButton().equals(MouseButton.SECONDARY)) {
+            moveTo(x, y);
+        }
+    }
+
+    private void moveTo(int x, int y) {
+        Unit unit = getSelectedUnit();
+        if (unit == null) return;
+        if (unit.getDestination() != null && !unit.getPosition().equals(unit.getDestination()))
+            alert("Invalid movement!", "Unit is in a multiple-turn movement.", Alert.AlertType.ERROR);
+        else {
+
+            int[] position = new int[]{x, y};
+            String response = CivilizationController.getInstance().moveUnit(unit, position);
+
+            if (response.equals("invalid destination"))
+                alert(response.toUpperCase(), "Destination is not valid", Alert.AlertType.ERROR);
+            else if (response.equals("fog of war"))
+                alert(response.toUpperCase(), "Destination is in fog of war", Alert.AlertType.ERROR);
+            else if (response.equals("already at the same tile"))
+                alert(response.toUpperCase(), "We already are at the tile you want to move to", Alert.AlertType.ERROR);
+            else if (response.equals("destination occupied"))
+                alert(response.toUpperCase(), "There is already a unit in the tile you want to move to", Alert.AlertType.ERROR);
+            else if (response.equals("no valid path"))
+                alert(response.toUpperCase(), "There is no path to the tile you want to move to", Alert.AlertType.ERROR);
+            else if (response.equals("success")) {
+                unit.makeUnitAwake();
+                alert("success", "Unit moved to destination successfully", Alert.AlertType.INFORMATION);
+                selectedCombatUnit = null;
+                selectedNonCombatUnit = null;
+                load();
+            }
+            else alert("WHAT?", response, Alert.AlertType.ERROR);
         }
     }
 
@@ -180,7 +218,7 @@ public class GameViewController {
                 tooltip.append("The resource in this tile is: " + getResourceName(tile.getResource()) + "\n");
                 Unit unit = tile.getCombatUnit();
                 if (unit == null) unit = tile.getNonCombatUnit();
-                System.out.println(unit);
+//                System.out.println(unit);
                 if (unit != null) putUnit(unit, upperBound, leftBound, x, y);
             }
             else {
@@ -278,7 +316,7 @@ public class GameViewController {
         //TODO...
         String fileName = terrain + "_" + feature + ".png";
         String filePath = "/app/assets/tiles/" + fileName;
-        System.out.println(filePath);
+//        System.out.println(filePath);
         return putElement(tileGroup, filePath, "tile", upperBound, leftBound);
     }
 
@@ -423,8 +461,8 @@ public class GameViewController {
         currentUnitGroup.getChildren().add(currentUnit);
     }
 
-    private void alert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+    private void alert(String title, String message, Alert.AlertType type) {
+        Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setContentText(message);
         alert.show();

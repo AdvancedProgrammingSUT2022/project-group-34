@@ -130,7 +130,8 @@ public class CivilizationController {
             mark.put(currentVertex, true);
             ArrayList<Tile> adjacentVertices = currentVertex.getAdjacentTiles();
             for (Tile adjacentVertex : adjacentVertices) {
-                if ((adjacentVertex.isUnmovable() && !canMoveOnUnmovable) || mark.get(adjacentVertex)) continue;
+                Boolean markGet = mark.get(adjacentVertex);
+                if ((adjacentVertex.isUnmovable() && !canMoveOnUnmovable) || (markGet != null && markGet)) continue;
                 int newDistance = distance.get(currentVertex) + 1;
                 if (distance.get(adjacentVertex) == null || distance.get(adjacentVertex) > newDistance) {
                     distance.put(adjacentVertex, newDistance);
@@ -157,6 +158,9 @@ public class CivilizationController {
             }
             if (currentVertex == null) break;
 
+            System.out.println("SALAm" + currentVertex + " " + distance.get(currentVertex));
+            System.out.println(currentVertex.getX() + " " + currentVertex.getY());
+
             mark.put(currentVertex, true);
             if (distance.get(currentVertex) >= motionPointLimit) break;
             if (returnThePath && currentVertex.equals(destinationTile)) break;
@@ -164,7 +168,9 @@ public class CivilizationController {
             ArrayList<Boolean> isRiver = currentVertex.getIsRiver();
             for (int i = 0; i < adjacentVertices.size(); i++) {
                 Tile adjacentVertex = adjacentVertices.get(i);
-                if (adjacentVertex.isUnmovable() || mark.get(adjacentVertex)) continue;
+                Boolean markGet = mark.get(adjacentVertex);
+//                System.out.println(mark.get(adjacentVertex));
+                if (adjacentVertex.isUnmovable() || (markGet != null && markGet)) continue;
                 if (GameController.getInstance().getCivilization().isInFog(adjacentVertex)) continue;
                 int newDistance = distance.get(currentVertex) + calculateMotionCost(currentVertex, adjacentVertex);
                 if (isRiver.get(i) && !returnThePath) newDistance = motionPointLimit;
@@ -174,9 +180,26 @@ public class CivilizationController {
                 previousInShortestPath.put(adjacentVertex, currentVertex);
             }
         }
-        if (mark.get(destinationTile) == null) return null;
-        else if (!returnThePath) return distance;
-        else return extractPathFromParentsHashMap(previousInShortestPath, destinationTile);
+        boolean flag = true;
+        for (Tile tile: mark.keySet()) {
+                System.out.println(tile.getX() + " " + tile.getY() + " " + destinationTile.getX() + " " + destinationTile.getY());
+            if (tile.equals(destinationTile)) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag) {
+            System.out.println(":||||||||");
+            return new HashMap<>();
+        }
+        else if (!returnThePath) {
+            System.out.println(":-");
+            return distance;
+        }
+        else {
+            System.out.println(":(");
+            return extractPathFromParentsHashMap(previousInShortestPath, destinationTile);
+        }
     }
 
     private int calculateMotionCost(Tile originTile, Tile destinationTile) {
@@ -208,9 +231,14 @@ public class CivilizationController {
     }
 
     private boolean isPathValid(Stack<Tile> path, Tile originTile, Tile destinationTile, Unit unit) {
-        if (path == null || path.size() == 0 || path.get(0) != originTile || path.get(path.size() - 1) != destinationTile)
+        if (path == null || path.size() == 0 || path.get(0) != destinationTile || path.get(path.size() - 1) != originTile) {
+            System.out.println("HOY");
             return false;
-        else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) return false;
+        }
+        else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) {
+            System.out.println("HEY");
+            return false;
+        }
         else return !(unit instanceof NonCombatUnit) || destinationTile.getNonCombatUnit() == null;
     }
 
@@ -219,19 +247,23 @@ public class CivilizationController {
     }
 
     private boolean continueMoveForOneTurn(Unit unit) {
+        System.out.println("dest: " + unit.getDestination());
         if (unit.getDestination() == null) return false;
         HashMap<Tile, Integer> distancesFromDestination = doBFSAndReturnDistances(unit.getDestination(), false);
         Tile temporaryDestination = unit.getPosition();
         HashMap<Tile, Integer> distancesFromOriginByMP = (HashMap<Tile, Integer>) doDijkstra(unit.getPosition(), unit.getDestination(), unit.getMotionPoint(), false);
+        System.out.println(distancesFromOriginByMP.size());
         for (Tile tile : distancesFromOriginByMP.keySet()) {
             if (tile == null) continue;
             if (unit instanceof CombatUnit && tile.getCombatUnit() != null) continue;
             if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() != null) continue;
             Integer tileDistance = distancesFromDestination.get(tile);
-            if (tileDistance != null && tileDistance < distancesFromDestination.get(temporaryDestination))
+            System.out.println(tileDistance + " " + distancesFromDestination.get(temporaryDestination));
+            if (tileDistance != null && tileDistance <= distancesFromDestination.get(temporaryDestination))
                 temporaryDestination = tile;
         }
         if (temporaryDestination == null || temporaryDestination == unit.getPosition()) {
+            System.out.println(temporaryDestination.getX() + " " + temporaryDestination.getY() + " " + unit.getPosition());
             cancelMove(unit);
             return false;
         }
@@ -259,9 +291,20 @@ public class CivilizationController {
         Tile originTile = unit.getPosition();
         Tile destinationTile = getTileByPosition(destination);
         Stack<Tile> path = (Stack<Tile>) doDijkstra(originTile, destinationTile, INF, true);
-        if (!isPathValid(path, originTile, destinationTile, unit)) return "no valid path";
+        if (!isPathValid(path, originTile, destinationTile, unit)) {
+            System.out.println("SALAM!!!!!");
+            System.out.println(path);
+            for (Tile tile: path) {
+                System.out.println(tile.getX() + " " + tile.getY());
+            }
+            System.out.println(originTile.getX() + " " + originTile.getY() + " " + destinationTile.getX() + " " + destinationTile.getY());
+            return "no valid path";
+        }
         unit.setDestination(destinationTile);
-        if (!continueMoveForOneTurn(unit)) return "no valid path";
+        if (!continueMoveForOneTurn(unit)) {
+            System.out.println("?!");
+            return "no valid path";
+        }
         return "success";
     }
 

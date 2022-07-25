@@ -204,4 +204,9 @@ public class Tile extends AbstractTile {
     public boolean isUsableResource() {
         return isUsableResource;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return other != null && getX() == ((Tile)other).getX() && getY() == ((Tile)other).getY();
+    }
 }
