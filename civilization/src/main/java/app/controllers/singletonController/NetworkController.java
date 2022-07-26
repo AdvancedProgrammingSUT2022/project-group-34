@@ -1,7 +1,7 @@
 package app.controllers.singletonController;
 
 import app.models.connection.StringSocketToken;
-import app.serverView.MySocketHandler;
+import app.views.MySocketHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;

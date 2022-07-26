@@ -9,7 +9,8 @@ user login --username <username> --password <password>
 
 main menu:
 user logout
-play game --player1 <username> --player2 <username> ...
+create game
+play game
 
 profile menu:
 profile change --nickname <nickname>

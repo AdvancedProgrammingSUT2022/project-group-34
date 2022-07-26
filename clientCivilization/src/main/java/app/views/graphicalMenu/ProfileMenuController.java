@@ -149,6 +149,7 @@ public class ProfileMenuController {
         String newPassword = newPasswordField.getText();
         clearMessage();
         Processor processor = new Processor(Adapter.changePassword(currentPassword, newPassword));
+        System.out.println(processor.getAll());
         Menu.sendProcessor(processor);
         Message messageS = InputController.getInstance().getMessage();
         changePasswordResponse(messageS);

@@ -1,4 +1,4 @@
-package app.serverView;
+package app.views;
 
 import app.controllers.gameServer.GameController;
 import app.controllers.singletonController.UserController;
@@ -85,7 +85,7 @@ public class ServerMenu {
             UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()).setLastSeen(System.currentTimeMillis());
             UserController.getInstance().LogoutUser(mySocketHandler.getSocketToken());
         } else setCurrentMenu("main");
-        GameController.getInstance().setGame(null);
+        //GameController.getInstance().setGame(null); todo remove gameController after exit Game Menu not here!
     }
 
 

@@ -1,4 +1,4 @@
-package app.serverView;
+package app.views;
 
 import app.models.connection.StringGameToken;
 import app.models.connection.Message;

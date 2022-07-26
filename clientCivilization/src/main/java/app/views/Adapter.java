@@ -13,11 +13,11 @@ public class Adapter {
     }
 
     public static String changePassword(String currentPassword, String newPassword) {
-        return String.format("profile change --password --current %s --new %s", currentPassword, newPassword);
+        return String.format("change --password --current %s --new %s", currentPassword, newPassword);
     }
 
     public static String changeNickname(String nickname) {
-        return String.format("profile change --nickname %s", nickname);
+        return String.format("change --nickname %s", nickname);
     }
 
     public static String startNewGame() {

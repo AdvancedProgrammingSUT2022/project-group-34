@@ -17,7 +17,6 @@ open module civilization {
     exports app.models.tile;
     exports app.models.unit;
     exports app.models.connection;
-    exports app.serverView;
     exports app.models.miniClass;
     exports app.models.miniClass.tile;
     exports app.controllers.gameServer;

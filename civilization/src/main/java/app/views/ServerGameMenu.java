@@ -1,4 +1,4 @@
-package app.serverView;
+package app.views;
 
 import app.controllers.MainServer;
 import app.controllers.gameServer.CivilizationController;

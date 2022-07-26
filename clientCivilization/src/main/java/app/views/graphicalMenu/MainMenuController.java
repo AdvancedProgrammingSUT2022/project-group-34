@@ -31,12 +31,14 @@ public class MainMenuController {
     @FXML
     private void logout() {
         Processor processor = new Processor("menu exit");
-        Menu.sendProcessor(processor);
+        Menu.sendProcessorAndIgnoreResponse(processor);
         App.setMenu("login_menu");
     }
 
     @FXML
     private void profile() {
+        Processor processor = new Processor("menu enter profile");
+        Menu.sendProcessorAndIgnoreResponse(processor);
         App.setMenu("profile_menu");
     }
 

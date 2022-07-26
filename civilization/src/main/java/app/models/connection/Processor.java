@@ -5,12 +5,14 @@ package app.models.connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class    Processor {
     private static final String DOUBLE_DASH_FIELD_NAME = "(--[a-zA-Z\\d]+)";
     private static final String ONE_DASH_FIELD_NAME = "(-[a-zA-Z])";
     private static final String FIELD_NAME_REGEX = "(" + ONE_DASH_FIELD_NAME + "|" + DOUBLE_DASH_FIELD_NAME + ")";
     private static final String VALIDITY_REGEX = "^\\S+(\\s+\\S+)?(\\s+\\S+)?(\\s+" + FIELD_NAME_REGEX + " [a-zA-Z\\d/ ]*)*$";
+    private static final String NullSyntax = "|\\-|\\-|\\-|";
     //TODO REDO SOME MISTAKES
 
     /* A valid command :
@@ -59,6 +61,19 @@ public class    Processor {
             }
         }
         validity = true;
+        fields = changeNull(fields);
+    }
+
+    public static boolean isNull(String password) {
+        return Objects.equals(password, NullSyntax);
+    }
+
+    private HashMap<String, String> changeNull(HashMap<String, String> fields) {
+        HashMap<String, String> copy = new HashMap<>();
+        fields.forEach((s, s2) -> {
+            copy.put(s, Objects.requireNonNullElse(s2, NullSyntax));
+        });
+        return copy;
     }
 
     public boolean isValid() {
@@ -114,9 +129,12 @@ public class    Processor {
     @Override
     public String toString() {
         return "Processor{" +
-                "category='" + category + '\'' +
+                "validity=" + validity +
+                ", category='" + category + '\'' +
                 ", section='" + section + '\'' +
                 ", subSection='" + subSection + '\'' +
+                ", whichMenu='" + whichMenu + '\'' +
+                ", fields=" + fields +
                 '}';
     }
 }

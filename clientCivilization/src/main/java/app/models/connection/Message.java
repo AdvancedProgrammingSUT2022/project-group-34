@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Message {
     private final StringBuilder message;
     private String currentMenu;
-    private String whichMenu;
+    private String whichMenu = "";
     private final HashMap<String, Object> data = new HashMap<>();
     private boolean isSuccessful;
 

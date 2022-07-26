@@ -13,33 +13,13 @@ public class Menu {
     private static String currentMenu = "register";
     protected static boolean isReceivedResponse = false;
 
-    //Controls menus in the program
-    public static void run() {
-        while (true) {
-            RegisterMenu.processOneCommand();
-            if (currentMenu.equals("end")) return;
-            while (true) {
-                MainMenu.processOneCommand();
-                if (currentMenu.equals("register")) break;
-                else if (currentMenu.equals("profile")) ProfileMenu.processOneCommand();
-                else GameMenu.processOneCommand();
-            }
-        }
-    }
-
-    //Scans one line of input
-    public static String getInput() {
-        return scanner.nextLine().trim();
-    }
-
     //Setters and Getters for fields of the class
     public static String getCurrentMenu() {
         return currentMenu;
     }
 
 
-    protected static void setMessage(Message message, Message message1) {
-        message1.copy(message);
+    public static void setMessage(Message message) {
 
         if (message.getCurrentMenu() != null) {
             currentMenu = message.getCurrentMenu();
@@ -78,5 +58,10 @@ public class Menu {
     public static String getInput(String input) {
         System.out.print(input);
         return scanner.nextLine();
+    }
+
+    public static void sendProcessorAndIgnoreResponse(Processor processor) {
+        Menu.sendProcessor(processor);
+        InputController.getInstance().getMessage();
     }
 }

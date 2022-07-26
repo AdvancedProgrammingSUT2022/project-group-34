@@ -8,8 +8,6 @@ import com.google.gson.Gson;
 import java.io.EOFException;
 import java.io.IOException;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class InputController extends Thread{
 
@@ -43,21 +41,6 @@ public class InputController extends Thread{
 
     private void HandlerMessage(Message message) {
 
-        switch (message.getWhichMenu()){
-            case "main":
-                MainMenu.setAndPrintMessage(message);
-                break;
-            case "profile":
-                ProfileMenu.setAndPrintMessage(message);
-                break;
-            case "register":
-                RegisterMenu.setAndPrintMessage(message);
-                break;
-            case "game":
-                GameMenu.setAndPrintMessage(message);
-                break;
-        }
-
         if (message.getData("input") != null) {
             String input = Menu.getInput((String) message.getData("input"));
             ConnectionController.sendString(input);
@@ -84,6 +67,9 @@ public class InputController extends Thread{
             System.out.println(response);
             System.out.println("not Message format");
         }
+
+        if (!message.getWhichMenu().equals("isGetOrSet"))
+            Menu.setMessage(message);
         return message;
     }
 
