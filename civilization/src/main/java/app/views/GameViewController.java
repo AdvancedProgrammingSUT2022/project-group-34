@@ -354,6 +354,7 @@ public class GameViewController {
         showHappiness();
         showBeaker();
         showReloadButton();
+        showEndTurnButton();
         //TODO...
     }
 
@@ -362,6 +363,18 @@ public class GameViewController {
         button.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
+                load();
+            }
+        });
+        statusBar.getChildren().add(button);
+    }
+
+    private void showEndTurnButton() {
+        Button button = new Button("end turn");
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                GameController.getInstance().startTurn();
                 load();
             }
         });

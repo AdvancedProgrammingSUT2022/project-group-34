@@ -247,8 +247,8 @@ public class CivilizationController {
     }
 
     private boolean continueMoveForOneTurn(Unit unit) {
-        System.out.println("dest: " + unit.getDestination());
         if (unit.getDestination() == null) return false;
+        System.out.println("dest: " + unit.getDestination());
         HashMap<Tile, Integer> distancesFromDestination = doBFSAndReturnDistances(unit.getDestination(), false);
         Tile temporaryDestination = unit.getPosition();
         HashMap<Tile, Integer> distancesFromOriginByMP = (HashMap<Tile, Integer>) doDijkstra(unit.getPosition(), unit.getDestination(), unit.getMotionPoint(), false);
