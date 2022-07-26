@@ -465,6 +465,7 @@ public class CivilizationController {
         civilization.setCurrentCapital(city);
         position.setCity(city);
         civilization.removeUnit(settler);
+        getTileByPosition(new int[]{settler.getPosition().getX(), settler.getPosition().getY()}).setNonCombatUnit(null);
         return "ok";
     }
 

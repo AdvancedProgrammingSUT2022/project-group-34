@@ -16,18 +16,15 @@ import app.models.tile.Feature;
 import app.models.tile.Terrain;
 import app.models.tile.Tile;
 import app.models.tile.VisibleTile;
-import app.models.unit.CombatUnit;
-import app.models.unit.NonCombatUnit;
-import app.models.unit.Unit;
+import app.models.unit.*;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -37,9 +34,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Optional;
 
 public class GameViewController {
     private final int VIEW_MAP_HEIGHT = 5;
@@ -85,7 +85,7 @@ public class GameViewController {
 
         pane.setBackground(background);
 
-        App.getStage().getScene().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+        App.getStage().getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 navigate(event);
@@ -353,7 +353,19 @@ public class GameViewController {
         showGold();
         showHappiness();
         showBeaker();
+        showReloadButton();
         //TODO...
+    }
+
+    private void showReloadButton() {
+        Button button = new Button("reload page");
+        button.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                load();
+            }
+        });
+        statusBar.getChildren().add(button);
     }
 
     private void putStatusBarBackground() {
@@ -429,26 +441,38 @@ public class GameViewController {
 
     private void loadCurrentUnit() {
         currentUnitGroup.getChildren().clear();
-        putCurrentUnitBackground();
+        putCurrentUnitBackground().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                showUnitActions();
+            }
+        });
         Unit unit = getSelectedUnit();
-        putCurrentUnitImage(unit);
+        putCurrentUnitImage(unit).setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                showUnitActions();
+            }
+        });
         putCurrentUnitLabel(unit);
         //TODO...
     }
 
-    private void putCurrentUnitBackground() {
+    private Rectangle putCurrentUnitBackground() {
         Rectangle background = new Rectangle();
         background.setHeight(64);
         background.setWidth(64);
         background.setY(700 - 64);
         background.setFill(Color.WHITESMOKE);
         currentUnitGroup.getChildren().add(background);
+        return background;
     }
 
-    private void putCurrentUnitImage(Unit unit) {
+    private ImageView putCurrentUnitImage(Unit unit) {
         String filePath = "/app/assets/units/" + unit + ".png";
         ImageView imageView = putElement(currentUnitGroup, filePath, "unit", 700 - 64, 0);
         Tooltip.install(imageView, new Tooltip(String.valueOf(unit)));
+        return imageView;
     }
 
     private void putCurrentUnitLabel(Unit unit) {
@@ -461,10 +485,420 @@ public class GameViewController {
         currentUnitGroup.getChildren().add(currentUnit);
     }
 
+    private void sleepCommand() {
+        Unit unit = getSelectedUnit();
+
+        unit.makeUnitAwake();
+        unit.setSleep(true);
+        unit.setDestination(unit.getPosition());
+        selectedCombatUnit = null;
+        selectedNonCombatUnit = null;
+        alert("SUCCESS", "Unit is asleep.", Alert.AlertType.INFORMATION);
+    }
+
+    private void alertCommand() {
+        if (selectedCombatUnit == null) {
+            alert("NONCOMBAT UNIT", "Selected unit is not a military unit", Alert.AlertType.ERROR);
+        } else {
+            selectedCombatUnit.makeUnitAwake();
+            selectedCombatUnit.setAlert(true);
+            selectedCombatUnit.setDestination(selectedCombatUnit.getPosition());
+            selectedCombatUnit = null;
+            alert("SUCCESS", "Unit is alert.", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    private void fortifyCommand() {
+        if (selectedCombatUnit == null)
+            alert("NONCOMBAT UNIT", "Selected unit is not a military unit", Alert.AlertType.ERROR);
+        else {
+            selectedCombatUnit.makeUnitAwake();
+            selectedCombatUnit.setFortify(true);
+            selectedCombatUnit.setDestination(selectedCombatUnit.getPosition());
+            selectedCombatUnit = null;
+            alert("SUCCESS", "Unit is fortified", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    private void healCommand() {
+        if (selectedCombatUnit == null)
+            alert("NONCOMBAT UNIT", "Selected unit is not a military unit", Alert.AlertType.ERROR);
+        else {
+            selectedCombatUnit.makeUnitAwake();
+            selectedCombatUnit.setFortifyUntilHealed(true);
+            selectedCombatUnit.setDestination(selectedCombatUnit.getPosition());
+            selectedCombatUnit = null;
+            alert("SUCCESS", "Unit is healed", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    private void garrisonCommand() {
+        switch (CivilizationController.getInstance().garrisonCity(selectedCombatUnit)) {
+            case "not military":
+                alert("NONCOMBAT UNIT", "Selected unit is not a military unit", Alert.AlertType.ERROR);
+                break;
+            case "no city":
+                alert("NO CITY", "There is no city in this tile", Alert.AlertType.ERROR);
+                break;
+            case "in  movement":
+                alert("MOVING UNIT", "Unit is in a multiple-turn movement", Alert.AlertType.ERROR);
+                break;
+            case "ok":
+                selectedCombatUnit = null;
+                alert("SUCCESS", "City is garrisoned", Alert.AlertType.INFORMATION);
+                break;
+        }
+    }
+
+    private void setupCommand() {
+        if (!(selectedCombatUnit instanceof Archer) || !((Archer) selectedCombatUnit).isSiegeTool)
+            alert("NOT SIEGE TOOL", "Selected unit is not a siege tool unit", Alert.AlertType.ERROR);
+        else if (selectedCombatUnit.getDestination() != null && !selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
+            alert("MOVING UNIT", "Unit is in a multiple-turn movement", Alert.AlertType.ERROR);
+        else {
+            selectedCombatUnit.makeUnitAwake();
+            ((Archer) selectedCombatUnit).setSetup(true);
+            selectedCombatUnit = null;
+            alert("SUCCESS", "Unit is setup", Alert.AlertType.INFORMATION);
+        }
+    }
+
+//    private void attackCommand(Processor processor) {
+//        String x = processor.get("x");
+//        String y = processor.get("y");
+//        if (selectedCombatUnit == null)
+//            System.out.println("Selected unit is not a military unit");
+//        else if (!CivilizationController.getInstance().isPositionValid(new int[]{Integer.parseInt(x), Integer.parseInt(y)}))
+//            System.out.println("Invalid coordinates!");
+//        else if (selectedCombatUnit.getDestination() != null && !selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
+//            System.out.println("Unit is in a multiple-turn movement");
+//        else {
+//            int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
+//            if (processor.getSubSection().equals("city")) {
+//                selectedCombatUnit.makeUnitAwake();
+//                attackCity(position);
+//            } else {
+//                // TODO: Not phase1
+//                System.out.println("Not this phase!");
+//            }
+//            selectedCombatUnit = null;
+//        }
+//    }
+
+    private void cancelCommand() {
+        Unit unit = getSelectedUnit();
+
+        if (unit.getDestination() != null && unit.getDestination().equals(unit.getPosition()))
+            alert("NOT MOVING", "Unit is not in a multiple-turn movement", Alert.AlertType.ERROR);
+        else {
+            unit.setDestination(unit.getPosition());
+            alert("SUCCESS", "Unit's multiple-turn movement canceled", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    private void foundCommand() {
+        Dialog dialog = new TextInputDialog("Tehran");
+        dialog.setTitle("NAME");
+        dialog.setHeaderText("Enter a name for the city");
+
+        Optional<String> result = dialog.showAndWait();
+        String name = "Tehran";
+
+        if (result.isPresent()) name = result.get();
+
+        foundCityCommand(name);
+    }
+
+    private void foundCityCommand(String name) {
+        if (!(selectedNonCombatUnit instanceof Settler))
+            alert("NOT A SETTLER", "Selected unit is not a settler", Alert.AlertType.ERROR);
+        else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
+            alert("MOVING UNIT", "Unit is in a multiple-turn movement", Alert.AlertType.ERROR);
+        else {
+            switch (CivilizationController.getInstance().foundCity((Settler) selectedNonCombatUnit, name)) {
+                case "too close":
+                    alert("TOO CLOSE", "You cannot found a city close to another civilization", Alert.AlertType.ERROR);
+                    break;
+                case "duplicate name":
+                    alert("DUPLICATE NAME", "This name is used before", Alert.AlertType.ERROR);
+                    break;
+                case "ok":
+                    alert("SUCCESS", "City founded!", Alert.AlertType.INFORMATION);
+                    selectedNonCombatUnit = null;
+                    break;
+            }
+        }
+    }
+
+    private void wakeUnit() {
+        if (selectedNonCombatUnit != null) selectedNonCombatUnit.makeUnitAwake();
+        else selectedCombatUnit.makeUnitAwake();
+
+        selectedCombatUnit = null;
+        selectedNonCombatUnit = null;
+        alert("SUCCESS", "Unit is awake", Alert.AlertType.INFORMATION);
+    }
+
+    private void deleteUnitCommand() {
+        Unit unit = getSelectedUnit();
+
+        CivilizationController.getInstance().deleteUnit(unit);
+
+        selectedNonCombatUnit = null;
+        selectedCombatUnit = null;
+        alert("SUCCESS", "Unit deleted", Alert.AlertType.INFORMATION);
+    }
+
+    private void pillageCommand() {
+        if (selectedCombatUnit == null)
+            alert("NONCOMBAT UNIT", "Selected unit is not a military unit", Alert.AlertType.ERROR);
+        else if (selectedCombatUnit.getDestination() != null && !selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
+            alert("MOVING UNIT", "Unit is in a multiple-turn movement", Alert.AlertType.ERROR);
+        else if (selectedCombatUnit.getPosition().getImprovement() == null)
+            alert("NO IMPROVEMENT", "There is no improvement in this tile", Alert.AlertType.ERROR);
+        else {
+            selectedCombatUnit.makeUnitAwake();
+            selectedCombatUnit.getPosition().setLooted(true);
+            selectedCombatUnit = null;
+            alert("SUCCESS", "Tile is pillaged", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    private void buildCommand() {
+        if (!(selectedNonCombatUnit instanceof Worker))
+            alert("NOT A WORKER", "Selected unit is not a worker", Alert.AlertType.ERROR);
+        else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
+            alert("MOVING UNIT", "Unit is in a multiple-turn movement", Alert.AlertType.ERROR);
+        else {
+            Tile tile = selectedNonCombatUnit.getPosition();
+            ArrayList<String> improvements = CivilizationController.getInstance().getPossibleImprovements(tile);
+            String choice = getBuildChoice(improvements);
+            if (!choice.equals("exit")) {
+                CivilizationController.getInstance().build((Worker) selectedNonCombatUnit, improvements.get(Integer.parseInt(choice) - 1));
+                alert("SUCCESS", "Building improvement started", Alert.AlertType.ERROR);
+                selectedNonCombatUnit = null;
+            }
+        }
+    }
+
+    private String getBuildChoice(ArrayList<String> improvements) {
+        StringBuilder message = new StringBuilder();
+        message.append("Please type improvement index you want to build\n");
+        message.append("Type \"exit\" if you don't want to choose any improvement\n");
+
+        for (int i = 0; i < improvements.size(); i++)
+            message.append(i + 1 + "." + improvements.get(i) + "\n");
+
+        Dialog dialog = new TextInputDialog("1");
+        dialog.setTitle("CHOOSE AN IMPROVEMENT");
+        dialog.setHeaderText(message.toString());
+
+        String command = "exit";
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) command = result.get();
+
+        if (command.equals("exit")) return "exit";
+        else if (command.matches("\\d+")) {
+            int number = Integer.parseInt(command);
+            if (number < 1 || number > improvements.size()) {
+                alert("ERROR", "Invalid number!", Alert.AlertType.ERROR);
+                command = "exit";
+            }
+        } else command = "exit";
+        return command;
+    }
+
+//    private void removeCommand(Processor processor) {
+//        switch (CivilizationController.getInstance().removeFeature(selectedNonCombatUnit, processor.getSubSection())) {
+//            case "not worker":
+//                alert("NOT A WORKER", "Selected unit is not a worker", Alert.AlertType.ERROR);
+//                break;
+//            case "in movement":
+//                alert("MOVING UNIT", "Unit is in a multiple-turn movement", Alert.AlertType.ERROR);
+//                break;
+//            case "irremovable feature":
+//                alert("IRREMOVABLE FEATURE", "This tiles feature cannot get removed", Alert.AlertType.ERROR);
+//                break;
+//            case "ok":
+//                alert("SUCCESS", "Removing feature started", Alert.AlertType.INFORMATION);
+//                selectedNonCombatUnit = null;
+//                break;
+//        }
+//    }
+
+    private void repairCommand() {
+        switch (CivilizationController.getInstance().repair(selectedNonCombatUnit)) {
+            case "not worker":
+                alert("NOT A WORKER", "Selected unit is not a worker", Alert.AlertType.ERROR);
+                break;
+            case "in movement":
+                alert("MOVING UNIT", "Unit is in a multiple-turn movement", Alert.AlertType.ERROR);
+                break;
+            case "no improvement":
+                alert("NO IMPROVEMENT", "There is no improvement in this tile to get repaired", Alert.AlertType.ERROR);
+                break;
+            case "ok":
+                alert("SUCCESS", "Repairing tile started", Alert.AlertType.INFORMATION);
+                selectedNonCombatUnit = null;
+                break;
+        }
+    }
+
     private void alert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setContentText(message);
         alert.show();
+    }
+
+    private void showUnitActions() {
+        Stage stage = new Stage();
+        BorderPane pane = new BorderPane();
+        pane.setPrefSize(200, 600);
+        pane.setMinSize(200, 600);
+        Scene scene = new Scene(pane);
+        stage.setScene(scene);
+        stage.show();
+        VBox box = new VBox();
+        pane.setCenter(box);
+
+        Button sleepButton = new Button("sleep");
+        sleepButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                sleepCommand();
+                stage.close();
+            }
+        });
+        box.getChildren().add(sleepButton);
+
+        Button alertButton = new Button("alert");
+        alertButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                alertCommand();
+                stage.close();
+            }
+        });
+        box.getChildren().add(alertButton);
+
+        Button fortifyButton = new Button("fortify");
+        fortifyButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                fortifyCommand();
+                stage.close();
+            }
+        });
+        box.getChildren().add(fortifyButton);
+
+        Button healButton = new Button("heal");
+        healButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                healCommand();
+                stage.close();
+            }
+        });
+        box.getChildren().add(healButton);
+
+        Button garrisonButton = new Button("garrison");
+        garrisonButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                garrisonCommand();
+                stage.close();
+            }
+        });
+        box.getChildren().add(garrisonButton);
+
+        Button setupButton = new Button("setup");
+        setupButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                setupCommand();
+                stage.close();
+            }
+        });
+        box.getChildren().add(setupButton);
+
+        Button foundButton = new Button("found city");
+        foundButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                foundCommand();
+                stage.close();
+            }
+        });
+        box.getChildren().add(foundButton);
+
+        Button cancelButton = new Button("cancel");
+        cancelButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                cancelCommand();
+                stage.close();
+            }
+        });
+        box.getChildren().add(cancelButton);
+
+        Button wakeButton = new Button("wake");
+        wakeButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                wakeUnit();
+                stage.close();
+            }
+        });
+        box.getChildren().add(wakeButton);
+
+        Button deleteButton = new Button("deleteUnit");
+        deleteButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                deleteUnitCommand();
+                stage.close();
+            }
+        });
+        box.getChildren().add(deleteButton);
+
+        Button pillageButton = new Button("pillage");
+        pillageButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                pillageCommand();
+                stage.close();
+            }
+        });
+        box.getChildren().add(pillageButton);
+
+        Button buildButton = new Button("build improvement");
+        buildButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                buildCommand();
+                stage.close();
+            }
+        });
+        box.getChildren().add(buildButton);
+
+        Button repairButton = new Button("repair");
+        repairButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                repairCommand();
+                stage.close();
+            }
+        });
+        box.getChildren().add(repairButton);
+
+        Button exitButton = new Button("exit");
+        exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                stage.close();
+            }
+        });
+        box.getChildren().add(exitButton);
     }
 }
