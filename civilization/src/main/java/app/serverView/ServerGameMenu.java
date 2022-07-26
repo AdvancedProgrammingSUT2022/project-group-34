@@ -1350,19 +1350,19 @@ public class ServerGameMenu extends ServerMenu {
 
     private void increaseCheatCommand(String amountField, String subSection) {
         if (amountField == null) {
-            System.out.printf("field 'amount' required\n");
+            message.addLine("field 'amount' required\n");
             return;
         } else if (!amountField.matches(NON_NEGATIVE_NUMBER_REGEX)) {
-            System.out.printf("amount must be a valid non-negative integer\n");
+            message.addLine("amount must be a valid non-negative integer\n");
             return;
         }
         int amount = Integer.parseInt(amountField);
         if (Objects.equals(subSection, "gold")) {
             CheatController.getInstance().increaseGold(amount);
-            System.out.printf("Done");
+            message.addLine("Done");
         } else if (Objects.equals(subSection, "beaker")) {
             CheatController.getInstance().increaseBeaker(amount);
-            System.out.printf("Done");
+            message.addLine("Done");
         } else message.addLine(getInvalidCommand());
     }
 
@@ -1379,7 +1379,7 @@ public class ServerGameMenu extends ServerMenu {
         else {
             int x = Integer.parseInt(xField);
             int y = Integer.parseInt(yField);
-            System.out.printf("%s\n", CheatController.getInstance().teleport(selectedUnit, x, y));
+            message.addLine(String.format("%s\n", CheatController.getInstance().teleport(selectedUnit, x, y)));
         }
     }
 
@@ -1400,7 +1400,7 @@ public class ServerGameMenu extends ServerMenu {
         else {
             int x = Integer.parseInt(xField);
             int y = Integer.parseInt(yField);
-            System.out.printf("%s\n", CheatController.getInstance().reveal(x, y));
+            message.addLine(String.format("%s\n", CheatController.getInstance().reveal(x, y)));
         }
     }
 
@@ -1429,17 +1429,17 @@ public class ServerGameMenu extends ServerMenu {
                 String xField = processor.get("x");
                 String yField = processor.get("y");
                 if (!xField.matches(NON_NEGATIVE_NUMBER_REGEX) || !yField.matches(NON_NEGATIVE_NUMBER_REGEX)) {
-                    System.out.printf("x and y must be non-negative\n");
+                    message.addLine("x and y must be non-negative\n");
                     return;
                 }
                 int x = Integer.parseInt(xField);
                 int y = Integer.parseInt(yField);
                 if (x >= GameController.getInstance().getGame().getMainGameMap().getMapHeight()) {
-                    System.out.printf("x out of bounds\n");
+                    message.addLine("x out of bounds\n");
                     return;
                 }
                 if (y >= GameController.getInstance().getGame().getMainGameMap().getMapWidth()) {
-                    System.out.printf("y out of bounds\n");
+                    message.addLine("y out of bounds\n");
                     return;
                 }
                 mapX = x;

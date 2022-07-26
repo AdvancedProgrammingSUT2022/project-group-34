@@ -25,7 +25,7 @@ public enum Terrain{
     private final int impactOnWar;
     private final boolean isBlocked;
 
-    Terrain(String name, int foodRate, int goldRate, int productionRate, int movingCost, int impactOnWar, boolean isBlocked) {
+    Terrain(String name, int foodRate, int goldRate, int productionRate, int impactOnWar, int movingCost, boolean isBlocked) {
         this.name = name;
         this.foodRate = foodRate;
         this.goldRate = goldRate;
