@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.controllers.gameServer.GameController;
 import app.models.*;
 import app.models.map.CivilizationMap;
 import app.models.map.GameMap;
@@ -52,9 +53,9 @@ public class GSave {
         return gameSave;
     }
 
-    public void saveAllGame(){
+    public void saveAllGame(GameController gameController){
         uniqueID = 1;
-        gameSave = new GameMock(GameController.getInstance().getGame(),0);
+        gameSave = new GameMock(gameController.getGame(),0);
         System.out.println(gameSave);
         String gameMockJson = new Gson().toJson(gameSave);
         System.out.println(gameMockJson);

@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.controllers.gameServer.GameController;
 import app.models.Civilization;
 import app.models.Game;
 import app.models.map.CivilizationMap;

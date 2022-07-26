@@ -9,17 +9,11 @@ import app.models.map.GameMap;
 import java.util.ArrayList;
 
 public class GameController {
-    //Singleton Pattern
-    private static GameController instance;
 
-    private GameController() {
-    }
 
     public static GameController getInstance() {
-        if (instance == null) instance = new GameController();
-        return instance;
+        return null;
     }
-
 
     //Fields of the class
     private Game game;

@@ -13,14 +13,8 @@ import java.util.*;
 public class CivilizationController {
     private final static int INF = 100000;
 
-    private static CivilizationController instance = null;
-
-    private CivilizationController() {
-    }
-
     public static CivilizationController getInstance() {
-        if (instance == null) instance = new CivilizationController();
-        return instance;
+        return null;
     }
 
     public String finishResearch(Civilization civilization) {
@@ -70,7 +64,7 @@ public class CivilizationController {
 
         if (unit == null)
             return "no such unit";
-        else if (!GameController.getInstance().getCivilization().getUnits().contains(unit))
+        else if (!MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization().getUnits().contains(unit))
             return "not yours";
         else return unitType;
     }
@@ -94,7 +88,7 @@ public class CivilizationController {
     }
 
     public Tile getTileByPosition(int[] position) {
-        GameMap gameMap = GameController.getInstance().getGame().getMainGameMap();
+        GameMap gameMap = MainServer.getGameControllerByToken(MainServer.getToken(this)).getGame().getMainGameMap();
         return gameMap.getTileByXY(position[0], position[1]);
     }
 
@@ -162,7 +156,7 @@ public class CivilizationController {
             for (int i = 0; i < adjacentVertices.size(); i++) {
                 Tile adjacentVertex = adjacentVertices.get(i);
                 if (adjacentVertex.isUnmovable() || mark.get(adjacentVertex)) continue;
-                if (GameController.getInstance().getCivilization().isInFog(adjacentVertex)) continue;
+                if (MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization().isInFog(adjacentVertex)) continue;
                 int newDistance = distance.get(currentVertex) + calculateMotionCost(currentVertex, adjacentVertex);
                 if (isRiver.get(i) && !returnThePath) newDistance = motionPointLimit;
                 if (distance.get(adjacentVertex) != null && newDistance >= distance.get(adjacentVertex)) continue;
@@ -265,7 +259,7 @@ public class CivilizationController {
     public String isMoveValid(Unit unit, int[] destination) {
         Tile destinationTile = getTileByPosition(destination);
         if (!isPositionValid(destination)) return "invalid destination";
-        else if (GameController.getInstance().getCivilization().isInFog(destinationTile)) return "fog of war";
+        else if (MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization().isInFog(destinationTile)) return "fog of war";
         else if (unit.getPosition() == destinationTile) return "already at the same tile";
         else if (unit instanceof CombatUnit && destinationTile.getCombatUnit() != null) return "destination occupied";
         else if (unit instanceof NonCombatUnit && destinationTile.getNonCombatUnit() != null)
@@ -318,7 +312,7 @@ public class CivilizationController {
     }
 
     public void reveal(AbstractTile tile) {
-        CivilizationMap map = GameController.getInstance().getCivilization().getPersonalMap();
+        CivilizationMap map = MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization().getPersonalMap();
         map.setTileByXY(tile.getX(), tile.getY(), new VisibleTile(tile, false));
         ArrayList<AbstractTile> tileList = new ArrayList<>();
         tileList.add(tile);
@@ -341,7 +335,7 @@ public class CivilizationController {
     }
 
     public void deleteUnit(Unit unit) {
-        Civilization civilization = GameController.getInstance().getCivilization();
+        Civilization civilization = MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization();
         civilization.setGold(civilization.getGold() + unit.getCost() / 10);
         civilization.removeUnit(unit);
     }
@@ -349,7 +343,7 @@ public class CivilizationController {
 
     public void build(Worker worker, String improvement) {
         Tile tile = worker.getPosition();
-        Civilization civilization = GameController.getInstance().getCivilization();
+        Civilization civilization = MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization();
         tile.setImprovement(null);
         if (civilization.getWorkByTile(tile) != null)
             civilization.getWorks().remove(civilization.getWorkByTile(tile));
@@ -378,7 +372,7 @@ public class CivilizationController {
         if (tile.getFeature() != null) improvements = Improvement.getImprovementsByFeature(tile.getFeature());
         else improvements = Improvement.getImprovementsByTerrain(tile.getTerrain());
 
-        improvements.removeIf(improvement -> !GameController.getInstance().getCivilization().
+        improvements.removeIf(improvement -> !MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization().
                 getCivilizationResearchedTechnologies().containsValue(
                         Improvement.getAllImprovements().get(improvement).getRequiredTechnology()));
 
@@ -395,7 +389,7 @@ public class CivilizationController {
     public String foundCity(Settler settler, String name) {
         Tile position = settler.getPosition();
         ArrayList<Tile> adjacentTiles = position.getAdjacentTiles();
-        Civilization civilization = GameController.getInstance().getCivilization();
+        Civilization civilization = MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization();
 
         //Checks if settler is far enough from another civilization borders to found city
         for (Tile adjacentTile : adjacentTiles) {
@@ -405,7 +399,7 @@ public class CivilizationController {
         }
 
         //Checks if city name is new
-        for (Civilization civilization1 : GameController.getInstance().getGame().getCivilizations()) {
+        for (Civilization civilization1 : MainServer.getGameControllerByToken(MainServer.getToken(this)).getGame().getCivilizations()) {
             if (civilization1.getCityByName(name) != null) return "duplicate name";
         }
 
@@ -434,7 +428,7 @@ public class CivilizationController {
         else {
             selectedNonCombatUnit.makeUnitAwake();
             tile.setImprovement(null);
-            Work work = GameController.getInstance().getCivilization().getWorkByTile(tile);
+            Work work = MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization().getWorkByTile(tile);
             if (work == null) {
                 if (type.equals("jungle"))
                     work = new Work(selectedNonCombatUnit.getPosition(), (Worker) selectedNonCombatUnit, "remove feature", 7);
@@ -442,7 +436,7 @@ public class CivilizationController {
                     work = new Work(selectedNonCombatUnit.getPosition(), (Worker) selectedNonCombatUnit, "remove feature", 4);
                 else
                     work = new Work(selectedNonCombatUnit.getPosition(), (Worker) selectedNonCombatUnit, "remove feature", 6);
-                GameController.getInstance().getCivilization().addWork(work);
+                MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization().addWork(work);
             } else {
                 if (type.equals("jungle"))
                     work.changeWork((Worker) selectedNonCombatUnit, 7, "remove feature");
@@ -465,9 +459,9 @@ public class CivilizationController {
             return "no improvement";
         else {
             selectedNonCombatUnit.makeUnitAwake();
-            Work work = GameController.getInstance().getCivilization().getWorkByTile(tile);
+            Work work = MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization().getWorkByTile(tile);
             if (work == null)
-                GameController.getInstance().getCivilization().addWork(new Work(tile, (Worker) selectedNonCombatUnit, "repair", 3));
+                MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization().addWork(new Work(tile, (Worker) selectedNonCombatUnit, "repair", 3));
             else
                 work.changeWork((Worker) selectedNonCombatUnit, 3, "repair");
             return "ok";
@@ -479,13 +473,13 @@ public class CivilizationController {
     public void purchaseTile(City city, Tile tile) {
         city.addTerritory(tile);
         tile.setCity(city);
-        Civilization civilization = GameController.getInstance().getCivilization();
+        Civilization civilization = MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization();
         civilization.setGold(civilization.getGold()-50);
     }
 
     public ArrayList<UnitEnum> getProducibleUnits(){
         ArrayList<UnitEnum> unitEnums = new ArrayList<>();
-        Civilization civilization = GameController.getInstance().getCivilization();
+        Civilization civilization = MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization();
 
         unitEnums.addAll(civilization.getProducibleUnitEnums());
         unitEnums.removeIf(unitEnum -> !civilization.getCivilizationUsableUnits().contains(unitEnum));
@@ -536,7 +530,7 @@ public class CivilizationController {
         continueMoves(civilization);
 
         CivilizationController.getInstance().updateTransparentTiles(civilization);
-        CivilizationController.getInstance().updatePersonalMap(civilization, GameController.getInstance().getGame().getMainGameMap());
+        CivilizationController.getInstance().updatePersonalMap(civilization, MainServer.getGameControllerByToken(MainServer.getToken(this)).getGame().getMainGameMap());
     }
 
 /*    private ArrayList<AbstractTile> getAllVisibleTiles(Civilization civilization) {
