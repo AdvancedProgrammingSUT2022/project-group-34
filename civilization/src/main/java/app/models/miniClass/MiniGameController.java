@@ -1,7 +1,7 @@
 package app.models.miniClass;
 
-import app.controllers.GMini;
-import app.controllers.GameController;
+import app.controllers.singletonController.GMini;
+import app.controllers.gameServer.GameController;
 
 public class MiniGameController {
     private Integer miniGameID;

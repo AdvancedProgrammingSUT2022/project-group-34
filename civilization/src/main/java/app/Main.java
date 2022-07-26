@@ -1,7 +1,7 @@
 package app;
 
-import app.controllers.NetworkController;
-import app.controllers.UserController;
+import app.controllers.singletonController.NetworkController;
+import app.controllers.singletonController.UserController;
 
 public class Main {
     public static void main(String[] args) {

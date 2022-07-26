@@ -1,7 +1,6 @@
 package app.views;
 
 import app.App;
-import app.controllers.UserController;
 import app.models.User;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,8 +15,6 @@ import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 
 public class ProfileMenuController {
     private final static String VALID_NICKNAME_REGEX = "^[a-zA-Z]+$";
@@ -62,10 +59,10 @@ public class ProfileMenuController {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1280, 720, false, false, false, false)));
         pane.setBackground(background);
-        User user = UserController.getInstance().getLoggedInUser();
-        loadAvatar(user);
-        loadName(user);
-        loadPlaceholders();
+        //User user = UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken());
+        //loadAvatar(user);
+        //loadName(user);
+        //loadPlaceholders();
     }
 
     private void loadAvatar(User user) {
@@ -131,12 +128,12 @@ public class ProfileMenuController {
     private void setAvatar(File file) {
         clearMessage();
         try {
-            UserController.getInstance().getLoggedInUser().setAvatar(file);
+            //UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()).setAvatar(file);
             showSuccessMessage("Avatar changed successfully.");
         } catch (Exception e) {
             showFailureMessage("Unable to load picture.");
         }
-        loadAvatar(UserController.getInstance().getLoggedInUser());
+        //loadAvatar(UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()));
     }
 
     @FXML
@@ -146,43 +143,10 @@ public class ProfileMenuController {
 
         clearMessage();
 
-        if (!UserController.getInstance().getLoggedInUser().isPasswordCorrect(currentPassword)) {
-            showFailureMessage("incorrect password");
-        }
-        else if (currentPassword.equals(newPassword)) {
-            showFailureMessage("Insert a new password.");
-        }
-        else if (!UserController.getInstance().isPasswordStrong(newPassword)) {
-            showFailureMessage("Password is weak!");
-        }
-        else {
-            UserController.getInstance().getLoggedInUser().setPassword(newPassword);
-            showSuccessMessage("Password changed successfully!");
-            UserController.getInstance().saveUsers();
-            oldPasswordField.setText("");
-            newPasswordField.setText("");
-        }
     }
 
     @FXML
     private void changeNickname() {
-        String nickname = newNicknameField.getText();
-
-        clearMessage();
-
-        if (!nickname.matches(VALID_NICKNAME_REGEX))
-            showFailureMessage("Please enter a valid nickname. (one or more alphabetic characters)");
-        else if (UserController.getInstance().getLoggedInUser().getNickname().equals(nickname))
-            showFailureMessage("Please enter a new nickname.");
-        else if (UserController.getInstance().getUserByNickname(nickname) != null)
-            showFailureMessage("A user with nickname " + nickname + " already exists.");
-        else {
-            UserController.getInstance().getLoggedInUser().setNickname(nickname);
-            showSuccessMessage("Nickname changed successfully!");
-            UserController.getInstance().saveUsers();
-            newNicknameField.setText("");
-        }
-        loadName(UserController.getInstance().getLoggedInUser());
 
     }
 

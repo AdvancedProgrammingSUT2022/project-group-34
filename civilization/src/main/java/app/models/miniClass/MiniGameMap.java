@@ -1,6 +1,6 @@
 package app.models.miniClass;
 
-import app.controllers.GMini;
+import app.controllers.singletonController.GMini;
 import app.models.map.GameMap;
 import app.models.tile.Tile;
 

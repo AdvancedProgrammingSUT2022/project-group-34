@@ -1,15 +1,14 @@
 package app.serverView;
 
-import app.controllers.CheatController;
-import app.controllers.CivilizationController;
-import app.controllers.GMini;
-import app.controllers.GameController;
+import app.controllers.MainServer;
+import app.controllers.gameServer.CivilizationController;
+import app.controllers.singletonController.GMini;
 import app.models.*;
 import app.models.connection.Message;
+import app.models.connection.Processor;
 import app.models.tile.ImprovementEnum;
 import app.models.tile.Tile;
 import app.models.unit.*;
-import app.views.Processor;
 import com.google.gson.Gson;
 
 import java.util.*;
@@ -128,7 +127,7 @@ public class ServerGameMenu extends ServerMenu {
                 message.addLine("This unit is not yours");
                 break;
             case "combat":
-                selectedCombatUnit = CivilizationController.getInstance().getCombatUnitByPosition(position);
+                selectedCombatUnit = MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).getCombatUnitByPosition(position);
                 selectedNonCombatUnit = null;
                 selectedCity = null;
                 message.addLine("Combat unit selected");
@@ -150,7 +149,7 @@ public class ServerGameMenu extends ServerMenu {
             message.addLine("Position is invalid");
         else if (tile.getCity() == null)
             message.addLine("There is no city in the selected area");
-        else if (!GameController.getInstance().getCivilization().getCities().contains(city))
+        else if (!MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization().getCities().contains(city))
             message.addLine("This city is not in your territory");
         else {
             selectedCity = city;
@@ -163,9 +162,9 @@ public class ServerGameMenu extends ServerMenu {
     private void selectCity(String name) {
         City city;
 
-        for (Civilization civilization : GameController.getInstance().getGame().getCivilizations()) {
+        for (Civilization civilization : MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getGame().getCivilizations()) {
             if ((city = civilization.getCityByName(name)) != null) {
-                if (civilization == GameController.getInstance().getCivilization()) {
+                if (civilization == MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization()) {
                     selectedCity = city;
                     selectedCombatUnit = null;
                     selectedNonCombatUnit = null;
@@ -258,21 +257,28 @@ public class ServerGameMenu extends ServerMenu {
             int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
             String response = CivilizationController.getInstance().moveUnit(unit, position);
 
-            if (response.equals("invalid destination"))
-                message.addLine("Destination is not valid");
-            else if (response.equals("fog of war"))
-                message.addLine("Destination is in fog of war");
-            else if (response.equals("already at the same tile"))
-                message.addLine("We already are at the tile you want to move to");
-            else if (response.equals("destination occupied"))
-                message.addLine("There is already a unit in the tile you want to move to");
-            else if (response.equals("no valid path"))
-                message.addLine("There is no path to the tile you want to move to");
-            else if (response.equals("success")) {
-                unit.makeUnitAwake();
-                message.addLine("Unit moved to destination successfully");
-                selectedCombatUnit = null;
-                selectedNonCombatUnit = null;
+            switch (response) {
+                case "invalid destination":
+                    message.addLine("Destination is not valid");
+                    break;
+                case "fog of war":
+                    message.addLine("Destination is in fog of war");
+                    break;
+                case "already at the same tile":
+                    message.addLine("We already are at the tile you want to move to");
+                    break;
+                case "destination occupied":
+                    message.addLine("There is already a unit in the tile you want to move to");
+                    break;
+                case "no valid path":
+                    message.addLine("There is no path to the tile you want to move to");
+                    break;
+                case "success":
+                    unit.makeUnitAwake();
+                    message.addLine("Unit moved to destination successfully");
+                    selectedCombatUnit = null;
+                    selectedNonCombatUnit = null;
+                    break;
             }
         }
     }
@@ -640,7 +646,7 @@ public class ServerGameMenu extends ServerMenu {
     }
 
     private void researchInfoMenu() {
-        Technology technology = GameController.getInstance().getCivilization().getStudyingTechnology();
+        Technology technology = MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization().getStudyingTechnology();
         if (technology != null) {
             message.addLine("Current Research Project: " + technology.getName());
             message.addLine("Remaining Terms: " + technology.getRemainingTerm());
@@ -715,7 +721,7 @@ public class ServerGameMenu extends ServerMenu {
 
 
     private void unitsInfoPanel() {
-        Civilization civilization = GameController.getInstance().getCivilization();
+        Civilization civilization = MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization();
 
         StringBuilder output = new StringBuilder("List of units: ").append("\n");
         for (int i = 1; i <= civilization.getUnits().size(); i++) {
@@ -765,7 +771,7 @@ public class ServerGameMenu extends ServerMenu {
 
 
     private void citiesInfoPanel() {
-        Civilization civilization = GameController.getInstance().getCivilization();
+        Civilization civilization = MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization();
 
         StringBuilder output = new StringBuilder("List of cities: ").append("\n");
         for (int i = 1; i <= civilization.getCities().size(); i++) {
@@ -828,7 +834,7 @@ public class ServerGameMenu extends ServerMenu {
 
 
     private void demographicsInfoMenu() {
-        ArrayList<Civilization> civilizations = GameController.getInstance().getGame().getCivilizations();
+        ArrayList<Civilization> civilizations = MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getGame().getCivilizations();
 
         message.addLine("Demographics Screen:");
         territoryRank(civilizations);
@@ -845,7 +851,7 @@ public class ServerGameMenu extends ServerMenu {
 
         Collections.sort(territory);
 
-        int territorySize = GameController.getInstance().getCivilization().getTerritory().size();
+        int territorySize = MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization().getTerritory().size();
         int rank = territory.indexOf(territorySize) + 1;
         int best = territory.get(0);
         int average = territory.get(territory.size() / 2);
@@ -862,7 +868,7 @@ public class ServerGameMenu extends ServerMenu {
 
         Collections.sort(population);
 
-        int populationSize = GameController.getInstance().getCivilization().getPopulation();
+        int populationSize = MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization().getPopulation();
         int rank = population.indexOf(populationSize) + 1;
         int best = population.get(0);
         int average = population.get(population.size() / 2);
@@ -879,7 +885,7 @@ public class ServerGameMenu extends ServerMenu {
 
         Collections.sort(gold);
 
-        int goldAmount = GameController.getInstance().getCivilization().getGold();
+        int goldAmount = MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization().getGold();
         int rank = gold.indexOf(goldAmount) + 1;
         int best = gold.get(0);
         int average = gold.get(gold.size() / 2);
@@ -896,7 +902,7 @@ public class ServerGameMenu extends ServerMenu {
 
         Collections.sort(happiness);
 
-        int happinessAmount = GameController.getInstance().getCivilization().getHappiness();
+        int happinessAmount = MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization().getHappiness();
         int rank = happiness.indexOf(happinessAmount) + 1;
         int best = happiness.get(0);
         int average = happiness.get(happiness.size() / 2);
@@ -913,7 +919,7 @@ public class ServerGameMenu extends ServerMenu {
 
         Collections.sort(units);
 
-        int unitsSize = GameController.getInstance().getCivilization().getUnits().size();
+        int unitsSize = MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization().getUnits().size();
         int rank = units.indexOf(unitsSize) + 1;
         int best = units.get(0);
         int average = units.get(units.size() / 2);
@@ -925,7 +931,7 @@ public class ServerGameMenu extends ServerMenu {
 
 
     private void notificationsInfoMenu() {
-        Civilization civilization = GameController.getInstance().getCivilization();
+        Civilization civilization = MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization();
 
         StringBuilder output = new StringBuilder("Notifications Log:").append("\n");
         for (Notification notification : civilization.getNotifications()) {
@@ -938,7 +944,7 @@ public class ServerGameMenu extends ServerMenu {
 
 
     private void militaryInfoMenu() {
-        Civilization civilization = GameController.getInstance().getCivilization();
+        Civilization civilization = MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization();
 
         StringBuilder output = new StringBuilder("List of units: ").append("\n");
         printListOfUnits(output, civilization);
@@ -968,7 +974,7 @@ public class ServerGameMenu extends ServerMenu {
 
 
     private void economicInfoMenu() {
-        Civilization civilization = GameController.getInstance().getCivilization();
+        Civilization civilization = MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization();
 
         StringBuilder output = new StringBuilder("List of cities: ").append("\n");
         printListOfCities(output, civilization);
@@ -1072,7 +1078,7 @@ public class ServerGameMenu extends ServerMenu {
 
     private void cityScreen() {
         System.out.print(selectedCity.getName());
-        if (Objects.equals(GameController.getInstance().getCivilization().getCurrentCapital(), selectedCity))
+        if (Objects.equals(MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization().getCurrentCapital(), selectedCity))
             message.addLine(String.format("(Capital)| Strength:%d\n", selectedCity.getStrength()));
         else
             message.addLine(String.format("|Strength:%d\n", selectedCity.getStrength()));
@@ -1104,7 +1110,7 @@ public class ServerGameMenu extends ServerMenu {
     }
 
     private City navigateBetweenCities() {
-        ArrayList<City> cities = new ArrayList<>(GameController.getInstance().getCivilization().getCities());
+        ArrayList<City> cities = new ArrayList<>(MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization().getCities());
         cities.remove(selectedCity);
 
         message.addLine("-------------------------------------------------------------");
@@ -1229,7 +1235,7 @@ public class ServerGameMenu extends ServerMenu {
     private void buyTile(Processor processor) {
         if (processor.getSubSection() == null || !processor.getSubSection().equals("tile"))
             message.addLine(getInvalidCommand());
-        else if (GameController.getInstance().getCivilization().getGold() < 50)
+        else if (MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getCivilization().getGold() < 50)
             message.addLine("You don't have enough money to buy a tile");
         else {
             ArrayList<Tile> purchasableTiles = new ArrayList<>();
@@ -1358,10 +1364,10 @@ public class ServerGameMenu extends ServerMenu {
         }
         int amount = Integer.parseInt(amountField);
         if (Objects.equals(subSection, "gold")) {
-            CheatController.getInstance().increaseGold(amount);
+            MainServer.getCheatControllerByToken(mySocketHandler.getGameToken()).increaseGold(amount);
             message.addLine("Done");
         } else if (Objects.equals(subSection, "beaker")) {
-            CheatController.getInstance().increaseBeaker(amount);
+            MainServer.getCheatControllerByToken(mySocketHandler.getGameToken()).increaseBeaker(amount);
             message.addLine("Done");
         } else message.addLine(getInvalidCommand());
     }
@@ -1379,18 +1385,18 @@ public class ServerGameMenu extends ServerMenu {
         else {
             int x = Integer.parseInt(xField);
             int y = Integer.parseInt(yField);
-            message.addLine(String.format("%s\n", CheatController.getInstance().teleport(selectedUnit, x, y)));
+            message.addLine(String.format("%s\n", MainServer.getCheatControllerByToken(mySocketHandler.getGameToken()).teleport(selectedUnit, x, y)));
         }
     }
 
     private void finishCheatCommand(String subSection) {
         if (!subSection.equals("research")) message.addLine(getInvalidCommand());
-        else message.addLine(CheatController.getInstance().finishResearch());
+        else message.addLine(MainServer.getCheatControllerByToken(mySocketHandler.getGameToken()).finishResearch());
     }
 
     private void researchCheatCommand(String subSection, String name) {
         if (!subSection.equals("technology")) message.addLine(getInvalidCommand());
-        else message.addLine(CheatController.getInstance().researchTechnology(name));
+        else message.addLine(MainServer.getCheatControllerByToken(mySocketHandler.getGameToken()).researchTechnology(name));
     }
 
     private void revealCheatCommand(String xField, String yField) {
@@ -1400,7 +1406,7 @@ public class ServerGameMenu extends ServerMenu {
         else {
             int x = Integer.parseInt(xField);
             int y = Integer.parseInt(yField);
-            message.addLine(String.format("%s\n", CheatController.getInstance().reveal(x, y)));
+            message.addLine(String.format("%s\n", MainServer.getCheatControllerByToken(mySocketHandler.getGameToken()).reveal(x, y)));
         }
     }
 
@@ -1416,7 +1422,7 @@ public class ServerGameMenu extends ServerMenu {
 
     private void handleEndCategoryCommand(Processor processor) {
         if (processor.getSection() == null) message.addLine(getInvalidCommand());
-        else if (processor.getSection().equals("turn")) GameController.getInstance().startTurn();
+        else if (processor.getSection().equals("turn")) MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).startTurn();
         else message.addLine(getInvalidCommand());
     }
 
@@ -1434,11 +1440,11 @@ public class ServerGameMenu extends ServerMenu {
                 }
                 int x = Integer.parseInt(xField);
                 int y = Integer.parseInt(yField);
-                if (x >= GameController.getInstance().getGame().getMainGameMap().getMapHeight()) {
+                if (x >= MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getGame().getMainGameMap().getMapHeight()) {
                     message.addLine("x out of bounds\n");
                     return;
                 }
-                if (y >= GameController.getInstance().getGame().getMainGameMap().getMapWidth()) {
+                if (y >= MainServer.getGameControllerByToken(mySocketHandler.getGameToken()).getGame().getMainGameMap().getMapWidth()) {
                     message.addLine("y out of bounds\n");
                     return;
                 }
@@ -1476,7 +1482,7 @@ public class ServerGameMenu extends ServerMenu {
             } else if (processor.getSubSection().equals("data")) {
                 message.addData("mapX", mapX);
                 message.addData("mapY", mapY);
-                String[] hashMap = GMini.getInstance().startMiniSave(GameController.getInstance());
+                String[] hashMap = GMini.getInstance().startMiniSave(MainServer.getGameControllerByToken(mySocketHandler.getGameToken()));
                 String str = new Gson().toJson(hashMap);
                 //str = str.replace("false","|").replace("true","~");
                 //str = str.replace("\\\"","^");
@@ -1486,11 +1492,4 @@ public class ServerGameMenu extends ServerMenu {
             message.addLine(getInvalidCommand());
     }
 
-    public int getMapX() {
-        return mapX;
-    }
-
-    public int getMapY(){
-        return mapY;
-    }
 }

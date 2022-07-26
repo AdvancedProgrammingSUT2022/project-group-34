@@ -1,2 +1,9 @@
-package app.models.connection;public class StringSocketToken {
+package app.models.connection;
+
+public class StringSocketToken {
+    String token = "";
+
+    public StringSocketToken(String token) {
+        this.token = token;
+    }
 }

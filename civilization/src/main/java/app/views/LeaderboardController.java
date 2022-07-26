@@ -1,7 +1,7 @@
 package app.views;
 
 import app.App;
-import app.controllers.UserController;
+import app.controllers.singletonController.UserController;
 import app.models.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -70,7 +70,7 @@ public class LeaderboardController {
     }
 
     private void addUser(User user, int i) {
-        if (user.equals(UserController.getInstance().getLoggedInUser())) user.setLastSeen(System.currentTimeMillis());
+        //if (user.equals(UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()))) user.setLastSeen(System.currentTimeMillis());
         Label index = new Label(String.valueOf(i + 1));
         index.getStyleClass().add("index");
         ImageView avatar = user.getImageView();
@@ -93,9 +93,6 @@ public class LeaderboardController {
         Label lastSeen = new Label(user.getLastSeen().toString());
         lastSeen.getStyleClass().add("date");
         String styleClass = "";
-        if (user.equals(UserController.getInstance().getLoggedInUser())) styleClass = "self";
-        else if (i % 2 == 1) styleClass = "odd";
-        else styleClass = "even";
         index.getStyleClass().add(styleClass);
         avatar.getStyleClass().add(styleClass);
         name.getStyleClass().add(styleClass);

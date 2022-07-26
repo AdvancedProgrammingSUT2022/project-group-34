@@ -1,7 +1,9 @@
 package app.serverView;
 
+import app.models.connection.StringGameToken;
 import app.models.connection.Message;
-import app.views.Processor;
+import app.models.connection.Processor;
+import app.models.connection.StringSocketToken;
 import com.google.gson.Gson;
 
 import java.io.DataInputStream;
@@ -21,10 +23,11 @@ public class MySocketHandler extends Thread{
     private final ServerMainMenu serverMainMenu;
     private Processor processor;
     private boolean threadFlag = true;
-    private String token;
+    private final StringSocketToken socketToken;
+    protected StringGameToken gameToken = null;
     private boolean hasOpenProgress = false;
 
-    public MySocketHandler(Socket socket, String token){
+    public MySocketHandler(Socket socket, StringSocketToken socketToken){
 
         try {
             inputStream = new DataInputStream(socket.getInputStream());
@@ -32,7 +35,7 @@ public class MySocketHandler extends Thread{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.token = token;
+        this.socketToken = socketToken;
 
         serverGameMenu = new ServerGameMenu(this);
         serverProfileMenu = new ServerProfileMenu(this);
@@ -115,7 +118,17 @@ public class MySocketHandler extends Thread{
         return false;
     }
 
-    public String getToken() {
-        return token;
+    public StringSocketToken getSocketToken() {
+        return socketToken;
     }
+
+    public StringGameToken getGameToken() {
+        return gameToken;
+    }
+
+    public void setGameToken(StringGameToken gameToken) {
+        this.gameToken = gameToken;
+    }
+
+
 }

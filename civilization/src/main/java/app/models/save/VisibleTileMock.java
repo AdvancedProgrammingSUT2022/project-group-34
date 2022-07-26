@@ -1,6 +1,6 @@
 package app.models.save;
 
-import app.controllers.GLoad;
+import app.controllers.singletonController.GLoad;
 import app.models.City;
 import app.models.Civilization;
 import app.models.tile.Tile;

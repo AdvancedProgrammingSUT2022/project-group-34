@@ -1,6 +1,6 @@
 package app.models.miniClass;
 
-import app.controllers.GMini;
+import app.controllers.singletonController.GMini;
 import app.models.Civilization;
 
 import java.util.ArrayList;

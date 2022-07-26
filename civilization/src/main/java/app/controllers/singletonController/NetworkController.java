@@ -1,5 +1,6 @@
-package app.controllers;
+package app.controllers.singletonController;
 
+import app.models.connection.StringSocketToken;
 import app.serverView.MySocketHandler;
 
 import java.io.IOException;
@@ -11,8 +12,9 @@ import java.util.UUID;
 public class NetworkController {
 
     private static final int serverPort = 8000;
-    private final HashMap<String, MySocketHandler> mySocketHandlerHashMap = new HashMap<>();
+    private final HashMap<StringSocketToken, MySocketHandler> mySocketHandlerHashMap = new HashMap<>();
     public static NetworkController networkController;
+    private StringSocketToken stringSocketToken;
 
     private NetworkController() {
 
@@ -31,8 +33,9 @@ public class NetworkController {
                 try {
                     Socket socket = serverSocket.accept();
                     System.out.println("hello");
-                    MySocketHandler socketHandler = new MySocketHandler(socket, UUID.randomUUID().toString());
-                    mySocketHandlerHashMap.put(socketHandler.getToken(),socketHandler);
+                    stringSocketToken = new StringSocketToken(UUID.randomUUID().toString());
+                    MySocketHandler socketHandler = new MySocketHandler(socket, stringSocketToken);
+                    mySocketHandlerHashMap.put(socketHandler.getSocketToken(),socketHandler);
                     socketHandler.start();
                 } catch (IOException exception) {
                     exception.printStackTrace();

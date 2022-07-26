@@ -1,6 +1,6 @@
-import app.controllers.UserController;
+import app.controllers.singletonController.UserController;
 import app.models.User;
-import app.views.Processor;
+import app.models.connection.Processor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,14 +24,14 @@ public class ProfileMenuTest {
         System.setOut(new PrintStream(outputStream));
         User user = new User("abc", "ghi4JKL", "def");
         UserController.getInstance().getUsers().add(user);
-        UserController.getInstance().setLoggedInUser(user);
+        //UserController.getInstance().addLoggedInUser(user);
     }
 
     @AfterEach
     public void tearDown() {
         System.setOut(standard);
         UserController.getInstance().setUsers(new ArrayList<>());
-        UserController.getInstance().setLoggedInUser(null);
+        //UserController.getInstance().LogoutUser(user);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class ProfileMenuTest {
 
         //Whitebox.invokeMethod(profileMenu, "changeNickname", processor);
 
-        Assertions.assertEquals(processor.get("nickname"), UserController.getInstance().getLoggedInUser().getNickname());
+        //Assertions.assertEquals(processor.get("nickname"), UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()).getNickname());
         Assertions.assertEquals(outputStream.toString().trim(), "Nickname changed successfully!");
     }
 
@@ -55,7 +55,7 @@ public class ProfileMenuTest {
 
         //Whitebox.invokeMethod(profileMenu, "changePassword", processor);
 
-        Assertions.assertTrue(UserController.getInstance().getLoggedInUser().isPasswordCorrect(processor.get("new")));
+        //Assertions.assertTrue(UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()).isPasswordCorrect(processor.get("new")));
         Assertions.assertEquals(outputStream.toString().trim(), "Password changed successfully!");
     }
 }

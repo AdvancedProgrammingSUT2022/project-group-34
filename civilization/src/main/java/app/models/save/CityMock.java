@@ -1,7 +1,7 @@
 package app.models.save;
 
-import app.controllers.GLoad;
-import app.controllers.GSave;
+import app.controllers.singletonController.GLoad;
+import app.controllers.singletonController.GSave;
 import app.models.Citizen;
 import app.models.City;
 import app.models.Civilization;

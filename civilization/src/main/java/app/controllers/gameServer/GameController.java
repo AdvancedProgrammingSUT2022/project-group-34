@@ -1,5 +1,7 @@
-package app.controllers;
+package app.controllers.gameServer;
 
+import app.controllers.singletonController.GSave;
+import app.controllers.MainServer;
 import app.models.Civilization;
 import app.models.Game;
 import app.models.User;
@@ -42,13 +44,13 @@ public class GameController {
         GameMap mainGameMap = game.getMainGameMap();
         for (Civilization civilization : game.getCivilizations()) {
             civilization.setPersonalMap(new CivilizationMap(mainGameMap.getMapWidth(), mainGameMap.getMapHeight(), mainGameMap));
-            CivilizationController.getInstance().updateTransparentTiles(civilization);
-            CivilizationController.getInstance().updatePersonalMap(civilization, mainGameMap);
+            MainServer.getCivilizationControllerByToken(MainServer.getToken(this)).updateTransparentTiles(civilization);
+            MainServer.getCivilizationControllerByToken(MainServer.getToken(this)).updatePersonalMap(civilization, mainGameMap);
         }
         this.civilization = game.getCivilizations().get(0);
         this.civilizationIndex = 0;
-        //GSave.getInstance().saveAllGame();
-        //game = GLoad.getInstance().loadAllGame();
+        GSave.getInstance().saveAllGame(this);
+        //game = GLoad.getInstance().loadAllGame(token);
     }
 
 
@@ -63,7 +65,7 @@ public class GameController {
 
     public void startTurn() {
         for (Civilization civilization : game.getCivilizations()) {
-            CivilizationController.getInstance().updateCivilization(civilization);
+            MainServer.getCivilizationControllerByToken(MainServer.getToken(this)).updateCivilization(civilization);
         }
         game.getCivilizations().get(civilizationIndex).setTurn(game.getCivilizations().get(civilizationIndex).getTurn()+1);
         civilizationIndex++;

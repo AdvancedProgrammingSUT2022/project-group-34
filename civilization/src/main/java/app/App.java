@@ -1,16 +1,12 @@
 package app;
 
-import app.controllers.UserController;
-import app.models.User;
+import app.controllers.singletonController.UserController;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.net.URL;
 
@@ -27,14 +23,6 @@ public class App extends Application {
         mainStage = stage;
         stage.setTitle("Civilization");
         stage.show();
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                User user = UserController.getInstance().getLoggedInUser();
-                if (user != null) user.setLastSeen(System.currentTimeMillis());
-                UserController.getInstance().saveUsers();
-            }
-        });
         setMenu("login_menu");
     }
 

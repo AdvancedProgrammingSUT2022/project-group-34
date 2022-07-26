@@ -1,8 +1,8 @@
 package app.serverView;
 
-import app.controllers.UserController;
+import app.controllers.singletonController.UserController;
 import app.models.connection.Message;
-import app.views.Processor;
+import app.models.connection.Processor;
 
 public class ServerProfileMenu extends ServerMenu{
 
@@ -35,12 +35,12 @@ public class ServerProfileMenu extends ServerMenu{
         String nickname = processor.get("nickname");
         if (nickname == null || processor.getNumberOfFields() != 1)
             message.addLine(getInvalidCommand());
-        else if (UserController.getInstance().getLoggedInUser().getNickname().equals(nickname))
+        else if (UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()).getNickname().equals(nickname))
             message.addLine("Please enter a new nickname");
         else if (UserController.getInstance().getUserByNickname(nickname) != null)
             message.addLine("A user with nickname " + nickname + " already exists");
         else {
-            UserController.getInstance().getLoggedInUser().setNickname(nickname);
+            UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()).setNickname(nickname);
             message.addLine("Nickname changed successfully!");
             UserController.getInstance().saveUsers();
         }
@@ -58,14 +58,14 @@ public class ServerProfileMenu extends ServerMenu{
                 processor.get("password") != null ||
                 processor.getNumberOfFields() != 3)
             message.addLine(getInvalidCommand());
-        else if (!UserController.getInstance().getLoggedInUser().isPasswordCorrect(currentPassword))
+        else if (!UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()).isPasswordCorrect(currentPassword))
             message.addLine("Current password is invalid");
         else if (currentPassword.equals(newPassword))
             message.addLine("Please enter a new password");
         else if (!UserController.getInstance().isPasswordStrong(newPassword))
             message.addLine("Password is weak!");
         else {
-            UserController.getInstance().getLoggedInUser().setPassword(newPassword);
+            UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()).setPassword(newPassword);
             message.addLine("Password changed successfully!");
             UserController.getInstance().saveUsers();
         }

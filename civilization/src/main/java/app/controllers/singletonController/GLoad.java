@@ -1,4 +1,4 @@
-package app.controllers;
+package app.controllers.singletonController;
 
 import app.models.Game;
 import app.models.save.Mock;

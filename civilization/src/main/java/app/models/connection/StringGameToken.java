@@ -1,4 +1,4 @@
-package app.models;
+package app.models.connection;
 
 public class StringGameToken {
     public String token = "";

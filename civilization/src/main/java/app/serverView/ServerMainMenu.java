@@ -1,10 +1,10 @@
 package app.serverView;
 
-import app.controllers.GameController;
-import app.controllers.UserController;
+import app.controllers.MainServer;
+import app.controllers.singletonController.UserController;
 import app.models.User;
 import app.models.connection.Message;
-import app.views.Processor;
+import app.models.connection.Processor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class ServerMainMenu extends ServerMenu{
     private void logout(Processor processor, Message message) {
 
         if (processor.getSection() != null && processor.getSection().equals("logout")) {
-            UserController.getInstance().setLoggedInUser(null);
+            UserController.getInstance().LogoutUser(mySocketHandler.getSocketToken());
             setCurrentMenu("register");
             message.addLine("User logged out successfully!");
         } else message.addLine(getInvalidCommand());
@@ -51,7 +51,7 @@ public class ServerMainMenu extends ServerMenu{
     //Starts a game between logged-in user and users in the command
     //play game --player1 <username> --player2 <username>
     private void startNewGame(Processor processor,Message message) {
-        ArrayList<User> users = new ArrayList<>(List.of(UserController.getInstance().getLoggedInUser()));
+        ArrayList<User> users = new ArrayList<>(List.of(UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken())));
         if (processor.getNumberOfFields()==0){
             message.addLine("Please select some other players");
             return;
@@ -64,14 +64,15 @@ public class ServerMainMenu extends ServerMenu{
             } else if (UserController.getInstance().getUserByUsername(processor.get("player" + i)) == null) {
                 message.addLine("Some of the usernames doesn't exist!");
                 return;
-            } else if (UserController.getInstance().getLoggedInUser().getUsername().equals(processor.get("player" + i))) {
+            } else if (UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()).getUsername().equals(processor.get("player" + i))) {
                 message.addLine("Some of the usernames are invalid!");
                 return;
             } else
                 users.add(UserController.getInstance().getUserByUsername(processor.get("player" + i)));
         }
         if (users.size() > 0) {
-            GameController.getInstance().startNewGame(users);
+            int mapScale = Integer.parseInt(processor.get("mapScale")); //todo in client
+            MainServer.startNewGame(users, mapScale);
             setCurrentMenu("game");
             message.addLine("Game started!");
         } else

@@ -1,6 +1,6 @@
 package app.models.save;
 
-import app.controllers.GSave;
+import app.controllers.singletonController.GSave;
 import app.models.map.CivilizationMap;
 import app.models.tile.VisibleTile;
 

@@ -1,7 +1,7 @@
 package app.views;
 
 import app.App;
-import app.controllers.UserController;
+import app.controllers.singletonController.UserController;
 import app.models.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,25 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.lang.reflect.Array;
-import java.net.URI;
-import java.net.URL;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class LoginMenuController {
     private final static String VALID_USERNAME_REGEX = "^[a-zA-Z][a-zA-Z\\d]*$";
@@ -149,7 +134,7 @@ public class LoginMenuController {
             loginMessage.setStyle("-fx-text-fill: red;");
         }
         else {
-            UserController.getInstance().setLoggedInUser(user);
+            //UserController.getInstance().addLoggedInUser(user);
             App.setMenu("main_menu");
         }
     }

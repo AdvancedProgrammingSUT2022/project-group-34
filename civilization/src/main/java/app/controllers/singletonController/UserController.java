@@ -1,6 +1,7 @@
-package app.controllers;
+package app.controllers.singletonController;
 
 import app.models.User;
+import app.models.connection.StringSocketToken;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class UserController {
     //Singleton Pattern
@@ -25,21 +27,39 @@ public class UserController {
 
 
     //Fields of the class
-    private User loggedInUser = null;
+    private final HashMap<StringSocketToken, User> loggedInUsers = new HashMap<>();
     private ArrayList<User> users = new ArrayList<>();
 
 
     //Setters and Getters for fields of the class
-    public void setLoggedInUser(User loggedInUser) {
-        this.loggedInUser = loggedInUser;
+    public void addLoggedInUser(User loggedInUser, StringSocketToken socketToken){
+        loggedInUsers.put(socketToken, loggedInUser);
+    }
+
+    public StringSocketToken LogoutUser(User logoutUser){
+        StringSocketToken token = getToken(logoutUser);
+        loggedInUsers.remove(token);
+        return token;
+    }
+    public void LogoutUser(StringSocketToken token){
+        loggedInUsers.remove(token);
+    }
+
+    public StringSocketToken getToken(User user){
+        StringSocketToken[] t = new StringSocketToken[1];
+        loggedInUsers.forEach((s, user1) -> {
+            if (user == user1)
+                t[0] = s;
+        });
+        return t[0];
     }
 
     public void setUsers(ArrayList<User> users) {
         if (users != null) this.users = users;
     }
 
-    public User getLoggedInUser() {
-        return loggedInUser;
+    public User getLoggedInUsers(StringSocketToken token) {
+        return loggedInUsers.get(token);
     }
 
     public ArrayList<User> getUsers() {
@@ -84,7 +104,7 @@ public class UserController {
 
 
     //Loading registered users from a json file
-    //File path: ./src/main/resources/UserDatabase.json
+    //path: ./src/main/resources/UserDatabase.json
     public void loadUsers() {
         try {
             String json = new String(Files.readAllBytes(Paths.get("src", "main", "resources", "UserDatabase.json")));
@@ -97,7 +117,7 @@ public class UserController {
 
 
     //Saving registered users to a json file
-    //File path: ./src/main/resources/UserDatabase.json
+    //path: ./src/main/resources/UserDatabase.json
     public void saveUsers() {
         try {
             FileWriter fileWriter = new FileWriter(String.valueOf(Paths.get("src", "main", "resources", "UserDatabase.json")));

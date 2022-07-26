@@ -1,6 +1,6 @@
-import app.controllers.UserController;
+import app.controllers.singletonController.UserController;
 import app.models.User;
-import app.views.Processor;
+import app.models.connection.Processor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

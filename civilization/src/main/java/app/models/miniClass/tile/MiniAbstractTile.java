@@ -1,6 +1,6 @@
 package app.models.miniClass.tile;
 
-import app.controllers.GameController;
+import app.controllers.gameServer.GameController;
 import app.models.tile.AbstractTile;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class MiniAbstractTile {
         }catch (Exception ignored){
             this.cy = null;
         }
-        try {
+        try {//todo
             this.ci = GameController.getInstance().getGame().getCivilizations().indexOf(abstractTile.getCivilization());
         }catch (Exception ignored){
             ci = null;

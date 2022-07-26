@@ -1,6 +1,6 @@
 package app.models.save;
 
-import app.controllers.GSave;
+import app.controllers.singletonController.GSave;
 import app.models.tile.AbstractTile;
 import app.models.tile.Feature;
 import app.models.tile.Terrain;

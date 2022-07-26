@@ -1,9 +1,9 @@
 package app.serverView;
 
-import app.controllers.GameController;
-import app.controllers.UserController;
+import app.controllers.gameServer.GameController;
+import app.controllers.singletonController.UserController;
 import app.models.connection.Message;
-import app.views.Processor;
+import app.models.connection.Processor;
 
 import java.util.Scanner;
 
@@ -82,8 +82,8 @@ public class ServerMenu {
         if (getCurrentMenu().equals("register")) setCurrentMenu("end");
         else if (getCurrentMenu().equals("main")) {
             setCurrentMenu("register");
-            UserController.getInstance().getLoggedInUser().setLastSeen(System.currentTimeMillis());
-            UserController.getInstance().setLoggedInUser(null);
+            UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()).setLastSeen(System.currentTimeMillis());
+            UserController.getInstance().LogoutUser(mySocketHandler.getSocketToken());
         } else setCurrentMenu("main");
         GameController.getInstance().setGame(null);
     }

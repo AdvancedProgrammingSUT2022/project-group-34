@@ -1,4 +1,4 @@
-package app.controllers;
+package app.controllers.singletonController;
 
 import app.controllers.gameServer.GameController;
 import app.models.*;

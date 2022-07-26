@@ -1,4 +1,4 @@
-package app.controllers;
+package app.controllers.gameServer;
 
 import app.models.City;
 import app.models.tile.Tile;
@@ -8,7 +8,7 @@ public class DiplomacyController {
     //Singleton Pattern
     private static DiplomacyController instance;
 
-    private DiplomacyController() {
+    public DiplomacyController() {
     }
 
     public static DiplomacyController getInstance() {

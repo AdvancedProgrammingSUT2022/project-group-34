@@ -20,6 +20,8 @@ open module civilization {
     exports app.serverView;
     exports app.models.miniClass;
     exports app.models.miniClass.tile;
+    exports app.controllers.gameServer;
+    exports app.controllers.singletonController;
     //opens app.models.save to com.google.gson, javafx.fxml;
 
 }

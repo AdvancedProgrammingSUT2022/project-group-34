@@ -1,7 +1,7 @@
-import app.controllers.GameController;
-import app.controllers.UserController;
+import app.controllers.gameServer.GameController;
+import app.controllers.singletonController.UserController;
 import app.models.User;
-import app.views.Processor;
+import app.models.connection.Processor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,14 +25,14 @@ public class MainMenuTest {
         System.setOut(new PrintStream(outputStream));
         User user = new User("abc", "ghi4JKL", "def");
         UserController.getInstance().getUsers().add(user);
-        UserController.getInstance().setLoggedInUser(user);
+        //UserController.getInstance().addLoggedInUser(user);
     }
 
     @AfterEach
     public void tearDown() {
         System.setOut(standard);
         UserController.getInstance().setUsers(new ArrayList<>());
-        UserController.getInstance().setLoggedInUser(null);
+        //UserController.getInstance().LogoutUser(user);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class MainMenuTest {
 
         //Whitebox.invokeMethod(mainMenu, "logout", processor);
 
-        Assertions.assertNull(UserController.getInstance().getLoggedInUser());
+        //Assertions.assertNull(UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()));
         Assertions.assertEquals(outputStream.toString().trim(), "User logged out successfully!");
     }
 

@@ -1,9 +1,9 @@
 package app.serverView;
 
-import app.controllers.UserController;
+import app.controllers.singletonController.UserController;
 import app.models.User;
 import app.models.connection.Message;
-import app.views.Processor;
+import app.models.connection.Processor;
 
 public class ServerRegisterMenu extends ServerMenu{
 
@@ -76,7 +76,7 @@ public class ServerRegisterMenu extends ServerMenu{
         else if (!user.isPasswordCorrect(password))
             message.addLine("Username or password didn't match!");
         else {
-            UserController.getInstance().setLoggedInUser(user);
+            UserController.getInstance().addLoggedInUser(user, mySocketHandler.getSocketToken());
             setCurrentMenu("main");
             message.addLine("User logged in successfully!");
         }

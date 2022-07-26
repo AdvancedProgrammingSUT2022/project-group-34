@@ -1,7 +1,8 @@
 //besmellah
 
-package app.controllers;
+package app.controllers.gameServer;
 
+import app.controllers.MainServer;
 import app.models.*;
 import app.models.map.CivilizationMap;
 import app.models.map.GameMap;
@@ -529,8 +530,8 @@ public class CivilizationController {
 
         continueMoves(civilization);
 
-        CivilizationController.getInstance().updateTransparentTiles(civilization);
-        CivilizationController.getInstance().updatePersonalMap(civilization, MainServer.getGameControllerByToken(MainServer.getToken(this)).getGame().getMainGameMap());
+        updateTransparentTiles(civilization);
+        updatePersonalMap(civilization, MainServer.getGameControllerByToken(MainServer.getToken(this)).getGame().getMainGameMap());
     }
 
 /*    private ArrayList<AbstractTile> getAllVisibleTiles(Civilization civilization) {
@@ -577,7 +578,7 @@ public class CivilizationController {
         civilization.getPersonalMap().removeTransparentTiles();
         for (Unit unit : civilization.getUnits()) {
             ArrayList<AbstractTile> visibleTiles = new ArrayList<>();
-            visibleTiles.addAll(CivilizationController.getInstance().getVisibleTiles(unit));
+            visibleTiles.addAll(getVisibleTiles(unit));
             civilization.getPersonalMap().addTransparentTiles(visibleTiles);
         }
         civilization.getPersonalMap().addTransparentTiles(civilization.getTerritory());

@@ -1,11 +1,8 @@
 package app.views;
 
 import app.App;
-import app.controllers.UserController;
-import app.models.User;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 public class MainMenuController {
@@ -28,8 +25,8 @@ public class MainMenuController {
 
     @FXML
     private void logout() {
-        UserController.getInstance().getLoggedInUser().setLastSeen(System.currentTimeMillis());
-        UserController.getInstance().setLoggedInUser(null);
+        //UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken()).setLastSeen(System.currentTimeMillis());
+        //UserController.getInstance().LogoutUser(user);
         App.setMenu("login_menu");
     }
 
