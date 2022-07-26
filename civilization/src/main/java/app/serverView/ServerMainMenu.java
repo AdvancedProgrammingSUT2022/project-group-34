@@ -71,7 +71,10 @@ public class ServerMainMenu extends ServerMenu{
                 users.add(UserController.getInstance().getUserByUsername(processor.get("player" + i)));
         }
         if (users.size() > 0) {
-            int mapScale = Integer.parseInt(processor.get("mapScale")); //todo in client
+            int mapScale = 1; //todo in client
+            try {
+                mapScale = Integer.parseInt(processor.get("mapScale"));
+            } catch (Exception ignored){}
             MainServer.startNewGame(users, mapScale);
             setCurrentMenu("game");
             message.addLine("Game started!");

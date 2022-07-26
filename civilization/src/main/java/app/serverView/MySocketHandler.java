@@ -20,6 +20,7 @@ public class MySocketHandler extends Thread{
     private final ServerGameMenu serverGameMenu;
     private final ServerProfileMenu serverProfileMenu;
     private final ServerRegisterMenu serverRegisterMenu;
+    private final ServerGetterAndSetterMenu serverGetterAndSetterMenu;
     private final ServerMainMenu serverMainMenu;
     private Processor processor;
     private boolean threadFlag = true;
@@ -41,6 +42,7 @@ public class MySocketHandler extends Thread{
         serverProfileMenu = new ServerProfileMenu(this);
         serverRegisterMenu = new ServerRegisterMenu(this);
         serverMainMenu = new ServerMainMenu(this);
+        serverGetterAndSetterMenu = new ServerGetterAndSetterMenu(this);
     }
 
 
@@ -66,7 +68,8 @@ public class MySocketHandler extends Thread{
                 case "profile":
                     serverProfileMenu.processOneProcessor(processor);
                     break;
-
+                default:
+                    serverGetterAndSetterMenu.processOneProcessor(processor);
             }
             if (hasOpenProgress)
                 sendFinishProgress();

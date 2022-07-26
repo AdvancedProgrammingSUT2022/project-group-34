@@ -54,6 +54,7 @@ public class ServerRegisterMenu extends ServerMenu{
         else {
             UserController.getInstance().getUsers().add(new User(username, password, nickname));
             message.addLine("User Created successfully!");
+            message.setSuccessful(true);
             UserController.getInstance().saveUsers();
         }
 
@@ -79,6 +80,7 @@ public class ServerRegisterMenu extends ServerMenu{
             UserController.getInstance().addLoggedInUser(user, mySocketHandler.getSocketToken());
             setCurrentMenu("main");
             message.addLine("User logged in successfully!");
+            message.setSuccessful(true);
         }
 
 

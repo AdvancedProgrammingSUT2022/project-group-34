@@ -81,14 +81,15 @@ public class InputController extends Thread{
         try {
             message = new Gson().fromJson(response, Message.class);
         }catch (Exception exception){
+            System.out.println(response);
             System.out.println("not Message format");
         }
         return message;
     }
 
-    public String getField(String nameField, String category) {
+    public Object getField(String nameField, String category) {
         Processor processor = new Processor(category,"get", nameField);
         Menu.sendProcessor(processor);
-        return (String) InputController.getInstance().getMessage().getData(nameField);
+        return InputController.getInstance().getMessage().getData(nameField);
     }
 }

@@ -21,6 +21,7 @@ public class LeaderboardController {
 
     @FXML
     private void initialize() {
+        System.out.println("asd");
         Background background = new Background(new BackgroundImage(
                 new Image(getClass().getResource("/app/background/leaderboard.png").toExternalForm()),
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
@@ -32,15 +33,19 @@ public class LeaderboardController {
 
     private void setTable() {
         setHeader();
+        System.out.println("setTable");
         ArrayList<User> users = UserController.getInstance().getUsers();
-        Collections.sort(users);
-        for (int i = 0; i < 10; i++) {
-            if (i >= users.size()) break;
-            User user = users.get(i);
-            addUser(user, i);
+        if (users != null) {
+            Collections.sort(users);
+            System.out.println("Before for loop");
+            for (int i = 0; i < 10; i++) {
+                if (i >= users.size()) break;
+                User user = users.get(i);
+                addUser(user, i);
+            }
+            if (users.size() > 10) table.add(new Label("..."), 2, 11);
         }
-        if (users.size() > 10) table.add(new Label("..."), 2, 11);
-    }
+        }
 
     private void setHeader() {
         Label index = new Label("#");

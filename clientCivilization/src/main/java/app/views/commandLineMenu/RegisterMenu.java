@@ -12,7 +12,7 @@ public class RegisterMenu extends Menu {
             isReceivedResponse = false;
             message = new Message();
             Processor processor = new Processor(getInput());
-            Menu.sendProcessor(processor);
+            Menu.sendProcessor(processor,true);
             waitForResponse(-1);
     }
 

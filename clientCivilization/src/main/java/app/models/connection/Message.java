@@ -3,7 +3,6 @@ package app.models.connection;
 import java.util.HashMap;
 
 public class Message {
-
     private final StringBuilder message;
     private String currentMenu;
     private String whichMenu;
@@ -58,7 +57,7 @@ public class Message {
         return data.get(name);
     }
 
-    public void addData(String name, Object object){
+    public void addData(String name, String object){
         data.put(name, object);
     }
 

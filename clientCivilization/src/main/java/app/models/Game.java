@@ -39,6 +39,6 @@ public class Game {
 
     private String getField(String nameField) {
         String category = "Civilization";
-        return InputController.getInstance().getField(nameField, category);
+        return (String) InputController.getInstance().getField(nameField, category);
     }
 }

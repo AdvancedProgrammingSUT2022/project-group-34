@@ -11,9 +11,7 @@ public class Main {
     public static void main(String[] args) {
 
         if (ConnectionController.connection()){
-            UserController.getInstance().loadUsers();
             Menu.run();
-            UserController.getInstance().saveUsers();
         }
     }
 }

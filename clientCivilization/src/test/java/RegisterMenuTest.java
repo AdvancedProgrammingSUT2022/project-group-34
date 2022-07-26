@@ -31,7 +31,7 @@ public class RegisterMenuTest {
     @AfterEach
     public void tearDown() {
         System.setOut(standard);
-        UserController.getInstance().setUsers(new ArrayList<>());
+        //UserController.getInstance().setUsers(new ArrayList<>());
     }
 
     @Test

@@ -22,6 +22,7 @@ public class ServerProfileMenu extends ServerMenu{
 
     //Handles commands that start with "profile change"
     private void handleChangeCategoryCommand(Processor processor, Message message) {
+        System.out.println(processor);
         if (processor.get("nickname") != null) changeNickname(processor,message);
         else if (processor.contains("password")) changePassword(processor,message);
         else if (processor.contains("username")) message.addLine("you can't change username");
@@ -70,5 +71,6 @@ public class ServerProfileMenu extends ServerMenu{
             UserController.getInstance().saveUsers();
         }
     }
+
 
 }

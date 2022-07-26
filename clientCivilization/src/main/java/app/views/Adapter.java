@@ -19,4 +19,8 @@ public class Adapter {
     public static String changeNickname(String nickname) {
         return String.format("profile change --nickname %s", nickname);
     }
+
+    public static String startNewGame() {
+        return "play game";
+    }
 }

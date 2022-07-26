@@ -8,12 +8,14 @@ public class Message {
     private String currentMenu;
     private String whichMenu;
     private HashMap<String, Object> data;
+    private boolean isSuccessful;
 
     public Message() {
         message = new StringBuilder();
         currentMenu = null;
         whichMenu = null;
         data = new HashMap<>();
+        isSuccessful = false;
     }
 
     public void clearMessageAndData(){
@@ -77,5 +79,13 @@ public class Message {
                 ", whichMenu='" + whichMenu + '\'' +
                 ", data=" + data.toString().length() +
                 '}';
+    }
+
+    public boolean isSuccessful() {
+        return isSuccessful;
+    }
+
+    public void setSuccessful(boolean successful) {
+        isSuccessful = successful;
     }
 }

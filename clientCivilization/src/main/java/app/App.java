@@ -1,5 +1,6 @@
 package app;
 
+import app.controllers.ConnectionController;
 import app.controllers.UserController;
 import app.models.User;
 import javafx.application.Application;
@@ -16,8 +17,9 @@ public class App extends Application {
     private static Stage mainStage;
 
     public static void main(String[] args) {
-        UserController.getInstance().loadUsers();
-        launch();
+        if (ConnectionController.connection()){
+            launch();
+        }
     }
 
     @Override
@@ -25,14 +27,7 @@ public class App extends Application {
         mainStage = stage;
         stage.setTitle("Civilization");
         stage.show();
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent windowEvent) {
-                User user = UserController.getInstance().getLoggedInUser();
-                if (user != null) user.setLastSeen(System.currentTimeMillis());
-                UserController.getInstance().saveUsers();
-            }
-        });
+
         setMenu("login_menu");
     }
 
@@ -41,6 +36,7 @@ public class App extends Application {
     }
 
     public static void setMenu(String menuName) {
+        System.out.println(menuName);
         mainStage.setScene(new Scene(loadPage(menuName)));
     }
 
@@ -57,7 +53,6 @@ public class App extends Application {
 
     public static void exit() {
         mainStage.close();
-        UserController.getInstance().saveUsers();
         System.exit(0);
     }
 }

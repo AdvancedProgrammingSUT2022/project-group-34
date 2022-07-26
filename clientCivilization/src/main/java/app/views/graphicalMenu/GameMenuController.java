@@ -5,6 +5,8 @@ import app.controllers.GameController;
 import app.controllers.UserController;
 import app.models.Game;
 import app.models.User;
+import app.models.connection.Processor;
+import app.views.Adapter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -126,7 +128,7 @@ public class GameMenuController {
         }
         ArrayList<User> users = new ArrayList<>();
         users.add(UserController.getInstance().getLoggedInUser());
-        for (String username : usernames) {
+        /*for (String username : usernames) {
             User user;
             if ((user = UserController.getInstance().getUserByUsername(username)) == null) {
                 startGameError.setText("Invalid username");
@@ -136,7 +138,7 @@ public class GameMenuController {
                 return;
             } else
                 users.add(user);
-        }
+        }*/
         int mapScale = 13;
         switch (sizeOfTheMap.getValue()){
             case "Small":
@@ -149,7 +151,10 @@ public class GameMenuController {
                 mapScale=15;
                 break;
         }
+        Processor processor = new Processor(Adapter.startNewGame());
+        processor.addField("mapScale", String.valueOf(mapScale));
         //GameController.getInstance().startNewGame(users,mapScale); send to server
+        //----------
         App.setMenu("game_view");
     }
 
@@ -164,7 +169,7 @@ public class GameMenuController {
         invitationError.setFill(Color.rgb(250, 0, 0));
         if (invitationTextField.getText().isEmpty())
             invitationError.setText("Field is empty!");
-        else if (UserController.getInstance().getUserByUsername(invitationTextField.getText()) == null)
+        else if (1 == 1)//UserController.getInstance().getUserByUsername(invitationTextField.getText()) == null)
             invitationError.setText("Username doesn't exist!");
         else {
             // TODO: Phase 3

@@ -156,10 +156,10 @@ public class ProfileMenuController {
 
     private void changePasswordResponse(Message messageS) {
         if (!messageS.isSuccessful()) {
-            showFailureMessage((String) messageS.getData((String) messageS.getData("changePasswordResponseMessage")));
+            showFailureMessage(messageS.getMessageString());
         }
         else {
-            showSuccessMessage((String) messageS.getData((String) messageS.getData("changePasswordResponseMessage")));
+            showSuccessMessage(messageS.getMessageString());
             oldPasswordField.setText("");
             newPasswordField.setText("");
         }
@@ -178,9 +178,9 @@ public class ProfileMenuController {
 
     private void changeNicknameResponse(Message messageS) {
         if (!messageS.isSuccessful())
-            showFailureMessage((String) messageS.getData("changePasswordResponseMessage"));
+            showFailureMessage(messageS.getMessageString());
         else {
-            showSuccessMessage((String) messageS.getData("changePasswordResponseMessage"));
+            showSuccessMessage(messageS.getMessageString());
             newNicknameField.setText("");
         }
         loadName(UserController.getInstance().getLoggedInUser());

@@ -14,7 +14,7 @@ public class MainMenu extends Menu {
             isReceivedResponse = false;
             message = new Message();
             processor = new Processor(getInput());
-            Menu.sendProcessor(processor);
+            Menu.sendProcessor(processor, true);
             waitForResponse(-1);
         }
     }

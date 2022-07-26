@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class Processor {
+public class    Processor {
     private static final String DOUBLE_DASH_FIELD_NAME = "(--[a-zA-Z\\d]+)";
     private static final String ONE_DASH_FIELD_NAME = "(-[a-zA-Z])";
     private static final String FIELD_NAME_REGEX = "(" + ONE_DASH_FIELD_NAME + "|" + DOUBLE_DASH_FIELD_NAME + ")";

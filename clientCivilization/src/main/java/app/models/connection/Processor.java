@@ -24,6 +24,7 @@ public class Processor {
     private String subSection;
     private String whichMenu;
     private HashMap<String, String> fields = new HashMap<>();
+    private boolean isGetOrSet = false;
 
     public Processor(String category, String section, String subSection) {
         this.validity = true;
@@ -120,5 +121,13 @@ public class Processor {
 
     public void addField(String name, String value){
         fields.put(name, value);
+    }
+
+    public boolean isGetOrSet() {
+        return isGetOrSet;
+    }
+
+    public void setGetOrSet(boolean getOrSet) {
+        isGetOrSet = getOrSet;
     }
 }

@@ -93,7 +93,7 @@ public class LoginMenuController {
     }
 
     private void registerResponse(Message message) {
-        String logString = (String) message.getData("loginMessage");
+        String logString = message.getMessageString();
         if (message.isSuccessful()) {
             registerMessage.setText(logString);
             registerMessage.setStyle("-fx-text-fill: red;");
@@ -127,14 +127,15 @@ public class LoginMenuController {
     }
 
     private void loginResponse(Message message) {
-        String logString = (String) message.getData("loginMessage");
+        String logString = message.getMessageString();
         String logStyle = "-fx-text-fill: red;";
-        if (logString.length() != 0) {
+        if (!message.isSuccessful()) {
             loginMessage.setText(logString);
             loginMessage.setStyle(logStyle);
         }
-        if (message.getCurrentMenu() != null && !message.getCurrentMenu().equals("login"))
+        else if (message.getCurrentMenu() != null && !message.getCurrentMenu().equals("login")) {
             App.setMenu(message.getCurrentMenu() + "_menu");
+        }
 
     }
 

@@ -73,7 +73,7 @@ public class GameMenu extends Menu {
             isReceivedResponse = false;
             showMap();
             processor = new Processor(getInput());
-            Menu.sendProcessor(processor);
+            Menu.sendProcessor(processor,true);
             waitForResponse(-1);
         }
     }
@@ -156,8 +156,8 @@ public class GameMenu extends Menu {
     private static GameController loadDataForShowMap() {
         HashMap<String,Object> data = getData();
         writeTemp(data.keySet().toString());
-        mapX = getAndCast2Integer(((Double) data.get("mapX")), mapX);
-        mapY = getAndCast2Integer(((Double) data.get("mapY")), mapY);
+        mapX = getAndCast2Integer(new Gson().fromJson((String) data.get("mapX"),Double.class), mapX);
+        mapY = getAndCast2Integer(new Gson().fromJson((String) data.get("mapY"),Double.class), mapY);
         GLoad.getInstance().setTemp(new Gson().fromJson((String) data.get("GameController"), (Type) String[].class));
         GameController gameController = (GameController)GLoad.getInstance().loadObject(new MiniGameController(),0);
         return gameController;

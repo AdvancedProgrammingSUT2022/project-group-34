@@ -49,10 +49,14 @@ public class Menu {
     }
 
     public static void sendProcessor(Processor processor){
-        sendProcessor(processor, true);
+        sendProcessor(processor, false);
     }
     public static void sendProcessor(Processor processor, boolean start){
-        processor.setWhichMenu(currentMenu);
+        if (processor.isGetOrSet())
+            processor.setWhichMenu("isGetOrSet");
+        else
+            processor.setWhichMenu(currentMenu);
+
         ConnectionController.send(processor);
         if (start)
             new InputController().run();

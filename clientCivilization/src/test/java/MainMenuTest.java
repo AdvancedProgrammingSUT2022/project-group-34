@@ -27,14 +27,14 @@ public class MainMenuTest {
         System.setOut(new PrintStream(outputStream));
         User user = new User("abc", "ghi4JKL", "def");
         UserController.getInstance().getUsers().add(user);
-        UserController.getInstance().setLoggedInUser(user);
+        //UserController.getInstance().setLoggedInUser(user);
     }
 
     @AfterEach
     public void tearDown() {
         System.setOut(standard);
-        UserController.getInstance().setUsers(new ArrayList<>());
-        UserController.getInstance().setLoggedInUser(null);
+        //UserController.getInstance().setUsers(new ArrayList<>());
+        //UserController.getInstance().setLoggedInUser(null);
     }
 
     @Test

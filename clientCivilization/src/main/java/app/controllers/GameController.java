@@ -49,7 +49,4 @@ public class GameController {
         this.civilization = civilization;
     }
 
-    public void startNewGame(ArrayList<User> users, int mapScale) {
-
-    }
 }
