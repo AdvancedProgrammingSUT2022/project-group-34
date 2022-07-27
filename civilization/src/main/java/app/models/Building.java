@@ -60,4 +60,9 @@ public class Building {
     public void setRequiredTechnology(TechnologyEnum requiredTechnology) {
         this.requiredTechnology = requiredTechnology;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

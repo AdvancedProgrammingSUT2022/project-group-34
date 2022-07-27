@@ -80,4 +80,9 @@ public enum BuildingEnum {
     public static BuildingEnum getBuildingEnumByBuilding(Building building){
         return getBuildingEnumByName(building.getName());
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -315,7 +315,13 @@ public class GameViewController {
                 selectCity(city);
             }
         });
-        Tooltip tip = new Tooltip(city.getName() + "\nOwner: " + city.getCivilization().getCivilizationName() + "\nGarrison: " + city.isGarrison());
+        StringBuilder str = new StringBuilder();
+        str.append(city.getName() + "\n");
+        str.append("Owner: " + city.getCivilization().getCivilizationName() + "\n");
+        str.append("Garrison: " + city.isGarrison() + "\n");
+        str.append("Buliding under Construction: " + city.getBuildingUnderProduct() + "\n");
+        str.append("Buildings: " + city.getPreviouslyBuiltBuildings() + "\n");
+        Tooltip tip = new Tooltip(str.toString());
         Tooltip.install(imageView, tip);
     }
 

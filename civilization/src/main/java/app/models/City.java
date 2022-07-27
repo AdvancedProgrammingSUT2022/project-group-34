@@ -25,7 +25,7 @@ public class City {
     private ArrayList<Citizen> citizens = new ArrayList<>();
     private ArrayList<Improvement> improvements = new ArrayList<>();
 
-    private HashMap<BuildingEnum,Building> previouslyBuiltBuildings;
+    private HashMap<BuildingEnum,Building> previouslyBuiltBuildings = new HashMap<>();
     private Building buildingUnderProduct;
     private Unit unitUnderProduct;
     private int productionUnderProductTern;
