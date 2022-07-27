@@ -44,13 +44,11 @@ public class MainMenuController {
     }
 
     @FXML
-<<<<<<< HEAD:clientCivilization/src/main/java/app/views/graphicalMenu/MainMenuController.java
-=======
+
     private void lobby() {
         App.setMenu("lobby");
     }
 
->>>>>>> c63170a108145fccc0a922b7f5b0335e11a5567d:civilization/src/main/java/app/views/MainMenuController.java
     public void gameMenu() {
         App.setMenu("game_menu");
     }

@@ -8,12 +8,6 @@ import app.models.tile.Tile;
 import app.models.unit.Unit;
 
 public class CheatController {
-    private static CheatController instance = null;
-
-    public static CheatController getInstance() {
-        if (instance == null) instance = new CheatController();
-        return instance;
-    }
 
     public void increaseGold(int amount) {
         Civilization civilization = MainServer.getGameControllerByToken(MainServer.getToken(this)).getCivilization();

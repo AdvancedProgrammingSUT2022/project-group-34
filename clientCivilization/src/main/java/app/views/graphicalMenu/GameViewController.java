@@ -18,27 +18,15 @@ import app.models.tile.Feature;
 import app.models.tile.Terrain;
 import app.models.tile.Tile;
 import app.models.tile.VisibleTile;
-<<<<<<< HEAD:clientCivilization/src/main/java/app/views/graphicalMenu/GameViewController.java
-import app.models.unit.CombatUnit;
-import app.models.unit.NonCombatUnit;
-import app.models.unit.Unit;
-import com.google.gson.Gson;
-=======
 import app.models.unit.*;
->>>>>>> c63170a108145fccc0a922b7f5b0335e11a5567d:civilization/src/main/java/app/views/GameViewController.java
+import com.google.gson.Gson;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
-<<<<<<< HEAD:clientCivilization/src/main/java/app/views/graphicalMenu/GameViewController.java
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
-=======
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
->>>>>>> c63170a108145fccc0a922b7f5b0335e11a5567d:civilization/src/main/java/app/views/GameViewController.java
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -49,15 +37,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-<<<<<<< HEAD:clientCivilization/src/main/java/app/views/graphicalMenu/GameViewController.java
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
-=======
 import java.util.ArrayList;
->>>>>>> c63170a108145fccc0a922b7f5b0335e11a5567d:civilization/src/main/java/app/views/GameViewController.java
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Optional;
 
 public class GameViewController {
@@ -109,14 +93,10 @@ public class GameViewController {
 
         pane.setBackground(background);
 
-<<<<<<< HEAD:clientCivilization/src/main/java/app/views/graphicalMenu/GameViewController.java
         personalMapMapHeight = GameController.getInstance().getCivilization().getPersonalMap().getMapHeight();
         personalMapMapWidth = GameController.getInstance().getCivilization().getPersonalMap().getMapWidth();
 
-        App.getStage().getScene().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-=======
         App.getStage().getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
->>>>>>> c63170a108145fccc0a922b7f5b0335e11a5567d:civilization/src/main/java/app/views/GameViewController.java
             @Override
             public void handle(KeyEvent event) {
                 navigate(event);

@@ -131,4 +131,12 @@ public abstract class AbstractTile {
     public void setBlock(boolean block) {
         isBlock = block;
     }
+
+    public Improvement getImprovement() {
+        return null;
+    }
+
+    public void setLooted(boolean b) {
+
+    }
 }

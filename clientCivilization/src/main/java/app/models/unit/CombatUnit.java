@@ -12,4 +12,15 @@ public class CombatUnit extends Unit {
         super(unitEnum, position, civilization);
     }
 
+    public void setAlert(boolean b) {
+
+    }
+
+    public void setFortifyUntilHealed(boolean b) {
+
+    }
+
+    public void setFortify(boolean b) {
+
+    }
 }

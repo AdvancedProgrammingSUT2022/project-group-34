@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public class NetworkController {
 
-    private static final int serverPort = 8000;
+    private static final int serverPort = 10000;
     private final HashMap<StringSocketToken, MySocketHandler> mySocketHandlerHashMap = new HashMap<>();
     public static NetworkController networkController;
     private StringSocketToken stringSocketToken;

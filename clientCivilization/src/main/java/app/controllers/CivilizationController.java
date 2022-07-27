@@ -1,7 +1,12 @@
 package app.controllers;
 
 import app.models.map.GameMap;
+import app.models.tile.Improvement;
+import app.models.tile.ImprovementEnum;
 import app.models.tile.Tile;
+import app.models.unit.*;
+
+import java.util.ArrayList;
 
 public class CivilizationController {
     private final GameMap gameMap;
@@ -31,4 +36,31 @@ public class CivilizationController {
 
     }
 
+    public String moveUnit(Unit unit, int[] position) {
+        return null;
+    }
+
+    public String garrisonCity(CombatUnit selectedCombatUnit) {
+        return "";
+    }
+
+    public String foundCity(Settler selectedNonCombatUnit, String name) {
+        return "";
+    }
+
+    public void deleteUnit(Unit unit) {
+
+    }
+
+    public ArrayList<String> getPossibleImprovements(Tile tile) {
+        return null;
+    }
+
+    public void build(Worker selectedNonCombatUnit, String s) {
+
+    }
+
+    public String repair(NonCombatUnit selectedNonCombatUnit) {
+        return "";
+    }
 }

@@ -2,6 +2,7 @@ package app.models.unit;
 
 import app.controllers.GameController;
 import app.models.Civilization;
+import app.models.tile.AbstractTile;
 import app.models.tile.Tile;
 
 public class Unit {
@@ -25,5 +26,25 @@ public class Unit {
     }
     public int getCivilizationIndex() {
         return index;
+    }
+
+    public Tile getPosition() {
+        return null;
+    }
+
+    public AbstractTile getDestination() {
+        return null;
+    }
+
+    public void makeUnitAwake() {
+
+    }
+
+    public void setSleep(boolean b) {
+
+    }
+
+    public void setDestination(AbstractTile position) {
+
     }
 }

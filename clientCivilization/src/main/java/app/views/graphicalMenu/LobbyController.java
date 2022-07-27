@@ -1,8 +1,9 @@
 package app.views.graphicalMenu;
 
 import app.App;
-import app.controllers.singletonController.UserController;
-import app.models.User;
+import app.controllers.GameController;
+import app.controllers.UserController;
+import app.models.PreGame;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -38,13 +39,13 @@ public class LobbyController {
     private void setTable() {
         table.getChildren().clear();
         setHeader();
-        ArrayList<User> users = UserController.getInstance().getUsers(); //TODO...
+        ArrayList<PreGame> allPreGame = GameController.getInstance().getAllPreGame(); //TODO...
         for (int i = 0; i < 10; i++) {
-            if (i >= users.size()) break;
-            User user = users.get(i); //TODO... users?
-            addUser(user, i);
+            if (i >= allPreGame.size()) break;
+            PreGame preGame = allPreGame.get(i);
+            addPreGame(preGame, i);
         }
-        if (users.size() > 10) table.add(new Label("..."), 2, 11);
+        if (allPreGame.size() > 10) table.add(new Label("..."), 2, 11);
     }
 
     private void setHeader() {
@@ -70,19 +71,19 @@ public class LobbyController {
         table.add(leave, 4, 0);
     }
 
-    private void addUser(User user, int i) { //TODO... user?
+    private void addPreGame(PreGame preGame, int i) { //TODO... user?
         Label index = new Label(String.valueOf(i + 1));
         index.getStyleClass().add("index");
-        Label capacity = new Label("0"); //TODO...
+        Label capacity = new Label(String.valueOf(preGame.getCapacity()));
         capacity.getStyleClass().add("capacity");
-        Label users = new Label(new ArrayList<>().toString()); //TODO...
+        Label users = new Label(preGame.getUsers().toString());
         users.getStyleClass().add("users");
         Button joinButton = new Button("Join Game");
         joinButton.getStyleClass().add("button");
         Button leaveButton = new Button("Leave Game");
         leaveButton.getStyleClass().add("button");
         String styleClass = "";
-        if (user.equals(UserController.getInstance().getLoggedInUser())) styleClass = "self";
+        if (preGame.equals(UserController.getInstance().getLoggedInUser())) styleClass = "self";
         else if (i % 2 == 1) styleClass = "odd";
         else styleClass = "even";
         index.getStyleClass().add(styleClass);

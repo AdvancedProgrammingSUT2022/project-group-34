@@ -1,7 +1,6 @@
 package app.views;
 
 import app.controllers.MainServer;
-import app.controllers.gameServer.CivilizationController;
 import app.controllers.singletonController.GMini;
 import app.models.*;
 import app.models.connection.Message;
@@ -115,7 +114,7 @@ public class ServerGameMenu extends ServerMenu {
     }
 
     private void selectUnit(int[] position, String unitType) {
-        switch (CivilizationController.getInstance().selectUnit(position, unitType)) {
+        switch (MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).selectUnit(position, unitType)) {
             case "invalid position":
                 message.addLine("Position is invalid");
                 break;
@@ -133,7 +132,7 @@ public class ServerGameMenu extends ServerMenu {
                 message.addLine("Combat unit selected");
                 break;
             case "noncombat":
-                selectedNonCombatUnit = CivilizationController.getInstance().getNonCombatUnitByPosition(position);
+                selectedNonCombatUnit = MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).getNonCombatUnitByPosition(position);
                 selectedCombatUnit = null;
                 selectedCity = null;
                 message.addLine("Noncombat unit selected");
@@ -142,7 +141,7 @@ public class ServerGameMenu extends ServerMenu {
     }
 
     private void selectCity(int[] position) {
-        Tile tile = CivilizationController.getInstance().getTileByPosition(position);
+        Tile tile = MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).getTileByPosition(position);
         City city = tile.getCity();
 
         if (tile == null)
@@ -255,7 +254,7 @@ public class ServerGameMenu extends ServerMenu {
         else {
 
             int[] position = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
-            String response = CivilizationController.getInstance().moveUnit(unit, position);
+            String response = MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).moveUnit(unit, position);
 
             switch (response) {
                 case "invalid destination":
@@ -333,7 +332,7 @@ public class ServerGameMenu extends ServerMenu {
     }
 
     private void garrisonCommand() {
-        switch (CivilizationController.getInstance().garrisonCity(selectedCombatUnit)) {
+        switch (MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).garrisonCity(selectedCombatUnit)) {
             case "not military":
                 message.addLine("Selected unit is not a military unit");
                 break;
@@ -373,7 +372,7 @@ public class ServerGameMenu extends ServerMenu {
             message.addLine(getInvalidCommand());
         if (selectedCombatUnit == null)
             message.addLine("Selected unit is not a military unit");
-        else if (!CivilizationController.getInstance().isPositionValid(new int[]{Integer.parseInt(x), Integer.parseInt(y)}))
+        else if (!MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).isPositionValid(new int[]{Integer.parseInt(x), Integer.parseInt(y)}))
             message.addLine("Invalid coordinates!");
         else if (selectedCombatUnit.getDestination() != null && !selectedCombatUnit.getPosition().equals(selectedCombatUnit.getDestination()))
             message.addLine("Unit is in a multiple-turn movement");
@@ -391,13 +390,13 @@ public class ServerGameMenu extends ServerMenu {
     }
 
     private void attackCity(int[] position) {
-        Tile tile = CivilizationController.getInstance().getTileByPosition(position);
+        Tile tile = MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).getTileByPosition(position);
         if (tile.getCity() == null)
             message.addLine("There is no city in that place");
         else if (selectedCombatUnit.getCombatType().equals("Archery") ||
                 selectedCombatUnit.getCombatType().equals("Siege") ||
                 selectedCombatUnit.getName().equals("ChariotArcher")) {
-            int distance = CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile);
+            int distance = MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile);
 
             if (selectedCombatUnit.getCombatType().equals("Siege") && !((Archer) selectedCombatUnit).isSetup)
                 message.addLine("Siege unit should be set up first");
@@ -417,7 +416,7 @@ public class ServerGameMenu extends ServerMenu {
                 message.addLine("City HP:" + city.getHitPoint());
             }
         } else {
-            int distance = CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile);
+            int distance = MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile);
 
             if (!selectedCombatUnit.getPosition().getAdjacentTiles().contains(tile))
                 message.addLine("Unit is far from the city to attack");
@@ -474,7 +473,7 @@ public class ServerGameMenu extends ServerMenu {
             else if (selectedNonCombatUnit.getDestination() != null && !selectedNonCombatUnit.getPosition().equals(selectedNonCombatUnit.getDestination()))
                 message.addLine("Unit is in a multiple-turn movement");
             else {
-                switch (CivilizationController.getInstance().foundCity((Settler) selectedNonCombatUnit, name)) {
+                switch (MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).foundCity((Settler) selectedNonCombatUnit, name)) {
                     case "too close":
                         message.addLine("You cannot found a city close to another civilization");
                         break;
@@ -504,7 +503,7 @@ public class ServerGameMenu extends ServerMenu {
         Unit unit = selectedCombatUnit;
         if (unit == null) unit = selectedNonCombatUnit;
 
-        CivilizationController.getInstance().deleteUnit(unit);
+        MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).deleteUnit(unit);
 
         selectedNonCombatUnit = null;
         selectedCombatUnit = null;
@@ -533,10 +532,10 @@ public class ServerGameMenu extends ServerMenu {
             message.addLine("Unit is in a multiple-turn movement");
         else {
             Tile tile = selectedNonCombatUnit.getPosition();
-            ArrayList<String> improvements = CivilizationController.getInstance().getPossibleImprovements(tile);
+            ArrayList<String> improvements = MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).getPossibleImprovements(tile);
             String choice = getBuildChoice(improvements);
             if (!choice.equals("exit")) {
-                CivilizationController.getInstance().build((Worker) selectedNonCombatUnit, improvements.get(Integer.parseInt(choice) - 1));
+                MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).build((Worker) selectedNonCombatUnit, improvements.get(Integer.parseInt(choice) - 1));
                 message.addLine("Building improvement started");
                 selectedNonCombatUnit = null;
             }
@@ -571,7 +570,7 @@ public class ServerGameMenu extends ServerMenu {
                 !processor.getSubSection().equals("marsh"))
             message.addLine(getInvalidCommand());
         else {
-            switch (CivilizationController.getInstance().removeFeature(selectedNonCombatUnit, processor.getSubSection())) {
+            switch (MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).removeFeature(selectedNonCombatUnit, processor.getSubSection())) {
                 case "not worker":
                     message.addLine("Selected unit is not a worker");
                     break;
@@ -590,7 +589,7 @@ public class ServerGameMenu extends ServerMenu {
     }
 
     private void repairCommand() {
-        switch (CivilizationController.getInstance().repair(selectedNonCombatUnit)) {
+        switch (MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).repair(selectedNonCombatUnit)) {
             case "not worker":
                 message.addLine("Selected unit is not a worker");
                 break;
@@ -1170,13 +1169,13 @@ public class ServerGameMenu extends ServerMenu {
             if (Objects.equals(choice, "exit")) return;
             else if (choice.matches("\\d+ \\d+")) {
                 int[] position = {Integer.parseInt(choice.split(" ")[0]), Integer.parseInt(choice.split(" ")[1])};
-                if (!CivilizationController.getInstance().isPositionValid(position))
+                if (!MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).isPositionValid(position))
                     message.addLine("Invalid coordinates");
-                else if (!selectedCity.getTerritory().contains(CivilizationController.getInstance().getTileByPosition(position)))
+                else if (!selectedCity.getTerritory().contains(MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).getTileByPosition(position)))
                     message.addLine("This tile is not in this city");
                 else {
                     citizens.get(0).setWorking(true);
-                    citizens.get(0).setWorkPosition(CivilizationController.getInstance().getTileByPosition(position));
+                    citizens.get(0).setWorkPosition(MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).getTileByPosition(position));
                     citizens.remove(citizens.get(0));
                     message.addLine("A citizen has been locked to tile (" + position[0] + ", " + position[1] + ")");
                     if (citizens.size() == 0) {
@@ -1271,7 +1270,7 @@ public class ServerGameMenu extends ServerMenu {
                 if (number < 1 || number > purchasableTiles.size())
                     message.addLine("Invalid number");
                 else {
-                    CivilizationController.getInstance().purchaseTile(selectedCity, purchasableTiles.get(number - 1));
+                    MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).purchaseTile(selectedCity, purchasableTiles.get(number - 1));
                     message.addLine("The selected tile is added to your territory");
                     return;
                 }
@@ -1281,7 +1280,7 @@ public class ServerGameMenu extends ServerMenu {
 
 
     private void constructionMenu() {
-        ArrayList<UnitEnum> unitEnums = CivilizationController.getInstance().getProducibleUnits();
+        ArrayList<UnitEnum> unitEnums = MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).getProducibleUnits();
 
         message.addLine("List of producible units:");
         for (int i = 1; i <= unitEnums.size(); i++)
@@ -1313,11 +1312,11 @@ public class ServerGameMenu extends ServerMenu {
                 processor.getNumberOfFields() != 2 ||
                 x == null || y == null)
             message.addLine(getInvalidCommand());
-        else if (!CivilizationController.getInstance().isPositionValid(new int[]{Integer.parseInt(x), Integer.parseInt(y)}))
+        else if (!MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).isPositionValid(new int[]{Integer.parseInt(x), Integer.parseInt(y)}))
             message.addLine("Invalid coordinates!");
         else {
             int[] unitPosition = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
-            Tile tile = CivilizationController.getInstance().getTileByPosition(unitPosition);
+            Tile tile = MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).getTileByPosition(unitPosition);
 
             if (processor.getSection() == null) {
             } else if (processor.getSection().equals("combat")) {
@@ -1325,7 +1324,7 @@ public class ServerGameMenu extends ServerMenu {
             } else if (processor.getSection().equals("noncombat")) {
                 if (tile.getNonCombatUnit() == null) message.addLine("There is no noncombat unit in that place");
             } else {
-                if (CivilizationController.getInstance().doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile) > 2)
+                if (MainServer.getCivilizationControllerByToken(mySocketHandler.getGameToken()).doBFSAndReturnDistances(selectedCity.getPosition(), true).get(tile) > 2)
                     message.addLine("Unit is not in city's range");
 
             }
@@ -1482,7 +1481,7 @@ public class ServerGameMenu extends ServerMenu {
             } else if (processor.getSubSection().equals("data")) {
                 message.addData("mapX", mapX);
                 message.addData("mapY", mapY);
-                String[] hashMap = GMini.getInstance().startMiniSave(MainServer.getGameControllerByToken(mySocketHandler.getGameToken()));
+                String[] hashMap = GMini.getInstance().startMiniSave(MainServer.getGameControllerByToken(mySocketHandler.getGameToken()), mySocketHandler.getGameToken());
                 String str = new Gson().toJson(hashMap);
                 //str = str.replace("false","|").replace("true","~");
                 //str = str.replace("\\\"","^");

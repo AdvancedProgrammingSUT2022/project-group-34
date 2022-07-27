@@ -19,4 +19,8 @@ public class Archer extends CombatUnit {
         this.isSiegeTool = unitEnum.isSiegeTool;
         this.isSetup = false;
     }
+
+    public void setSetup(boolean b) {
+
+    }
 }

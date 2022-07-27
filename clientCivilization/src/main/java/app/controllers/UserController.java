@@ -12,7 +12,6 @@ public class UserController {
     //Singleton Pattern
     private static UserController instance;
     private ArrayList<User> users = new ArrayList<>();
-    private Message message;
 
     private UserController() {
     }
@@ -36,6 +35,7 @@ public class UserController {
     }
 
     public ArrayList<User> getUsers() {
+        Message message;
         Processor processor = new Processor("UserController","get","users");
         processor.setGetOrSet(true);
         MenuController.sendProcessor(processor);

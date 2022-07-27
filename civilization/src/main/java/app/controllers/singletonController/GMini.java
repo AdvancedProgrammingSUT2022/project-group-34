@@ -3,6 +3,7 @@ package app.controllers.singletonController;
 import app.controllers.gameServer.GameController;
 import app.models.Civilization;
 import app.models.Game;
+import app.models.connection.StringGameToken;
 import app.models.map.CivilizationMap;
 import app.models.map.GameMap;
 import app.models.map.Map;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 
 public class GMini {
 
+    private static StringGameToken stringGameToken;
     private Integer uniqueTempID;
     private HashMap<Integer, String> temp = new HashMap<>();
     private HashMap<Object, Integer> allTempObject = new HashMap<>();
@@ -30,6 +32,11 @@ public class GMini {
         if (instance == null) instance = new GMini();
         return instance;
     }
+
+    public static StringGameToken getGameToken() {
+        return stringGameToken;
+    }
+
     public Integer miniSave(Object object) {
         if (object == null) return null;
         Integer id;
@@ -53,7 +60,8 @@ public class GMini {
         else return null;
     }
 
-    public String[] startMiniSave(Object object){
+    public String[] startMiniSave(Object object, StringGameToken token){
+        stringGameToken = token;
         uniqueTempID = 0;
         allTempObject.clear();
         temp.clear();

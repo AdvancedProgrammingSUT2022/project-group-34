@@ -2,7 +2,12 @@ package app.controllers;
 
 import app.models.Civilization;
 import app.models.Game;
+import app.models.PreGame;
 import app.models.User;
+import app.models.connection.Message;
+import app.models.connection.Processor;
+import app.views.graphicalMenu.MenuController;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -49,4 +54,21 @@ public class GameController {
         this.civilization = civilization;
     }
 
+    public void startTurn() {
+
+    }
+
+    public ArrayList<PreGame> getAllPreGame() {
+        Message message;
+        Processor processor = new Processor("GameController","get","allPreGames");
+        processor.setGetOrSet(true);
+        MenuController.sendProcessor(processor);
+        message = InputController.getInstance().getMessage();
+        Object objects  = message.getData("allPreGames");
+        ArrayList<PreGame> userArray = new ArrayList<>();
+        for (var object : ((ArrayList)objects)) {
+            userArray.add(new Gson().fromJson((String) object, PreGame.class));
+        }
+        return userArray;
+    }
 }

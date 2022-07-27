@@ -1,6 +1,5 @@
 package app.views;
 
-import app.controllers.gameServer.GameController;
 import app.controllers.singletonController.UserController;
 import app.models.connection.Message;
 import app.models.connection.Processor;
@@ -55,10 +54,8 @@ public class ServerMenu {
                 break;
             case "main":
                 if (currentMenu.equals("register")) message.addLine("Please login first");
-                else {
+                else
                     setCurrentMenu("main");
-                    GameController.getInstance().setGame(null);
-                }
                 break;
             case "profile":
                 if (currentMenu.equals("register")) message.addLine("Please login first");

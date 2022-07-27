@@ -1,6 +1,6 @@
 package app.views;
 
-import app.controllers.PreGame;
+import app.models.PreGame;
 import app.models.connection.StringGameToken;
 import app.models.connection.Message;
 import app.models.connection.Processor;

@@ -4,6 +4,7 @@ import app.controllers.InputController;
 import app.models.connection.Processor;
 import app.models.map.CivilizationMap;
 import app.models.tile.Tile;
+import app.models.unit.Unit;
 import app.views.commandLineMenu.Menu;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -98,4 +99,7 @@ public class Civilization {
     }
 
 
+    public ArrayList<Unit> getUnits() {
+        return null;
+    }
 }

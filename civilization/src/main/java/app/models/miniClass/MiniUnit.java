@@ -1,6 +1,7 @@
 package app.models.miniClass;
 
-import app.controllers.gameServer.GameController;
+import app.controllers.MainServer;
+import app.controllers.singletonController.GMini;
 import app.models.unit.Unit;
 
 public class MiniUnit {
@@ -9,7 +10,7 @@ public class MiniUnit {
 
     public MiniUnit(Unit unit) {//todo
         this.name           = unit.getName();
-        this.index = GameController.getInstance().getIndex(unit.getCivilization());
+        this.index = MainServer.getGameControllerByToken(GMini.getGameToken()).getIndex(unit.getCivilization());
     }
 
     public String getName() {
