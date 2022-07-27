@@ -643,8 +643,7 @@ public class GameMenu extends Menu {
             futureImprovements(technology);
             futureUnits(technology);
             futureResources(technology);
-        }
-        else System.out.println("No technology is being researched");
+        } else System.out.println("No technology is being researched");
     }
 
     private static void futureTechnologies(Technology technology) {
@@ -774,6 +773,8 @@ public class GameMenu extends Menu {
             output.append("|Number of Citizens:").append(city.getCitizens().size());
             if (city.getUnitUnderProduct() != null)
                 output.append("|City Production:").append(city.getUnitUnderProduct().getName()).append("\n");
+            else if(city.getBuildingUnderProduct()!=null)
+                output.append("|City Production:").append(city.getBuildingUnderProduct().getName()).append("\n");
             else
                 output.append("|City Production:").append("\n");
         }
@@ -1000,11 +1001,10 @@ public class GameMenu extends Menu {
             output.append("|Production Rate:").append(city.getProductionRate());
             output.append("|Science Rate:").append(city.getScienceRate());
             output.append("|Gold Rate:").append(city.getGoldRate());
-            if (city.getUnitUnderProduct()!=null) {
+            if (city.getUnitUnderProduct() != null) {
                 output.append("|City Production:").append(city.getUnitUnderProduct().getName());
-                output.append("(").append(city.getUnitUnderProductTern()).append("\n");
-            }
-            else
+                output.append("(").append(city.getProductionUnderProductTern()).append("\n");
+            } else
                 output.append("|City Production:").append("\n");
         }
     }
@@ -1078,7 +1078,7 @@ public class GameMenu extends Menu {
         System.out.format("Food:%d| Production Rate:%d| Science Rate:%d| Gold Rate:%d\n",
                 selectedCity.getFood(), selectedCity.getProductionRate(), selectedCity.getScienceRate(), selectedCity.getGoldRate());
         System.out.format("Population:%d| Turn's until new citizen:%d\n", selectedCity.getCitizens().size(), selectedCity.getTillNewCitizen());
-        System.out.println("Turn's until new production:" + selectedCity.getUnitUnderProductTern());
+        System.out.println("Turn's until new production:" + selectedCity.getProductionUnderProductTern());
         System.out.println("List of City's citizens:");
         for (int i = 1; i <= selectedCity.getCitizens().size(); i++) {
             Citizen citizen;
@@ -1274,10 +1274,15 @@ public class GameMenu extends Menu {
 
     private static void constructionMenu() {
         ArrayList<UnitEnum> unitEnums = CivilizationController.getInstance().getProducibleUnits();
+        ArrayList<BuildingEnum> buildingEnums = GameController.getInstance().getCivilization().getCivilizationProducibleBuildings();
 
-        System.out.println("List of producible units:");
+        System.out.println("List of producible Things:");
         for (int i = 1; i <= unitEnums.size(); i++)
             System.out.println(i + "." + unitEnums.get(i - 1) + "|" + (int) Math.ceil((float) unitEnums.get(i - 1).getCost() / selectedCity.getProductionRate()));
+        System.out.println("-------------------------------------------------------------");
+        for (int i = 1; i <= buildingEnums.size(); i++)
+            System.out.println(i+unitEnums.size() + "." + buildingEnums.get(i - 1) + "|" + (int) Math.ceil((float) buildingEnums.get(i - 1).getCost() / selectedCity.getProductionRate()));
+
         System.out.println("If you want to choose/change a production, please type its index");
         System.out.println("If you want to exit the menu, please type \"exit\"");
 
@@ -1287,10 +1292,18 @@ public class GameMenu extends Menu {
             if (Objects.equals(choice, "exit")) return;
             else if (choice.matches("\\d+")) {
                 int number = Integer.parseInt(choice);
-                if (number < 1 || number > unitEnums.size()) System.out.println("Invalid number");
+                if (number < 1 || number > unitEnums.size() + buildingEnums.size())
+                    System.out.println("Invalid number");
                 else {
-                    selectedCity.setUnitUnderProduct(Unit.getUnitByUnitEnum(unitEnums.get(number - 1)));
-                    selectedCity.setUnitUnderProductTern((int) Math.ceil((float) unitEnums.get(number - 1).getCost() / selectedCity.getProductionRate()));
+                    if (number <= unitEnums.size()) {
+                        selectedCity.setUnitUnderProduct(Unit.getUnitByUnitEnum(unitEnums.get(number - 1)));
+                        selectedCity.setProductionUnderProductTern((int) Math.ceil((float) unitEnums.get(number - 1).getCost() / selectedCity.getProductionRate()));
+                    } else {
+                        selectedCity.setBuildingUnderProduct(new Building(buildingEnums.get(number - unitEnums.size() - 1)));
+                        selectedCity.setProductionUnderProductTern((int) Math.ceil((float) buildingEnums.get(number - unitEnums.size() - 1).getCost() / selectedCity.getProductionRate()));
+                    }
+                    System.out.println("City started construction!");
+                    break;
                 }
             } else invalidCommand();
         }
@@ -1311,8 +1324,8 @@ public class GameMenu extends Menu {
             int[] unitPosition = new int[]{Integer.parseInt(x), Integer.parseInt(y)};
             Tile tile = CivilizationController.getInstance().getTileByPosition(unitPosition);
 
-            if (processor.getSection() == null) {}
-            else if (processor.getSection().equals("combat")) {
+            if (processor.getSection() == null) {
+            } else if (processor.getSection().equals("combat")) {
                 if (tile.getCombatUnit() == null) System.out.println("There is no combat unit in that place");
             } else if (processor.getSection().equals("noncombat")) {
                 if (tile.getNonCombatUnit() == null) System.out.println("There is no noncombat unit in that place");
@@ -1333,13 +1346,14 @@ public class GameMenu extends Menu {
     cheat finish research
      */
     private static void handleCheatCategoryCommand(Processor processor) {
-        if  (processor.getSection() == null) invalidCommand();
+        if (processor.getSection() == null) invalidCommand();
         else if (processor.getSection().equals("increase"))
             increaseCheatCommand(processor.get("amount"), processor.getSubSection());
         else if (processor.getSection().equals("teleport"))
             teleportCheatCommand(processor.get("x"), processor.get("y"));
         else if (processor.getSection().equals("finish")) finishCheatCommand(processor.getSubSection());
-        else if (processor.getSection().equals("research")) researchCheatCommand(processor.getSubSection(),processor.get("name"));
+        else if (processor.getSection().equals("research"))
+            researchCheatCommand(processor.getSubSection(), processor.get("name"));
         else if (processor.getSection().equals("reveal")) revealCheatCommand(processor.get("x"), processor.get("y"));
         else invalidCommand();
 

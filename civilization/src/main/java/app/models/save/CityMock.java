@@ -33,7 +33,7 @@ public class CityMock extends Mock {
         super(id);
         this.name = city.getName();
         this.strength = city.getStrength();
-        this.unitUnderProductTern = city.getUnitUnderProductTern();
+        this.unitUnderProductTern = city.getProductionUnderProductTern();
         this.isGarrison = city.isGarrison();
         this.hitPoint = city.getHitPoint();
         this.tillNewCitizen = city.getTillNewCitizen();

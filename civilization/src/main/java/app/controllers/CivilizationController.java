@@ -2,10 +2,7 @@
 
 package app.controllers;
 
-import app.models.City;
-import app.models.Civilization;
-import app.models.Technology;
-import app.models.TechnologyEnum;
+import app.models.*;
 import app.models.map.CivilizationMap;
 import app.models.map.GameMap;
 import app.models.tile.*;
