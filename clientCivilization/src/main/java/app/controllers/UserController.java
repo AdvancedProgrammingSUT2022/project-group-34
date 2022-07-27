@@ -49,6 +49,10 @@ public class UserController {
         return userArray;
     }
 
+    public User getUserByUsername(String username) {
+        return null;
+    }
+
 
 
 

@@ -188,6 +188,8 @@ public class ProfileMenuController {
 
     @FXML
     private void exit() {
+        Processor processor = new Processor("menu exit");
+        MenuController.sendProcessorAndIgnoreResponse(processor);
         App.setMenu("main_menu");
     }
 }

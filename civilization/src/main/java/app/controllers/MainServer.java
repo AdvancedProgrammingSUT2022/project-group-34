@@ -106,5 +106,14 @@ public class MainServer {
         allCivilizationControllers.put(gameToken, new CivilizationController());
         allDiplomacyControllers.put(gameToken, new DiplomacyController());
         allCheatControllers.put(gameToken, new CheatController());
+        preGameArrayList.remove(preGame);
+    }
+
+    public static int getNumberOfPreGame() {
+        return preGameArrayList.size();
+    }
+
+    public static void removeUserFromGame(int gameId, User user) {
+        preGameArrayList.get(gameId).removeUser(user);
     }
 }

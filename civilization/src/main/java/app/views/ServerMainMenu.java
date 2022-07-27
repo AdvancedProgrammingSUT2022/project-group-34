@@ -5,6 +5,7 @@ import app.controllers.singletonController.UserController;
 import app.models.User;
 import app.models.connection.Message;
 import app.models.connection.Processor;
+import app.models.connection.StringSocketToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +94,32 @@ public class ServerMainMenu extends ServerMenu{
             setCurrentMenu("game");
             message.setSuccessful(true);
             message.addLine("Game started!");
+        }
+    }
+
+    private void addUserToGame(int GameId , StringSocketToken token){
+        User user = UserController.getInstance().getLoggedInUsers(token);
+        int Size = MainServer.getNumberOfPreGame();
+        if (user == null)
+            message.addLine("No user has logged in with this token");
+        else if(Size <= GameId)
+            message.addLine("There are no games with this information");
+        else {
+            MainServer.addUserToGame(GameId, user);
+            message.setSuccessful(true);
+        }
+    }
+
+    private void removeUserFromGame(int GameId , StringSocketToken token){
+        User user = UserController.getInstance().getLoggedInUsers(token);
+        int Size = MainServer.getNumberOfPreGame();
+        if (user == null)
+            message.addLine("No user has logged in with this token");
+        else if(Size <= GameId)
+            message.addLine("There are no games with this information");
+        else {
+            MainServer.removeUserFromGame(GameId, user);
+            message.setSuccessful(true);
         }
     }
 

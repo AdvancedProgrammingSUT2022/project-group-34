@@ -69,8 +69,7 @@ public class LoginMenuController {
         if (selectedFile == null) {
             chooserButton.setId("choose");
             chooserButton.setText("Pick a file...");
-        }
-        else {
+        } else {
             chooserButton.setId("chosen");
             chooserButton.setText("Remove picture");
         }
@@ -94,7 +93,7 @@ public class LoginMenuController {
         if (message.isSuccessful()) {
             registerMessage.setText(logString);
             registerMessage.setStyle("-fx-text-fill: red;");
-            try {
+        try {
                 //UserController.getInstance().getUsers().add(new User(username, password, nickname, selectedFile)); todo server
             } catch (Exception e) {
                 registerMessage.setText(logString);//registerMessage.setText("Unable to load picture!");
@@ -132,7 +131,7 @@ public class LoginMenuController {
         }
         else if (message.getCurrentMenu() != null && !message.getCurrentMenu().equals("login")) {
             App.setMenu(message.getCurrentMenu() + "_menu");
-        }
+    }
 
     }
 

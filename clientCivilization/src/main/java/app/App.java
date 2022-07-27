@@ -1,15 +1,11 @@
 package app;
 
 import app.controllers.ConnectionController;
-import app.controllers.UserController;
-import app.models.User;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.net.URL;
 
@@ -46,8 +42,7 @@ public class App extends Application {
         try {
             URL address = new URL(App.class.getResource("/app/fxml/" + pageName + ".fxml").toExternalForm());
             return FXMLLoader.load(address);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

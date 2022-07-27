@@ -128,4 +128,7 @@ public class UserController {
         }
     }
 
+    public Object getLoggedInUser() {
+        return null;
+    }
 }
