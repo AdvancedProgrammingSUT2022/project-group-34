@@ -1,5 +1,6 @@
 package app;
 
+import app.controllers.NetworkController;
 import app.controllers.UserController;
 import app.models.User;
 import javafx.application.Application;
@@ -19,6 +20,7 @@ public class App extends Application {
 
     public static void main(String[] args) {
         UserController.getInstance().loadUsers();
+        NetworkController.connect();
         launch();
     }
 
@@ -57,8 +59,7 @@ public class App extends Application {
         try {
             URL address = new URL(App.class.getResource("/app/fxml/" + pageName + ".fxml").toExternalForm());
             return FXMLLoader.load(address);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

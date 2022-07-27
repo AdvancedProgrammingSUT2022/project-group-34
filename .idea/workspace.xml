@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e6ff4ebf-a078-435d-a047-8a347d210104" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/civilization/src/main/java/app/views/MainMenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/src/main/java/app/views/MainMenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/civilization/src/main/resources/UserDatabase.json" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/src/main/resources/UserDatabase.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/civilization/src/main/resources/app/fxml/main_menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/src/main/resources/app/fxml/main_menu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/civilization/target/classes/UserDatabase.json" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/target/classes/UserDatabase.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/civilization/target/classes/app/fxml/main_menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/target/classes/app/fxml/main_menu.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/civilization/target/classes/app/views/MainMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/civilization/target/classes/app/views/MainMenuController.class" afterDir="false" />
-    </list>
+    <list default="true" id="e6ff4ebf-a078-435d-a047-8a347d210104" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,8 +22,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Server/src/main/java" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\User\Documents\Java\Project\project-group-34\Server\src\main\java" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\User\Documents\Java\Project\project-group-34\civilization\src" />
     </key>
@@ -46,6 +43,7 @@
       <workItem from="1652463189115" duration="101000" />
       <workItem from="1652483972829" duration="544000" />
       <workItem from="1657711333871" duration="16000" />
+      <workItem from="1658761864020" duration="31000" />
     </task>
     <servers />
   </component>

@@ -13,31 +13,12 @@
             stylesheets="@../css/chatroom.css">
     <center>
         <ScrollPane>
-            <VBox>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-            </VBox>
+            <VBox fx:id="messagesList"/>
         </ScrollPane>
     </center>
     <bottom>
         <VBox>
-            <TextField promptText="Write a message..."/>
+            <TextField fx:id="messageTextField" promptText="Write a message..." onKeyPressed="#sendMessage"/>
             <HBox>
                 <Button fx:id="globalChatButton" text="Global"/>
                 <Button text="Private" onMouseClicked="#goToPrivateChat"/>

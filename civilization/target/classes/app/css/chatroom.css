@@ -14,20 +14,20 @@ HBox {
 
 VBox {
     -fx-alignment: top-left;
-    -fx-spacing: 30;
+    -fx-spacing: 1.5;
 }
 
 Label {
     -fx-text-alignment: left;
     -fx-alignment: center-left;
-    -fx-text-fill: white;
+    -fx-text-fill: #9a9393;
     -fx-wrap-text: true;
 }
 
 Text {
     -fx-text-alignment: left;
     -fx-alignment: center-left;
-    -fx-text-fill: white;
+    -fx-font-size: 15;
     -fx-wrap-text: true;
 }
 
@@ -46,6 +46,11 @@ Button {
 Button:hover {
     -fx-effect: dropshadow(gaussian, black, 10, 0, 0, 00);
     -fx-cursor: hand;
+}
+
+ImageView{
+    -fx-alignment: baseline-center;
+    -fx-translate-y: 4;
 }
 
 #backButton {

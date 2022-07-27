@@ -1,7 +1,9 @@
 package app.views;
 
 import app.App;
+import app.controllers.NetworkController;
 import app.controllers.UserController;
+import app.models.Communicator;
 import app.models.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,25 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 
-import java.io.DataInputStream;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.lang.reflect.Array;
-import java.net.URI;
-import java.net.URL;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class LoginMenuController {
     private final static String VALID_USERNAME_REGEX = "^[a-zA-Z][a-zA-Z\\d]*$";
@@ -82,8 +69,7 @@ public class LoginMenuController {
         if (selectedFile == null) {
             chooserButton.setId("choose");
             chooserButton.setText("Pick a file...");
-        }
-        else {
+        } else {
             chooserButton.setId("chosen");
             chooserButton.setText("Remove picture");
         }
@@ -99,25 +85,19 @@ public class LoginMenuController {
         if (!username.matches(VALID_USERNAME_REGEX)) {
             registerMessage.setText("Invalid username!");
             registerMessage.setStyle("-fx-text-fill: red;");
-        }
-        else if (!nickname.matches(VALID_NICKNAME_REGEX)) {
+        } else if (!nickname.matches(VALID_NICKNAME_REGEX)) {
             registerMessage.setText("Invalid nickname!");
             registerMessage.setStyle("-fx-text-fill: red;");
-        }
-        else if (UserController.getInstance().getUserByUsername(username) != null) {
+        } else if (UserController.getInstance().getUserByUsername(username) != null) {
             registerMessage.setText("A user with username " + username + " already exists");
             registerMessage.setStyle("-fx-text-fill: red;");
-        }
-        else if (UserController.getInstance().getUserByNickname(nickname) != null) {
+        } else if (UserController.getInstance().getUserByNickname(nickname) != null) {
             registerMessage.setText("A user with nickname " + nickname + " already exists");
             registerMessage.setStyle("-fx-text-fill: red;");
-        }
-        else if (!UserController.getInstance().isPasswordStrong(password)) {
+        } else if (!UserController.getInstance().isPasswordStrong(password)) {
             registerMessage.setText("Password is weak!");
             registerMessage.setStyle("-fx-text-fill: red;");
-        }
-
-        else {
+        } else {
             try {
                 UserController.getInstance().getUsers().add(new User(username, password, nickname, selectedFile));
             } catch (Exception e) {
@@ -147,9 +127,11 @@ public class LoginMenuController {
         if (user == null || !user.isPasswordCorrect(password)) {
             loginMessage.setText("Username or password didn't match!");
             loginMessage.setStyle("-fx-text-fill: red;");
-        }
-        else {
+        } else {
             UserController.getInstance().setLoggedInUser(user);
+            Communicator communicator = new Communicator("login");
+            communicator.addData("user", user);
+            NetworkController.send(communicator);
             App.setMenu("main_menu");
         }
     }
