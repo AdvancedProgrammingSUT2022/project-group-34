@@ -1,1 +1,1 @@
-{"isInFog":true,"x":4,"y":13,"movingCost":-33,"terrain":"Plains","isRiver":[false,false,false,false,true,true],"isBlock":false,"id":217}
+{"name":"Calendar","remainingTerm":0,"cost":70,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Pottery"],"id":217}

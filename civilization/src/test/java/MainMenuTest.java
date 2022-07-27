@@ -1,4 +1,3 @@
-import app.controllers.gameServer.GameController;
 import app.controllers.singletonController.UserController;
 import app.models.User;
 import app.models.connection.Processor;
@@ -57,9 +56,5 @@ public class MainMenuTest {
 
         //Whitebox.invokeMethod(mainMenu, "startNewGame", processor);
 
-        Assertions.assertNotNull(GameController.getInstance().getGame());
-        Assertions.assertEquals(outputStream.toString().trim(), "Game started!");
-
-        GameController.getInstance().setGame(null);
     }
 }

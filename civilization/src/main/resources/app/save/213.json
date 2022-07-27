@@ -1,1 +1,1 @@
-{"isInFog":true,"x":4,"y":9,"movingCost":-31,"terrain":"Plains","feature":"Jungle","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":213}
+{"name":"Gunpowder","remainingTerm":0,"cost":680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Physics","Steel"],"id":213}

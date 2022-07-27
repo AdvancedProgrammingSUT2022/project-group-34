@@ -1,1 +1,1 @@
-{"isInFog":true,"x":6,"y":3,"movingCost":-33,"terrain":"Tundra","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":307}
+{"resource":"Furs","isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":1,"impactOnWar":-8,"hasRoad":false,"hasRail":false,"isLooted":false,"x":6,"y":8,"movingCost":3,"terrain":"Tundra","feature":"Forests","adjacentTiles":[],"isRiver":[false,false,false,false,false,false],"isBlock":false,"id":307}

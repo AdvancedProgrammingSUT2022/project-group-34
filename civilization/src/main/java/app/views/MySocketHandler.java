@@ -1,9 +1,8 @@
 package app.views;
 
-import app.models.PreGame;
-import app.models.connection.StringGameToken;
 import app.models.connection.Message;
 import app.models.connection.Processor;
+import app.models.connection.StringGameToken;
 import app.models.connection.StringSocketToken;
 import com.google.gson.Gson;
 
@@ -29,7 +28,6 @@ public class MySocketHandler extends Thread{
     private final ServerGetterAndSetterMenu serverGetterAndSetterMenu;
     private final ServerMainMenu serverMainMenu;
     private StringGameToken gameToken = null;
-    private PreGame preGame = null;
 
     public MySocketHandler(Socket socket, StringSocketToken socketToken){
 
@@ -137,11 +135,4 @@ public class MySocketHandler extends Thread{
     }
 
 
-    public PreGame getPreGame() {
-        return preGame;
-    }
-
-    public void setPreGame(PreGame preGame) {
-        this.preGame = preGame;
-    }
 }

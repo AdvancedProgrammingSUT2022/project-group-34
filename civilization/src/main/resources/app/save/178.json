@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":24,"movingCost":-33,"terrain":"Tundra","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":178}
+{"name":"Archery","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Agriculture"],"id":178}

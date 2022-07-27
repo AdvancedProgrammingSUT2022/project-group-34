@@ -1,5 +1,6 @@
 package app.views;
 
+import app.controllers.MainServer;
 import app.controllers.singletonController.UserController;
 import app.models.connection.Message;
 import app.models.connection.Processor;
@@ -35,10 +36,10 @@ public class ServerGetterAndSetterMenu extends ServerMenu{
                     message.addData("users", strings);
                     break;
                 case "allPreGames":
-                    System.out.println("get users");
-                    String[] strings1 = new String[UserController.getInstance().getUsers().size()];
-                    for (int i = 0; i < UserController.getInstance().getUsers().size(); i++)
-                        strings1[i] = new Gson().toJson(UserController.getInstance().getUsers().get(i));
+                    System.out.println("allPreGames");
+                    String[] strings1 = new String[MainServer.getAllPreGames().size()];
+                    for (int i = 0; i < MainServer.getAllPreGames().size(); i++)
+                        strings1[i] = new Gson().toJson(MainServer.getAllPreGames().get(i));
 
                     message.addData("allPreGames", strings1);
                     break;

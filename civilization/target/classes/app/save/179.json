@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":25,"movingCost":-31,"terrain":"Tundra","feature":"Forests","isRiver":[true,false,false,false,false,false],"isBlock":false,"id":179}
+{"name":"Philosophy","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Writing"],"id":179}

@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":38,"movingCost":-33,"terrain":"Tundra","isRiver":[false,true,false,false,false,false],"isBlock":false,"id":192}
+{"name":"Engineering","remainingTerm":0,"cost":250,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Mathematics","Construction"],"id":192}

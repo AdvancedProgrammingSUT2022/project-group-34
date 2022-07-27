@@ -1,1 +1,1 @@
-{"isInFog":true,"x":5,"y":15,"movingCost":-31,"terrain":"Tundra","feature":"Forests","isRiver":[false,false,false,false,true,false],"isBlock":false,"id":269}
+{"resource":"Marble","isUsableResource":false,"foodRate":1,"goldRate":0,"productionRate":0,"impactOnWar":-33,"hasRoad":false,"hasRail":false,"isLooted":false,"x":3,"y":9,"movingCost":1,"terrain":"Tundra","adjacentTiles":[],"isRiver":[false,false,false,false,true,false],"isBlock":false,"id":269}

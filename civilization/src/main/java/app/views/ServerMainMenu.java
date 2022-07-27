@@ -2,6 +2,7 @@ package app.views;
 
 import app.controllers.MainServer;
 import app.controllers.singletonController.UserController;
+import app.models.PreGame;
 import app.models.User;
 import app.models.connection.Message;
 import app.models.connection.Processor;
@@ -17,6 +18,7 @@ public class ServerMainMenu extends ServerMenu{
     }
 
     public void processOneProcessor(Processor processor) {
+        System.out.println("processOneProcessor");
         message = new Message();
         if (!processor.isValid() || processor.getCategory() == null) message.addLine(getInvalidCommand());
         else if (processor.getCategory().equals("user")) logout(processor, message);
@@ -43,7 +45,11 @@ public class ServerMainMenu extends ServerMenu{
 
     //Handles commands that start with "play"
     private void playCategoryCommand(Processor processor, Message message) {
-        if (processor.getSection() != null && processor.getSection().equals("game")) startNewGame(processor,message);
+        System.out.println(processor);
+        if (processor.getSection() != null && processor.getSection().equals("play")) startNewGame(processor,message);
+        else if (processor.getSection().equals("create")) createGame(processor);
+        else if (processor.getSection().equals("join")) addUserToGame(processor);
+        else if (processor.getSection().equals("leave")) removeUserFromGame(processor);
         else message.addLine(getInvalidCommand());
 
     }
@@ -76,7 +82,7 @@ public class ServerMainMenu extends ServerMenu{
             try {
                 mapScale = Integer.parseInt(processor.get("mapScale"));
             } catch (Exception ignored){}
-            MainServer.startNewGame(mySocketHandler.getPreGame());
+            //MainServer.startNewGame(mySocketHandler.getPreGame());
             setCurrentMenu("game");
             message.addLine("Game started!");
         } else
@@ -85,41 +91,69 @@ public class ServerMainMenu extends ServerMenu{
 
     private void startNewGame(Processor processor,Message message) {
 
-        if (mySocketHandler.getPreGame() == null){
-            message.addLine("Please create a preGame");
-        } else if (mySocketHandler.getPreGame().getUsers().size() == 1) {
-            message.addLine("No one has joined this game except you");
+        User user = UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken());
+        int index = Integer.parseInt(processor.get("index"));
+        PreGame preGame = MainServer.getAllPreGames().get(index);
+        if (preGame == null)
+            message.addLine(getInvalidCommand());
+        else if (!MainServer.isAdmin(preGame, user)) {
+            message.addLine("You are not admin");
         } else {
-            MainServer.startNewGame(mySocketHandler.getPreGame());
+            mySocketHandler.setGameToken(MainServer.startNewGame(preGame));
             setCurrentMenu("game");
             message.setSuccessful(true);
             message.addLine("Game started!");
         }
     }
 
-    private void addUserToGame(int GameId , StringSocketToken token){
-        User user = UserController.getInstance().getLoggedInUsers(token);
-        int Size = MainServer.getNumberOfPreGame();
-        if (user == null)
-            message.addLine("No user has logged in with this token");
-        else if(Size <= GameId)
-            message.addLine("There are no games with this information");
-        else {
-            MainServer.addUserToGame(GameId, user);
+    private void createGame(Processor processor){
+        int n = Integer.parseInt(processor.get("capacity"));
+        if (n > 1) {
+            User user = UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken());
+            MainServer.createPreGame(user, 13, n);
             message.setSuccessful(true);
+        } else {
+            message.addLine(getInvalidCommand());
         }
     }
 
-    private void removeUserFromGame(int GameId , StringSocketToken token){
+    private void addUserToGame(Processor processor) {
+        int GameId = Integer.parseInt(processor.get("index"));
+        StringSocketToken token = mySocketHandler.getSocketToken();
         User user = UserController.getInstance().getLoggedInUsers(token);
         int Size = MainServer.getNumberOfPreGame();
+
         if (user == null)
             message.addLine("No user has logged in with this token");
         else if(Size <= GameId)
             message.addLine("There are no games with this information");
         else {
-            MainServer.removeUserFromGame(GameId, user);
-            message.setSuccessful(true);
+            if (MainServer.getAllPreGames().get(GameId).getUsers().contains(user))
+                message.addLine("You have already joined this game");
+            else {
+                MainServer.addUserToGame(GameId, user);
+                message.setSuccessful(true);
+            }
+        }
+    }
+
+    private void removeUserFromGame(Processor processor) {
+        int GameId = Integer.parseInt(processor.get("index"));
+        StringSocketToken token = mySocketHandler.getSocketToken();
+        User user = UserController.getInstance().getLoggedInUsers(token);
+        int Size = MainServer.getNumberOfPreGame();
+
+        if (user == null)
+            message.addLine("No user has logged in with this token");
+        else if(Size <= GameId)
+            message.addLine("There are no games with this information");
+        else {
+            if (!MainServer.getAllPreGames().get(GameId).getUsers().contains(user))
+                message.addLine("You have not joined this game before");
+            else {
+                MainServer.removeUserFromGame(GameId, user);
+                message.setSuccessful(true);
+            }
         }
     }
 

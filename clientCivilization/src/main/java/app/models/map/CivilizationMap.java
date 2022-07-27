@@ -10,6 +10,8 @@ public class CivilizationMap extends Map {
     private ArrayList<VisibleTile> transparentTiles = new ArrayList<>();
 
     public VisibleTile getTileByXY(int x, int y){
+        System.out.println(mapHeight + "---" + mapWidth);
+        System.out.println(x + "---" + y);
         if(x < 0 || this.mapHeight <= x || y < 0 || this.mapWidth <= y)
             return null;
         return map.get(x).get(y);

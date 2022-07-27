@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":44,"movingCost":27,"terrain":"Hills","feature":"Forests","isRiver":[true,false,false,false,false,true],"isBlock":true,"id":198}
+{"name":"Banking","remainingTerm":0,"cost":650,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Education","Chivalry"],"id":198}

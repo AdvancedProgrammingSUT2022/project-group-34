@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 
 public class ConnectionController {
 
-    private static final int serverID = 8000;
+    private static final int serverID = 9000;
     private static DataInputStream inputStream;
     private static DataOutputStream outputStream;
 

@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public abstract class AbstractTile {
 
-    protected int x;
-    protected int y;
+    public int x;
+    public int y;
     protected int movingCost;
     protected Terrain terrain;
     protected Feature feature;
@@ -42,7 +42,7 @@ public abstract class AbstractTile {
     }
 
     public int getX() {
-        return x;
+        return  x;
     }
 
     public Terrain getTerrain() {

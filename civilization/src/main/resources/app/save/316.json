@@ -1,1 +1,1 @@
-{"isInFog":true,"x":6,"y":12,"movingCost":-32,"terrain":"Desert","feature":"Oasis","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":316}
+{"resource":"Marble","isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":0,"impactOnWar":-33,"hasRoad":false,"hasRail":false,"isLooted":false,"nonCombatUnitID":172,"combatUnitID":172,"x":7,"y":4,"movingCost":1,"terrain":"Grasslands","adjacentTiles":[],"isRiver":[false,false,false,false,false,true],"isBlock":false,"id":316}

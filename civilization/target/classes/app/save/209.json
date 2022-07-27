@@ -1,1 +1,1 @@
-{"isInFog":true,"x":4,"y":5,"movingCost":-31,"terrain":"Tundra","feature":"Forests","isRiver":[false,true,true,false,false,false],"isBlock":false,"id":209}
+{"name":"Chivalry","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["CivilService","HorsebackRiding","Currency"],"id":209}

@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":39,"movingCost":-33,"terrain":"Plains","isRiver":[false,true,false,true,true,false],"isBlock":false,"id":193}
+{"name":"PrintingPress","remainingTerm":0,"cost":650,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Machinery","Physics"],"id":193}

@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":49,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":203}
+{"name":"ReplaceableParts","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["SteamPower"],"id":203}

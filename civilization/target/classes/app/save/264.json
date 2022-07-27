@@ -1,1 +1,1 @@
-{"isInFog":true,"x":5,"y":10,"movingCost":-33,"terrain":"Snow","isRiver":[false,false,false,true,false,false],"isBlock":false,"id":264}
+{"resource":"Dyes","isUsableResource":false,"foodRate":2,"goldRate":0,"productionRate":1,"impactOnWar":-8,"hasRoad":false,"hasRail":false,"isLooted":false,"x":3,"y":4,"movingCost":3,"terrain":"Tundra","feature":"Forests","adjacentTiles":[],"isRiver":[true,true,false,false,false,false],"isBlock":false,"id":264}

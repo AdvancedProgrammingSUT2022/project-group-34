@@ -16,6 +16,11 @@
         <GridPane fx:id="table"/>
     </center>
     <bottom>
-        <VBox><Button text="Back to main menu" id="exit" onMouseClicked="#exit"/></VBox>
+        <VBox maxWidth="200" alignment="CENTER">
+            <Label fx:id="serverMessage"/>
+            <TextField fx:id="numberOfPlayer" promptText="numberOfPlayer" onKeyTyped="#clearMessage"/>
+            <Button text="create new Game" id="create" onMouseClicked="#create"/>
+            <Button text="Back to main menu" id="exit" onMouseClicked="#exit"/>
+        </VBox>
     </bottom>
 </BorderPane>

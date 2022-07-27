@@ -72,25 +72,39 @@ public class Civilization {
     public int getGold() {
         String nameField = "gold";
         String json = getField(nameField);
-        return new Gson().fromJson(json, Integer.class);
+        try {
+            return new Gson().fromJson(json, Integer.class);
+        } catch (Exception e){return 0;}
     }
 
     public int getHappiness() {
         String nameField = "happiness";
         String json = getField(nameField);
-        return new Gson().fromJson(json, Integer.class);
+        try {
+            return new Gson().fromJson(json, Integer.class);
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
     public int getNumberOfBeakers() {
         String nameField = "numberOfBeakers";
         String json = getField(nameField);
-        return new Gson().fromJson(json, Integer.class);
+        try {
+            return new Gson().fromJson(json, Integer.class);
+        } catch (Exception e){
+            return 0;
+        }
     }
 
     public Technology getStudyingTechnology() {
         String nameField = "studyingTechnology";
         String json = getField(nameField);
-        return new Gson().fromJson(json, Technology.class);
+        try {
+            return new Gson().fromJson(json, Technology.class);
+        } catch (Exception e){
+            return new Technology(TechnologyEnum.values()[0]);
+        }
     }
 
     private String getField(String nameField) {
@@ -100,6 +114,6 @@ public class Civilization {
 
 
     public ArrayList<Unit> getUnits() {
-        return null;
+        return new ArrayList<>();
     }
 }

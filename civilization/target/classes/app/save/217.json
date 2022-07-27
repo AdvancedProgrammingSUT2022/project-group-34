@@ -1,1 +1,1 @@
-{"isInFog":true,"x":4,"y":13,"movingCost":-33,"terrain":"Plains","isRiver":[false,false,false,false,true,true],"isBlock":false,"id":217}
+{"name":"CivilService","remainingTerm":0,"cost":400,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Philosophy","Trapping"],"id":217}

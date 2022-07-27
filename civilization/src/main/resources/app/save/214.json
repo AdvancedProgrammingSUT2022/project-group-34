@@ -1,1 +1,1 @@
-{"isInFog":true,"x":4,"y":10,"movingCost":27,"terrain":"Hills","feature":"Jungle","isRiver":[true,false,false,false,false,false],"isBlock":true,"id":214}
+{"name":"Physics","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Engineering","MetalCasting"],"id":214}

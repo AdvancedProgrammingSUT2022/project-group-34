@@ -93,8 +93,12 @@ public class GameViewController {
 
         pane.setBackground(background);
 
-        personalMapMapHeight = GameController.getInstance().getCivilization().getPersonalMap().getMapHeight();
-        personalMapMapWidth = GameController.getInstance().getCivilization().getPersonalMap().getMapWidth();
+        GameController gameController = loadDataForShowMap();
+        GameController.setInstance(gameController);
+        CivilizationMap personalMap = gameController.getCivilization().getPersonalMap();
+        System.out.println(personalMap);
+        personalMapMapHeight = personalMap.getMapHeight();
+        personalMapMapWidth = personalMap.getMapWidth();
 
         App.getStage().getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
@@ -103,7 +107,7 @@ public class GameViewController {
             }
         });
 
-        System.out.println(GameController.getInstance().getCivilization().getUnits().get(0).getPosition().getX());
+        //System.out.println(gameController.getCivilization().getUnits().get(0).getPosition().getX());
 
         load();
     }
@@ -132,6 +136,7 @@ public class GameViewController {
                 mapY++;
                 break;
         }
+        System.out.println("ALALALALAL");
         mapX = Math.max(mapX, VIEW_MAP_HEIGHT / 2);
         mapX = Math.min(mapX, personalMapMapHeight - VIEW_MAP_HEIGHT / 2 - 1);
         mapY = Math.max(mapY, VIEW_MAP_WIDTH / 2);
@@ -143,8 +148,9 @@ public class GameViewController {
     private GameController loadDataForShowMap() {
         HashMap<String,Object> data = getData();
         writeTemp(data.keySet().toString());
-        mapX = getAndCast2Integer(new Gson().fromJson((String) data.get("mapX"),Double.class), mapX);
-        mapY = getAndCast2Integer(new Gson().fromJson((String) data.get("mapY"),Double.class), mapY);
+        System.out.println(data.get("mapX"));
+        mapX = getAndCast2Integer(new Gson().fromJson(String.valueOf(data.get("mapX")),Double.class), mapX);
+        mapY = getAndCast2Integer(new Gson().fromJson(String.valueOf(data.get("mapY")),Double.class), mapY);
         GLoad.getInstance().setTemp(new Gson().fromJson((String) data.get("GameController"), (Type) String[].class));
         GameController gameController = (GameController)GLoad.getInstance().loadObject(new MiniGameController(),0);
         return gameController;
@@ -190,6 +196,9 @@ public class GameViewController {
         Civilization civilization = GameController.getInstance().getCivilization();
         CivilizationMap personalMap = civilization.getPersonalMap();
 
+        personalMap.setMapHeight(personalMapMapHeight);
+        personalMap.setMapWidth(personalMapMapWidth);
+
         for (int i = -(VIEW_MAP_HEIGHT / 2); i <= VIEW_MAP_HEIGHT / 2; i++) {
             for (int j = -(VIEW_MAP_WIDTH / 2); j <= VIEW_MAP_WIDTH / 2; j++) {
                 if (j % 2 == 1 || j % 2 == -1) {
@@ -199,20 +208,21 @@ public class GameViewController {
                 int x = mapX + i;
                 int y = mapY + j;
                 VisibleTile visibleTile = personalMap.getTileByXY(x, y);
-
-                int upperBound;
-                int leftBound = TILE_WIDTH * 3 / 4 * (j + VIEW_MAP_WIDTH / 2) + LEFT_PADDING;
-                if (j % 2 == 0) {
-                    upperBound = TILE_HEIGHT * (i + VIEW_MAP_HEIGHT / 2) + UP_PADDING;
-                } else {
-                    if (mapY % 2 == 1) {
-                        upperBound = TILE_HEIGHT * (i + VIEW_MAP_HEIGHT / 2) - TILE_HEIGHT / 2 + UP_PADDING;
+                if (visibleTile != null) {
+                    int upperBound;
+                    int leftBound = TILE_WIDTH * 3 / 4 * (j + VIEW_MAP_WIDTH / 2) + LEFT_PADDING;
+                    if (j % 2 == 0) {
+                        upperBound = TILE_HEIGHT * (i + VIEW_MAP_HEIGHT / 2) + UP_PADDING;
                     } else {
-                        upperBound = TILE_HEIGHT * (i + VIEW_MAP_HEIGHT / 2) + TILE_HEIGHT / 2 + UP_PADDING;
+                        if (mapY % 2 == 1) {
+                            upperBound = TILE_HEIGHT * (i + VIEW_MAP_HEIGHT / 2) - TILE_HEIGHT / 2 + UP_PADDING;
+                        } else {
+                            upperBound = TILE_HEIGHT * (i + VIEW_MAP_HEIGHT / 2) + TILE_HEIGHT / 2 + UP_PADDING;
+                        }
                     }
+                    putTile(visibleTile, x, y, upperBound, leftBound);
                 }
 
-                putTile(visibleTile, x, y, upperBound, leftBound);
             }
         }
     }
@@ -258,6 +268,8 @@ public class GameViewController {
         StringBuilder tooltip = new StringBuilder("");
         ImageView imageView;
         Civilization civilization = GameController.getInstance().getCivilization();
+        System.out.println(CivilizationController.getInstance());
+        System.out.println(visibleTile);
         Tile tile = CivilizationController.getInstance().getTileByPosition(new int[]{visibleTile.getX(), visibleTile.getY()});
         if (visibleTile.isInFog()) {
             imageView = putTerrainFeature(null, null, upperBound, leftBound);

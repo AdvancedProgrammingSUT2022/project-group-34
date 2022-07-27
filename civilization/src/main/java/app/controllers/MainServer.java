@@ -89,17 +89,17 @@ public class MainServer {
     }
 
 
-    public static PreGame createPreGame(User user, int mapScale, int capacity){
-        PreGame preGame = new PreGame(mapScale, capacity);
+    public static void createPreGame(User user, int mapScale, int capacity){
+        PreGame preGame = new PreGame(capacity, mapScale);
+        preGameArrayList.add(preGame);
         preGame.addUser(user);
-        return preGame;
     }
 
     public static void addUserToGame(int gameId, User user){
         preGameArrayList.get(gameId).addUser(user);
     }
 
-    public static void startNewGame(PreGame preGame) {
+    public static StringGameToken startNewGame(PreGame preGame) {
         String gameToken = UUID.randomUUID().toString();
         GameController gameController =  new GameController();
         gameController.startNewGame(preGame.getUsers(), preGame.getMapScale());
@@ -108,6 +108,8 @@ public class MainServer {
         allDiplomacyControllers.put(gameToken, new DiplomacyController());
         allCheatControllers.put(gameToken, new CheatController());
         preGameArrayList.remove(preGame);
+        return new StringGameToken(gameToken);
+
     }
 
     public static int getNumberOfPreGame() {
@@ -116,5 +118,16 @@ public class MainServer {
 
     public static void removeUserFromGame(int gameId, User user) {
         preGameArrayList.get(gameId).removeUser(user);
+        if (preGameArrayList.get(gameId).getUsers().isEmpty())
+            preGameArrayList.remove(gameId);
+    }
+
+    public static ArrayList<PreGame> getAllPreGames() {
+        return preGameArrayList;
+    }
+
+    public static boolean isAdmin(PreGame preGame, User user) {
+        if (preGame.getUsers().size() == 0) return false;
+        return preGame.getUsers().get(0).equals(user);
     }
 }

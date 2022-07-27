@@ -1,1 +1,1 @@
-{"isInFog":true,"x":4,"y":5,"movingCost":-31,"terrain":"Tundra","feature":"Forests","isRiver":[false,true,true,false,false,false],"isBlock":false,"id":209}
+{"name":"Archaeology","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Acoustics"],"id":209}

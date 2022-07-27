@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":28,"movingCost":-31,"terrain":"Tundra","feature":"Forests","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":182}
+{"name":"Masonry","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Mining"],"id":182}

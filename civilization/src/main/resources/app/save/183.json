@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":29,"movingCost":0,"terrain":"Mountain","isRiver":[true,false,false,false,false,false],"isBlock":true,"id":183}
+{"name":"Biology","remainingTerm":0,"cost":1680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Archaeology","ScientificTheory"],"id":183}

@@ -1,1 +1,1 @@
-{"isInFog":true,"x":4,"y":4,"movingCost":-33,"terrain":"Tundra","isRiver":[false,false,false,true,false,true],"isBlock":false,"id":208}
+{"name":"Currency","remainingTerm":0,"cost":250,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Mathematics"],"id":208}

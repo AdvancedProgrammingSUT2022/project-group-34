@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":33,"movingCost":-31,"terrain":"Plains","feature":"Forests","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":187}
+{"name":"Dynamite","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Fertilize","Rifling"],"id":187}

@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":25,"movingCost":-31,"terrain":"Tundra","feature":"Forests","isRiver":[true,false,false,false,false,false],"isBlock":false,"id":179}
+{"name":"IronWorking","remainingTerm":0,"cost":150,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["BronzeWorking"],"id":179}

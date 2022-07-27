@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 public class PreGame {
     private ArrayList<User> users = new ArrayList<>();
-    private int capacity;
-    private int mapScale;
+    private final int capacity;
+    private final int mapScale;
 
     public PreGame(int capacity, int mapScale) {
         this.capacity = capacity;
@@ -23,6 +23,7 @@ public class PreGame {
     }
 
     public ArrayList<User> getUsers() {
+        if (users == null) users =  new ArrayList<>();
         return users;
     }
 

@@ -1,1 +1,1 @@
-{"isInFog":true,"x":4,"y":1,"movingCost":0,"terrain":"Ocean","isRiver":[false,false,false,false,false,false],"isBlock":true,"id":205}
+{"name":"BronzeWorking","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Mining"],"id":205}

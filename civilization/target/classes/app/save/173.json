@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":19,"movingCost":-33,"terrain":"Snow","isRiver":[false,false,true,false,false,false],"isBlock":false,"id":173}
+{"name":"Agriculture","remainingTerm":0,"cost":20,"isResearching":false,"isResearchable":false,"isResearched":true,"prerequisiteTechnologies":[],"id":173}

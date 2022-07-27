@@ -6,25 +6,11 @@ import com.google.gson.Gson;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.net.Socket;
 
 public class NetworkController {
-    private static Socket socket;
     private static DataOutputStream outputStream;
     private static DataInputStream inputStream;
 
-
-
-    public static void connect() {
-        try {
-            socket = new Socket("localhost", 8000);
-            outputStream = new DataOutputStream(socket.getOutputStream());
-            inputStream = new DataInputStream(socket.getInputStream());
-            System.out.println("connected");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public static void send(Processor processor) {
         try {

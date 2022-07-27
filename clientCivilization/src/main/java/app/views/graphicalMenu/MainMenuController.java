@@ -44,7 +44,6 @@ public class MainMenuController {
     }
 
     @FXML
-
     private void lobby() {
         App.setMenu("lobby");
     }

@@ -1,1 +1,1 @@
-{"isInFog":true,"x":5,"y":34,"movingCost":-32,"terrain":"Desert","feature":"Oasis","isRiver":[false,false,false,false,false,true],"isBlock":false,"id":288}
+{"isUsableResource":false,"foodRate":0,"goldRate":0,"productionRate":0,"impactOnWar":0,"hasRoad":false,"hasRail":false,"isLooted":false,"x":5,"y":2,"movingCost":-1,"terrain":"Ocean","adjacentTiles":[],"isRiver":[false,true,false,false,false,false],"isBlock":true,"id":288}

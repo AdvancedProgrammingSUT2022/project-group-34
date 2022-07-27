@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":21,"movingCost":25,"terrain":"Hills","isRiver":[false,true,true,false,true,false],"isBlock":true,"id":175}
+{"name":"Acoustics","remainingTerm":0,"cost":650,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Education"],"id":175}

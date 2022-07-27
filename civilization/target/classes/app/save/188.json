@@ -1,1 +1,1 @@
-{"isInFog":true,"x":3,"y":34,"movingCost":-31,"terrain":"Grasslands","feature":"Marsh","isRiver":[false,false,false,false,false,false],"isBlock":false,"id":188}
+{"name":"MetalCasting","remainingTerm":0,"cost":240,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["IronWorking"],"id":188}

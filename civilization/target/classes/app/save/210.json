@@ -1,1 +1,1 @@
-{"isInFog":true,"x":4,"y":6,"movingCost":-31,"terrain":"Grasslands","feature":"Forests","isRiver":[false,false,false,false,false,true],"isBlock":false,"id":210}
+{"name":"SteamPower","remainingTerm":0,"cost":1680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["ScientificTheory","MilitaryScience"],"id":210}

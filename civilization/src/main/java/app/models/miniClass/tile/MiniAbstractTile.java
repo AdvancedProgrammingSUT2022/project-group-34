@@ -1,6 +1,7 @@
 package app.models.miniClass.tile;
 
-import app.controllers.gameServer.GameController;
+import app.controllers.MainServer;
+import app.controllers.singletonController.GMini;
 import app.models.tile.AbstractTile;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class MiniAbstractTile {
             this.cy = null;
         }
         try {//todo
-            this.ci = GameController.getInstance().getGame().getCivilizations().indexOf(abstractTile.getCivilization());
+            this.ci = MainServer.getGameControllerByToken(GMini.getGameToken()).getGame().getCivilizations().indexOf(abstractTile.getCivilization());
         }catch (Exception ignored){
             ci = null;
         }
