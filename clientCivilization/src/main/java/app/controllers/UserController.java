@@ -3,7 +3,7 @@ package app.controllers;
 import app.models.User;
 import app.models.connection.Message;
 import app.models.connection.Processor;
-import app.views.commandLineMenu.Menu;
+import app.views.graphicalMenu.MenuController;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -31,14 +31,14 @@ public class UserController {
     public User getLoggedInUser() {
         Processor processor = new Processor("UserController","get","loggedInUser");
         processor.setGetOrSet(true);
-        Menu.sendProcessor(processor);
+        MenuController.sendProcessor(processor);
         return new Gson().fromJson((String) InputController.getInstance().getMessage().getData("loggedInUser"), User.class);
     }
 
     public ArrayList<User> getUsers() {
         Processor processor = new Processor("UserController","get","users");
         processor.setGetOrSet(true);
-        Menu.sendProcessor(processor);
+        MenuController.sendProcessor(processor);
         message = InputController.getInstance().getMessage();
         System.out.println(message.getAllData().containsKey("users"));
         Object objects  = message.getData("users");

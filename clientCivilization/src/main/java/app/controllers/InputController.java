@@ -3,6 +3,7 @@ package app.controllers;
 import app.models.connection.Message;
 import app.models.connection.Processor;
 import app.views.commandLineMenu.*;
+import app.views.graphicalMenu.MenuController;
 import com.google.gson.Gson;
 
 import java.io.EOFException;
@@ -69,13 +70,13 @@ public class InputController extends Thread{
         }
 
         if (!message.getWhichMenu().equals("isGetOrSet"))
-            Menu.setMessage(message);
+            MenuController.setMessage(message);
         return message;
     }
 
     public Object getField(String nameField, String category) {
         Processor processor = new Processor(category,"get", nameField);
-        Menu.sendProcessor(processor);
+        MenuController.sendProcessor(processor);
         return InputController.getInstance().getMessage().getData(nameField);
     }
 }

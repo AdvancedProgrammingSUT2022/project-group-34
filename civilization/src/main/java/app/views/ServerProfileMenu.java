@@ -12,7 +12,6 @@ public class ServerProfileMenu extends ServerMenu{
 
     public void processOneProcessor(Processor processor) {
         message = new Message();
-        System.out.println(processor);
         if (!processor.isValid() || processor.getCategory() == null) message.addLine(getInvalidCommand());
         else if (processor.getCategory().equals("change")) handleChangeCategoryCommand(processor , message);
         else if (processor.getCategory().equals("menu")) handleMenuCategoryCommand(processor, message);
@@ -23,13 +22,10 @@ public class ServerProfileMenu extends ServerMenu{
 
     //Handles commands that start with "profile change"
     private void handleChangeCategoryCommand(Processor processor, Message message) {
-        System.out.println("+++++++++++++++++++++++++++++++++++");
-        System.out.println(processor);
         if (processor.get("nickname") != null) changeNickname(processor,message);
         else if (processor.contains("password")) changePassword(processor,message);
         else if (processor.contains("username")) message.addLine("you can't change username");
         else message.addLine(getInvalidCommand());
-        System.out.println("+++++++++++++++++++++++++++++++++++");
 
     }
 
@@ -56,7 +52,6 @@ public class ServerProfileMenu extends ServerMenu{
     //Changes user password if it has wanted conditions
     //profile change --password --current <current password> --new <new password>
     private void changePassword(Processor processor, Message message) {
-        System.out.println("changePassword start");
         String currentPassword = processor.get("current");
         String newPassword = processor.get("new");
 

@@ -1,11 +1,7 @@
 package app.views.graphicalMenu;
 
 import app.App;
-import app.controllers.InputController;
-import app.controllers.UserController;
-import app.models.connection.Message;
 import app.models.connection.Processor;
-import app.views.commandLineMenu.Menu;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -30,15 +26,15 @@ public class MainMenuController {
 
     @FXML
     private void logout() {
-        Processor processor = new Processor("menu exit");
-        Menu.sendProcessorAndIgnoreResponse(processor);
+        Processor processor = new Processor("user logout");
+        MenuController.sendProcessorAndIgnoreResponse(processor);
         App.setMenu("login_menu");
     }
 
     @FXML
     private void profile() {
         Processor processor = new Processor("menu enter profile");
-        Menu.sendProcessorAndIgnoreResponse(processor);
+        MenuController.sendProcessorAndIgnoreResponse(processor);
         App.setMenu("profile_menu");
     }
 

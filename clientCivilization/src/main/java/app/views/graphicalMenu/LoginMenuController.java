@@ -2,12 +2,9 @@ package app.views.graphicalMenu;
 
 import app.App;
 import app.controllers.InputController;
-import app.controllers.UserController;
-import app.models.User;
 import app.models.connection.Message;
 import app.models.connection.Processor;
 import app.views.Adapter;
-import app.views.commandLineMenu.Menu;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -86,7 +83,7 @@ public class LoginMenuController {
         String password = registerPassword.getText();
         String nickname = this.nickname.getText();
         Processor processor = new Processor(Adapter.register(username,nickname,password));
-        Menu.sendProcessor(processor);
+        MenuController.sendProcessor(processor);
         Message message = InputController.getInstance().getMessage();
         //-----------
         registerResponse(message);
@@ -121,7 +118,7 @@ public class LoginMenuController {
         String username = loginUsername.getText();
         String password = loginPassword.getText();
         Processor processor = new Processor(Adapter.login(username,password));
-        Menu.sendProcessor(processor);
+        MenuController.sendProcessor(processor);
         Message message = InputController.getInstance().getMessage();
         loginResponse(message);
     }

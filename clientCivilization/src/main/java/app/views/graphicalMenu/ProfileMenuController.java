@@ -7,7 +7,6 @@ import app.models.User;
 import app.models.connection.Message;
 import app.models.connection.Processor;
 import app.views.Adapter;
-import app.views.commandLineMenu.Menu;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -150,7 +149,7 @@ public class ProfileMenuController {
         clearMessage();
         Processor processor = new Processor(Adapter.changePassword(currentPassword, newPassword));
         System.out.println(processor.getAll());
-        Menu.sendProcessor(processor);
+        MenuController.sendProcessor(processor);
         Message messageS = InputController.getInstance().getMessage();
         changePasswordResponse(messageS);
     }
@@ -171,7 +170,7 @@ public class ProfileMenuController {
         String nickname = newNicknameField.getText();
         clearMessage();
         Processor processor = new Processor(Adapter.changeNickname(nickname));
-        Menu.sendProcessor(processor);
+        MenuController.sendProcessor(processor);
         Message messageS = InputController.getInstance().getMessage();
         changeNicknameResponse(messageS);
 

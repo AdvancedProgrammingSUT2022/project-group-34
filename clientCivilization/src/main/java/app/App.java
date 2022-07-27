@@ -14,6 +14,8 @@ import javafx.stage.WindowEvent;
 import java.net.URL;
 
 public class App extends Application {
+
+    private static String currentMenu;
     private static Stage mainStage;
 
     public static void main(String[] args) {
@@ -36,7 +38,7 @@ public class App extends Application {
     }
 
     public static void setMenu(String menuName) {
-        System.out.println(menuName);
+        currentMenu = menuName;
         mainStage.setScene(new Scene(loadPage(menuName)));
     }
 

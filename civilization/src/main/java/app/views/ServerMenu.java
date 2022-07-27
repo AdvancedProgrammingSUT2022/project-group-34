@@ -79,6 +79,8 @@ public class ServerMenu {
     //Exit from current menu to upper menu(register-->main-->game/profile)
     //menu exit
     protected void menuExit() {
+        System.out.println("in menuExit");
+        System.out.println(getCurrentMenu());
         if (getCurrentMenu().equals("register")) setCurrentMenu("end");
         else if (getCurrentMenu().equals("main")) {
             setCurrentMenu("register");

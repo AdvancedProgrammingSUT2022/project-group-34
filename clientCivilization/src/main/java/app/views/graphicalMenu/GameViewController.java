@@ -21,7 +21,6 @@ import app.models.tile.VisibleTile;
 import app.models.unit.CombatUnit;
 import app.models.unit.NonCombatUnit;
 import app.models.unit.Unit;
-import app.views.commandLineMenu.Menu;
 import com.google.gson.Gson;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -165,7 +164,7 @@ public class GameViewController {
 
     private static HashMap<String, Object> getData() {
         Processor processor = new Processor("map", "get", "data");
-        Menu.sendProcessor(processor, false);
+        MenuController.sendProcessor(processor, false);
         Message message = InputController.getInstance().getMessage();
         return message.getAllData();
     }
