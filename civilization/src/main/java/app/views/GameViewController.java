@@ -298,6 +298,12 @@ public class GameViewController {
                 selectUnit(unit);
             }
         });
+        if (unit.isSleep()) imageView.setOpacity(0.5);
+        StringBuilder str = new StringBuilder();
+        str.append(unit.getName() + "\n");
+        str.append("Motion Point: " + unit.getMotionPoint() +"\n");
+        str.append("Owner Civilization: " + unit.getCivilization().getCivilizationName() + "\n");
+        Tooltip.install(imageView, new Tooltip(str.toString()));
     }
 
     private void putCity(City city, int upperBound, int leftBound, int x, int y) {
@@ -309,7 +315,7 @@ public class GameViewController {
                 selectCity(city);
             }
         });
-        Tooltip tip = new Tooltip(city.getName());
+        Tooltip tip = new Tooltip(city.getName() + "\nOwner: " + city.getCivilization().getCivilizationName() + "\nGarrison: " + city.isGarrison());
         Tooltip.install(imageView, tip);
     }
 
@@ -383,6 +389,7 @@ public class GameViewController {
         showBeaker();
         showReloadButton();
         showEndTurnButton();
+        showCivilizationInformation();
         //TODO...
     }
 
@@ -438,6 +445,13 @@ public class GameViewController {
         Tooltip.install(imageView, new Tooltip("Science"));
         Label beaker = new Label(String.valueOf(GameController.getInstance().getCivilization().getNumberOfBeakers()));
         statusBar.getChildren().add(beaker);
+    }
+
+    private void showCivilizationInformation() {
+        Label name = new Label("Civilization Name: " + GameController.getInstance().getCivilization().getCivilizationName());
+        Label turn = new Label("Turn: " + GameController.getInstance().getCivilization().getTurn());
+        statusBar.getChildren().add(turn);
+        statusBar.getChildren().add(name);
     }
 
     private void loadCurrentTechnology() {
@@ -721,6 +735,7 @@ public class GameViewController {
                     break;
             }
         }
+        load();
     }
 
     private void wakeUnit() {
