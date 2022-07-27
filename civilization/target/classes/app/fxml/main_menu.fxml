@@ -18,5 +18,6 @@
     <Button layoutX="960" layoutY="200" onMouseClicked="#leaderboard">Leaderboard</Button>
     <Button layoutX="960" layoutY="300">Chat</Button>
     <Button layoutX="960" layoutY="400" id="exit" onMouseClicked="#exit">Exit</Button>
+    <Button layoutX="505" layoutY="500" onMouseClicked="#lobby">Lobby</Button>
 
 </Pane>
