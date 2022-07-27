@@ -1,7 +1,6 @@
 package app.controllers;
 
 import app.models.ChatDatabase;
-import app.models.Communicator;
 import app.models.connection.*;
 import app.views.graphicalMenu.PublicChatroomController;
 import com.google.gson.*;

@@ -299,4 +299,8 @@ public class City {
         this.buildingUnderProduct = buildingUnderProduct;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

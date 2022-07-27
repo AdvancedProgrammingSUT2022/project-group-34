@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="app.views.GameViewController"
+            fx:id="pane"
+            onKeyPressed="#navigate"
+            prefHeight="720.0" prefWidth="1280.0"
+            stylesheets="@../css/game_view.css">
+    <Group fx:id="statusBarGroup">
+        <HBox fx:id="statusBar"/>
+    </Group>
+    <Group fx:id="currentTechnologyGroup"/>
+    <Group fx:id="currentUnitGroup"/>
+    <Group fx:id="currentCityGroup"/>
+    <Group fx:id="tileGroup"/>
+</Pane>

@@ -113,5 +113,10 @@ public class User implements Comparable<User> {
         return this.nickname.compareTo(user.nickname);
     }
 
+    @Override
+    public String toString() {
+        return nickname;
+    }
+
 
 }

@@ -54,6 +54,10 @@ Button:hover {
     -fx-effect: dropshadow(gaussian, green, 10, 0, 0, 0);
 }
 
-.technology:hover {
+.unit:hover {
+    -fx-effect: dropshadow(gaussian, green, 10, 0, 0, 0);
+}
+
+.city:hover {
     -fx-effect: dropshadow(gaussian, green, 10, 0, 0, 0);
 }

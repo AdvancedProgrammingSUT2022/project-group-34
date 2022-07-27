@@ -4,7 +4,6 @@ import app.App;
 import app.controllers.ConnectionController;
 import app.controllers.UserController;
 import app.models.ChatDatabase;
-import app.models.Communicator;
 import app.models.connection.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
