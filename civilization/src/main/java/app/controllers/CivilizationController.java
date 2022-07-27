@@ -13,6 +13,7 @@ import app.models.unit.*;
 
 import java.nio.file.ClosedFileSystemException;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class CivilizationController {
     private final static int INF = 100000;
@@ -470,6 +471,7 @@ public class CivilizationController {
         civilization.setCurrentCapital(city);
         position.setCity(city);
         civilization.removeUnit(settler);
+        System.out.println("Done");
         getTileByPosition(new int[]{settler.getPosition().getX(), settler.getPosition().getY()}).setNonCombatUnit(null);
         return "ok";
     }
@@ -633,7 +635,14 @@ public class CivilizationController {
 
     public void updateTransparentTiles(Civilization civilization) {
         civilization.getPersonalMap().removeTransparentTiles();
+        civilization.getUnits().removeIf(new Predicate<Unit>() {
+            @Override
+            public boolean test(Unit unit) {
+                return unit == null;
+            }
+        });
         for (Unit unit : civilization.getUnits()) {
+            if (unit == null) continue;
             ArrayList<AbstractTile> visibleTiles = new ArrayList<>();
             visibleTiles.addAll(CivilizationController.getInstance().getVisibleTiles(unit));
             civilization.getPersonalMap().addTransparentTiles(visibleTiles);
