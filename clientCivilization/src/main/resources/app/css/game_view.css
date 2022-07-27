@@ -1,0 +1,63 @@
+BorderPane {
+    -fx-padding: 0 0 0 0;
+}
+
+VBox {
+    -fx-spacing: 20;
+    -fx-alignment: center;
+}
+
+HBox {
+    -fx-padding: 0 0 0 5;
+    -fx-alignment: center;
+    -fx-spacing: 5;
+    -fx-pref-height: 25;
+}
+
+Label {
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+    -fx-text-fill: white;
+    -fx-wrap-text: true;
+    -fx-pref-height: 45;
+}
+
+Button {
+    -fx-pref-width: 250;
+    -fx-pref-height: 50;
+    -fx-background-color: transparent;
+    -fx-text-fill: #00ff55;
+    -fx-border-color: #00ff55;
+}
+
+Button:hover {
+    -fx-effect: dropshadow(gaussian, white, 10, 0, 0, 0);
+}
+
+.tile {
+    -fx-border-color: black;
+}
+
+.tile:hover {
+    -fx-effect: dropshadow(gaussian, orange, 10, 0, 0, 0);
+}
+
+.revealed {
+    -fx-opacity: 0.5;
+}
+
+.icon:hover {
+    -fx-effect: dropshadow(gaussian, yellow, 10, 0, 0, 0);
+}
+
+.technology:hover {
+    -fx-effect: dropshadow(gaussian, green, 10, 0, 0, 0);
+}
+
+.unit:hover {
+    -fx-effect: dropshadow(gaussian, green, 10, 0, 0, 0);
+}
+
+.city:hover {
+    -fx-effect: dropshadow(gaussian, green, 10, 0, 0, 0);
+}

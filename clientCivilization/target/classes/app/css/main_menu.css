@@ -5,7 +5,7 @@ Button {
     -fx-text-fill: white;
 }
 
-Button: hover {
+Button:hover {
     -fx-effect: dropshadow(gaussian, black, 10, 0, 0, 00);
 }
 

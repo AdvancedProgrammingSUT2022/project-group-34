@@ -2,8 +2,7 @@ package app.controllers;
 
 import app.models.Civilization;
 import app.models.Game;
-import app.models.PreGame;
-import app.models.User;
+import app.models.connection.PreGame;
 import app.models.connection.Message;
 import app.models.connection.Processor;
 import app.views.graphicalMenu.MenuController;
@@ -60,15 +59,17 @@ public class GameController {
 
     public ArrayList<PreGame> getAllPreGame() {
         Message message;
-        Processor processor = new Processor("GameController","get","allPreGames");
+        Processor processor = new Processor("UserController","get","allPreGames");
         processor.setGetOrSet(true);
         MenuController.sendProcessor(processor);
         message = InputController.getInstance().getMessage();
+        System.out.println(message.getAllData());
         Object objects  = message.getData("allPreGames");
         ArrayList<PreGame> userArray = new ArrayList<>();
-        for (var object : ((ArrayList)objects)) {
-            userArray.add(new Gson().fromJson((String) object, PreGame.class));
-        }
+        if (objects != null)
+            for (var object : ((ArrayList)objects)) {
+                userArray.add(new Gson().fromJson((String) object, PreGame.class));
+            }
         return userArray;
     }
 }

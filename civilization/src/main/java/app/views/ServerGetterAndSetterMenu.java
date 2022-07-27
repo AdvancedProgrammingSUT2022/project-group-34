@@ -34,6 +34,14 @@ public class ServerGetterAndSetterMenu extends ServerMenu{
 
                     message.addData("users", strings);
                     break;
+                case "allPreGames":
+                    System.out.println("get users");
+                    String[] strings1 = new String[UserController.getInstance().getUsers().size()];
+                    for (int i = 0; i < UserController.getInstance().getUsers().size(); i++)
+                        strings1[i] = new Gson().toJson(UserController.getInstance().getUsers().get(i));
+
+                    message.addData("allPreGames", strings1);
+                    break;
             }
         } else if (processor.getSection().equals("set")){
         }

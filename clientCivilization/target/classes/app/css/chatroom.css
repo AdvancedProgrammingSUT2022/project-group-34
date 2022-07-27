@@ -1,0 +1,72 @@
+BorderPane {
+    -fx-background-image: url("../background/chatroom.png");
+    -fx-background-position: center;
+    -fx-pref-height: 720;
+    -fx-pref-width: 1280;
+    -fx-alignment: center;
+    -fx-padding: 70 175 50 175;
+}
+
+HBox {
+    -fx-alignment: top-left;
+    -fx-spacing: 10;
+}
+
+VBox {
+    -fx-alignment: top-left;
+    -fx-spacing: 1.5;
+}
+
+Label {
+    -fx-text-alignment: left;
+    -fx-alignment: center-left;
+    -fx-text-fill: #9a9393;
+    -fx-wrap-text: true;
+}
+
+Text {
+    -fx-text-alignment: left;
+    -fx-alignment: center-left;
+    -fx-font-size: 15;
+    -fx-wrap-text: true;
+}
+
+TextField {
+    -fx-pref-width: 250;
+    -fx-pref-height: 35;
+}
+
+Button {
+    -fx-pref-width: 250;
+    -fx-pref-height: 50;
+    -fx-background-color: #aa5555;
+    -fx-text-fill: white;
+}
+
+Button:hover {
+    -fx-effect: dropshadow(gaussian, black, 10, 0, 0, 00);
+    -fx-cursor: hand;
+}
+
+ImageView {
+    -fx-alignment: baseline-center;
+    -fx-translate-y: 4;
+}
+
+#backButton {
+    -fx-background-color: transparent;
+    -fx-border-color: red;
+    -fx-text-fill: red;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-translate-y: -5;
+    -fx-border-color: #aa5555;
+    -fx-border-style: solid;
+    -fx-border-radius: 5;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}

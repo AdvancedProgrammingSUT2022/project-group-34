@@ -1,4 +1,6 @@
-package app.models;
+package app.models.connection;
+
+import app.models.User;
 
 import java.util.ArrayList;
 

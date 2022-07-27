@@ -1,0 +1,28 @@
+TextField {
+    -fx-pref-width: 150;
+}
+
+#messageTextField {
+    -fx-pref-width: 650;
+    -fx-min-height: 40;
+    -fx-translate-y: -8;
+}
+
+#leftSideButtons {
+    -fx-pref-width: 50;
+    -fx-pref-height: 50;
+}
+
+#createGroup {
+    -fx-pref-width: 110;
+    -fx-pref-height: 50;
+}
+
+#leftSideBar {
+    -fx-spacing: 5;
+}
+
+VBox {
+    -fx-translate-y: -20;
+    -fx-spacing: 15;
+}
