@@ -1,1 +1,1 @@
-{"name":"Education","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Theology"],"id":215}
+{"name":"Banking","remainingTerm":0,"cost":650,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Education","Chivalry"],"id":215}

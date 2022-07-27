@@ -1,1 +1,1 @@
-{"name":"Steel","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["MetalCasting"],"id":195}
+{"name":"Writing","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Pottery"],"id":195}

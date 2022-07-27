@@ -1,1 +1,1 @@
-{"name":"Philosophy","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Writing"],"id":204}
+{"name":"Pottery","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Agriculture"],"id":204}

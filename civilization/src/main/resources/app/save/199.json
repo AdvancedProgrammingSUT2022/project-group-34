@@ -1,1 +1,1 @@
-{"name":"Metallurgy","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Gunpowder"],"id":199}
+{"name":"Machinery","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Engineering"],"id":199}

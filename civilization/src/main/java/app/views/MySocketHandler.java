@@ -1,5 +1,6 @@
 package app.views;
 
+import app.controllers.singletonController.NetworkController;
 import app.models.connection.Message;
 import app.models.connection.Processor;
 import app.models.connection.StringGameToken;
@@ -75,6 +76,7 @@ public class MySocketHandler extends Thread{
             if (hasOpenProgress)
                 sendFinishProgress();
         }
+        NetworkController.getInstance().removeHandler(this);
     }
 
     private void sendFinishProgress() {

@@ -1,1 +1,1 @@
-{"name":"SteamPower","remainingTerm":0,"cost":1680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["ScientificTheory","MilitaryScience"],"id":219}
+{"name":"MetalCasting","remainingTerm":0,"cost":240,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["IronWorking"],"id":219}

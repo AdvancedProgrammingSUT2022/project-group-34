@@ -1,1 +1,1 @@
-{"name":"IronWorking","remainingTerm":0,"cost":150,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["BronzeWorking"],"id":179}
+{"name":"SteamPower","remainingTerm":0,"cost":1680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["ScientificTheory","MilitaryScience"],"id":179}

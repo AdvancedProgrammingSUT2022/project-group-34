@@ -1,1 +1,1 @@
-{"name":"Radio","remainingTerm":0,"cost":2200,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Electricity"],"id":191}
+{"name":"ScientificTheory","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Acoustics"],"id":191}

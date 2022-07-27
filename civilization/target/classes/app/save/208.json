@@ -1,1 +1,1 @@
-{"name":"ScientificTheory","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Acoustics"],"id":208}
+{"name":"Currency","remainingTerm":0,"cost":250,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Mathematics"],"id":208}

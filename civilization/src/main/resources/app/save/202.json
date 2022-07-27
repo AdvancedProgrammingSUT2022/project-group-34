@@ -1,1 +1,1 @@
-{"name":"Railroad","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["SteamPower"],"id":202}
+{"name":"MilitaryScience","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Economics","Chemistry"],"id":202}

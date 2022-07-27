@@ -1,1 +1,1 @@
-{"name":"Mining","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Agriculture"],"id":212}
+{"name":"Archaeology","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Acoustics"],"id":212}

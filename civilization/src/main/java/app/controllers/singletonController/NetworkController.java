@@ -46,4 +46,8 @@ public class NetworkController {
             e.printStackTrace();
         }
     }
+
+    public void removeHandler(MySocketHandler mySocketHandler) {
+        mySocketHandlerHashMap.remove(mySocketHandler.getSocketToken());
+    }
 }

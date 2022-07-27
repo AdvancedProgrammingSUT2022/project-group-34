@@ -1,1 +1,1 @@
-{"name":"Theology","remainingTerm":0,"cost":250,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Calendar","Philosophy"],"id":199}
+{"name":"Metallurgy","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Gunpowder"],"id":199}

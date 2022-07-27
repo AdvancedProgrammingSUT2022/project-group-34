@@ -1,1 +1,1 @@
-{"name":"AnimalHusbandry","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Agriculture"],"id":218}
+{"name":"Engineering","remainingTerm":0,"cost":250,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Mathematics","Construction"],"id":218}

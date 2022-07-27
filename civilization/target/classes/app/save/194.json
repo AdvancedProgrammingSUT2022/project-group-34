@@ -1,1 +1,1 @@
-{"name":"Biology","remainingTerm":0,"cost":1680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Archaeology","ScientificTheory"],"id":194}
+{"name":"TheWheel","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["AnimalHusbandry"],"id":194}

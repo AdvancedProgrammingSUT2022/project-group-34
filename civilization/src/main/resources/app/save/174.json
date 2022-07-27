@@ -1,1 +1,1 @@
-{"name":"Rifling","remainingTerm":0,"cost":1425,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Metallurgy"],"id":174}
+{"name":"Writing","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Pottery"],"id":174}

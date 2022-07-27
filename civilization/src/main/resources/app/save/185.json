@@ -1,1 +1,1 @@
-{"name":"Steel","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["MetalCasting"],"id":185}
+{"name":"Rifling","remainingTerm":0,"cost":1425,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Metallurgy"],"id":185}

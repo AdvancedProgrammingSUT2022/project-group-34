@@ -1,1 +1,1 @@
-{"name":"Calendar","remainingTerm":0,"cost":70,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Pottery"],"id":213}
+{"name":"Gunpowder","remainingTerm":0,"cost":680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Physics","Steel"],"id":213}

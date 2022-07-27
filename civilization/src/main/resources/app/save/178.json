@@ -1,1 +1,1 @@
-{"name":"Archery","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Agriculture"],"id":178}
+{"name":"Calendar","remainingTerm":0,"cost":70,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Pottery"],"id":178}

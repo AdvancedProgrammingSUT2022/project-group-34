@@ -1,1 +1,1 @@
-{"name":"Fertilize","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Chemistry"],"id":206}
+{"name":"BronzeWorking","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Mining"],"id":206}

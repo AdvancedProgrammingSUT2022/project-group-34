@@ -1,1 +1,1 @@
-{"name":"Telegraph","remainingTerm":0,"cost":2200,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Electricity"],"id":212}
+{"name":"Mining","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Agriculture"],"id":212}

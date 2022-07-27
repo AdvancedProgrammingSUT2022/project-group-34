@@ -1,1 +1,1 @@
-{"name":"IronWorking","remainingTerm":0,"cost":150,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["BronzeWorking"],"id":211}
+{"name":"Economics","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Banking","PrintingPress"],"id":211}

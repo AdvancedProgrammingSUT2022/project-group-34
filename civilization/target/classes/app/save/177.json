@@ -1,1 +1,1 @@
-{"name":"Combustion","remainingTerm":0,"cost":2200,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["ReplaceableParts","Railroad","Dynamite"],"id":177}
+{"name":"Telegraph","remainingTerm":0,"cost":2200,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Electricity"],"id":177}

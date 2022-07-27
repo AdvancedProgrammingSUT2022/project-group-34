@@ -1,1 +1,1 @@
-{"name":"Machinery","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Engineering"],"id":188}
+{"name":"Mining","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Agriculture"],"id":188}

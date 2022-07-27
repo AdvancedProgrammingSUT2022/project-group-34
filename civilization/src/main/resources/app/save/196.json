@@ -1,1 +1,1 @@
-{"name":"BronzeWorking","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Mining"],"id":196}
+{"name":"Currency","remainingTerm":0,"cost":250,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Mathematics"],"id":196}

@@ -1,1 +1,1 @@
-{"name":"Calendar","remainingTerm":0,"cost":70,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Pottery"],"id":217}
+{"name":"Mathematics","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["TheWheel","Archery"],"id":217}

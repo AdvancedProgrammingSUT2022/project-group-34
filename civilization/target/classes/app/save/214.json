@@ -1,1 +1,1 @@
-{"name":"Construction","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Masonry"],"id":214}
+{"name":"Physics","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Engineering","MetalCasting"],"id":214}

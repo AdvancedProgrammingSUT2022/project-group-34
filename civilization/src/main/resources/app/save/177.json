@@ -1,1 +1,1 @@
-{"name":"Telegraph","remainingTerm":0,"cost":2200,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Electricity"],"id":177}
+{"name":"Railroad","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["SteamPower"],"id":177}

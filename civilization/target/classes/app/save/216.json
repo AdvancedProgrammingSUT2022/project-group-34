@@ -1,1 +1,1 @@
-{"name":"Metallurgy","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Gunpowder"],"id":216}
+{"name":"Trapping","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["AnimalHusbandry"],"id":216}

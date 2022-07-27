@@ -1,1 +1,1 @@
-{"name":"Banking","remainingTerm":0,"cost":650,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Education","Chivalry"],"id":198}
+{"name":"Chemistry","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Gunpowder"],"id":198}

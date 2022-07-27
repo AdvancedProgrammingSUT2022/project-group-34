@@ -1,1 +1,1 @@
-{"name":"Archery","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Agriculture"],"id":189}
+{"name":"Chemistry","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Gunpowder"],"id":189}

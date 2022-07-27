@@ -1,1 +1,1 @@
-{"name":"Construction","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Masonry"],"id":180}
+{"name":"PrintingPress","remainingTerm":0,"cost":650,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Machinery","Physics"],"id":180}

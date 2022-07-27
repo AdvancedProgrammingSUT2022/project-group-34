@@ -1,1 +1,1 @@
-{"name":"Electricity","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Biology","SteamPower"],"id":190}
+{"name":"Fertilize","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Chemistry"],"id":190}

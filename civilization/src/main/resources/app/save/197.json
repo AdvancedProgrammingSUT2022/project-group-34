@@ -1,1 +1,1 @@
-{"name":"Mathematics","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["TheWheel","Archery"],"id":197}
+{"name":"ReplaceableParts","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["SteamPower"],"id":197}

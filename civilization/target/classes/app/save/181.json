@@ -1,1 +1,1 @@
-{"name":"Pottery","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Agriculture"],"id":181}
+{"name":"Radio","remainingTerm":0,"cost":2200,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Electricity"],"id":181}

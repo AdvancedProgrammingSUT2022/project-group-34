@@ -1,1 +1,1 @@
-{"name":"HorsebackRiding","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["TheWheel"],"id":205}
+{"name":"Archery","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Agriculture"],"id":205}

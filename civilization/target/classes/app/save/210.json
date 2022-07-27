@@ -1,1 +1,1 @@
-{"name":"SteamPower","remainingTerm":0,"cost":1680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["ScientificTheory","MilitaryScience"],"id":210}
+{"name":"Acoustics","remainingTerm":0,"cost":650,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Education"],"id":210}

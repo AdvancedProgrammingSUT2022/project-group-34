@@ -1,1 +1,1 @@
-{"name":"Machinery","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Engineering"],"id":200}
+{"name":"ReplaceableParts","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["SteamPower"],"id":200}

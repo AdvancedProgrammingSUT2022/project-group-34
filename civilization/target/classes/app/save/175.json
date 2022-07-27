@@ -1,1 +1,1 @@
-{"name":"Acoustics","remainingTerm":0,"cost":650,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Education"],"id":175}
+{"name":"Combustion","remainingTerm":0,"cost":2200,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["ReplaceableParts","Railroad","Dynamite"],"id":175}

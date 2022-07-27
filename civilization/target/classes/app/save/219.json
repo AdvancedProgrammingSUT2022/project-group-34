@@ -1,1 +1,1 @@
-{"name":"Chemistry","remainingTerm":0,"cost":900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Gunpowder"],"id":219}
+{"name":"SteamPower","remainingTerm":0,"cost":1680,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["ScientificTheory","MilitaryScience"],"id":219}

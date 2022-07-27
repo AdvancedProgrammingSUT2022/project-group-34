@@ -1,1 +1,1 @@
-{"name":"TheWheel","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["AnimalHusbandry"],"id":194}
+{"name":"IronWorking","remainingTerm":0,"cost":150,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["BronzeWorking"],"id":194}

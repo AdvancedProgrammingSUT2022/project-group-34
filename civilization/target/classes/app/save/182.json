@@ -1,1 +1,1 @@
-{"name":"Masonry","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Mining"],"id":182}
+{"name":"Theology","remainingTerm":0,"cost":250,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Calendar","Philosophy"],"id":182}

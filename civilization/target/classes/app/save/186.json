@@ -1,1 +1,1 @@
-{"name":"Writing","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Pottery"],"id":186}
+{"name":"Chivalry","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["CivilService","HorsebackRiding","Currency"],"id":186}

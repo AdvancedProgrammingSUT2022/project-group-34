@@ -1,1 +1,1 @@
-{"name":"ReplaceableParts","remainingTerm":0,"cost":1900,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["SteamPower"],"id":203}
+{"name":"Masonry","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Mining"],"id":203}

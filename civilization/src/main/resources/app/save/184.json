@@ -1,1 +1,1 @@
-{"name":"AnimalHusbandry","remainingTerm":0,"cost":35,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Agriculture"],"id":184}
+{"name":"Education","remainingTerm":0,"cost":440,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Theology"],"id":184}

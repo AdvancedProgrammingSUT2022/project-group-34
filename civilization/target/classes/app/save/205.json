@@ -1,1 +1,1 @@
-{"name":"BronzeWorking","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Mining"],"id":205}
+{"name":"HorsebackRiding","remainingTerm":0,"cost":100,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["TheWheel"],"id":205}

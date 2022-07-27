@@ -1,1 +1,1 @@
-{"name":"TheWheel","remainingTerm":0,"cost":55,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["AnimalHusbandry"],"id":206}
+{"name":"Fertilize","remainingTerm":0,"cost":1300,"isResearching":false,"isResearchable":false,"isResearched":false,"prerequisiteTechnologies":["Chemistry"],"id":206}
