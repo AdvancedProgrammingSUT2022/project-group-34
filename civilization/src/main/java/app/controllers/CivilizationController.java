@@ -11,6 +11,7 @@ import app.models.map.GameMap;
 import app.models.tile.*;
 import app.models.unit.*;
 
+import java.nio.file.ClosedFileSystemException;
 import java.util.*;
 
 public class CivilizationController {
@@ -113,6 +114,7 @@ public class CivilizationController {
             ans.push(pointerTile);
             pointerTile = previousInShortestPath.get(pointerTile);
         }
+        System.out.println("EXTRACT " + ans + " " + destinationTile.getX() + " " + destinationTile.getY() + " " + previousInShortestPath);
         return ans;
     }
 
@@ -180,6 +182,7 @@ public class CivilizationController {
                 previousInShortestPath.put(adjacentVertex, currentVertex);
             }
         }
+        System.out.println(distance + " " + mark + " " + motionPointLimit);
         boolean flag = true;
         for (Tile tile: mark.keySet()) {
                 System.out.println(tile.getX() + " " + tile.getY() + " " + destinationTile.getX() + " " + destinationTile.getY());
@@ -247,19 +250,21 @@ public class CivilizationController {
     }
 
     private boolean continueMoveForOneTurn(Unit unit) {
+        if (unit == null) return false;
         if (unit.getDestination() == null) return false;
         System.out.println("dest: " + unit.getDestination());
         HashMap<Tile, Integer> distancesFromDestination = doBFSAndReturnDistances(unit.getDestination(), false);
+        System.out.println("BFS DONE. DISTANCES: " + distancesFromDestination);
         Tile temporaryDestination = unit.getPosition();
         HashMap<Tile, Integer> distancesFromOriginByMP = (HashMap<Tile, Integer>) doDijkstra(unit.getPosition(), unit.getDestination(), unit.getMotionPoint(), false);
-        System.out.println(distancesFromOriginByMP.size());
+        System.out.println("DIJKSTRA: " + distancesFromOriginByMP);
         for (Tile tile : distancesFromOriginByMP.keySet()) {
             if (tile == null) continue;
             if (unit instanceof CombatUnit && tile.getCombatUnit() != null) continue;
             if (unit instanceof NonCombatUnit && tile.getNonCombatUnit() != null) continue;
             Integer tileDistance = distancesFromDestination.get(tile);
             System.out.println(tileDistance + " " + distancesFromDestination.get(temporaryDestination));
-            if (tileDistance != null && tileDistance <= distancesFromDestination.get(temporaryDestination))
+            if (tileDistance != null && distancesFromDestination.get(temporaryDestination) != null && tileDistance <= distancesFromDestination.get(temporaryDestination))
                 temporaryDestination = tile;
         }
         if (temporaryDestination == null || temporaryDestination == unit.getPosition()) {

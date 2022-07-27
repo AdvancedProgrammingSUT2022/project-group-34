@@ -223,7 +223,13 @@ public class GameViewController {
                 Unit unit = tile.getCombatUnit();
                 if (unit == null) unit = tile.getNonCombatUnit();
                 if (unit != null) putUnit(unit, upperBound, leftBound, x, y);
-                if (tile.getCity() != null) putCity(tile.getCity(), upperBound, leftBound, x, y);
+                if (tile.getCity() != null) {
+                    putCity(tile.getCity(), upperBound, leftBound, x, y);
+                    tooltip.append("City Name: " + tile.getCity().getName() + "\n");
+                }
+                if (tile.hasRoad()) tooltip.append("Has road.\n");
+                if (tile.hasRail()) tooltip.append("Has railroad.\n");
+                if (tile.getImprovement() != null) tooltip.append("Improvement: " + tile.getImprovement().getName() + "\n");
             }
             else {
                 imageView.getStyleClass().add("revealed");

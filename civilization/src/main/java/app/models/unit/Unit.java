@@ -35,6 +35,7 @@ public abstract class Unit {
         this.cost           = unitEnum.cost;
         this.destination    = null;
         this.isMoving       = false;
+        this.motionPoint = 4;
 
         this.position = position;
         this.unitActionList = new ArrayList<>();
