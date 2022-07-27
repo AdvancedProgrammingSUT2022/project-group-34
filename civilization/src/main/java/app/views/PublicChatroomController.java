@@ -8,12 +8,14 @@ import app.models.Communicator;
 import app.models.Message;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -74,6 +76,23 @@ public class PublicChatroomController {
             vBox.getChildren().add(text);
             vBox.getChildren().add(time);
 
+            VBox options = new VBox();
+            Button delete = new Button("\uD83D\uDDD1");
+            Button edit = new Button("\uD83D\uDD27");
+            delete.setStyle("-fx-pref-width: 40;-fx-pref-height: 40");
+            edit.setStyle("-fx-pref-width: 40;-fx-pref-height: 40");
+            options.getChildren().add(edit);
+            options.getChildren().add(delete);
+
+            delete.setOnMouseClicked(mouseEvent -> {
+                Communicator communicator = new Communicator("delete");
+                communicator.addData("type", "global");
+                communicator.addData("id", message.getId());
+                NetworkController.send(communicator);
+                ChatDatabase.getGlobalMessages().remove(message);
+                showMessages();
+            });
+
             ImageView PFP = UserController.getInstance().getUserByUsername(username).getImageView();
             PFP.setFitHeight(45);
             PFP.setFitWidth(45);
@@ -82,6 +101,7 @@ public class PublicChatroomController {
                 vBox.setStyle("-fx-background-color: #b27777; -fx-padding: 8; -fx-background-radius: 12; -fx-alignment: center-right");
                 holder.setStyle("-fx-alignment: center-right;-fx-padding: 2; -fx-spacing: 4");
                 time.setText(message.getSentAt().format(formatter) + " ✔");
+                holder.getChildren().add(options);
                 holder.getChildren().add(vBox);
                 holder.getChildren().add(PFP);
             } else {

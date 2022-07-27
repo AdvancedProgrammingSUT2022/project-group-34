@@ -107,7 +107,7 @@ public class NetworkController {
             }
             case "updateChatMessages": {
                 System.out.println(new Gson().toJson(update.getData().get("user")));
-                User user = gson.fromJson(new Gson().toJson(update.getData().get("user")), User.class);
+                User user = new Gson().fromJson(new Gson().toJson(update.getData().get("user")), User.class);
                 System.out.println(user);
                 Chat chat = ChatDatabase.getChatByUser(user);
                 Message message = gson.fromJson(new Gson().toJson(update.getData().get("message")), Message.class);
@@ -115,6 +115,30 @@ public class NetworkController {
 
                 if (controller instanceof PrivateChatroomController)
                     Platform.runLater(() -> ((PrivateChatroomController) controller).showMessages(user));
+            }
+            case "delete": {
+                if (update.getData().get("type").equals("global")) {
+                    int id = (int) ((double) update.getData().get("id"));
+                    ChatDatabase.getGlobalMessages().remove(ChatDatabase.getMessageById(id));
+
+                    if (controller instanceof PublicChatroomController)
+                        Platform.runLater(() -> ((PublicChatroomController) controller).showMessages());
+                }else if (update.getData().get("type").equals("private")){
+                    int chatId = (int) (double)update.getData().get("chatId");
+                    int messageId = (int) (double)update.getData().get("messageId");
+
+                    Chat chat = ChatDatabase.getChatById(chatId);
+                    chat.getMessages().remove(ChatDatabase.getMessageOfAChat(chat,messageId));
+
+                    User sender;
+                    if (chat.getUsername1().equals(UserController.getInstance().getLoggedInUser().getUsername()))
+                        sender = UserController.getInstance().getUserByUsername(chat.getUsername2());
+                    else
+                        sender = UserController.getInstance().getUserByUsername(chat.getUsername1());
+
+                    if (controller instanceof PrivateChatroomController)
+                        Platform.runLater(() -> ((PrivateChatroomController) controller).showMessages(sender));
+                }
             }
         }
     }

@@ -59,11 +59,10 @@ public class NetworkController extends Thread {
     private Communicator handleRequest(Communicator request) {
         Communicator communicator = new Communicator("ok");
         switch (request.getTitle()) {
-            case "login": {
+            case "login":
                 this.user = new Gson().fromJson(new Gson().toJson(request.getData().get("user")), User.class);
                 networkControllers.add(this);
                 return communicator;
-            }
             case "registerReader": {
                 User user = new Gson().fromJson(new Gson().toJson(request.getData().get("user")), User.class);
                 System.out.println(user);
@@ -76,22 +75,20 @@ public class NetworkController extends Thread {
                 System.out.println("Registered update socket for " + user.getUsername());
                 return communicator;
             }
-            case "getGlobalMessages": {
+            case "getGlobalMessages":
                 communicator.addData("messages", ChatDatabase.getGlobalMessages());
                 System.out.println(1);
                 return communicator;
-            }
-            case "getChats": {
+            case "getChats":
                 communicator.addData("chats", ChatController.getChatsOfUser(user));
                 return communicator;
-            }
             case "addChat": {
                 User user = new Gson().fromJson(new Gson().toJson(request.getData().get("user")), User.class);
-                Chat chat=ChatController.addChat(this.user,user);
+                Chat chat = ChatController.addChat(this.user, user);
                 communicator.addData("chat", chat);
                 return communicator;
             }
-            case "send": {
+            case "send":
                 if (request.getData().get("type").equals("global")) {
                     ChatController.addGlobalMessage((String) request.getData().get("text"), user);
                     return communicator;
@@ -99,7 +96,16 @@ public class NetworkController extends Thread {
                     User user = new Gson().fromJson(new Gson().toJson(request.getData().get("user")), User.class);
                     ChatController.addPrivateMessage((String) request.getData().get("text"), this.user, user);
                 }
-            }
+                break;
+            case "delete":
+                if (request.getData().get("type").equals("global"))
+                    ChatController.deleteGlobalMessage(request, user);
+                else if (request.getData().get("type").equals("private")) {
+                    System.out.println(request.getTitle());
+                    System.out.println(request.getData().get("type"));
+                    ChatController.deleteChatMessage(request, user);
+                }
+                break;
         }
         return new Communicator("error");
     }

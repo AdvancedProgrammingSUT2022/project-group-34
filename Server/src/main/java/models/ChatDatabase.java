@@ -38,4 +38,25 @@ public class ChatDatabase {
                 return privateChat;
         return null;
     }
+
+    public static Message getMessageById(int id) {
+        for (Message globalMessage : globalMessages)
+            if (globalMessage.getId() == id) return globalMessage;
+
+        return null;
+    }
+
+    public static Message getMessageOfAChat(Chat chat, int id) {
+        for (Message message : chat.getMessages())
+            if (message.getId() == id) return message;
+
+        return null;
+    }
+
+    public static Chat getChatById(int id) {
+        for (Chat privateChat : privateChats)
+            if (privateChat.getId() == id) return privateChat;
+
+        return null;
+    }
 }
