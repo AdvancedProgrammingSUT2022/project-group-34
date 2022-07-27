@@ -2,8 +2,7 @@ package app.controllers;
 
 import app.models.Civilization;
 import app.models.Game;
-import app.models.PreGame;
-import app.models.User;
+import app.models.connection.PreGame;
 import app.models.connection.Message;
 import app.models.connection.Processor;
 import app.views.graphicalMenu.MenuController;

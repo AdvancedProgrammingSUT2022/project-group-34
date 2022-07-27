@@ -44,6 +44,7 @@ public class App extends Application {
             return FXMLLoader.load(address);
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("nno nono");
             return null;
         }
     }

@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:id="pane"
             fx:controller="app.views.graphicalMenu.LoginMenuController"
             prefHeight="720" prefWidth="1280"
-            stylesheets="@../css/login_menu.css">
+            stylesheets="@../css/login_menu.css" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://javafx.com/fxml ">
     <top>
         <ImageView BorderPane.alignment="TOP_CENTER" scaleX="0.5" scaleY="0.5">
             <Image url="@../logo.png"/>
@@ -30,7 +27,8 @@
             <PasswordField fx:id="registerPassword" promptText="password" onKeyTyped="#clearMessage"/>
             <HBox alignment="CENTER_LEFT" spacing="5">
                 <Label text="Profile Picture:"/>
-                <Button fx:id="chooserButton" id="choose" styleClass="chooser" text="Pick a file..." onMouseClicked="#openFileChooser"/>
+                <Button fx:id="chooserButton" id="choose" styleClass="chooser" text="Pick a file..."
+                        onMouseClicked="#openFileChooser"/>
             </HBox>
             <Button text="Register" onMouseClicked="#register"/>
         </VBox>

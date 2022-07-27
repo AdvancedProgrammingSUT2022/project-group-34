@@ -3,7 +3,7 @@ package app.views.graphicalMenu;
 import app.App;
 import app.controllers.GameController;
 import app.controllers.UserController;
-import app.models.PreGame;
+import app.models.connection.PreGame;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -32,14 +32,14 @@ public class LobbyController {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
                 new BackgroundSize(1280, 720, false, false, false, false)));
         pane.setBackground(background);
-
-        setTable();
+        return;
+        //setTable();
     }
 
     private void setTable() {
         table.getChildren().clear();
         setHeader();
-        ArrayList<PreGame> allPreGame = GameController.getInstance().getAllPreGame(); //TODO...
+        ArrayList<PreGame> allPreGame =new ArrayList<>();// GameController.getInstance().getAllPreGame(); //TODO...
         for (int i = 0; i < 10; i++) {
             if (i >= allPreGame.size()) break;
             PreGame preGame = allPreGame.get(i);
