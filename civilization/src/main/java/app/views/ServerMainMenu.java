@@ -50,7 +50,7 @@ public class ServerMainMenu extends ServerMenu{
 
     //Starts a game between logged-in user and users in the command
     //play game --player1 <username> --player2 <username>
-    private void startNewGame(Processor processor,Message message) {
+    private void startNewGameOld(Processor processor,Message message) {
         ArrayList<User> users = new ArrayList<>(List.of(UserController.getInstance().getLoggedInUsers(mySocketHandler.getSocketToken())));
         if (processor.getNumberOfFields()==0){
             message.addLine("Please select some other players");
@@ -75,12 +75,27 @@ public class ServerMainMenu extends ServerMenu{
             try {
                 mapScale = Integer.parseInt(processor.get("mapScale"));
             } catch (Exception ignored){}
-            MainServer.startNewGame(users, mapScale);
+            MainServer.startNewGame(mySocketHandler.getPreGame());
             setCurrentMenu("game");
             message.addLine("Game started!");
         } else
             message.addLine(getInvalidCommand());
     }
+
+    private void startNewGame(Processor processor,Message message) {
+
+        if (mySocketHandler.getPreGame() == null){
+            message.addLine("Please create a preGame");
+        } else if (mySocketHandler.getPreGame().getUsers().size() == 1) {
+            message.addLine("No one has joined this game except you");
+        } else {
+            MainServer.startNewGame(mySocketHandler.getPreGame());
+            setCurrentMenu("game");
+            message.setSuccessful(true);
+            message.addLine("Game started!");
+        }
+    }
+
 
 
     private void loadGame(Processor processor, Message message) {

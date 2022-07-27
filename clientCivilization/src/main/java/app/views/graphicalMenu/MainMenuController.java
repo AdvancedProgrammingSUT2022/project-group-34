@@ -43,6 +43,7 @@ public class MainMenuController {
         App.setMenu("leaderboard");
     }
 
+    @FXML
     public void gameMenu() {
         App.setMenu("game_menu");
     }

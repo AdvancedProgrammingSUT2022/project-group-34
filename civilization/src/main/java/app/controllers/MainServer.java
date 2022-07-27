@@ -4,8 +4,8 @@ import app.controllers.gameServer.CheatController;
 import app.controllers.gameServer.CivilizationController;
 import app.controllers.gameServer.DiplomacyController;
 import app.controllers.gameServer.GameController;
-import app.models.connection.StringGameToken;
 import app.models.User;
+import app.models.connection.StringGameToken;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +17,8 @@ public class MainServer {
     private static HashMap<String, CivilizationController> allCivilizationControllers = new HashMap<>();
     private static HashMap<String, CheatController> allCheatControllers = new HashMap<>();
     private static HashMap<String, DiplomacyController> allDiplomacyControllers = new HashMap<>();
+
+    private static ArrayList<PreGame> preGameArrayList = new ArrayList<>();
 
 
     public static void addGameController(String token, GameController gameController){
@@ -85,10 +87,21 @@ public class MainServer {
         return new StringGameToken(token1[0]);
     }
 
-    public static void startNewGame(ArrayList<User> users, int mapScale) {
+
+    public static PreGame createPreGame(User user, int mapScale, int capacity){
+        PreGame preGame = new PreGame(mapScale, capacity);
+        preGame.addUser(user);
+        return preGame;
+    }
+
+    public static void addUserToGame(int gameId, User user){
+        preGameArrayList.get(gameId).addUser(user);
+    }
+
+    public static void startNewGame(PreGame preGame) {
         String gameToken = UUID.randomUUID().toString();
         GameController gameController =  new GameController();
-        gameController.startNewGame(users, mapScale);
+        gameController.startNewGame(preGame.getUsers(), preGame.getMapScale());
         allGameControllers.put(gameToken, gameController);
         allCivilizationControllers.put(gameToken, new CivilizationController());
         allDiplomacyControllers.put(gameToken, new DiplomacyController());

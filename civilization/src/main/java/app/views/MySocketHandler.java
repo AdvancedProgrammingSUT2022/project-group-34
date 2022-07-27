@@ -1,5 +1,6 @@
 package app.views;
 
+import app.controllers.PreGame;
 import app.models.connection.StringGameToken;
 import app.models.connection.Message;
 import app.models.connection.Processor;
@@ -17,16 +18,18 @@ public class MySocketHandler extends Thread{
 
     private DataInputStream inputStream;
     private DataOutputStream outputStream;
+    private Processor processor;
+    private boolean threadFlag = true;
+    private final StringSocketToken socketToken;
+    private boolean hasOpenProgress = false;
+
     private final ServerGameMenu serverGameMenu;
     private final ServerProfileMenu serverProfileMenu;
     private final ServerRegisterMenu serverRegisterMenu;
     private final ServerGetterAndSetterMenu serverGetterAndSetterMenu;
     private final ServerMainMenu serverMainMenu;
-    private Processor processor;
-    private boolean threadFlag = true;
-    private final StringSocketToken socketToken;
-    protected StringGameToken gameToken = null;
-    private boolean hasOpenProgress = false;
+    private StringGameToken gameToken = null;
+    private PreGame preGame = null;
 
     public MySocketHandler(Socket socket, StringSocketToken socketToken){
 
@@ -134,4 +137,11 @@ public class MySocketHandler extends Thread{
     }
 
 
+    public PreGame getPreGame() {
+        return preGame;
+    }
+
+    public void setPreGame(PreGame preGame) {
+        this.preGame = preGame;
+    }
 }
