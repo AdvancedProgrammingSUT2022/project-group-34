@@ -6,6 +6,7 @@ public class Message {
     private String senderUsername;
     private LocalDateTime sentAt;
     private String text;
+    private int id;
 
     public Message(String senderUsername, String text) {
         this.senderUsername = senderUsername;
@@ -35,5 +36,13 @@ public class Message {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

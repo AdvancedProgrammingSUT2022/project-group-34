@@ -1,6 +1,7 @@
 package app.views;
 
 import app.App;
+import app.controllers.NetworkController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
@@ -25,6 +26,7 @@ public class GroupChatroomController {
 
     @FXML
     private void backToMainMenu() {
+        NetworkController.endListenerThread = true;
         App.setMenu("main_menu");
     }
 }

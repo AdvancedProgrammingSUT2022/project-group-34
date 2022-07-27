@@ -48,7 +48,7 @@ Button:hover {
     -fx-cursor: hand;
 }
 
-ImageView{
+ImageView {
     -fx-alignment: baseline-center;
     -fx-translate-y: 4;
 }

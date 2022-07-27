@@ -34,7 +34,6 @@ public class PublicChatroomController {
     @FXML
     private void initialize() {
         NetworkController.setController(this);
-        NetworkController.endListenerThread = false;
         NetworkController.listenForUpdates();
         globalChatButton.setDisable(true);
         getMessages();
@@ -58,7 +57,7 @@ public class PublicChatroomController {
 
     public void showMessages() {
         messagesList.getChildren().clear();
-        messagesList.setStyle("-fx-pref-width: 910");
+        messagesList.setStyle("-fx-pref-width: 925");
         ArrayList<Message> messages = ChatDatabase.getGlobalMessages();
         for (Message message : messages) {
             String username = message.getSenderUsername();
@@ -103,6 +102,7 @@ public class PublicChatroomController {
             request.addData("text", messageTextField.getText());
             NetworkController.send(request);
             Message message = new Message(UserController.getInstance().getLoggedInUser().getUsername(), messageTextField.getText());
+            message.setId(ChatDatabase.getGlobalMessages().size());
             ChatDatabase.addGlobalMessage(message);
             messageTextField.setText("");
             showMessages();
@@ -111,13 +111,11 @@ public class PublicChatroomController {
 
     @FXML
     private void goToPrivateChat() {
-        NetworkController.endListenerThread = true;
         App.setMenu("private_chatroom");
     }
 
     @FXML
     private void goToGroupChat() {
-        NetworkController.endListenerThread = true;
         App.setMenu("group_chatroom");
     }
 

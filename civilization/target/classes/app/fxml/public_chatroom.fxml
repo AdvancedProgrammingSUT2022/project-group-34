@@ -13,26 +13,7 @@
             stylesheets="@../css/chatroom.css">
     <center>
         <ScrollPane>
-            <VBox fx:id="messagesList">
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-                <Text text=";ouahf half"/>
-            </VBox>
+            <VBox fx:id="messagesList"/>
         </ScrollPane>
     </center>
     <bottom>

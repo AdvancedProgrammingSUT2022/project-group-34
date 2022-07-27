@@ -1,8 +1,7 @@
 package app.controllers;
 
-import app.models.ChatDatabase;
-import app.models.Communicator;
-import app.models.Message;
+import app.models.*;
+import app.views.PrivateChatroomController;
 import app.views.PublicChatroomController;
 import com.google.gson.*;
 import javafx.application.Platform;
@@ -83,20 +82,39 @@ public class NetworkController {
 
     private static void handleUpdate(Communicator update) {
         System.out.println(update.getTitle());
+        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+            @Override
+            public LocalDateTime deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+                return LocalDateTime.parse(jsonElement.getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            }
+        }).create();
         switch (update.getTitle()) {
             case "updateGlobal": {
                 String messageJson = new Gson().toJson(update.getData().get("message"));
                 System.out.println(2);
-                Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
-                    @Override
-                    public LocalDateTime deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
-                        return LocalDateTime.parse(jsonElement.getAsString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                    }
-                }).create();
                 Message message = gson.fromJson(messageJson, Message.class);
                 ChatDatabase.addGlobalMessage(message);
 
-                Platform.runLater(() -> ((PublicChatroomController) controller).showMessages());
+                if (controller instanceof PublicChatroomController)
+                    Platform.runLater(() -> ((PublicChatroomController) controller).showMessages());
+            }
+            case "updateChatChats": {
+                Chat chat = gson.fromJson(new Gson().toJson(update.getData().get("chat")), Chat.class);
+                ChatDatabase.addPrivateChat(chat);
+
+                if (controller instanceof PrivateChatroomController)
+                    Platform.runLater(() -> ((PrivateChatroomController) controller).showChats());
+            }
+            case "updateChatMessages": {
+                System.out.println(new Gson().toJson(update.getData().get("user")));
+                User user = gson.fromJson(new Gson().toJson(update.getData().get("user")), User.class);
+                System.out.println(user);
+                Chat chat = ChatDatabase.getChatByUser(user);
+                Message message = gson.fromJson(new Gson().toJson(update.getData().get("message")), Message.class);
+                chat.addMessage(message);
+
+                if (controller instanceof PrivateChatroomController)
+                    Platform.runLater(() -> ((PrivateChatroomController) controller).showMessages(user));
             }
         }
     }

@@ -14,59 +14,22 @@
     <left>
         <VBox>
             <HBox id="leftSideBar">
-                <TextField promptText="nickname"/>
-                <Button id="leftSideButtons" text="search"/>
-                <Button id="leftSideButtons" text="back"/>
+                <TextField fx:id="searchUserTextField" promptText="nickname"/>
+                <Button id="leftSideButtons" text="search" onMouseClicked="#searchForUser"/>
+                <Button id="leftSideButtons" text="back" onMouseClicked="#showChats"/>
             </HBox>
-            <ScrollPane>
-                <VBox>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                </VBox>
+            <ScrollPane minHeight="480">
+                <VBox fx:id="usersBox"/>
             </ScrollPane>
         </VBox>
     </left>
     <right>
-        <VBox>
-            <ScrollPane>
-                <VBox>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                    <Text text=";ouahf half"/>
-                </VBox>
+        <VBox translateY="-10">
+            <ScrollPane minHeight="500">
+                <VBox fx:id="chatsBox"/>
             </ScrollPane>
-            <TextField id="messageTextField" promptText="Write a message..."/>
+            <TextField fx:id="messageTextField" id="messageTextField" promptText="Write a message..."
+                       onKeyPressed="#sendMessage"/>
         </VBox>
     </right>
     <bottom>

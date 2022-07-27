@@ -5,12 +5,12 @@ TextField {
 #messageTextField {
     -fx-pref-width: 650;
     -fx-min-height: 40;
-    -fx-translate-y: -8;
+    -fx-translate-y: -10;
 }
 
 #leftSideButtons {
     -fx-pref-width: 50;
-    -fx-pref-height: 50;
+    -fx-pref-height: 35;
 }
 
 #leftSideBar {
@@ -18,6 +18,5 @@ TextField {
 }
 
 VBox {
-    -fx-translate-y: -20;
-    -fx-spacing: 15;
+    -fx-spacing: 12;
 }

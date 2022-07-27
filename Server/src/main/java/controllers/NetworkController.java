@@ -1,14 +1,15 @@
 package controllers;
 
-import com.google.gson.Gson;
-import models.ChatDatabase;
-import models.Communicator;
-import models.User;
+import com.google.gson.*;
+import models.*;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class NetworkController extends Thread {
@@ -80,10 +81,23 @@ public class NetworkController extends Thread {
                 System.out.println(1);
                 return communicator;
             }
+            case "getChats": {
+                communicator.addData("chats", ChatController.getChatsOfUser(user));
+                return communicator;
+            }
+            case "addChat": {
+                User user = new Gson().fromJson(new Gson().toJson(request.getData().get("user")), User.class);
+                Chat chat=ChatController.addChat(this.user,user);
+                communicator.addData("chat", chat);
+                return communicator;
+            }
             case "send": {
                 if (request.getData().get("type").equals("global")) {
                     ChatController.addGlobalMessage((String) request.getData().get("text"), user);
                     return communicator;
+                } else if (request.getData().get("type").equals("private")) {
+                    User user = new Gson().fromJson(new Gson().toJson(request.getData().get("user")), User.class);
+                    ChatController.addPrivateMessage((String) request.getData().get("text"), this.user, user);
                 }
             }
         }
