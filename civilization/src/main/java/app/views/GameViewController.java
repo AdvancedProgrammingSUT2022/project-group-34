@@ -71,6 +71,9 @@ public class GameViewController {
     private Group currentUnitGroup;
 
     @FXML
+    private Group currentCityGroup;
+
+    @FXML
     private Group statusBarGroup;
 
     @FXML
@@ -102,6 +105,7 @@ public class GameViewController {
         loadStatusBar();
         loadCurrentTechnology();
         loadCurrentUnit();
+        loadCurrentCity();
     }
 
     @FXML
@@ -218,8 +222,8 @@ public class GameViewController {
                 tooltip.append("The resource in this tile is: " + getResourceName(tile.getResource()) + "\n");
                 Unit unit = tile.getCombatUnit();
                 if (unit == null) unit = tile.getNonCombatUnit();
-//                System.out.println(unit);
                 if (unit != null) putUnit(unit, upperBound, leftBound, x, y);
+                if (tile.getCity() != null) putCity(tile.getCity(), upperBound, leftBound, x, y);
             }
             else {
                 imageView.getStyleClass().add("revealed");
@@ -290,12 +294,30 @@ public class GameViewController {
         });
     }
 
+    private void putCity(City city, int upperBound, int leftBound, int x, int y) {
+        String filePath = "/app/assets/cities/city.png";
+        ImageView imageView = putElement(tileGroup, filePath, "city", upperBound + 60 - 16, leftBound + 10);
+        imageView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                selectCity(city);
+            }
+        });
+        Tooltip tip = new Tooltip(city.getName());
+        Tooltip.install(imageView, tip);
+    }
+
     private void selectUnit(Unit unit) {
         selectedCombatUnit = null;
         selectedNonCombatUnit = null;
         if (unit instanceof CombatUnit) selectedCombatUnit = (CombatUnit)unit;
         else selectedNonCombatUnit = (NonCombatUnit)unit;
         loadCurrentUnit();
+    }
+
+    private void selectCity(City city) {
+        selectedCity = city;
+        loadCurrentCity();
     }
 
     private void putResource(Resource resource, int upperBound, int leftBound, int x, int y) {
@@ -452,6 +474,10 @@ public class GameViewController {
         return unit;
     }
 
+    private City getSelectedCity() {
+        return selectedCity;
+    }
+
     private void loadCurrentUnit() {
         currentUnitGroup.getChildren().clear();
         putCurrentUnitBackground().setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -471,6 +497,25 @@ public class GameViewController {
         //TODO...
     }
 
+    private void loadCurrentCity() {
+        currentCityGroup.getChildren().clear();
+        putCurrentCityBackground();//.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent mouseEvent) {
+//                showUnitActions();
+//            }
+//        });
+        City city = getSelectedCity();
+        putCurrentCityImage(city);//.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent mouseEvent) {
+//                showUnitActions();
+//            }
+//        });
+        putCurrentCityLabel(city);
+        //TODO...
+    }
+
     private Rectangle putCurrentUnitBackground() {
         Rectangle background = new Rectangle();
         background.setHeight(64);
@@ -481,10 +526,29 @@ public class GameViewController {
         return background;
     }
 
+    private Rectangle putCurrentCityBackground() {
+        Rectangle background = new Rectangle();
+        background.setHeight(64);
+        background.setWidth(64);
+        background.setX(1280 - 64);
+        background.setY(700 - 64);
+        background.setFill(Color.WHITESMOKE);
+        currentCityGroup.getChildren().add(background);
+        return background;
+    }
+
     private ImageView putCurrentUnitImage(Unit unit) {
         String filePath = "/app/assets/units/" + unit + ".png";
         ImageView imageView = putElement(currentUnitGroup, filePath, "unit", 700 - 64, 0);
         Tooltip.install(imageView, new Tooltip(String.valueOf(unit)));
+        return imageView;
+    }
+
+    private ImageView putCurrentCityImage(City city) {
+        String filePath = "/app/assets/cities/bigcity.png";
+        if (city == null) filePath = "/app/assets/cities/null.png";
+        ImageView imageView = putElement(currentCityGroup, filePath, "city", 700 - 64, 1280 - 64);
+        Tooltip.install(imageView, new Tooltip(String.valueOf(city)));
         return imageView;
     }
 
@@ -496,6 +560,16 @@ public class GameViewController {
         currentUnit.setLayoutY(700 - 15);
         currentUnit.setMaxHeight(15);
         currentUnitGroup.getChildren().add(currentUnit);
+    }
+
+    private void putCurrentCityLabel(City city) {
+        Label currentCity = new Label(String.valueOf(city));
+        if (city != null) currentCity.setText(currentCity.getText());
+        currentCity.setBackground(new Background(new BackgroundFill(Color.DARKSLATEGRAY, null, null)));
+        currentCity.setMaxHeight(15);
+        currentCity.setLayoutX(1280 - 64 - currentCity.getWidth());
+        currentCity.setLayoutY(700 - 15);
+        currentCityGroup.getChildren().add(currentCity);
     }
 
     private void sleepCommand() {

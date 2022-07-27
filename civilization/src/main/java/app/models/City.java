@@ -243,4 +243,9 @@ public class City {
     public void setHitPoint(int hitPoint) {
         this.hitPoint = hitPoint;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
